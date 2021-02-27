@@ -1,35 +1,30 @@
-body {
-    padding: 0;
-    margin: 0;
-}
-
-.navbar {
+header .navbar {
     padding: 1em;
 }
 
-.navbar-brand {
+header .navbar-brand {
     font-size: 2em;
 }
 
-.nav-link,
-.navbar-brand {
+header .nav-link,
+header .navbar-brand {
     color: grey;
     cursor: pointer;
 }
 
-.nav-link {
+header .nav-link {
     margin-right: 1em !important;
 }
 
-.active {
+header .active {
     color: rgb(94, 94, 94);
     font-weight: bold;
 }
 
-.nav-link:hover {
+header .nav-link:hover {
     color: #000;
 }
 
-.navbar-collapse {
+header .navbar-collapse {
     justify-content: flex-start;
 }

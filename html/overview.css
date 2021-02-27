@@ -1,0 +1,35 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    padding: 1em;
+}
+
+.navbar-brand {
+    font-size: 2em;
+}
+
+.nav-link,
+.navbar-brand {
+    color: grey;
+    cursor: pointer;
+}
+
+.nav-link {
+    margin-right: 1em !important;
+}
+
+.active {
+    color: rgb(94, 94, 94);
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: #000;
+}
+
+.navbar-collapse {
+    justify-content: flex-start;
+}

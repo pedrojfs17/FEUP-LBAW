@@ -1,0 +1,18 @@
+ul.avatar-overlap {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.avatar-overlap-item {
+    display: inline-block;
+    position: relative;
+    -webkit-transition: .2s ease;
+    transition: .2s ease;
+}
+
+li.avatar-overlap-item:nth-child(n+2) { margin-left: -25px; }
+
+ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
+   margin-left: -15px;
+}

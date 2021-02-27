@@ -16,7 +16,3 @@ li.avatar-overlap-item:nth-child(n+2) { margin-left: -25px; }
 ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
    margin-left: -15px;
 }
-
-.card {
-    margin-bottom: 0.5em;
-}

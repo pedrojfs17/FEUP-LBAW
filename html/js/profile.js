@@ -1,12 +1,3 @@
-const myModal = document.getElementById('exampleModal')
-const myInput = document.getElementById('myInput')
-
-if (myModal) {
-	myModal.addEventListener('shown.bs.modal', function () {
-	  myInput.focus()
-	})
-}
-
 const editUsernameButton = document.getElementById('button-editUsername')
 const editNameButton = document.getElementById('button-editName')
 const editEmailButton = document.getElementById('button-editEmail')

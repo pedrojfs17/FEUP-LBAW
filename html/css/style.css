@@ -16,3 +16,20 @@ li.avatar-overlap-item:nth-child(n+2) { margin-left: -25px; }
 ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
    margin-left: -15px;
 }
+
+.badge-notify{
+    background:red;
+    position:relative;
+    padding: .05em .25em;
+    top: -10px;
+    left: -12px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #00AFB9;
+    background-color: #edf4f5;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgb(0, 175, 185)'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+}

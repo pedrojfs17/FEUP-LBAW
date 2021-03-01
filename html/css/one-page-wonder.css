@@ -55,6 +55,7 @@ h6 {
 }
 
 header.masthead {
+  height: 100vh;
   position: relative;
   overflow: hidden;
   padding-top: calc(7rem + 72px);
@@ -321,4 +322,8 @@ header.masthead .bg-circle-4 {
     margin-right:0;
     font-weight:600
   }
+}
+
+.info > div > .col-lg-6 {
+  padding: 0 ;
 }

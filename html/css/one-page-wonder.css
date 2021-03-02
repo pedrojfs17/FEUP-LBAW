@@ -38,6 +38,11 @@ h6 {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: rgba(0, 0, 0, 0.7);
+  transition: all .3s linear;
+}
+
+.navbar-custom.opaque, .navbar-custom:hover {
+  background-color: #1c1c1c;
 }
 
 .navbar-custom .navbar-brand {
@@ -49,13 +54,13 @@ h6 {
 
 .navbar-custom .navbar-nav .nav-item .nav-link {
   text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
   letter-spacing: 0.1rem;
 }
 
 header.masthead {
-  height: 100vh;
+  min-height: fit-content;
   position: relative;
   overflow: hidden;
   padding-top: calc(7rem + 72px);
@@ -78,6 +83,20 @@ header.masthead .masthead-content .masthead-heading {
 
 header.masthead .masthead-content .masthead-subheading {
   font-size: 2rem;
+}
+
+@media (max-width: 550px) {
+  header.masthead .masthead-content .masthead-heading {
+    font-size: 3rem;
+  }
+
+  header.masthead .masthead-content .masthead-subheading {
+    font-size: 1.5rem;
+  }
+
+  #aboutPage .p-5 {
+    padding: 10%!important;
+  }
 }
 
 header.masthead .bg-circle {

@@ -9,10 +9,11 @@
   <meta name="author" content="">
 
   <title>Oversee</title>
+  <link rel="icon" href="images/oversee_blue.svg">
 
   <!-- Bootstrap core CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <!-- Custom fonts for this template -->
   <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
@@ -20,6 +21,8 @@
   <!-- Custom styles for this template -->
   <link href="css/one-page-wonder.css" rel="stylesheet">
 
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous" defer></script>
   <script src="js/script.js" defer></script>
 
 </head>
@@ -27,17 +30,17 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <nav id="navbar" class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <img class="d-inline-block align-top" src="images/logo_txt_main_full.png" height="50" alt="">
+        <img class="d-inline-block align-top" src="images/logo_txt_main_full.png" height="60" alt="">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button id="navToggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse " id="navbarResponsive">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-1">
+          <li class="nav-item">
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
@@ -54,13 +57,14 @@
     </div>
   </nav>
 
+  <!-- Header -->
   <header class="masthead text-center text-white">
     <div class="masthead-content">
       <div class="container">
-        <h1 class="masthead-heading mb-0">Social media has never been this easy!</h1>
+        <h1 class="masthead-heading mb-5">Social media has never been this easy!</h1>
         <h2 class="masthead-subheading mb-0">Oversee is here to make you reach new heights</h2>
-        <a href="dashboard.html" class="btn btn-primary btn-xl rounded-pill mt-5">Join Oversee</a>
-        <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore">Learn More</a>
+        <a href="dashboard.html" class="btn btn-primary btn-xl rounded-pill mt-5 mx-3">Join Oversee</a>
+        <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore" href="#aboutPage">Learn More</a>
       </div>
     </div>
     <div class="bg-circle-1 bg-circle"></div>
@@ -73,15 +77,15 @@
   <section>
     <div class="container info">
       <div class="row align-items-center">
-        <div class="col-lg-6 order-lg-2">
-          <div class="p-5">
-            <img class="img-fluid rounded-circle" src="images/01.jpg" alt="">
-          </div>
-        </div>
         <div class="col-lg-6 order-xl-1">
           <div class="p-5">
             <h2 class="display-4">Organize yourself</h2>
             <p>Plan your social media effectively</p>
+          </div>
+        </div>
+        <div class="col-lg-6 order-lg-2">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="images/01.jpg" alt="">
           </div>
         </div>
       </div>
@@ -93,13 +97,13 @@
       <div class="row align-items-center">
         <div class="col-lg-6">
           <div class="p-5">
-            <img class="img-fluid rounded" src="images/02.jpg" alt="">
+            <h2 class="display-4">Improve Yourself</h2>
+            <p>See how your social media is performing with our statistic tools</p>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="p-5">
-            <h2 class="display-4">Improve Yourself</h2>
-            <p>See how your social media is performing with our statistic tools</p>
+            <img class="img-fluid rounded" src="images/02.jpg" alt="">
           </div>
         </div>
       </div>

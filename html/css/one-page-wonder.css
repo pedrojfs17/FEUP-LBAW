@@ -71,7 +71,7 @@ header.masthead {
   background-attachment: scroll;
   background-size: cover;
 }
-header.masthead {
+header.masthead.contacts {
   height: 81.8vh;
 }
 
@@ -81,6 +81,12 @@ header.masthead {
 
 textarea {
   resize: none;
+}
+
+.form-control:focus {
+  outline: none !important;
+  border:1px solid #ea4c89;
+  box-shadow: 0 0 10px #719ECE;
 }
 
 header.masthead .masthead-content {

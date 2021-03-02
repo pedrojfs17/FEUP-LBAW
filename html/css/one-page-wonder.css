@@ -59,6 +59,13 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
+.navbar-brand {
+  max-width: 70%;
+}
+.navbar-brand img {
+  max-height: 60px;
+}
+
 header.masthead {
   min-height: fit-content;
   position: relative;
@@ -156,7 +163,17 @@ header.masthead .bg-circle-4 {
   border-color: #00AFB9;
 }
 
-.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+.btn-outline-primary {
+  color: #e15488;
+  border-color: #e15488;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary:focus:active {
+  box-shadow: 0 0 0 0.25rem #e1548844;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover, 
+.btn-outline-primary:hover, .btn-outline-primary:active {
   background-color: #e15488 !important;
   border-color: #e15488 !important;
 }
@@ -186,6 +203,9 @@ header.masthead .bg-circle-4 {
   font-size:15px;
   line-height:24px;
   color:#737373;
+}
+.site-footer img {
+  max-width: 100%;
 }
 .site-footer hr
 {

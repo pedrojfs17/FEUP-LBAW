@@ -55,74 +55,72 @@
             </div>
         </nav>
 
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <ul class="nav nav-tabs mb-3 mt-5" id="dashboardNav" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active fs-2" id="myprojects-tab" data-bs-toggle="tab" data-bs-target="#myprojects" type="button" role="tab" aria-controls="myprojects" aria-selected="true">My Projects</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link fs-2" id="mystats-tab" data-bs-toggle="tab" data-bs-target="#mystats" type="button" role="tab" aria-controls="mystats" aria-selected="false">My Stats</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="dashboardContent">
-                    <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
-                        <div class="row mb-3">
-                            <div class="col-lg-8 col-md-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Find Projects" aria-label="Find Projects" aria-describedby="button-search">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="bi bi-search"></i></button>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4">
-                                <button type="button" class="btn btn-dark">+ New Project</button>
+        <div class="container">
+            <ul class="nav nav-tabs mb-3 mt-5" id="dashboardNav" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active fs-3" id="myprojects-tab" data-bs-toggle="tab" data-bs-target="#myprojects" type="button" role="tab" aria-controls="myprojects" aria-selected="true">Projects</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fs-3" id="mystats-tab" data-bs-toggle="tab" data-bs-target="#mystats" type="button" role="tab" aria-controls="mystats" aria-selected="false">Statistics</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="dashboardContent">
+                <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
+                    <div class="row mb-3">
+                        <div class="col-lg-8 col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Find Projects" aria-label="Find Projects" aria-describedby="button-search">
+                                <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="bi bi-search"></i></button>
                             </div>
                         </div>
-                        <div class="accordion" id="accordionProjects">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Open
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-                                    <div class="accordion-body">
-                                        <div class="card my-2">
-                                            <div class="card-body">
-                                                <h5 class="card-title">The Ultimate Apple Pie</h5>
-                                                <div class="row align-items-center">
-                                                    <div class="col-lg-3 col-md-3 d-none d-md-block">
-                                                        <ul class="avatar-overlap">
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
-                                                    <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                                                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <button type="button" class="btn btn-danger" style="background-color: #ea4c89;">+ New Project</button>
+                        </div>
+                    </div>
+                    <div class="accordion" id="accordionProjects">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Open
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                                <div class="accordion-body">
+                                    <div role="button" class="card my-2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">The Ultimate Apple Pie</h5>
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-3 col-md-3 d-none d-md-block">
+                                                    <ul class="avatar-overlap">
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
+                                                <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card my-2">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Sourdough Baking</h5>
-                                                <div class="row align-items-center">
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <ul class="avatar-overlap d-none d-md-block">
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
-                                                    <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                                        </div>
+                                    </div>
+                                    <div class="card my-2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Sourdough Baking</h5>
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-3 col-md-3">
+                                                    <ul class="avatar-overlap d-none d-md-block">
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
+                                                <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,30 +128,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Closed
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-                                    <div class="accordion-body">
-                                        <div class="card my-2">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Valentine's day campaign</h5>
-                                                <div class="row align-items-center">
-                                                    <div class="col-lg-3 col-md-3 d-none d-md-block">
-                                                        <ul class="avatar-overlap">
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                            <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 text-muted">Completed 5 days ago</div>
-                                                    <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Completed</div>
-                                                        </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Closed
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+                                <div class="accordion-body">
+                                    <div class="card my-2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Valentine's day campaign</h5>
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-3 col-md-3 d-none d-md-block">
+                                                    <ul class="avatar-overlap">
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                        <li class="avatar-overlap-item"><img class="rounded-circle" src="images/avatar.png" width="40px" height="40px" alt="avatar"></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 text-muted">Completed 5 days ago</div>
+                                                <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">Progress
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Completed</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,64 +161,59 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
                 </div>
+                <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
             </div>
         </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12">
-                    <div class="tab-content" id="dashboardContent">
-                        <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
-                            
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="card-text">Jane Doe invited you to "The Ultimate Apple Pie"</p>
-                                        <a href="#" class="stretched-link"></a>
+        
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="tab-content" id="dashboardContent">
+                                    <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="card-text">Jane Doe invited you to "The Ultimate Apple Pie"</p>
+                                                    <a href="#" class="stretched-link"></a>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="card-text">"Get Ingredients" has been finished. You can start working on "Feed the culture"</p>
+                                                    <a href="#" class="stretched-link"></a>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="card-text">John Doe entered "Sourdough Baking"</p>
+                                                    <a href="#" class="stretched-link"></a>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="card-text" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><span>Your report has been dealt with<i class="pull-right icon-chevron-right"></i></span></p>
+                                                </div>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card card-body">
+                                                        <strong>We reviewed antbz's account and found that it does not violate our community guidelines</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="card-text">"Get Ingredients" has been finished. You can start working on "Feed the culture"</p>
-                                        <a href="#" class="stretched-link"></a>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="card-text">John Doe entered "Sourdough Baking"</p>
-                                        <a href="#" class="stretched-link"></a>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        
-                                        <p class="card-text" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><span>Your report has been dealt with<i class="pull-right icon-chevron-right"></i></span></p>
-                                    </div>
-                                    <div class="collapse" id="collapseExample">
-                                    <div class="card card-body">
-                                        <strong>We reviewed antbz's account and found that it does not violate our community guidelines</strong>
-                                    </div>
-                                </div>
-                                </div>
-                               
-                                
-                            <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-            </div>
         </div>
-    </div>
     </body>
 </html>

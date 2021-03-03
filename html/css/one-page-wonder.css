@@ -59,6 +59,10 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
+.text-main-color{
+  color: #00AFB9;
+}
+
 header.masthead {
   height: 100vh;
   position: relative;
@@ -71,8 +75,13 @@ header.masthead {
   background-attachment: scroll;
   background-size: cover;
 }
-header.masthead.contacts {
+header.masthead.contacts{
   height: 81.8vh;
+}
+
+header.not-found{
+  height: 81.9vh;
+  background: whitesmoke;
 }
 
 .p-5 {

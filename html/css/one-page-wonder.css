@@ -64,9 +64,14 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
+.text-main-color{
+  color: #00AFB9;
+}
+
 .navbar-brand {
   max-width: 70%;
 }
+
 .navbar-brand img {
   max-height: 60px;
 }
@@ -83,8 +88,13 @@ header.masthead {
   background-attachment: scroll;
   background-size: cover;
 }
-header.masthead.contacts {
+header.masthead.contacts{
   height: 81.8vh;
+}
+
+header.not-found{
+  height: 81.9vh;
+  background: whitesmoke;
 }
 
 .p-5 {

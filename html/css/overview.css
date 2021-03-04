@@ -24,3 +24,16 @@ header .nav-link:hover {
 header .navbar-collapse {
     justify-content: flex-start;
 }
+
+@media (max-width:720px) {
+    .stats-dashboard {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media(min-width:720px) {
+    .stats-block {
+        width: 50%;
+    }
+}

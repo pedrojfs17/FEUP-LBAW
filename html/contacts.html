@@ -26,7 +26,7 @@
 
 <body>
 
-  <!-- Navigation -->
+   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -54,14 +54,87 @@
     </div>
   </nav>
 
-  <header class="masthead text-center text-white">
+  <header class="masthead text-center text-white contacts">
     <div class="masthead-content">
-      <div class="container">
-        <h1 class="masthead-heading mb-0">Social media has never been this easy!</h1>
-        <h2 class="masthead-subheading mb-0">Oversee is here to make you reach new heights</h2>
-        <a href="dashboard.html" class="btn btn-primary btn-xl rounded-pill mt-5">Join Oversee</a>
-        <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore">Learn More</a>
-      </div>
+      <section>
+        <div class="container info">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="p-5">
+              <h2 class="display-4">Contact Us</h2>
+                <form>
+                  <label for="nameInput" class="form-label">Name</label>
+                  <div class="input-group mb-3">
+                      <input type="text" placeholder="Pedro Jorge" class="form-control" id="nameInput">
+                  </div>
+
+                  <label for="emailInput" class="form-label">Email</label>
+                  <div class="input-group mb-3">
+                      <input type="email" placeholder="pmfriend98@gmail.com" class="form-control" id="emailInput" >
+                  </div>
+
+                  <label for="nameInput" class="form-label">Subject</label>
+                  <div class="input-group mb-3">
+                      <input type="text" placeholder="" class="form-control" id="subjectInput">
+                  </div>
+
+                  <label for="companyInput" class="form-label">How can we help?</label>
+                  <div class="input-group mb-3">
+                      <textarea placeholder="" class="form-control" id="textInput"  rows="4" cols="50" ></textarea>
+                  </div>
+                  <button class="btn btn-primary btn-xl rounded-pill mt-5" type="button" id="button-editCompany">Send Request</button>
+              </form>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                  <div class="p-5 contact">
+                    <img class="img-fluid rounded-circle" src="images/ab.jpg" width="150" alt="">
+                  </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <h5 class="display-6">António Bezerra</h5>
+                    <h5>up201806854@fe.up.pt</h5>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                  <div class="p-5 contact">
+                    <img class="img-fluid rounded-circle" src="images/ga.jpg" width="150" alt="">
+                  </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <h5 class="display-6">Gonçalo Alves</h5>
+                    <h5>up201806451@fe.up.pt</h5>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                  <div class="p-5 contact">
+                    <img class="img-fluid rounded-circle" src="images/is.jpg" width="150" alt="">
+                  </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <h5 class="display-6">Inês Silva</h5>
+                    <h5>up201806385@fe.up.pt</h5>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                  <div class="p-5 contact">
+                    <img class="img-fluid rounded-circle" src="images/ps.jpg" width="150" alt="">
+                  </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <h5 class="display-6">Pedro Seixas</h5>
+                    <h5>up201806227@fe.up.pt</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
     <div class="bg-circle-1 bg-circle"></div>
     <div class="bg-circle-2 bg-circle"></div>
@@ -69,61 +142,6 @@
     <div class="bg-circle-4 bg-circle"></div>
   </header>
 
-  <section id="aboutPage">
-  <section>
-    <div class="container info">
-      <div class="row align-items-center">
-        <div class="col-lg-6 order-lg-2">
-          <div class="p-5">
-            <img class="img-fluid rounded-circle" src="images/01.jpg" alt="">
-          </div>
-        </div>
-        <div class="col-lg-6 order-xl-1">
-          <div class="p-5">
-            <h2 class="display-4">Organize yourself</h2>
-            <p>Plan your social media effectively</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container info">
-      <div class="row align-items-center">
-        <div class="col-lg-6">
-          <div class="p-5">
-            <img class="img-fluid rounded" src="images/02.jpg" alt="">
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="p-5">
-            <h2 class="display-4">Improve Yourself</h2>
-            <p>See how your social media is performing with our statistic tools</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container info">
-      <div class="row align-items-center">
-        <div class="col-lg-6 order-lg-2">
-          <div class="p-5">
-            <img class="img-fluid rounded" src="images/03.jpg" alt="">
-          </div>
-        </div>
-        <div class="col-lg-6 order-lg-1">
-          <div class="p-5">
-            <h2 class="display-4">Go solo or go big</h2>
-            <p>Designed for big teams and individual creators</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  </section>
 
     <!-- Site footer -->
     <footer class="site-footer">
@@ -131,7 +149,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <h6>About</h6>
-            <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative  to help the upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers build up concepts in different programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
+            <p class="text-justify">ZULUL</p>
           </div>
 
           <div class="col-xs-6 col-md-3 ms-auto mb-2 mb-lg-0">

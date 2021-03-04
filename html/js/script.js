@@ -7,23 +7,24 @@ if (myModal) {
 	})
 }
 
-const element = document.querySelector('#aboutPage')
+const navbar = document.getElementById("navbar")
 
-let topPos = null
-if(element){
-	topPos = element.getBoundingClientRect().top + window.pageYOffset
-}
-	
+if (navbar) {
+	const navbar_toggler = document.getElementById("navToggler")
+	navbar_toggler.addEventListener("click", function (){
+		navbar.classList.toggle('opaque')
+	})
 
-const myLearnMore = document.getElementById('learnMore')
-
-if(myLearnMore) {
-	myLearnMore.addEventListener("click",function (){
-		console.log("bababoey")
-		window.scroll({
-			top: topPos, // scroll so that the element is at the top of the view
-			behavior: 'smooth' // smooth scroll
-		})
+	let prevScrollpos = window.pageYOffset
+	window.addEventListener("scroll", function (){
+		let currentScrollPos = window.pageYOffset
+		if (prevScrollpos > currentScrollPos) {
+			navbar.style.transform = "translateY(0)";
+		} else {
+			navbar.style.transform = "translateY(-100%)";
+		}
+		prevScrollpos = currentScrollPos;
 	})
 }
-	
+
+

@@ -38,6 +38,11 @@ h6 {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: rgba(0, 0, 0, 0.7);
+  transition: all .3s linear;
+}
+
+.navbar-custom.opaque, .navbar-custom:hover {
+  background-color: #1c1c1c;
 }
 
 .navbar-brand {
@@ -54,8 +59,8 @@ h6 {
 
 .navbar-custom .navbar-nav .nav-item .nav-link {
   text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
   letter-spacing: 0.1rem;
 }
 
@@ -63,8 +68,16 @@ h6 {
   color: #00AFB9;
 }
 
+.navbar-brand {
+  max-width: 70%;
+}
+
+.navbar-brand img {
+  max-height: 60px;
+}
+
 header.masthead {
-  height: 100vh;
+  min-height: fit-content;
   position: relative;
   overflow: hidden;
   padding-top: calc(7rem + 72px);
@@ -109,6 +122,20 @@ header.masthead .masthead-content .masthead-heading {
 
 header.masthead .masthead-content .masthead-subheading {
   font-size: 2rem;
+}
+
+@media (max-width: 550px) {
+  header.masthead .masthead-content .masthead-heading {
+    font-size: 3rem;
+  }
+
+  header.masthead .masthead-content .masthead-subheading {
+    font-size: 1.5rem;
+  }
+
+  #aboutPage .p-5 {
+    padding: 10%!important;
+  }
 }
 
 header.masthead .bg-circle {
@@ -168,7 +195,17 @@ header.masthead .bg-circle-4 {
   border-color: #00AFB9;
 }
 
-.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+.btn-outline-primary {
+  color: #e15488;
+  border-color: #e15488;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary:focus:active {
+  box-shadow: 0 0 0 0.25rem #e1548844;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover, 
+.btn-outline-primary:hover, .btn-outline-primary:active {
   background-color: #e15488 !important;
   border-color: #e15488 !important;
 }
@@ -198,6 +235,9 @@ header.masthead .bg-circle-4 {
   font-size:15px;
   line-height:24px;
   color:#737373;
+}
+.site-footer img {
+  max-width: 100%;
 }
 .site-footer hr
 {

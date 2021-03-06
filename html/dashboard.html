@@ -20,7 +20,7 @@
 
 <body>
     <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #edf4f5;">
-        <div class="container-fluid mx-5">
+        <div class="container-fluid mx-sm-5">
             <a class="navbar-brand" href="dashboard.html">
                 <img src="/images/oversee_blue.svg" width="30" height="30" class="d-inline-block align-top" alt="">Oversee
             </a>
@@ -32,12 +32,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="search.html"><i class="bi bi-search"></i></a>
+                        <a class="nav-link fs-5" href="search.html"><i class="bi bi-search"></i>
+                            <p class="d-inline-block d-sm-none ps-2 mb-0">Search</p>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="bi bi-bell"></i>
-                            <span class="badge rounded-pill badge-notify">3</span>
+                            <span class="badge rounded-pill badge-notify d-none d-sm-inline-block">3</span>
+                            <p class="d-inline-block d-sm-none ps-2 mb-0">Notifications
+                                <span class="badge rounded-pill bg-danger">3</span>
+                            </p>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -59,7 +64,7 @@
     </nav>
 
     <div class="container">
-        <ul class="nav nav-tabs mb-3 mt-5" id="dashboardNav" role="tablist">
+        <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active fs-3" id="myprojects-tab" data-bs-toggle="tab" data-bs-target="#myprojects" type="button" role="tab" aria-controls="myprojects" aria-selected="true">Projects</button>
             </li>
@@ -76,8 +81,8 @@
                             <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4">
-                        <a href="create_project.html" role="button" class="btn btn-danger" style="background-color: #ea4c89;">+ New Project</a>
+                    <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
+                        <a href="create_project.html" role="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ New Project</a>
                     </div>
                 </div>
                 <div class="accordion" id="accordionProjects">
@@ -174,8 +179,8 @@
                             <button class="btn btn-outline-secondary" type="button" id="button-search-acc"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4">
-                        <button type="button" class="btn btn-danger" style="background-color: #ea4c89;">+ Connect Account</button>
+                    <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
+                        <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ Connect Account</a>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap align-content-start justify-content-center justify-content-md-between">

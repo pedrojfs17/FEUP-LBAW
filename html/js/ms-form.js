@@ -4,7 +4,7 @@ const fieldsets = document.querySelectorAll('fieldset')
 const nextButtons = document.querySelectorAll('.next')
 const previousButtons = document.querySelectorAll('.previous')
 
-const progressBar = document.querySelector('.progress-bar')
+const progressBar = document.getElementById('ms-form-progress-bar')
 const progressBarItems = document.getElementById('progressbar').querySelectorAll('button')
 
 const steps = fieldsets.length;

@@ -1,5 +1,6 @@
 <?php
     include_once('templates/tpl_common.php');
+    include_once('templates/tpl_modal.php');
 ?>
 
 <!DOCTYPE html>
@@ -20,10 +21,13 @@
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous" defer></script>
     <script src="js/script.js" defer></script>
+
+    <link rel="stylesheet" href="css/ms-form.css">
+    <script src="js/ms-form.js" defer></script>
 </head>
 
 <body>
-    <?php draw_nav_bar() ?>
+    <?php draw_nav_bar(); ?>
 
     <div class="container">
         <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
@@ -44,7 +48,7 @@
                         </div>
                     </div>
                     <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
-                        <a href="create_project.php" role="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ New Project</a>
+                        <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;" data-bs-toggle="modal" data-bs-target="#createProjectModal">+ New Project</a>
                     </div>
                 </div>
                 <div class="accordion" id="accordionProjects">
@@ -142,7 +146,7 @@
                         </div>
                     </div>
                     <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
-                        <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ Connect Account</a>
+                        <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;" data-bs-toggle="modal" data-bs-target="#connectAccountModal">+ Connect Account</a>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap align-content-start justify-content-center justify-content-md-between">
@@ -242,55 +246,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="tab-content" id="dashboardContent">
-                                <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">Jane Doe invited you to "The Ultimate Apple Pie"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">"Get Ingredients" has been finished. You can start working on "Feed the culture"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">John Doe entered "Sourdough Baking"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><span>Your report has been dealt with<i class="pull-right icon-chevron-right"></i></span></p>
-                                        </div>
-                                        <div class="collapse" id="collapseExample">
-                                            <div class="card card-body">
-                                                <strong>We reviewed antbz's account and found that it does not violate our community guidelines</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php draw_create_project_modal(); ?>
+
+    <?php draw_connect_account_modal(); ?>
+
+    <?php draw_notifications_modal(); ?>
+
 </body>
 
 </html>

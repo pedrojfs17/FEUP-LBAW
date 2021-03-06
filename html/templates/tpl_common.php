@@ -1,3 +1,5 @@
+<?php include_once('templates/tpl_modal.php'); ?>
+
 <?php function draw_header() { ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -65,7 +67,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#notificationsModal">
                             <i class="bi bi-bell"></i>
                             <span class="badge rounded-pill badge-notify d-none d-sm-inline-block">3</span>
                             <p class="d-inline-block d-sm-none ps-2 mb-0">Notifications

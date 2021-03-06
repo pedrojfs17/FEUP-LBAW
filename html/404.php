@@ -1,3 +1,7 @@
+<?php
+    include_once('templates/tpl_common.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,33 +30,7 @@
 
 <body>
 
-   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img class="d-inline-block align-top" src="images/logo_txt_main_full.png" height="50" alt="">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse " id="navbarResponsive">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contacts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="dashboard.html">Sign In</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="dashboard.html">Sign Up</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <?php draw_landing_nav_bar() ?>
 
   <header class="not-found masthead text-center text-main-color ">
     <div class="masthead-content">

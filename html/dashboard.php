@@ -1,3 +1,7 @@
+<?php
+    include_once('templates/tpl_common.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,49 +23,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #edf4f5;">
-        <div class="container-fluid mx-sm-5">
-            <a class="navbar-brand" href="dashboard.html">
-                <img src="/images/oversee_blue.svg" width="30" height="30" class="d-inline-block align-top" alt="">Oversee
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="search.html"><i class="bi bi-search"></i>
-                            <p class="d-inline-block d-sm-none ps-2 mb-0">Search</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="bi bi-bell"></i>
-                            <span class="badge rounded-pill badge-notify d-none d-sm-inline-block">3</span>
-                            <p class="d-inline-block d-sm-none ps-2 mb-0">Notifications
-                                <span class="badge rounded-pill bg-danger">3</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="rounded-circle me-2" src="images/avatar.png" width="30px" height="30px" alt="avatar"> Pedro Jorge
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="index.html"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php draw_nav_bar() ?>
 
     <div class="container">
         <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
@@ -82,7 +44,7 @@
                         </div>
                     </div>
                     <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
-                        <a href="create_project.html" role="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ New Project</a>
+                        <a href="create_project.php" role="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;">+ New Project</a>
                     </div>
                 </div>
                 <div class="accordion" id="accordionProjects">
@@ -96,7 +58,7 @@
                             <div class="accordion-body">
                                 <div role="button" class="card my-2">
                                     <div class="card-body">
-                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.html">The Ultimate Apple Pie</a></h5>
+                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.php">The Ultimate Apple Pie</a></h5>
                                         <div class="row align-items-center">
                                             <div class="col-lg-3 col-md-3 d-none d-md-block">
                                                 <ul class="avatar-overlap">
@@ -116,7 +78,7 @@
                                 </div>
                                 <div role="button" class="card my-2">
                                     <div class="card-body">
-                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.html">Sourdough Baking</a></h5>
+                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.php">Sourdough Baking</a></h5>
                                         <div class="row align-items-center">
                                             <div class="col-lg-3 col-md-3">
                                                 <ul class="avatar-overlap d-none d-md-block">
@@ -147,7 +109,7 @@
                             <div class="accordion-body">
                                 <div class="card my-2">
                                     <div class="card-body">
-                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.html">Valentine 's day campaign</a></h5>
+                                        <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset" href="project_overview.php">Valentine 's day campaign</a></h5>
                                         <div class="row align-items-center">
                                             <div class="col-lg-3 col-md-3 d-none d-md-block">
                                                 <ul class="avatar-overlap">

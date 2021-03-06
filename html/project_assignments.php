@@ -1,3 +1,7 @@
+<?php
+    include_once('templates/tpl_common.php');
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -20,45 +24,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js " integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin=" anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js " integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s " crossorigin="anonymous "></script>
 
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #edf4f5;">
-        <div class="container-fluid mx-5">
-            <a class="navbar-brand" href="dashboard.html">
-                <img src="/images/oversee_blue.svg" width="30" height="30" class="d-inline-block align-top" alt="">Oversee
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="search.html"><i class="bi bi-search"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="bi bi-bell"></i>
-                            <span class="badge rounded-pill badge-notify">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="rounded-circle me-2" src="images/avatar.png" width="30px" height="30px" alt="avatar"> Pedro Jorge
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="index.html"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    <?php draw_nav_bar() ?>
 
     <header class="page-header header container-md">
         <nav class="navbar navbar-expand-md">
@@ -69,16 +35,16 @@
             <div class="collapse navbar-collapse" id="main-navigation-assignments">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="project_overview.html">Overview</a>
+                        <a class="nav-link" href="project_overview.php">Overview</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="project_status.html">Status Board</a>
+                        <a class="nav-link" href="project_status.php">Status Board</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="project_assignments.html">Assignments</a>
+                        <a class="nav-link active" href="project_assignments.php">Assignments</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="project_statistics.html">Statistics</a>
+                        <a class="nav-link" href="project_statistics.php">Statistics</a>
                     </li>
                 </ul>
             </div>

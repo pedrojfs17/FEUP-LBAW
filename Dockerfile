@@ -1,8 +1,4 @@
-FROM nginx
+FROM php:8-apache
 
 # Copy static HTML pages (when building a new image)
-COPY html /usr/share/nginx/html
-
-# Start command
-COPY docker_run.sh /docker_run.sh
-CMD sh /docker_run.sh
+COPY html /var/www/html

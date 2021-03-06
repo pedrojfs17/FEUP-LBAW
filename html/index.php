@@ -1,3 +1,7 @@
+<?php
+    include_once('templates/tpl_common.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,27 +33,7 @@
 
 <body>
 
-    <!-- Navigation -->
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img class="d-inline-block align-top img-fluid" src="images/oversee_blue_txt.svg" height="60" alt="">
-            </a>
-            <button id="navToggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-1">
-                    <li class="nav-item">
-                        <a class="nav-link" href="sign_in.html">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="sign_up.html">Sign Up</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php draw_landing_nav_bar() ?>
 
     <!-- Header -->
     <header class="masthead text-center text-white">
@@ -57,7 +41,7 @@
             <div class="container">
                 <h1 class="masthead-heading mb-5">Social media has never been this easy!</h1>
                 <h2 class="masthead-subheading mb-0">Oversee is here to make you reach new heights</h2>
-                <a href="dashboard.html" class="btn btn-primary btn-xl rounded-pill mt-5 mx-3">Join Oversee</a>
+                <a href="dashboard.php" class="btn btn-primary btn-xl rounded-pill mt-5 mx-3">Join Oversee</a>
                 <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore" href="#aboutPage">Learn More</a>
             </div>
         </div>
@@ -133,7 +117,7 @@
                 </div>
 
                 <div class="col-xs-6 col-md-3 ms-auto mb-2 mb-lg-0">
-                    <a class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.html">Contact Us</a>
+                    <a class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.php">Contact Us</a>
                 </div>
             </div>
             <hr>

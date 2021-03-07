@@ -26,6 +26,9 @@ include_once('templates/tpl_common.php');
                 <li class="nav-item">
                     <a class="nav-link" href="project_statistics.php">Statistics</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="project_settings.php"><i class="bi bi-gear me-2"></i></a>
+                </li>
             </ul>
         </div>
     </nav>

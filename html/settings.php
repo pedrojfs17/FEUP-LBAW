@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row align-items-center mt-5">
-        <h1><a class="fs-4 me-4" href="#"><i class="bi bi-chevron-left"></i></a>Settings</h1>
+        <h1><a class="fs-4 me-4" href="dashboard.php"><i class="bi bi-chevron-left"></i></a>Settings</h1>
     </div>
 
     <hr>

@@ -2,7 +2,7 @@
     include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css"], []); ?>
+<?php draw_header(["style.css", "overview.css", "drag-and-drop.css"], ["drag-and-drop.js"]); ?>
 
 <?php draw_nav_bar() ?>
 
@@ -34,54 +34,54 @@
 
 <div class="container-md pb-5">
     <div class="row">
-        <div class="col mb-3">
+        <div class="col mb-3 task-group task-group-waiting">
             <div class="card">
-                <div class="card-header bg-warning text-center text-white ">
+                <div class="card-header text-center text-white ">
                     Waiting
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button class="btn btn-light text-start " type="button ">Bake</button>
-                        <button class="btn btn-light text-start " type="button ">Upload</button>
+                        <button id="task1" class="btn text-start draggable" type="button" draggable="true">Bake</button>
+                        <button id="task2" class="btn text-start draggable" type="button" draggable="true">Upload</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 task-group task-group-not-started">
             <div class="card">
-                <div class="card-header bg-dark text-center text-white ">
+                <div class="card-header text-center text-white ">
                     Not started
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button class="btn btn-light text-start " type="button ">Prepare description</button>
+                        <button id="task3" class="btn text-start draggable" type="button" draggable="true">Prepare description</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 task-group task-group-in-progress">
             <div class="card">
-                <div class="card-header bg-info text-white text-center ">
+                <div class="card-header text-white text-center ">
                     In progress
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button class="btn btn-light text-start " type="button ">Feed the culture</button>
+                        <button id="task4" class="btn text-start draggable" type="button" draggable="true">Feed the culture</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3">
+        <div class="col mb-3 task-group task-group-completed">
             <div class="card">
-                <div class="card-header bg-success text-white text-center ">
+                <div class="card-header text-white text-center ">
                     Completed
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button class="btn btn-light text-start " type="button ">Get Ingredients</button>
+                        <button id="task5" class="btn text-start draggable" type="button" draggable="true">Get Ingredients</button>
                     </div>
                 </div>
             </div>

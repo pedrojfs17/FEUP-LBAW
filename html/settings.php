@@ -2,92 +2,74 @@
     include_once('templates/tpl_common.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Oversee</title>
-        
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-        <!-- Bootstrap Icons -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+<?php draw_header(["style.css"], ["settings.js"]); ?>
 
-        <link rel="stylesheet" href="css/style.css">
-        
-        <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous" defer></script>
-    
-        <script src="js/settings.js" defer></script>
-    </head>
-    <body>
-        <?php draw_nav_bar() ?>
+<?php draw_nav_bar() ?>
 
-        <div class="container">
-            <div class="row align-items-center mt-5">
-                <h1><a class="fs-4 me-4" href="#"><i class="bi bi-chevron-left"></i></a>Settings</h1>
+<div class="container">
+    <div class="row align-items-center mt-5">
+        <h1><a class="fs-4 me-4" href="#"><i class="bi bi-chevron-left"></i></a>Settings</h1>
+    </div>
+
+    <hr>
+
+    <div class="row align-items-center mt-5 px-5">
+        <h4>Notifications</h4>
+        <hr>
+    </div>
+
+    <div class="row justify-content-center align-items-begin px-5">
+        <div class="row mt-2 form-switch ps-0">
+            <label class="form-check-label" for="allowNotifs">Allow Notifications</label>
+            <input class="form-check-input" type="checkbox" id="allowNotifs">
+        </div>
+        <div id="notificationSettings" class="mt-3">
+            <div class="row mb-3 form-switch mx-0">
+                <label class="form-check-label" for="invitesNotifs">Project Invites</label>
+                <input class="form-check-input" type="checkbox" id="invitesNotifs">
             </div>
-
-            <hr>
-
-            <div class="row align-items-center mt-5 px-5">
-                <h4>Notifications</h4>
-                <hr>
+            <div class="row mb-3 form-switch mx-0">
+                <label class="form-check-label" for="memberNotifs">New Project Members</label>
+                <input class="form-check-input" type="checkbox" id="memberNotifs">
             </div>
-
-            <div class="row justify-content-center align-items-begin px-5">
-                <div class="row mt-2 form-switch ps-0">
-                    <label class="form-check-label" for="allowNotifs">Allow Notifications</label>
-                    <input class="form-check-input" type="checkbox" id="allowNotifs">
-                </div>
-                <div id="notificationSettings" class="mt-3">
-                    <div class="row mb-3 form-switch mx-0">
-                        <label class="form-check-label" for="invitesNotifs">Project Invites</label>
-                        <input class="form-check-input" type="checkbox" id="invitesNotifs">
-                    </div>
-                    <div class="row mb-3 form-switch mx-0">
-                        <label class="form-check-label" for="memberNotifs">New Project Members</label>
-                        <input class="form-check-input" type="checkbox" id="memberNotifs">
-                    </div>
-                    <div class="row mb-3 form-switch mx-0">
-                        <label class="form-check-label" for="tasksNotifs">Assigned Tasks</label>
-                        <input class="form-check-input" type="checkbox" id="tasksNotifs">
-                    </div>
-                    <div class="row mb-3 form-switch mx-0">
-                        <label class="form-check-label" for="waitingNotifs">Tasks leaving "Waiting"</label>
-                        <input class="form-check-input" type="checkbox" id="waitingNotifs">
-                    </div>
-                    <div class="row mb-3 form-switch mx-0">
-                        <label class="form-check-label" for="reportsNotifs">Reports</label>
-                        <input class="form-check-input" type="checkbox" id="reportsNotifs">
-                    </div>
-                </div>
+            <div class="row mb-3 form-switch mx-0">
+                <label class="form-check-label" for="tasksNotifs">Assigned Tasks</label>
+                <input class="form-check-input" type="checkbox" id="tasksNotifs">
             </div>
-
-            <div class="row align-items-center mt-5 px-5">
-                <h4>Projects</h4>
-                <hr>
+            <div class="row mb-3 form-switch mx-0">
+                <label class="form-check-label" for="waitingNotifs">Tasks leaving "Waiting"</label>
+                <input class="form-check-input" type="checkbox" id="waitingNotifs">
             </div>
-
-            <div class="row justify-content-center align-items-begin px-5">
-                <div class="row mt-2 form-switch ps-0">
-                    <label class="form-check-label" for="hideTasks">Hide Competed Tasks</label>
-                    <input class="form-check-input" type="checkbox" id="hideTasks">
-                </div>
-            </div>
-
-            <div class="row align-items-center mt-5 px-5">
-                <h4>Account</h4>
-                <hr>
-            </div>
-
-            <div class="row justify-content-center align-items-begin px-5">
-                <div class="d-grid gap-2">
-                    <p class="text-muted mb-2">Once you delete your account, there is no coming back...</p>
-                    <button class="btn btn-danger" type="button">Delete Account</button>
-                </div>
+            <div class="row mb-3 form-switch mx-0">
+                <label class="form-check-label" for="reportsNotifs">Reports</label>
+                <input class="form-check-input" type="checkbox" id="reportsNotifs">
             </div>
         </div>
-    </body>
-</html>
+    </div>
+
+    <div class="row align-items-center mt-5 px-5">
+        <h4>Projects</h4>
+        <hr>
+    </div>
+
+    <div class="row justify-content-center align-items-begin px-5">
+        <div class="row mt-2 form-switch ps-0">
+            <label class="form-check-label" for="hideTasks">Hide Competed Tasks</label>
+            <input class="form-check-input" type="checkbox" id="hideTasks">
+        </div>
+    </div>
+
+    <div class="row align-items-center mt-5 px-5">
+        <h4>Account</h4>
+        <hr>
+    </div>
+
+    <div class="row justify-content-center align-items-begin px-5">
+        <div class="d-grid gap-2">
+            <p class="text-muted mb-2">Once you delete your account, there is no coming back...</p>
+            <button class="btn btn-danger" type="button">Delete Account</button>
+        </div>
+    </div>
+</div>
+
+<?php draw_footer(); ?>

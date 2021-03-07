@@ -2,147 +2,115 @@
     include_once('templates/tpl_common.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php draw_header(["one-page-wonder.css"], ["script.js"]); ?>
 
-<head>
+<?php draw_landing_nav_bar() ?>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!-- Header -->
+<header class="masthead text-center text-white">
+    <div class="masthead-content">
+        <div class="container">
+            <h1 class="masthead-heading mb-5">Social media has never been this easy!</h1>
+            <h2 class="masthead-subheading mb-0">Oversee is here to make you reach new heights</h2>
+            <a href="dashboard.php" class="btn btn-primary btn-xl rounded-pill mt-5 mx-3">Join Oversee</a>
+            <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore" href="#aboutPage">Learn More</a>
+        </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+</header>
 
-    <title>Oversee</title>
-    <link rel="icon" href="images/oversee_blue.svg">
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <!-- Custom fonts for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/one-page-wonder.css" rel="stylesheet">
-
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous" defer></script>
-    <script src="js/script.js" defer></script>
-
-</head>
-
-<body>
-
-    <?php draw_landing_nav_bar() ?>
-
-    <!-- Header -->
-    <header class="masthead text-center text-white">
-        <div class="masthead-content">
-            <div class="container">
-                <h1 class="masthead-heading mb-5">Social media has never been this easy!</h1>
-                <h2 class="masthead-subheading mb-0">Oversee is here to make you reach new heights</h2>
-                <a href="dashboard.php" class="btn btn-primary btn-xl rounded-pill mt-5 mx-3">Join Oversee</a>
-                <a class="btn btn-primary btn-xl rounded-pill mt-5" id="learnMore" href="#aboutPage">Learn More</a>
+<section id="aboutPage">
+    <section>
+        <div class="container info">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-xl-1">
+                    <div class="p-5">
+                        <h2 class="display-4">Organize yourself</h2>
+                        <p>Plan your social media effectively</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5">
+                        <img class="img-fluid rounded-circle" src="images/01.jpg" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="bg-circle-1 bg-circle"></div>
-        <div class="bg-circle-2 bg-circle"></div>
-        <div class="bg-circle-3 bg-circle"></div>
-        <div class="bg-circle-4 bg-circle"></div>
-    </header>
-
-    <section id="aboutPage">
-        <section>
-            <div class="container info">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 order-xl-1">
-                        <div class="p-5">
-                            <h2 class="display-4">Organize yourself</h2>
-                            <p>Plan your social media effectively</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 order-lg-2">
-                        <div class="p-5">
-                            <img class="img-fluid rounded-circle" src="images/01.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="container info">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 order-xl-2">
-                        <div class="p-5">
-                            <h2 class="display-4">Improve Yourself</h2>
-                            <p>See how your social media is performing with our statistic tools</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 order-lg-1">
-                        <div class="p-5">
-                            <img class="img-fluid rounded" src="images/02.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="container info">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 order-lg-1">
-                        <div class="p-5">
-                            <h2 class="display-4">Go solo or go big</h2>
-                            <p>Designed for big teams and individual creators</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 order-lg-2">
-                        <div class="p-5">
-                            <img class="img-fluid rounded" src="images/03.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </section>
 
-    <!-- Site footer -->
-    <footer class="site-footer">
-        <div class="container">
+    <section>
+        <div class="container info">
             <div class="row align-items-center">
-                <div class="col-sm-12 col-md-6">
-                    <img class="d-inline-block align-top" src="images/oversee_blue_txt_only.svg" height="60" alt="">
-                    <p class="text-justify mt-4">The social media focused project manager.<br>Developed as coursework for LBAW@FEUP 20/21. </p>
+                <div class="col-lg-6 order-xl-2">
+                    <div class="p-5">
+                        <h2 class="display-4">Improve Yourself</h2>
+                        <p>See how your social media is performing with our statistic tools</p>
+                    </div>
                 </div>
-
-                <div class="col-xs-6 col-md-3 ms-auto mb-2 mb-lg-0">
-                    <a class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.php">Contact Us</a>
-                </div>
-            </div>
-            <hr>
-        </div>
-        <div class="container me-auto">
-            <div class="row">
-                <div class="col-md-8 col-sm-6 col-xs-12">
-                    <p class="copyright-text">Copyright &copy; 2021 All Rights Reserved by
-                        <a href="#">lbaw2134</a>.
-                    </p>
-                </div>
-
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <ul class="social-icons">
-                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                    </ul>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <img class="img-fluid rounded" src="images/02.jpg" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
 
+    <section>
+        <div class="container info">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <h2 class="display-4">Go solo or go big</h2>
+                        <p>Designed for big teams and individual creators</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5">
+                        <img class="img-fluid rounded" src="images/03.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
 
-</body>
+<!-- Site footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-sm-12 col-md-6">
+                <img class="d-inline-block align-top" src="images/oversee_blue_txt_only.svg" height="60" alt="">
+                <p class="text-justify mt-4">The social media focused project manager.<br>Developed as coursework for LBAW@FEUP 20/21. </p>
+            </div>
 
-</html>
+            <div class="col-xs-6 col-md-3 ms-auto mb-2 mb-lg-0">
+                <a class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.php">Contact Us</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="container me-auto">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-12">
+                <p class="copyright-text">Copyright &copy; 2021 All Rights Reserved by
+                    <a href="#">lbaw2134</a>.
+                </p>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <ul class="social-icons">
+                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                    <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<?php draw_footer(); ?>

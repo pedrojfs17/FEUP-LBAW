@@ -2,150 +2,131 @@
     include_once('templates/tpl_common.php');
 ?>
 
-<!doctype html>
-<html lang="en">
+<?php draw_header(["style.css", "overview.css"], []); ?>
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php draw_nav_bar() ?>
 
-    <script src="https://kit.fontawesome.com/8d94371726.js" crossorigin="anonymous"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="css/overview.css">
-    <title>Sourdough Baking</title>
-</head>
-
-<body>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-
-    <?php draw_nav_bar() ?>
-
-    <header class="page-header header container-md">
-        <nav class="navbar navbar-expand-md">
-            <a class="navbar-brand" href="#">Sourdough Baking</a>
-            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation-overview">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="main-navigation-overview">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="project_overview.php">Overview</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="project_status.php">Status Board</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="project_assignments.php">Assignments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="project_statistics.php">Statistics</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container-md d-flex flex-wrap align-content-start justify-content-center justify-content-md-start">
-        <div class="card m-2 " style="min-width: 300px;">
-            <div class=" card-header bg-success text-white ">
-                Completed
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title ">Get Ingredients</h5>
-                <div class="d-grid gap-2 my-3">
-                    <button class="btn btn-light text-start " type="button ">Flour</button>
-                    <button class="btn btn-light text-start " type="button ">Water</button>
-                </div>
-                <div class="d-flex gap-2 my-3">
-                    <p class="d-inline-block py-1 px-2 rounded bg-danger text-white" type="button ">must have</p>
-                </div>
-                <div class="d-flex justify-content-between mt-auto">
-                    <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
-                    <span class="text-end align-self-center ">2<i class="fas fa-comment-alt m-2"></i></span>
-                </div>
-            </div>
+<header class="page-header header container-md">
+    <nav class="navbar navbar-expand-md">
+        <a class="navbar-brand" href="#">Sourdough Baking</a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation-overview">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="main-navigation-overview">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="project_overview.php">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="project_status.php">Status Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="project_assignments.php">Assignments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="project_statistics.php">Statistics</a>
+                </li>
+            </ul>
         </div>
+    </nav>
+</header>
 
-        <div class="card m-2 " style="min-width: 300px;">
-            <div class="card-header bg-info text-white ">
-                In progress
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title ">Feed the culture</h5>
-                <div class="d-grid gap-2 my-3">
-                    <button class="btn btn-light text-start " type="button ">Drain culture</button>
-                </div>
-                <div class="d-flex gap-2 my-3">
-                    <p class="d-inline-block py-1 px-2 rounded bg-info " type="button ">must do</p>
-                    <p class="d-inline-block py-1 px-2 rounded bg-warning " type="button ">routine</p>
-                </div>
-                <span class="card-text"><i class="far fa-calendar-alt m-2"></i>28/02/2021</span>
-                <div class="d-flex justify-content-between mt-auto">
-                    <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
-                    <span class="text-end align-self-center ">1<i class="fas fa-comment-alt m-2"></i></span>
-                </div>
-            </div>
+<div class="container-md d-flex flex-wrap align-content-start justify-content-center justify-content-md-start">
+    <div class="card m-2 " style="min-width: 300px;">
+        <div class=" card-header bg-success text-white ">
+            Completed
         </div>
-
-        <div class="card m-2 " style="min-width: 300px;">
-            <div class="card-header bg-warning text-white ">
-                Waiting
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title ">Get Ingredients</h5>
+            <div class="d-grid gap-2 my-3">
+                <button class="btn btn-light text-start " type="button ">Flour</button>
+                <button class="btn btn-light text-start " type="button ">Water</button>
             </div>
-
-            <div class="card-body d-flex flex-column ">
-                <h5 class="card-title ">Bake</h5>
-                <div class="d-grid gap-2 my-3">
-                    <button class="btn btn-light text-start " type="button ">Remove portion</button>
-                    <button class="btn btn-light text-start " type="button ">Put starter in fridge</button>
-                </div>
-                <div class="d-flex justify-content-between mt-auto">
-                    <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
-                    <span class="text-end align-self-center ">0<i class="fas fa-comment-alt m-2"></i></span>
-                </div>
+            <div class="d-flex gap-2 my-3">
+                <p class="d-inline-block py-1 px-2 rounded bg-danger text-white" type="button ">must have</p>
             </div>
-        </div>
-
-        <div class="card m-2 " style="min-width: 300px;">
-            <div class="card-header bg-secondary text-white ">
-                Not started
-            </div>
-
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title ">Prepare description</h5>
-                <div class="d-grid gap-2 my-3">
-                    <button class="btn btn-light text-start " type="button ">Ingredients</button>
-                    <button class="btn btn-light text-start " type="button ">Process</button>
-                    <button class="btn btn-light text-start " type="button ">Cute Quote</button>
-                </div>
-                <div class="d-flex justify-content-between mt-auto">
-                    <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
-                    <span class="text-end align-self-center ">5<i class="fas fa-comment-alt m-2"></i></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="card m-2 " style="min-width: 300px;">
-            <div class="card-header bg-warning text-white ">
-                Waiting
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title ">Upload</h5>
-                <div class="d-flex gap-2 my-3">
-                    <p class="d-inline-block py-1 px-2 rounded bg-info ">instagram</p>
-                    <p class="d-inline-block py-1 px-2 rounded bg-warning">twitter</p>
-                </div>
-                <span class="card-text "><i class="far fa-calendar-alt m-2"></i>01/03/2021</span>
-                <div class="d-flex justify-content-between mt-auto">
-                    <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
-                    <span class="text-end align-self-center ">6<i class="fas fa-comment-alt m-2"></i></span>
-                </div>
+            <div class="d-flex justify-content-between mt-auto">
+                <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                <span class="text-end align-self-center ">2<i class="fas fa-comment-alt m-2"></i></span>
             </div>
         </div>
     </div>
-</body>
 
-</html>
+    <div class="card m-2 " style="min-width: 300px;">
+        <div class="card-header bg-info text-white ">
+            In progress
+        </div>
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title ">Feed the culture</h5>
+            <div class="d-grid gap-2 my-3">
+                <button class="btn btn-light text-start " type="button ">Drain culture</button>
+            </div>
+            <div class="d-flex gap-2 my-3">
+                <p class="d-inline-block py-1 px-2 rounded bg-info " type="button ">must do</p>
+                <p class="d-inline-block py-1 px-2 rounded bg-warning " type="button ">routine</p>
+            </div>
+            <span class="card-text"><i class="far fa-calendar-alt m-2"></i>28/02/2021</span>
+            <div class="d-flex justify-content-between mt-auto">
+                <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                <span class="text-end align-self-center ">1<i class="fas fa-comment-alt m-2"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card m-2 " style="min-width: 300px;">
+        <div class="card-header bg-warning text-white ">
+            Waiting
+        </div>
+
+        <div class="card-body d-flex flex-column ">
+            <h5 class="card-title ">Bake</h5>
+            <div class="d-grid gap-2 my-3">
+                <button class="btn btn-light text-start " type="button ">Remove portion</button>
+                <button class="btn btn-light text-start " type="button ">Put starter in fridge</button>
+            </div>
+            <div class="d-flex justify-content-between mt-auto">
+                <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                <span class="text-end align-self-center ">0<i class="fas fa-comment-alt m-2"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card m-2 " style="min-width: 300px;">
+        <div class="card-header bg-secondary text-white ">
+            Not started
+        </div>
+
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title ">Prepare description</h5>
+            <div class="d-grid gap-2 my-3">
+                <button class="btn btn-light text-start " type="button ">Ingredients</button>
+                <button class="btn btn-light text-start " type="button ">Process</button>
+                <button class="btn btn-light text-start " type="button ">Cute Quote</button>
+            </div>
+            <div class="d-flex justify-content-between mt-auto">
+                <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                <span class="text-end align-self-center ">5<i class="fas fa-comment-alt m-2"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card m-2 " style="min-width: 300px;">
+        <div class="card-header bg-warning text-white ">
+            Waiting
+        </div>
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title ">Upload</h5>
+            <div class="d-flex gap-2 my-3">
+                <p class="d-inline-block py-1 px-2 rounded bg-info ">instagram</p>
+                <p class="d-inline-block py-1 px-2 rounded bg-warning">twitter</p>
+            </div>
+            <span class="card-text "><i class="far fa-calendar-alt m-2"></i>01/03/2021</span>
+            <div class="d-flex justify-content-between mt-auto">
+                <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                <span class="text-end align-self-center ">6<i class="fas fa-comment-alt m-2"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php draw_footer(); ?>

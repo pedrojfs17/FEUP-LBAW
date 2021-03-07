@@ -108,40 +108,31 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="tab-content" id="dashboardContent">
-                                <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">Jane Doe invited you to "The Ultimate Apple Pie"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">"Get Ingredients" has been finished. You can start working on "Feed the culture"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text">John Doe entered "Sourdough Baking"</p>
-                                            <a href="#" class="stretched-link"></a>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><span>Your report has been dealt with<i class="pull-right icon-chevron-right"></i></span></p>
-                                        </div>
-                                        <div class="collapse" id="collapseExample">
-                                            <div class="card card-body">
-                                                <strong>We reviewed antbz's account and found that it does not violate our community guidelines</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">My Stats</div>
-                                </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">Jane Doe invited you to "The Ultimate Apple Pie"</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">"Get Ingredients" has been finished. You can start working on "Feed the culture"</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">John Doe entered "Sourdough Baking"</p>
+                            <a href="#" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text" data-bs-toggle="collapse" href="#collapseNotif1" role="button" aria-expanded="false" aria-controls="collapseExample"><span>Your report has been dealt with<i class="pull-right icon-chevron-right"></i></span></p>
+                        </div>
+                        <div class="collapse" id="collapseNotif1">
+                            <div class="card card-body">
+                                <strong>We reviewed antbz's account and found that it does not violate our community guidelines</strong>
                             </div>
                         </div>
                     </div>

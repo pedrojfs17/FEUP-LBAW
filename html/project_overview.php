@@ -1,5 +1,5 @@
 <?php
-    include_once('templates/tpl_common.php');
+include_once('templates/tpl_common.php');
 ?>
 
 <?php draw_header(["style.css", "overview.css"], []); ?>
@@ -10,8 +10,8 @@
     <nav class="navbar navbar-expand-md">
         <a class="navbar-brand" href="#">Sourdough Baking</a>
         <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation-overview">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="main-navigation-overview">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -37,10 +37,10 @@
             Completed
         </div>
         <div class="card-body d-flex flex-column">
-            <h5 class="card-title ">Get Ingredients</h5>
+            <h5 class="card-title">Get Ingredients</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button ">Flour</button>
-                <button class="btn btn-light text-start " type="button ">Water</button>
+                <button class="btn btn-light text-start " type="button" data-bs-toggle="modal" data-bs-target="#tasks1Modal">Flour</button>
+                <button class="btn btn-light text-start " type="button" data-bs-toggle="modal" data-bs-target="#tasks1Modal">Water</button>
             </div>
             <div class="d-flex gap-2 my-3">
                 <p class="d-inline-block py-1 px-2 rounded bg-danger text-white" type="button ">must have</p>
@@ -59,7 +59,7 @@
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Feed the culture</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button ">Drain culture</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks2Modal">Drain culture</button>
             </div>
             <div class="d-flex gap-2 my-3">
                 <p class="d-inline-block py-1 px-2 rounded bg-info " type="button ">must do</p>
@@ -81,8 +81,8 @@
         <div class="card-body d-flex flex-column ">
             <h5 class="card-title ">Bake</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button ">Remove portion</button>
-                <button class="btn btn-light text-start " type="button ">Put starter in fridge</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks3Modal">Remove portion</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks3Modal">Put starter in fridge</button>
             </div>
             <div class="d-flex justify-content-between mt-auto">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
@@ -99,9 +99,9 @@
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Prepare description</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button ">Ingredients</button>
-                <button class="btn btn-light text-start " type="button ">Process</button>
-                <button class="btn btn-light text-start " type="button ">Cute Quote</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Ingredients</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Process</button>
+                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Cute Quote</button>
             </div>
             <div class="d-flex justify-content-between mt-auto">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
@@ -129,4 +129,8 @@
     </div>
 </div>
 
+<?php draw_tasks_modal(1, "Get ingredients", ["Flour", "Water"], "Completed");?>
+<?php draw_tasks_modal(2, "Feed the culture", ["Drain culture"], "In progress");?>
+<?php draw_tasks_modal(3, "Bake", ["Remove Portion", "Put starter in fridge"], "Waiting");?>
+<?php draw_tasks_modal(4, "Prepare Description", ["Ingredients", "Process", "Cute Quote"], "Not started");?>
 <?php draw_footer(); ?>

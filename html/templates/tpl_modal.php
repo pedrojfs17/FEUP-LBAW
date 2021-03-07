@@ -175,14 +175,73 @@
                                 <img style="height:140px;" src="https://assets.bonappetit.com/photos/597f6564e85ce178131a6475/master/w_1200,c_limit/0817-murray-mancini-dried-tomato-pie.jpg">
                             </div>
                             <div class="col-6">
-                            <h4>Top Post</h4>
-                            <q>New recipe! Check out the blog!</q>
-                            <p class="fw-light">124 likes</p>
-                        </div>
+                                <h4>Top Post</h4>
+                                <q>New recipe! Check out the blog!</q>
+                                <p class="fw-light">124 likes</p>
+                            </div>
                         </div>
                     </div>
                     <img class="img-fluid shadow mx-3 stats-block" src="https://www.datasciencemadesimple.com/wp-content/uploads/2017/08/Line-chart-in-python-1.png ">
                 </div>
             </div>
         </div>
-    <?php } ?>
+    </div>
+<?php } ?>
+
+<?php function draw_tasks_modal($id, $title, $subtasks, $status)
+{ ?>
+    <div class="modal fade" id="tasks<?=$id?>Modal" tabindex="-1" aria-labelledby="tasks<?=$id?>ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tasks<?=$id?>ModalLabel">Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-grid gap-4 px-5">
+                    <div>
+                        <header>
+                            <h3 class="d-inline-block"><?= $title ?></h3>
+                            <h6 class="d-inline-block text-secondary mx-2"><?= $status ?></h6>
+                        </header>
+                        <textarea style="height:75px;width:100%;" placeholder="Description"></textarea>
+                    </div>
+                    <div>
+                        <h5 class=" d-inline-block mr-3">Checklist</h5>
+                        <p class=" d-inline-block text-secondary">100%</p>
+                        <div class="progress w-50" style="height:5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-grid gap-2 my-3">
+                            <?php foreach ($subtasks as $t) { ?>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <?= $t ?>
+                                    <input class="form-check-input" type="checkbox" value="" checked>
+                                    </label>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="mb-1">Assigned to:</p>
+                            <img class="rounded-circle" src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1">Deadline:</p>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Comments</h5>
+                        <input class="form-control" type="text" placeholder="Add comment">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

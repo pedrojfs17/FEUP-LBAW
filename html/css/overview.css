@@ -25,14 +25,14 @@ header .navbar-collapse {
     justify-content: flex-start;
 }
 
-@media (max-width:720px) {
+@media (max-width:992px) {
     .stats-dashboard {
         display: flex;
         flex-direction: column;
     }
 }
 
-@media(min-width:720px) {
+@media(min-width:992px) {
     .stats-block {
         width: 50%;
     }

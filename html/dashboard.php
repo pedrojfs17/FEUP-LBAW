@@ -3,7 +3,7 @@
     include_once('templates/tpl_modal.php');
 ?>
 
-<?php draw_header(["style.css", "ms-form.css"], ["ms-form.js"]); ?>
+<?php draw_header(["style.css", "ms-form.css", "overview.css"], ["ms-form.js"]); ?>
 
 <?php draw_nav_bar(); ?>
 
@@ -148,7 +148,7 @@
                                 </span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;">See More</button>
+                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;" data-bs-toggle="modal" data-bs-target="#statisticsModal">See More</button>
                 </div>
 
                 <div class="card m-1 border" style="max-width: 300px;">
@@ -171,7 +171,7 @@
                                 </span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;">See More</button>
+                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;" data-bs-toggle="modal" data-bs-target="#statisticsModal">See More</button>
                 </div>
 
                 <div class="card m-1 border" style="max-width: 300px;">
@@ -194,7 +194,7 @@
                                 </span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;">See More</button>
+                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;" data-bs-toggle="modal" data-bs-target="#statisticsModal">See More</button>
                 </div>
 
                 <div class="card m-1 border" style="max-width: 300px;">
@@ -217,7 +217,7 @@
                                 </span>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;">See More</button>
+                    <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;" data-bs-toggle="modal" data-bs-target="#statisticsModal">See More</button>
                 </div>
             </div>
         </div>
@@ -227,5 +227,7 @@
 <?php draw_create_project_modal(); ?>
 
 <?php draw_connect_account_modal(); ?>
+
+<?php draw_statistics_modal(); ?>
 
 <?php draw_footer(); ?>

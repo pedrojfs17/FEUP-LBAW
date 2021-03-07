@@ -35,7 +35,7 @@
     <div class="d-flex justify-content-between mt-3 stats-dashboard ">
         <div class="d-flex flex-column flex-grow-1 stats-block">
             <h1>Twitter</h1>
-            <ul class="list-group list-group-flush m-3">
+            <ul class="list-group list-group-flush m-3 ">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div><i class="far fa-heart m-1"></i> Likes</div>
                     <span class="badge bg-primary rounded-pill">320</span>

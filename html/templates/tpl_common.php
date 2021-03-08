@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="col-xs-6 col-md-3 ms-auto mb-2 mb-lg-0">
-                    <a class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.php">Contact Us</a>
+                    <a id="contact-us" class="btn btn-xl btn-outline-primary my-2 my-sm-0 text-decoration-none" href="contacts.php">Contact Us</a>
                 </div>
             </div>
             <hr>

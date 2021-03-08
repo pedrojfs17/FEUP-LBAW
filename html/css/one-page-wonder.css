@@ -191,7 +191,7 @@ header.masthead .bg-circle-4 {
     border-color: #00AFB9;
 }
 
-.btn-outline-primary {
+#contact-us {
     color: #e15488;
     border-color: #e15488;
 }
@@ -208,6 +208,7 @@ header.masthead .bg-circle-4 {
 .btn-outline-primary:active {
     background-color: #e15488 !important;
     border-color: #e15488 !important;
+    color: white!important;
 }
 
 .btn-primary:focus {

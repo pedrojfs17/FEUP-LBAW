@@ -4,7 +4,7 @@
 
 <?php draw_header(["style.css", "ms-form.css"], ["profile.js"]); ?>
 
-<?php draw_nav_bar() ?>
+<?php draw_nav_bar(FALSE) ?>
 
 <div class="container">
     <div class="row align-items-center mt-5">

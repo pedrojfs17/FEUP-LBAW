@@ -5,7 +5,7 @@
 
 <?php draw_header(["style.css", "ms-form.css", "overview.css"], ["ms-form.js"]); ?>
 
-<?php draw_nav_bar(); ?>
+<?php draw_nav_bar(FALSE); ?>
 
 <div class="container">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">

@@ -121,7 +121,7 @@
 <?php } ?>
 
 
-<?php function draw_nav_bar() { ?>
+<?php function draw_nav_bar($admin) { ?>
     <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #edf4f5;">
         <div class="container-fluid mx-sm-5">
             <a class="navbar-brand" href="dashboard.php">
@@ -150,14 +150,21 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="rounded-circle me-2" src="images/avatar.png" width="30px" height="30px" alt="avatar"> Pedro Jorge
+                            <img class="rounded-circle me-2" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                            <?php if (!$admin) { ?>
+                            Pedro Jorge
+                            <?php } else { ?>
+                            Admin
+                            <?php } ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                            <?php if (!$admin) { ?>
                             <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
                             <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i>Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                            <?php } ?>
                             <li><a class="dropdown-item" href="index.php"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
                         </ul>
                     </li>

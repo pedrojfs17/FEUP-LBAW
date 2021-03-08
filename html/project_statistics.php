@@ -4,7 +4,7 @@
 
 <?php draw_header(["style.css", "overview.css"], []); ?>
 
-<?php draw_nav_bar() ?>
+<?php draw_nav_bar(FALSE) ?>
 
 <header class="page-header header container-md">
     <nav class="navbar navbar-expand-md">

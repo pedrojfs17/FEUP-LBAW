@@ -19,11 +19,12 @@
     <div class="tab-content" id="dashboardContent">
         <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
             <div class="row mb-3">
-                <div class="col-lg-8 col-md-8">
+                <div class="col-lg-8 col-md-8 d-flex">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Find Projects" aria-label="Find Projects" aria-describedby="button-search">
-                        <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="bi bi-search"></i></button>
+                        <button class="btn btn-outline-secondary" type="button" id="button-search-projects"><i class="bi bi-search"></i></button>
                     </div>
+                    <button class="btn btn-light mx-1" type="button" id="button-filter-projects"><i class="text-muted bi bi-funnel-fill"></i></button>
                 </div>
                 <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
                     <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;" data-bs-toggle="modal" data-bs-target="#createProjectModal">+ New Project</a>
@@ -117,11 +118,12 @@
 
         <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">
             <div class="row mb-3">
-                <div class="col-lg-8 col-md-8">
+                <div class="col-lg-8 col-md-8 d-flex">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Find Accounts" aria-label="Find Accounts" aria-describedby="button-search-acc">
                         <button class="btn btn-outline-secondary" type="button" id="button-search-acc"><i class="bi bi-search"></i></button>
                     </div>
+                    <button class="btn btn-light mx-1" type="button" id="button-filter-acc"><i class="text-muted bi bi-funnel-fill"></i></button>
                 </div>
                 <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
                     <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0" style="background-color: #ea4c89;" data-bs-toggle="modal" data-bs-target="#connectAccountModal">+ Connect Account</a>

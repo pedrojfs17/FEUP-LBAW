@@ -37,3 +37,11 @@ header .navbar-collapse {
         width: 50%;
     }
 }
+
+.project-nav-toggler::before {
+    transition: transform .2s ease-in-out;
+}
+
+.navbar-toggler:not(.collapsed) .project-nav-toggler::before {
+    transform: rotate(180deg);
+}

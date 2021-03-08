@@ -9,8 +9,8 @@ include_once('templates/tpl_common.php');
 <header class="page-header header container-md">
     <nav class="navbar navbar-expand-md">
         <a class="navbar-brand" href="#">Sourdough Baking</a>
-        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation-overview">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-caret-down project-nav-toggler"></i>
         </button>
         <div class="collapse navbar-collapse" id="main-navigation-overview">
             <ul class="navbar-nav">

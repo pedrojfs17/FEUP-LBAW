@@ -33,9 +33,9 @@
     <header class="page-header header container-md">
         <nav class="navbar navbar-expand-md">
             <a class="navbar-brand" href="#">Sourdough Baking</a>
-            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation-assignments">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-assignments" aria-controls="main-navigation-assignments" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-caret-down project-nav-toggler"></i>
+            </button>
             <div class="collapse navbar-collapse" id="main-navigation-assignments">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -49,6 +49,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="project_statistics.php">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="project_settings.php"><i class="bi bi-gear me-2"></i></a>
                     </li>
                 </ul>
             </div>

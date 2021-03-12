@@ -36,14 +36,13 @@ include_once('templates/tpl_common.php');
 
 <div class="container-md d-flex flex-wrap align-content-start justify-content-center justify-content-md-start">
     <div class="card m-2 " style="min-width: 300px;">
-        <div class=" card-header bg-success text-white ">
-            Completed
-        </div>
+        <div class=" card-header status-completed"></div>
+
         <div class="card-body d-flex flex-column">
             <h5 class="card-title">Get Ingredients</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button" data-bs-toggle="modal" data-bs-target="#tasks1Modal">Flour</button>
-                <button class="btn btn-light text-start " type="button" data-bs-toggle="modal" data-bs-target="#tasks1Modal">Water</button>
+                <button class="btn btn-light text-start" type="button">Flour</button>
+                <button class="btn btn-light text-start" type="button">Water</button>
             </div>
             <div class="d-flex gap-2 my-3">
                 <p class="d-inline-block py-1 px-2 rounded bg-danger text-white" type="button ">must have</p>
@@ -52,17 +51,17 @@ include_once('templates/tpl_common.php');
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">2<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+            <a data-bs-toggle="modal" data-bs-target="#tasks1Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
     <div class="card m-2 " style="min-width: 300px;">
-        <div class="card-header bg-info text-white ">
-            In progress
-        </div>
+        <div class="card-header status-in-progress"></div>
+
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Feed the culture</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks2Modal">Drain culture</button>
+                <button class="btn btn-light text-start" type="button">Drain culture</button>
             </div>
             <div class="d-flex gap-2 my-3">
                 <p class="d-inline-block py-1 px-2 rounded bg-info " type="button ">must do</p>
@@ -73,50 +72,48 @@ include_once('templates/tpl_common.php');
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">1<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+            <a data-bs-toggle="modal" data-bs-target="#tasks2Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
     <div class="card m-2 " style="min-width: 300px;">
-        <div class="card-header bg-warning text-white ">
-            Waiting
-        </div>
+        <div class="card-header status-waiting"></div>
 
         <div class="card-body d-flex flex-column ">
             <h5 class="card-title ">Bake</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks3Modal">Remove portion</button>
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks3Modal">Put starter in fridge</button>
+                <button class="btn btn-light text-start" type="button">Remove portion</button>
+                <button class="btn btn-light text-start" type="button">Put starter in fridge</button>
             </div>
             <div class="d-flex justify-content-between mt-auto">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">0<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+            <a data-bs-toggle="modal" data-bs-target="#tasks3Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
     <div class="card m-2 " style="min-width: 300px;">
-        <div class="card-header bg-secondary text-white ">
-            Not started
-        </div>
+        <div class="card-header status-not-started"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Prepare description</h5>
             <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Ingredients</button>
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Process</button>
-                <button class="btn btn-light text-start " type="button " data-bs-toggle="modal" data-bs-target="#tasks4Modal">Cute Quote</button>
+                <button class="btn btn-light text-start" type="button">Ingredients</button>
+                <button class="btn btn-light text-start" type="button">Process</button>
+                <button class="btn btn-light text-start" type="button">Cute Quote</button>
             </div>
             <div class="d-flex justify-content-between mt-auto">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">5<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+            <a data-bs-toggle="modal" data-bs-target="#tasks4Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
     <div class="card m-2 " style="min-width: 300px;">
-        <div class="card-header bg-warning text-white ">
-            Waiting
-        </div>
+        <div class="card-header status-waiting"></div>
+
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Upload</h5>
             <div class="d-flex gap-2 my-3">
@@ -128,6 +125,7 @@ include_once('templates/tpl_common.php');
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">6<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+            <a data-bs-toggle="modal" data-bs-target="#tasks5Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 </div>
@@ -136,4 +134,5 @@ include_once('templates/tpl_common.php');
 <?php draw_tasks_modal(2, "Feed the culture", ["Drain culture"], "In progress");?>
 <?php draw_tasks_modal(3, "Bake", ["Remove Portion", "Put starter in fridge"], "Waiting");?>
 <?php draw_tasks_modal(4, "Prepare Description", ["Ingredients", "Process", "Cute Quote"], "Not started");?>
+<?php draw_tasks_modal(5, "Upload", [], "Waiting");?>
 <?php draw_footer(); ?>

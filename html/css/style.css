@@ -54,3 +54,7 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
     border-bottom-color: #f0d6e0;
     border-bottom-width: 2px;
 }
+
+.choose-color {
+    margin-right: 0.7em;
+}

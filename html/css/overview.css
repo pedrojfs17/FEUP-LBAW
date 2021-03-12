@@ -94,3 +94,20 @@ header .navbar-collapse {
 .carousel-inner .carousel-item-end{ 
   transform: translateX(0);
 }
+
+
+.card-header.status-waiting {
+    background: #ff8d23;
+}
+
+.card-header.status-not-started {
+    background: #ffcc23;
+}
+
+.card-header.status-in-progress {
+    background: #46cbf4;
+}
+
+.card-header.status-completed {
+    background: #00B961;
+}

@@ -37,54 +37,54 @@
 
 <div class="container-md pb-5">
     <div class="row">
-        <div class="col mb-3 task-group task-group-waiting">
+        <div class="col mb-3 task-group status-waiting">
             <div class="card">
                 <div class="card-header text-center text-white ">
                     Waiting
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button id="task1" class="btn text-start draggable" type="button" draggable="true">Bake</button>
-                        <button id="task2" class="btn text-start draggable" type="button" draggable="true">Upload</button>
+                        <div id="task1" class="btn text-start draggable" type="button" draggable="true">Bake</div>
+                        <div id="task2" class="btn text-start draggable" type="button" draggable="true">Upload</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3 task-group task-group-not-started">
+        <div class="col mb-3 task-group status-not-started">
             <div class="card">
                 <div class="card-header text-center text-white ">
                     Not started
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button id="task3" class="btn text-start draggable" type="button" draggable="true">Prepare description</button>
+                        <div id="task3" class="btn text-start draggable" type="button" draggable="true">Prepare description</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3 task-group task-group-in-progress">
+        <div class="col mb-3 task-group status-in-progress">
             <div class="card">
                 <div class="card-header text-white text-center ">
                     In progress
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button id="task4" class="btn text-start draggable" type="button" draggable="true">Feed the culture</button>
+                        <div id="task4" class="btn text-start draggable" type="button" draggable="true">Feed the culture</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col mb-3 task-group task-group-completed">
+        <div class="col mb-3 task-group status-completed">
             <div class="card">
                 <div class="card-header text-white text-center ">
                     Completed
                 </div>
                 <div class="card-body ">
                     <div class="d-grid gap-2 ">
-                        <button id="task5" class="btn text-start draggable" type="button" draggable="true">Get Ingredients</button>
+                        <div id="task5" class="btn text-start draggable" type="button" draggable="true">Get Ingredients</div>
                     </div>
                 </div>
             </div>

@@ -1,16 +1,16 @@
-.task-group-waiting .card-header, .task-group-waiting .is-moved {
+.task-group.status-waiting .card-header, .status-waiting .is-moved {
     background: #ff8d23;
 }
 
-.task-group-not-started .card-header, .task-group-not-started .is-moved {
+.task-group.status-not-started .card-header, .status-not-started .is-moved {
     background: #ffcc23;
 }
 
-.task-group-in-progress .card-header, .task-group-in-progress .is-moved {
+.task-group.status-in-progress .card-header, .status-in-progress .is-moved {
     background: #46cbf4;
 }
 
-.task-group-completed .card-header, .task-group-completed .is-moved {
+.task-group.status-completed .card-header, .status-completed .is-moved {
     background: #00B961;
 }
 

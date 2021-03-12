@@ -13,7 +13,7 @@
 
     <hr>
 
-    <div class="row align-items-center mt-5 px-5">
+    <div class="row align-items-center mt-4 px-5">
         <h4>Notifications</h4>
         <hr>
     </div>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="row align-items-center mt-5 px-5">
+    <div class="row align-items-center mt-4 px-5">
         <h4>Projects</h4>
         <hr>
     </div>
@@ -57,9 +57,14 @@
             <label class="form-check-label" for="hideTasks">Hide Competed Tasks</label>
             <input class="form-check-input" type="checkbox" id="hideTasks">
         </div>
+        <div class="row mt-2 form-switch ps-0 position-relative align-items-center">
+            <label class="form-label mt-2" for="colorInput">Color</label>
+            <input type="color" class="form-control form-control-color choose-color position-absolute top-0 end-0" id="colorInput" value="#68fbe7" title="Choose your color">
+        </div>
+        
     </div>
 
-    <div class="row align-items-center mt-5 px-5">
+    <div class="row align-items-center mt-4 px-5">
         <h4>Account</h4>
         <hr>
     </div>

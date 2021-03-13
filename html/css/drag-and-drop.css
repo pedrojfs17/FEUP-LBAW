@@ -20,6 +20,6 @@
 }
 
 .draggable.is-moving {
-    transform: scale(1.2);
+    opacity: 0.2;
     background: rgba(153, 153, 153, 0.8);
 }

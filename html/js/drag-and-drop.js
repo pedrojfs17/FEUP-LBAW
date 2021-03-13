@@ -9,7 +9,7 @@ items.forEach(function(item) {
 
 taskGroups.forEach(function(group) {
     group.addEventListener('drop', handleDrop)
-    group.addEventListener('dragover', handleDragOver);
+    group.addEventListener('dragover', handleDrop);
 })
 
 function handleDrag() {
@@ -53,16 +53,4 @@ function handleDragEnd(e) {
 		}, 1000);
 	}, 100);
 }
-
-function handleDragOver(e) {
-    if (e.preventDefault) {
-        e.preventDefault();
-    }
-
-    return false;
-}
-
-
-
-
 

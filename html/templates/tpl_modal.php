@@ -234,7 +234,55 @@
                     </div>
                     <div>
                         <h5>Comments</h5>
-                        <input class="form-control" type="text" placeholder="Add comment">
+                        <div class="mb-3">
+                            <div class="comment mb-3">
+                                <div class="comment-body d-flex ms-2">
+                                    <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
+                                        Are you sure these are all the ingredients needed?
+                                    </div>
+                                    <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse" href="#comment1reply" role="button" aria-expanded="false" aria-controls="comment1reply">
+                                        <i class="bi bi-chat-text fs-5 text-muted"></i>
+                                    </a>
+                                </div>
+                                <div id="comment1reply" class="collapse">
+                                    <div class="comment-replies my-2 ms-5">
+                                        <div class="comment-body d-flex ms-2">
+                                            <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                            <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
+                                                For this first post we only need these. Maybe for another one we need more but they are in another task.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-footer d-flex mt-2 ms-5">
+                                        <input class="form-control me-3" type="text" placeholder="Add comment">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment mb-4">
+                                <div class="comment-body d-flex ms-2">
+                                    <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
+                                        I think you can assign this task to me.. I may be able to complete it quickly!
+                                    </div>
+                                    <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse" href="#comment2reply" role="button" aria-expanded="false" aria-controls="comment2reply">
+                                        <i class="bi bi-chat-text fs-5 text-muted"></i>
+                                    </a>
+                                </div>
+                                <div id="comment2reply" class="collapse">
+                                    <div class="comment-replies my-2 ms-5"></div>
+                                    <div class="comment-footer d-flex mt-2 ms-5">
+                                        <input class="form-control me-3" type="text" placeholder="Add comment">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <input class="form-control me-3" type="text" placeholder="Add comment">
+                            <button type="button" class="btn btn-primary">Comment</button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

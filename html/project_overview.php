@@ -199,9 +199,11 @@ include_once('templates/tpl_common.php');
     </div>
 </div>
 
-<?php draw_tasks_modal(1, "Get ingredients", ["Flour", "Water"], "Completed");?>
-<?php draw_tasks_modal(2, "Feed the culture", ["Drain culture"], "In progress");?>
-<?php draw_tasks_modal(3, "Bake", ["Remove Portion", "Put starter in fridge"], "Waiting");?>
-<?php draw_tasks_modal(4, "Prepare Description", ["Ingredients", "Process", "Cute Quote"], "Not started");?>
-<?php draw_tasks_modal(5, "Upload", [], "Waiting");?>
+<?php draw_tasks_modal(1, "Get ingredients", "None", [6 => "Go to the supermarket", 7 => "Go to farmer's market"], ["Flour", "Water"], "Completed");?>
+<?php draw_tasks_modal(2, "Feed the culture", "Feed the culture", [], ["Drain culture"], "In progress");?>
+<?php draw_tasks_modal(3, "Bake", "Feed the culture",  [],["Remove Portion", "Put starter in fridge"], "Waiting");?>
+<?php draw_tasks_modal(4, "Prepare Description", "None",  [],["Ingredients", "Process", "Cute Quote"], "Not started");?>
+<?php draw_tasks_modal(5, "Upload", "Prepare Description", [], [], "Waiting");?>
+<?php draw_tasks_modal(6, "Go to the supermarket", "None", [], ["Fill tank", "Bring own bag"], "Completed");?>
+<?php draw_tasks_modal(7, "Go to farmer's market", "None", [], ["Bring own bag"], "Completed");?>
 <?php draw_footer(); ?>

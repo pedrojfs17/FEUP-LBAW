@@ -188,7 +188,7 @@
     </div>
 <?php } ?>
 
-<?php function draw_tasks_modal($id, $title, $subtasks, $status)
+<?php function draw_tasks_modal($id, $title, $waiting_on, $subtasks, $checklist, $status)
 { ?>
     <div class="modal fade" id="tasks<?=$id?>Modal" tabindex="-1" aria-labelledby="tasks<?=$id?>ModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -206,16 +206,24 @@
                         <textarea style="height:75px;width:100%;" placeholder="Description"></textarea>
                     </div>
                     <div>
+                        <h5>Subtasks</h5>
+                        <div class="d-grid gap-2 my-3">
+                            <?php foreach ($subtasks as $id => $name) { ?>
+                                <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#tasks<?=$id?>Modal"><?=$name?></button>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div>
                         <h5 class=" d-inline-block mr-3">Checklist</h5>
                         <p class=" d-inline-block text-secondary">100%</p>
                         <div class="progress w-50" style="height:5px;">
                             <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-grid gap-2 my-3">
-                            <?php foreach ($subtasks as $t) { ?>
+                            <?php foreach ($checklist as $c) { ?>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <?= $t ?>
+                                        <?= $c ?>
                                     <input class="form-check-input" type="checkbox" value="" checked>
                                     </label>
                                 </div>
@@ -223,11 +231,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <p class="mb-1">Assigned to:</p>
                             <img class="rounded-circle" src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
+                            <p class="mb-1">Waiting on:</p>
+                            <h6><?=$waiting_on?></h6>
+                        </div>
+                        <div class="col-4">
                             <p class="mb-1">Deadline:</p>
                             <input type="date" class="form-control">
                         </div>
@@ -238,7 +250,7 @@
                             <div class="comment mb-3">
                                 <div class="comment-body d-flex ms-2">
                                     <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
-                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
+                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" c>
                                         Are you sure these are all the ingredients needed?
                                     </div>
                                     <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse" href="#comment1reply" role="button" aria-expanded="false" aria-controls="comment1reply">

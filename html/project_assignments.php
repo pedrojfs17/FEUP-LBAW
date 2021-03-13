@@ -2,7 +2,7 @@
     include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css"], ["assignments.js", "carousel.js"]); ?>
+<?php draw_header(["style.css", "overview.css"], ["text-bg.js", "carousel.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 
@@ -69,7 +69,7 @@
                         <div class="carousel-item active">
                             <div class="col-12 col-md-4">
                                 <div class="card mb-2">
-                                    <div class="card-header text-center" style="background-color: #68fbe7">
+                                    <div class="card-header text-center text-bg-check" style="background-color: #68fbe7">
                                         Pedro Jorge
                                     </div>
                                     <div class="card-body ">
@@ -84,7 +84,7 @@
                         <div class="carousel-item">
                             <div class="col-12 col-md-4">
                                 <div class="card mb-2">
-                                    <div class="card-header text-center" style="background-color: #eb4034">
+                                    <div class="card-header text-center text-bg-check" style="background-color: #eb4034">
                                         Antonio B.
                                     </div>
                                     <div class="card-body ">
@@ -99,7 +99,7 @@
                         <div class="carousel-item">
                             <div class="col-12 col-md-4">
                                 <div class="card mb-2">
-                                    <div class="card-header text-center" style="background-color: #f384f7">
+                                    <div class="card-header text-center text-bg-check" style="background-color: #f384f7">
                                         nenieats
                                     </div>
                                     <div class="card-body ">
@@ -115,7 +115,7 @@
                         <div class="carousel-item">
                             <div class="col-12 col-md-4">
                                 <div class="card mb-2">
-                                    <div class="card-header text-center" style="background-color: #d7fa2a">
+                                    <div class="card-header text-center text-bg-check" style="background-color: #d7fa2a">
                                         Gonçalo
                                     </div>
                                     <div class="card-body ">

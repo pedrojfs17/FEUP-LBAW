@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css"], []); ?>
+<?php draw_header(["style.css", "overview.css"], ["text-bg.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 
@@ -34,97 +34,166 @@ include_once('templates/tpl_common.php');
     </nav>
 </header>
 
-<div class="container-md d-flex flex-wrap align-content-start justify-content-center justify-content-md-start">
-    <div class="card m-2 " style="min-width: 300px;">
-        <div class=" card-header status-completed"></div>
+<div class="container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start">
+    <div class="card m-2" style="width: 300px;">
+        <div class="card-header status-completed"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title">Get Ingredients</h5>
-            <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start" type="button">Flour</button>
-                <button class="btn btn-light text-start" type="button">Water</button>
+
+            <div class="d-flex flex-sm-column flex-row my-2">
+                <div class="checklist my-auto">
+                    <span class="text-success px-0 py-0">
+                        <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">Completed</span>
+                    </span>
+                </div>
+                <div class="subtasks my-auto mx-1 mx-sm-0">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-list-check"></i> <span class="d-none d-sm-inline-block">1/2</span>
+                    </span>
+                </div>
+                <div class="waiting-on my-auto mx-1 mx-sm-0">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-clock"></i> <span class="d-none d-sm-inline-block">0/1</span>
+                    </span>
+                </div>
+                <div class="due-date my-auto mx-1 mx-sm-0">
+                    <span class="text-muted">
+                        <i class="bi bi-calendar-date"></i> <span class="d-none d-sm-inline-block">28/02/2021</span>
+                    </span>
+                </div>
             </div>
-            <div class="d-flex gap-2 my-3">
-                <p class="d-inline-block py-1 px-2 rounded bg-danger text-white" type="button ">must have</p>
+
+            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-danger text-bg-check" type="button ">must have</p>
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button ">cooking</p>
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button ">must</p>
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-success text-bg-check" type="button ">ingredients</p>
             </div>
-            <div class="d-flex justify-content-between mt-auto">
+
+            <div class="d-none d-sm-flex justify-content-between mt-2">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">2<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+
             <a data-bs-toggle="modal" data-bs-target="#tasks1Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
-    <div class="card m-2 " style="min-width: 300px;">
+    <div class="card m-2" style="width: 300px;">
         <div class="card-header status-in-progress"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Feed the culture</h5>
-            <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start" type="button">Drain culture</button>
+
+            <div class="d-flex flex-sm-column flex-row my-2">
+                <div class="checklist my-auto">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">0/1</span>
+                    </span>
+                </div>
             </div>
-            <div class="d-flex gap-2 my-3">
-                <p class="d-inline-block py-1 px-2 rounded bg-info " type="button ">must do</p>
-                <p class="d-inline-block py-1 px-2 rounded bg-warning " type="button ">routine</p>
+
+            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button">must do</p>
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button">routine</p>
             </div>
-            <span class="card-text"><i class="far fa-calendar-alt m-2"></i>28/02/2021</span>
-            <div class="d-flex justify-content-between mt-auto">
+
+            <div class="d-none d-sm-flex justify-content-between mt-2">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">1<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+
             <a data-bs-toggle="modal" data-bs-target="#tasks2Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
-    <div class="card m-2 " style="min-width: 300px;">
+    <div class="card m-2" style="width: 300px;">
         <div class="card-header status-waiting"></div>
 
-        <div class="card-body d-flex flex-column ">
+        <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Bake</h5>
-            <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start" type="button">Remove portion</button>
-                <button class="btn btn-light text-start" type="button">Put starter in fridge</button>
+
+            <div class="d-flex flex-sm-column flex-row my-2">
+                <div class="checklist my-auto">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">1/2</span>
+                    </span>
+                </div>
+                <div class="subtasks my-auto mx-1 mx-sm-0">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-list-check"></i> <span class="d-none d-sm-inline-block">0/1</span>
+                    </span>
+                </div>
             </div>
-            <div class="d-flex justify-content-between mt-auto">
+
+            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+            </div>
+
+            <div class="d-none d-sm-flex justify-content-between mt-2">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">0<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+
             <a data-bs-toggle="modal" data-bs-target="#tasks3Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
-    <div class="card m-2 " style="min-width: 300px;">
+    <div class="card m-2" style="width: 300px;">
         <div class="card-header status-not-started"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Prepare description</h5>
-            <div class="d-grid gap-2 my-3">
-                <button class="btn btn-light text-start" type="button">Ingredients</button>
-                <button class="btn btn-light text-start" type="button">Process</button>
-                <button class="btn btn-light text-start" type="button">Cute Quote</button>
+
+            <div class="d-flex flex-sm-column flex-row my-2">
+                <div class="checklist my-auto">
+                    <span class="text-secondary px-0 py-0">
+                        <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">2/3</span>
+                    </span>
+                </div>
+                <div class="subtasks my-auto mx-1 mx-sm-0">
+                    <span class="text-success px-0 py-0">
+                        <i class="bi bi-list-check"></i> <span class="d-none d-sm-inline-block">Completed</span>
+                    </span>
+                </div>
             </div>
-            <div class="d-flex justify-content-between mt-auto">
+
+            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+            </div>
+
+            <div class="d-none d-sm-flex justify-content-between mt-2">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">5<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+
             <a data-bs-toggle="modal" data-bs-target="#tasks4Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>
 
-    <div class="card m-2 " style="min-width: 300px;">
+    <div class="card m-2" style="width: 300px;">
         <div class="card-header status-waiting"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Upload</h5>
-            <div class="d-flex gap-2 my-3">
-                <p class="d-inline-block py-1 px-2 rounded bg-info ">instagram</p>
-                <p class="d-inline-block py-1 px-2 rounded bg-warning">twitter</p>
+
+            <div class="d-flex flex-sm-column flex-row my-2">
+                <div class="due-date my-auto mx-1 mx-sm-0">
+                    <span class="text-muted">
+                        <i class="bi bi-calendar-date"></i> <span class="d-none d-sm-inline-block">01/03/2021</span>
+                    </span>
+                </div>
             </div>
-            <span class="card-text "><i class="far fa-calendar-alt m-2"></i>01/03/2021</span>
-            <div class="d-flex justify-content-between mt-auto">
+
+            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button ">instagram</p>
+                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button ">twitter</p>
+            </div>
+
+            <div class="d-none d-sm-flex justify-content-between mt-2">
                 <img class="rounded-circle " src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                 <span class="text-end align-self-center ">6<i class="fas fa-comment-alt m-2"></i></span>
             </div>
+
             <a data-bs-toggle="modal" data-bs-target="#tasks5Modal" role="button" class="stretched-link p-0"></a>
         </div>
     </div>

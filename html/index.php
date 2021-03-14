@@ -28,7 +28,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-xl-1">
                     <div class="p-5">
-                        <h2 class="display-4">Organize yourself</h2>
+                        <h2 class="display-4">Organize it!</h2>
                         <p>Plan your social media effectively</p>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-xl-2">
                     <div class="p-5">
-                        <h2 class="display-4">Improve Yourself</h2>
+                        <h2 class="display-4">Improve Yourself!</h2>
                         <p>See how your social media is performing with our statistic tools</p>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1">
                     <div class="p-5">
-                        <h2 class="display-4">Go solo or go big</h2>
+                        <h2 class="display-4">Go solo or go big!</h2>
                         <p>Designed for big teams and individual creators</p>
                     </div>
                 </div>

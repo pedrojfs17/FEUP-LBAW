@@ -17,17 +17,17 @@
                             <form>
                                 <label for="nameInput" class="form-label">Name</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" placeholder="Pedro Jorge" class="form-control" id="nameInput">
+                                    <input type="text" placeholder="Your name here..." class="form-control" id="nameInput">
                                 </div>
 
                                 <label for="emailInput" class="form-label">Email</label>
                                 <div class="input-group mb-3">
-                                    <input type="email" placeholder="pmfriend98@gmail.com" class="form-control" id="emailInput">
+                                    <input type="email" placeholder="Your email here..." class="form-control" id="emailInput">
                                 </div>
 
                                 <label for="nameInput" class="form-label">Subject</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" placeholder="" class="form-control" id="subjectInput">
+                                    <input type="text" placeholder="Your question here..." class="form-control" id="subjectInput">
                                 </div>
 
                                 <label for="companyInput" class="form-label">How can we help?</label>

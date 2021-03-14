@@ -54,7 +54,7 @@
 
     <div class="row justify-content-center align-items-begin px-5">
         <div class="row mt-2 form-switch ps-0">
-            <label class="form-check-label" for="hideTasks">Hide Competed Tasks</label>
+            <label class="form-check-label" for="hideTasks">Hide Completed Tasks</label>
             <input class="form-check-input" type="checkbox" id="hideTasks">
         </div>
         <div class="row mt-3 form-switch ps-0">

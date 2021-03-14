@@ -55,16 +55,16 @@
             <div class="row mx-auto my-auto">
                 <div id="cardCarousel" class="gx-0 carousel carousel-dark slide w-100 d-flex justify-content-center flex-column flex-lg-row" data-bs-interval="false">
                     <div class="d-flex justify-content-evenly my-3 d-lg-none">
-                        <button class="w-auto border-0" data-bs-target="#cardCarousel" type="button" data-bs-slide="prev">
+                        <button class="w-auto border-0 bg-transparent" data-bs-target="#cardCarousel" type="button" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="w-auto border-0" data-bs-target="#cardCarousel" type="button" data-bs-slide="next">
+                        <button class="w-auto border-0 bg-transparent" data-bs-target="#cardCarousel" type="button" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>    
-                    <button class="w-auto border-0 d-none d-lg-block" data-bs-target="#cardCarousel" type="button" data-bs-slide="prev">
+                    <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel" type="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
@@ -130,7 +130,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="w-auto border-0 d-none d-lg-block" data-bs-target="#cardCarousel" type="button" data-bs-slide="next">
+                    <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel" type="button" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>

@@ -13,12 +13,12 @@
 
     <hr>
 
-    <div class="row align-items-center mt-4 px-5">
+    <div class="row align-items-center mt-4 px-sm-5 px-1">
         <h4>Notifications</h4>
         <hr>
     </div>
 
-    <div class="row justify-content-center align-items-begin px-5">
+    <div class="row justify-content-center align-items-begin px-sm-5 px-1">
         <div class="row mt-2 form-switch ps-0">
             <label class="form-check-label" for="allowNotifs">Allow Notifications</label>
             <input class="form-check-input" type="checkbox" id="allowNotifs">
@@ -47,12 +47,12 @@
         </div>
     </div>
 
-    <div class="row align-items-center mt-4 px-5">
+    <div class="row align-items-center mt-4 px-sm-5 px-1">
         <h4>Projects</h4>
         <hr>
     </div>
 
-    <div class="row justify-content-center align-items-begin px-5">
+    <div class="row justify-content-center align-items-begin px-sm-5 px-1">
         <div class="row mt-2 form-switch ps-0">
             <label class="form-check-label" for="hideTasks">Hide Completed Tasks</label>
             <input class="form-check-input" type="checkbox" id="hideTasks">
@@ -68,12 +68,12 @@
         
     </div>
 
-    <div class="row align-items-center mt-4 px-5">
+    <div class="row align-items-center mt-4 px-sm-5 px-1">
         <h4>Account</h4>
         <hr>
     </div>
 
-    <div class="row justify-content-center align-items-begin px-5">
+    <div class="row justify-content-center align-items-begin px-sm-5 px-1">
         <div class="d-grid gap-2">
             <p class="text-muted mb-2">Once you delete your account, there is no coming back...</p>
             <button class="btn btn-danger" type="button">Delete Account</button>

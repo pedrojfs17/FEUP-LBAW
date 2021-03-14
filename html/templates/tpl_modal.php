@@ -191,7 +191,7 @@
 <?php function draw_tasks_modal($id, $title, $waiting_on, $subtasks, $checklist, $status)
 { ?>
     <div class="modal fade" id="tasks<?=$id?>Modal" tabindex="-1" aria-labelledby="tasks<?=$id?>ModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks<?=$id?>ModalLabel">

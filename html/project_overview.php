@@ -30,7 +30,7 @@ include_once('templates/tpl_common.php');
                     <a class="nav-link" href="project_settings.php"><span class="d-lg-none">Preferences</span><i class="bi bi-gear me-2 d-none d-lg-inline-block"></i></a>
                 </li>
                 <li class="nav-item ms-lg-auto">
-                    <a class="nav-link d-flex align-items-center" style="margin-right: 0.5em !important;" href="#"><span class="mx-lg-2">Add Task</span> <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
+                    <a class="nav-link d-flex align-items-center" style="margin-right: 0.5em !important;" data-bs-toggle="modal" data-bs-target="#tasks0Modal"><span class="mx-lg-2">Add Task</span> <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
                 </li>
             </ul>
         </div>
@@ -203,10 +203,11 @@ include_once('templates/tpl_common.php');
 
     <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center" style="background-color: #efefef; border-style: dashed;">
         <i class="bi bi-plus-circle text-muted fs-2"></i>
-        <a data-bs-toggle="modal" data-bs-target="#tasks5Modal" role="button" class="stretched-link p-0"></a>
+        <a data-bs-toggle="modal" data-bs-target="#tasks0Modal" role="button" class="stretched-link p-0"></a>
     </div>
 </div>
 
+<?php draw_tasks_modal(0, "Title", "Description", [], [], "Not started");?>
 <?php draw_tasks_modal(1, "Get ingredients", "None", [6 => "Go to the supermarket", 7 => "Go to farmer's market"], ["Flour", "Water"], "Completed");?>
 <?php draw_tasks_modal(2, "Feed the culture", "Feed the culture", [], ["Drain culture"], "In progress");?>
 <?php draw_tasks_modal(3, "Bake", "Feed the culture",  [],["Remove Portion", "Put starter in fridge"], "Waiting");?>

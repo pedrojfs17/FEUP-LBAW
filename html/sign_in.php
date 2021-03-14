@@ -5,8 +5,10 @@
 <?php draw_header([], []); ?>
 
 <div class="container d-flex flex-column justify-content-center my-5">
-    <div class="row">
-        <img src="images/oversee_blue_txt.svg" height="90" alt="company logo"></a>
+    <div class="row justify-content-center">
+        <a href="index.php" style="width: auto;">
+            <img src="images/oversee_blue_txt.svg" height="90" alt="company logo">
+        </a>
     </div>
 
     <div class="row justify-content-center mt-5">

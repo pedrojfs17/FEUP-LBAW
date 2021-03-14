@@ -7,13 +7,13 @@ include_once('templates/tpl_common.php');
 <?php draw_nav_bar(FALSE) ?>
 
 <header class="page-header header container-md">
-    <nav class="navbar navbar-expand-md">
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="#">Sourdough Baking</a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview" aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-caret-down project-nav-toggler"></i>
         </button>
         <div class="collapse navbar-collapse" id="main-navigation-overview">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-lg-flex w-100 px-5 align-items-lg-center">
                 <li class="nav-item">
                     <a class="nav-link active" href="project_overview.php">Overview</a>
                 </li>
@@ -27,7 +27,10 @@ include_once('templates/tpl_common.php');
                     <a class="nav-link" href="project_statistics.php">Statistics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="project_settings.php"><i class="bi bi-gear me-2"></i></a>
+                    <a class="nav-link" href="project_settings.php"><span class="d-lg-none">Preferences</span><i class="bi bi-gear me-2 d-none d-lg-inline-block"></i></a>
+                </li>
+                <li class="nav-item ms-lg-auto">
+                    <a class="nav-link d-flex align-items-center" href="#"><span class="mx-lg-2">Add Task</span> <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
                 </li>
             </ul>
         </div>
@@ -196,6 +199,11 @@ include_once('templates/tpl_common.php');
 
             <a data-bs-toggle="modal" data-bs-target="#tasks5Modal" role="button" class="stretched-link p-0"></a>
         </div>
+    </div>
+
+    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center" style="background-color: #efefef; border-style: dashed;">
+        <i class="bi bi-plus-circle text-muted fs-2"></i>
+        <a data-bs-toggle="modal" data-bs-target="#tasks5Modal" role="button" class="stretched-link p-0"></a>
     </div>
 </div>
 

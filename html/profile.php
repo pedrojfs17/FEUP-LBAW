@@ -54,21 +54,21 @@
 
     <div class="row justify-content-center align-items-begin">
         <div class="col-lg-4">
-            <label for="inputPassword6" class="col-form-label">Old Password</label>
+            <label for="inputPassword6" class="col-form-label">Old Password <span class="text-muted">*</span></label>
             <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
             <span id="passwordHelpInline" class="form-text">
                 Must be 8-20 characters long.
             </span>
         </div>
         <div class="col-lg-4">
-            <label for="inputPassword6" class="col-form-label">New Password</label>
+            <label for="inputPassword6" class="col-form-label">New Password <span class="text-muted">*</span></label>
             <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
             <span id="passwordHelpInline" class="form-text">
                 Must be 8-20 characters long.
             </span>
         </div>
         <div class="col-lg-4">
-            <label for="inputPassword6" class="col-form-label">Repeat New Password</label>
+            <label for="inputPassword6" class="col-form-label">Repeat New Password <span class="text-muted">*</span></label>
             <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
             <span id="passwordHelpInline" class="form-text">
                 Must be 8-20 characters long.

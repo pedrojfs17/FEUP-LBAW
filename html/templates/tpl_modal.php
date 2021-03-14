@@ -30,7 +30,7 @@
                                         <h5 class="steps">Step 1 - 3</h5>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="projectNameInput" class="form-label">Name</label>
+                                        <label for="projectNameInput" class="form-label">Name <span class="text-muted">*</span></label>
                                         <input type="text" class="form-control" id="projectNameInput" placeholder="Add Project Title">
                                     </div>
                                     <div class="mb-3">

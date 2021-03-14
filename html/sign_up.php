@@ -5,8 +5,10 @@
 <?php draw_header([], []); ?>
 
 <div class="container d-flex flex-column justify-content-center my-5">
-    <div class="row">
-        <img src="images/oversee_blue_txt.svg" height="90" alt="company logo">
+    <div class="row justify-content-center">
+        <a href="index.php" style="width: auto;">
+            <img src="images/oversee_blue_txt.svg" height="90" alt="company logo">
+        </a>
     </div>
 
     <div class="row justify-content-center mt-5">
@@ -21,15 +23,15 @@
         <div class="col-xl-4 col-lg-5 col-md-7">
             <form>
                 <div class="mb-3">
-                    <label for="inputEmail" class="form-label">Email</label>
+                    <label for="inputEmail" class="form-label">Email <span class="text-muted">*</span></label>
                     <input type="email" class="form-control" id="inputEmail">
                 </div>
                 <div class="mb-3">
-                    <label for="inputUsername" class="form-label">Username</label>
+                    <label for="inputUsername" class="form-label">Username <span class="text-muted">*</span></label>
                     <input type="text" class="form-control" id="inputUsername">
                 </div>
                 <div class="mb-3">
-                    <label for="inputPassword" class="form-label">Password</label>
+                    <label for="inputPassword" class="form-label">Password <span class="text-muted">*</span></label>
                     <input type="password" class="form-control" id="inputPassword">
                 </div>
                 <div class="d-grid mt-4">

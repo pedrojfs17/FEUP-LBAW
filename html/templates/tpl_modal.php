@@ -191,7 +191,7 @@
 <?php function draw_tasks_modal($id, $title, $waiting_on, $subtasks, $checklist, $status)
 { ?>
     <div class="modal fade" id="tasks<?=$id?>Modal" tabindex="-1" aria-labelledby="tasks<?=$id?>ModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks<?=$id?>ModalLabel">
@@ -202,7 +202,7 @@
                     </nav>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-grid gap-4 px-5">
+                <div class="modal-body d-grid gap-4 px-sm-5">
                     <div>
                         <header>
                             <h3 class="d-inline-block"><?= $title ?></h3>
@@ -218,34 +218,54 @@
                             <?php } ?>
                         </div>
                     </div>
-                    <div>
-                        <h5 class=" d-inline-block mr-3">Checklist</h5>
-                        <p class=" d-inline-block text-secondary">100%</p>
-                        <div class="progress w-50" style="height:5px;">
-                            <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <h5 class=" d-inline-block mr-3">Checklist</h5>
+                            <p class=" d-inline-block text-secondary">100%</p>
+                            <div class="progress" style="height:5px;">
+                                <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="d-grid gap-2 my-3">
+                                <?php foreach ($checklist as $c) { ?>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <?= $c ?>
+                                        <input class="form-check-input" type="checkbox" value="" checked>
+                                        </label>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
-                        <div class="d-grid gap-2 my-3">
-                            <?php foreach ($checklist as $c) { ?>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <?= $c ?>
-                                    <input class="form-check-input" type="checkbox" value="" checked>
-                                    </label>
-                                </div>
-                            <?php } ?>
+                        <div class="col-12 col-lg-6">
+                            <h5 class=" d-inline-block mr-3">Tags</h5>
+                            <a class="text-muted float-end" data-bs-toggle="collapse" href="#task<?=$id?>CreateTag" role="button" aria-expanded="false" aria-controls="task<?=$id?>CreateTag"><i class="bi bi-plus-circle"></i></a>
+                            <div id="task<?=$id?>CreateTag" class="collapse mb-3">
+                                <form class="d-flex">
+                                    <input type="text" class="form-control" placeholder="Tag Name" aria-label="Tag name">
+                                    <input type="color" class="form-control form-control-color mx-2" value="#20c94d" title="Choose tag color">
+                                    <button type="submit" class="btn btn-outline-secondary flex-grow-1">Add</button>
+                                </form>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+                                <p class="d-inline-block m-0 py-1 px-2 rounded bg-danger text-bg-check" type="button"><small>must have</small></p>
+                                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button"><small>cooking</small></p>
+                                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button"><small>must</small></p>
+                                <p class="d-inline-block m-0 py-1 px-2 rounded bg-success text-bg-check" type="button"><small>ingredients</small></p>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
-                            <p class="mb-1">Assigned to:</p>
+                        <div class="col-lg-4 mb-4">
+                            <h5 class="mb-1">Assigned to:</h5>
                             <img class="rounded-circle" src="images/avatar.png " width="40px " height="40px " alt="avatar ">
                         </div>
-                        <div class="col-4">
-                            <p class="mb-1">Waiting on:</p>
+                        <div class="col-lg-4 mb-3">
+                            <h5 class="mb-1">Waiting on:</h5>
                             <h6><?=$waiting_on?></h6>
                         </div>
-                        <div class="col-4">
-                            <p class="mb-1">Deadline:</p>
+                        <div class="col-lg-4">
+                            <h5 class="mb-1">Deadline:</h5>
                             <input type="date" class="form-control">
                         </div>
                     </div>

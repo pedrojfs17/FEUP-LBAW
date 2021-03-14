@@ -57,6 +57,10 @@
             <label class="form-check-label" for="hideTasks">Hide Competed Tasks</label>
             <input class="form-check-input" type="checkbox" id="hideTasks">
         </div>
+        <div class="row mt-3 form-switch ps-0">
+            <label class="form-check-label" for="simpleTasks">Simplified Tasks</label>
+            <input class="form-check-input" type="checkbox" id="simpleTasks">
+        </div>
         <div class="row mt-2 form-switch ps-0 position-relative align-items-center">
             <label class="form-label mt-2" for="colorInput">Color</label>
             <input type="color" class="form-control form-control-color choose-color position-absolute top-0 end-0" id="colorInput" value="#68fbe7" title="Choose your color">

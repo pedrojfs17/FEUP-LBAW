@@ -38,6 +38,16 @@ header .navbar-collapse {
     }
 }
 
+#overview .card {
+    width: 300px;
+}
+
+@media (max-width: 655px) {
+    #overview .card {
+        width: 100%;
+    }
+}
+
 .project-nav-toggler::before {
     transition: transform .2s ease-in-out;
 }

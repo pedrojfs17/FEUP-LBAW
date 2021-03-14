@@ -34,14 +34,14 @@ include_once('templates/tpl_common.php');
     </nav>
 </header>
 
-<div class="container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start">
-    <div class="card m-2" style="width: 300px;">
+<div class="container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
+    <div class="card m-2">
         <div class="card-header status-completed"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title">Get Ingredients</h5>
 
-            <div class="d-flex flex-sm-column flex-row my-2">
+            <div class="d-flex flex-sm-column flex-row mb-2">
                 <div class="checklist my-auto">
                     <span class="text-success px-0 py-0">
                         <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">Completed</span>
@@ -65,10 +65,10 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-danger text-bg-check" type="button ">must have</p>
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button ">cooking</p>
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button ">must</p>
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-success text-bg-check" type="button ">ingredients</p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-danger text-bg-check" type="button"><small class="d-none d-sm-inline-block">must have</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">cooking</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">must</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-success text-bg-check" type="button"><small class="d-none d-sm-inline-block">ingredients</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">
@@ -80,13 +80,13 @@ include_once('templates/tpl_common.php');
         </div>
     </div>
 
-    <div class="card m-2" style="width: 300px;">
+    <div class="card m-2">
         <div class="card-header status-in-progress"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Feed the culture</h5>
 
-            <div class="d-flex flex-sm-column flex-row my-2">
+            <div class="d-flex flex-sm-column flex-row mb-2">
                 <div class="checklist my-auto">
                     <span class="text-secondary px-0 py-0">
                         <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">0/1</span>
@@ -95,8 +95,8 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button">must do</p>
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button">routine</p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">must do</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">routine</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">
@@ -108,13 +108,13 @@ include_once('templates/tpl_common.php');
         </div>
     </div>
 
-    <div class="card m-2" style="width: 300px;">
+    <div class="card m-2">
         <div class="card-header status-waiting"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Bake</h5>
 
-            <div class="d-flex flex-sm-column flex-row my-2">
+            <div class="d-flex flex-sm-column flex-row mb-2">
                 <div class="checklist my-auto">
                     <span class="text-secondary px-0 py-0">
                         <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">1/2</span>
@@ -139,13 +139,13 @@ include_once('templates/tpl_common.php');
         </div>
     </div>
 
-    <div class="card m-2" style="width: 300px;">
+    <div class="card m-2">
         <div class="card-header status-not-started"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Prepare description</h5>
 
-            <div class="d-flex flex-sm-column flex-row my-2">
+            <div class="d-flex flex-sm-column flex-row mb-2">
                 <div class="checklist my-auto">
                     <span class="text-secondary px-0 py-0">
                         <i class="bi bi-check2-circle"></i> <span class="d-none d-sm-inline-block">2/3</span>
@@ -170,13 +170,13 @@ include_once('templates/tpl_common.php');
         </div>
     </div>
 
-    <div class="card m-2" style="width: 300px;">
+    <div class="card m-2">
         <div class="card-header status-waiting"></div>
 
         <div class="card-body d-flex flex-column">
             <h5 class="card-title ">Upload</h5>
 
-            <div class="d-flex flex-sm-column flex-row my-2">
+            <div class="d-flex flex-sm-column flex-row mb-2">
                 <div class="due-date my-auto mx-1 mx-sm-0">
                     <span class="text-muted">
                         <i class="bi bi-calendar-date"></i> <span class="d-none d-sm-inline-block">01/03/2021</span>
@@ -185,8 +185,8 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button ">instagram</p>
-                <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button ">twitter</p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">instagram</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">twitter</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">

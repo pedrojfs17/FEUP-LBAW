@@ -194,7 +194,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tasks<?=$id?>ModalLabel">Details</h5>
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks<?=$id?>ModalLabel">
+                        <ol class="my-0 breadcrumb text-muted">
+                            <li class="breadcrumb-item"><a>Sourdough Baking</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><?=$title?></li>
+                        </ol>
+                    </nav>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-grid gap-4 px-5">
@@ -250,7 +255,7 @@
                             <div class="comment mb-3">
                                 <div class="comment-body d-flex ms-2">
                                     <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
-                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" c>
+                                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
                                         Are you sure these are all the ingredients needed?
                                     </div>
                                     <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse" href="#comment1reply" role="button" aria-expanded="false" aria-controls="comment1reply">

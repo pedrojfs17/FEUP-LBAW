@@ -1,27 +1,26 @@
-DROP TABLE IF EXISTS "user";
-DROP TABLE IF EXISTS admin;
-DROP TABLE IF EXISTS country;
-DROP TABLE IF EXISTS client;
-DROP TABLE IF EXISTS project;
-DROP TABLE IF EXISTS team_member;
-DROP TABLE IF EXISTS task;
-DROP TABLE IF EXISTS waiting_on;
-DROP TABLE IF EXISTS "assignment";
-DROP TABLE IF EXISTS tag;
-DROP TABLE IF EXISTS contains_tag;
-DROP TABLE IF EXISTS check_list_item;
-DROP TABLE IF EXISTS comment;
-DROP TABLE IF EXISTS social_media_account;
-DROP TABLE IF EXISTS associated_project_account;
-DROP TABLE IF EXISTS associated_client_account;
-DROP TABLE IF EXISTS report;
-DROP TABLE IF EXISTS notification;
-DROP TABLE IF EXISTS comment_notification;
-DROP TABLE IF EXISTS assignment_notification;
-DROP TABLE IF EXISTS project_notification;
-DROP TABLE IF EXISTS report_notification;
+DROP TABLE IF EXISTS "user" CASCADE;
+DROP TABLE IF EXISTS admin CASCADE;
+DROP TABLE IF EXISTS country CASCADE;
+DROP TABLE IF EXISTS client CASCADE;
+DROP TABLE IF EXISTS project CASCADE;
+DROP TABLE IF EXISTS team_member CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
+DROP TABLE IF EXISTS waiting_on CASCADE;
+DROP TABLE IF EXISTS "assignment" CASCADE;
+DROP TABLE IF EXISTS tag CASCADE;
+DROP TABLE IF EXISTS contains_tag CASCADE;
+DROP TABLE IF EXISTS check_list_item CASCADE;
+DROP TABLE IF EXISTS comment CASCADE;
+DROP TABLE IF EXISTS social_media_account CASCADE;
+DROP TABLE IF EXISTS associated_project_account CASCADE;
+DROP TABLE IF EXISTS associated_client_account CASCADE;
+DROP TABLE IF EXISTS report CASCADE;
+DROP TABLE IF EXISTS notification CASCADE;
+DROP TABLE IF EXISTS comment_notification CASCADE;
+DROP TABLE IF EXISTS assignment_notification CASCADE;
+DROP TABLE IF EXISTS project_notification CASCADE;
+DROP TABLE IF EXISTS report_notification CASCADE;
 
-DROP TYPE IF EXISTS today;
 DROP TYPE IF EXISTS status;
 DROP TYPE IF EXISTS gender;
 DROP TYPE IF EXISTS role;
@@ -103,15 +102,13 @@ CREATE TABLE task (
 CREATE TABLE waiting_on (
     task1 INTEGER NOT NULL REFERENCES task(id),
     task2 INTEGER NOT NULL REFERENCES task(id),
-    PRIMARY KEY (task1,task2)
+    PRIMARY KEY (task1, task2)
 );
 
--- Needs fix because team_member PK is (client, project) but we dont need to save the project id in the assginement
--- because it is already in the task
 CREATE TABLE "assignment" (
     task INTEGER NOT NULL REFERENCES task(id),
-    team_member INTEGER NOT NULL REFERENCES team_member(client_id),
-    PRIMARY KEY (task, team_member)
+    client INTEGER NOT NULL REFERENCES client(id),
+    PRIMARY KEY (task, client)
 );
 
 CREATE TABLE tag (
@@ -130,7 +127,7 @@ CREATE TABLE contains_tag (
 CREATE TABLE check_list_item (
     id SERIAL PRIMARY KEY,
     item_text VARCHAR NOT NULL,
-    completed BOOLEAN NOT NULL DEFAULT "false",
+    completed BOOLEAN NOT NULL DEFAULT FALSE,
     task INTEGER NOT NULL REFERENCES task(id) 
 );
 
@@ -138,7 +135,7 @@ CREATE TABLE comment (
     id SERIAL PRIMARY KEY,
     comment_text VARCHAR,
     task INTEGER NOT NULL REFERENCES task(id),
-    author INTEGER NOT NULL REFERENCES teamMember(id),
+    author INTEGER NOT NULL REFERENCES client(id),
     replyingTo INTEGER NOT NULL REFERENCES comment(id),
     comment_date TIMESTAMP NOT NULL
 );
@@ -171,7 +168,7 @@ CREATE TABLE report (
 CREATE TABLE notification (
     id SERIAL PRIMARY KEY,
     client INTEGER NOT NULL REFERENCES client(id),
-    seen BOOLEAN NOT NULL DEFAULT "false",
+    seen BOOLEAN NOT NULL DEFAULT FALSE,
     text VARCHAR NOT NULL
 );
 

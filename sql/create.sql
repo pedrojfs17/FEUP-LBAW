@@ -160,7 +160,7 @@ CREATE TABLE associated_client_account (
 
 CREATE TABLE report (
     id SERIAL PRIMARY KEY,
-    text VARCHAR NOT NULL,
+    report_text VARCHAR NOT NULL,
     reporter INTEGER NOT NULL REFERENCES client(id),
     reported INTEGER NOT NULL REFERENCES client(id)
 );

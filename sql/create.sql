@@ -72,13 +72,13 @@ CREATE TABLE client (
     avatar VARCHAR,
     color VARCHAR,
     client_gender gender DEFAULT 'Unspecified',
-    country INTEGER NOT NULL REFERENCES country(id)
+    country INTEGER REFERENCES country(id)
 );
 
 CREATE TABLE project (
     id SERIAL PRIMARY KEY,
-    proj_name VARCHAR NOT NULL,
-    proj_description VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
+    description VARCHAR NOT NULL,
     due_date DATE CHECK (due_date > CURRENT_DATE)
 );
 
@@ -92,10 +92,10 @@ CREATE TABLE team_member (
 CREATE TABLE task (
     id SERIAL PRIMARY KEY,
     project INTEGER NOT NULL REFERENCES project(id),
-    task_name VARCHAR NOT NULL,
-    task_description VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
+    description VARCHAR,
     due_date TIMESTAMP,
-    task_status status,
+    task_status status DEFAULT 'Not Started',
     parent_task INTEGER REFERENCES task(id)   
 );
 
@@ -113,9 +113,9 @@ CREATE TABLE "assignment" (
 
 CREATE TABLE tag (
     id SERIAL PRIMARY KEY,
-    project_id INTEGER NOT NULL REFERENCES project(id),
-    tag_name VARCHAR NOT NULL,
-    color VARCHAR
+    project INTEGER NOT NULL REFERENCES project(id),
+    name VARCHAR NOT NULL,
+    color VARCHAR NOT NULL
 );
 
 CREATE TABLE contains_tag (
@@ -136,7 +136,7 @@ CREATE TABLE comment (
     comment_text VARCHAR,
     task INTEGER NOT NULL REFERENCES task(id),
     author INTEGER NOT NULL REFERENCES client(id),
-    replyingTo INTEGER NOT NULL REFERENCES comment(id),
+    replying_to INTEGER REFERENCES comment(id),
     comment_date TIMESTAMP NOT NULL
 );
 
@@ -169,29 +169,25 @@ CREATE TABLE notification (
     id SERIAL PRIMARY KEY,
     client INTEGER NOT NULL REFERENCES client(id),
     seen BOOLEAN NOT NULL DEFAULT FALSE,
-    text VARCHAR NOT NULL
+    notification_text VARCHAR NOT NULL
 );
 
 CREATE TABLE comment_notification (
-    id SERIAL PRIMARY KEY,
-    notification INTEGER NOT NULL REFERENCES notification(id),
+    id INTEGER NOT NULL REFERENCES notification(id),
     comment INTEGER NOT NULL REFERENCES comment(id) 
 );
 
 CREATE TABLE assignment_notification (
-    id SERIAL PRIMARY KEY,
-    notification INTEGER NOT NULL REFERENCES notification(id),
+    id INTEGER NOT NULL REFERENCES notification(id),
     assignment INTEGER NOT NULL REFERENCES task(id)
 );
 
 CREATE TABLE project_notification (
-    id SERIAL PRIMARY KEY,
-    notification INTEGER NOT NULL REFERENCES notification(id),
+    id INTEGER NOT NULL REFERENCES notification(id),
     project INTEGER NOT NULL REFERENCES project(id)
 );
 
 CREATE TABLE report_notification (
-    id SERIAL PRIMARY KEY,
-    notification INTEGER NOT NULL REFERENCES notification(id),
+    id INTEGER NOT NULL REFERENCES notification(id),
     report INTEGER NOT NULL REFERENCES report(id)
 );

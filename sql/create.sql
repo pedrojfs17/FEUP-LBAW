@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS "user" CASCADE;
+DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
 DROP TABLE IF EXISTS client CASCADE;
@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS team_member CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS waiting_on CASCADE;
-DROP TABLE IF EXISTS "assignment" CASCADE;
+DROP TABLE IF EXISTS assignment CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
 DROP TABLE IF EXISTS contains_tag CASCADE;
 DROP TABLE IF EXISTS check_list_item CASCADE;
@@ -48,7 +48,7 @@ CREATE TYPE role as ENUM (
 
 -- Tables
 
-CREATE TABLE "user" (
+CREATE TABLE account (
     id SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE admin (
-    id INTEGER PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE  
+    id INTEGER PRIMARY KEY NOT NULL REFERENCES account(id) ON DELETE CASCADE  
 );
 
 CREATE TABLE country (
@@ -66,7 +66,7 @@ CREATE TABLE country (
 );
 
 CREATE TABLE client (
-    id INTEGER PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    id INTEGER PRIMARY KEY NOT NULL REFERENCES account(id) ON DELETE CASCADE,
     fullname VARCHAR,
     company VARCHAR,
     avatar VARCHAR,
@@ -105,7 +105,7 @@ CREATE TABLE waiting_on (
     PRIMARY KEY (task1, task2)
 );
 
-CREATE TABLE "assignment" (
+CREATE TABLE assignment (
     task INTEGER NOT NULL REFERENCES task(id) ON DELETE CASCADE,
     client INTEGER NOT NULL REFERENCES client(id) ON DELETE CASCADE,
     PRIMARY KEY (task, client)
@@ -149,13 +149,13 @@ CREATE TABLE social_media_account (
 CREATE TABLE associated_project_account (
     account INTEGER NOT NULL REFERENCES social_media_account(id) ON DELETE CASCADE,
     project INTEGER NOT NULL REFERENCES project ON DELETE CASCADE,
-    PRIMARY KEY (social_media_account, project)
+    PRIMARY KEY (account, project)
 );
 
 CREATE TABLE associated_client_account (
     account INTEGER NOT NULL REFERENCES social_media_account(id) ON DELETE CASCADE,
     client INTEGER NOT NULL REFERENCES client ON DELETE CASCADE,
-    PRIMARY KEY (social_media_account, client)
+    PRIMARY KEY (account, client)
 );
 
 CREATE TABLE report (

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS avatar CASCADE;
 DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
@@ -48,6 +49,11 @@ CREATE TYPE role as ENUM (
 
 -- Tables
 
+CREATE TABLE avatar (
+    id SERIAL PRIMARY KEY,
+    image bytea NOT NULL
+);
+
 CREATE TABLE account (
     id SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
@@ -69,8 +75,8 @@ CREATE TABLE client (
     id INTEGER PRIMARY KEY NOT NULL REFERENCES account(id) ON DELETE CASCADE,
     fullname VARCHAR,
     company VARCHAR,
-    avatar VARCHAR,
-    color VARCHAR,
+    client_avatar INTEGER NOT NULL REFERENCES avatar(id) ON DELETE CASCADE,
+    color VARCHAR NOT NULL,
     client_gender gender DEFAULT 'Unspecified',
     country INTEGER REFERENCES country(id) ON DELETE CASCADE  
 );

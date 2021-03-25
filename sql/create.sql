@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS report_notification CASCADE;
 DROP TYPE IF EXISTS status;
 DROP TYPE IF EXISTS gender;
 DROP TYPE IF EXISTS role;
+DROP TYPE IF EXISTS website;
 
 -- Types
 
@@ -45,6 +46,12 @@ CREATE TYPE role as ENUM (
     'Owner',
     'Editor',
     'Reader'
+);
+
+CREATE TYPE website as ENUM (
+    'Facebook',
+    'Instagram',
+    'Twitter'
 );
 
 -- Tables
@@ -148,6 +155,7 @@ CREATE TABLE comment (
 
 CREATE TABLE social_media_account (
     id SERIAL PRIMARY KEY,
+    social_media website NOT NULL,
     username VARCHAR NOT NULL,
     access_token VARCHAR NOT NULL
 );

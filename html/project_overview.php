@@ -9,7 +9,9 @@ include_once('templates/tpl_common.php');
 <header class="page-header header container-md">
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand text-dark" href="#">Sourdough Baking</a>
-        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
+                aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-caret-down project-nav-toggler"></i>
         </button>
         <div class="collapse navbar-collapse" id="main-navigation-overview">
@@ -27,17 +29,21 @@ include_once('templates/tpl_common.php');
                     <a class="nav-link" href="project_statistics.php">Statistics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="project_settings.php"><span class="d-lg-none">Preferences</span><i class="bi bi-gear me-2 d-none d-lg-inline-block"></i></a>
+                    <a class="nav-link" href="project_settings.php"><span class="d-lg-none">Preferences</span><i
+                                class="bi bi-gear me-2 d-none d-lg-inline-block"></i></a>
                 </li>
                 <li class="nav-item ms-lg-auto">
-                    <a class="nav-link d-flex align-items-center" style="margin-right: 0.5em !important;" data-bs-toggle="modal" data-bs-target="#tasks0Modal"><span class="mx-lg-2">Add Task</span> <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
+                    <a class="nav-link d-flex align-items-center" style="margin-right: 0.5em !important;"
+                       data-bs-toggle="modal" data-bs-target="#tasks0Modal"><span class="mx-lg-2">Add Task</span> <i
+                                class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
 
-<div class="container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
+<div class="container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start"
+     id="overview">
     <div class="card m-2">
         <div class="card-header status-completed"></div>
 
@@ -68,10 +74,14 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-danger text-bg-check" type="button"><small class="d-none d-sm-inline-block">must have</small></p>
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">cooking</small></p>
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">must</small></p>
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-success text-bg-check" type="button"><small class="d-none d-sm-inline-block">ingredients</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-danger text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">must have</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">cooking</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">must</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-success text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">ingredients</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">
@@ -98,8 +108,10 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">must do</small></p>
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">routine</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">must do</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">routine</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">
@@ -188,8 +200,10 @@ include_once('templates/tpl_common.php');
             </div>
 
             <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small class="d-none d-sm-inline-block">instagram</small></p>
-                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small class="d-none d-sm-inline-block">twitter</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-info text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">instagram</small></p>
+                <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded bg-warning text-bg-check" type="button"><small
+                            class="d-none d-sm-inline-block">twitter</small></p>
             </div>
 
             <div class="d-none d-sm-flex justify-content-between mt-2">
@@ -201,18 +215,19 @@ include_once('templates/tpl_common.php');
         </div>
     </div>
 
-    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center" style="background-color: #efefef; border-style: dashed;">
+    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
+         style="background-color: #efefef; border-style: dashed;">
         <i class="bi bi-plus-circle text-muted fs-2"></i>
         <a data-bs-toggle="modal" data-bs-target="#tasks0Modal" role="button" class="stretched-link p-0"></a>
     </div>
 </div>
 
-<?php draw_tasks_modal(0, "Title", "Description", [], [], "Not started");?>
-<?php draw_tasks_modal(1, "Get ingredients", "None", [6 => "Go to the supermarket", 7 => "Go to farmer's market"], ["Flour", "Water"], "Completed");?>
-<?php draw_tasks_modal(2, "Feed the culture", "Feed the culture", [], ["Drain culture"], "In progress");?>
-<?php draw_tasks_modal(3, "Bake", "Feed the culture",  [],["Remove Portion", "Put starter in fridge"], "Waiting");?>
-<?php draw_tasks_modal(4, "Prepare Description", "None",  [],["Ingredients", "Process", "Cute Quote"], "Not started");?>
-<?php draw_tasks_modal(5, "Upload", "Prepare Description", [], [], "Waiting");?>
-<?php draw_tasks_modal(6, "Go to the supermarket", "None", [], ["Fill tank", "Bring own bag"], "Completed");?>
-<?php draw_tasks_modal(7, "Go to farmer's market", "None", [], ["Bring own bag"], "Completed");?>
+<?php draw_tasks_modal(0, "Title", "Description", [], [], "Not started"); ?>
+<?php draw_tasks_modal(1, "Get ingredients", "None", [6 => "Go to the supermarket", 7 => "Go to farmer's market"], ["Flour", "Water"], "Completed"); ?>
+<?php draw_tasks_modal(2, "Feed the culture", "Feed the culture", [], ["Drain culture"], "In progress"); ?>
+<?php draw_tasks_modal(3, "Bake", "Feed the culture", [], ["Remove Portion", "Put starter in fridge"], "Waiting"); ?>
+<?php draw_tasks_modal(4, "Prepare Description", "None", [], ["Ingredients", "Process", "Cute Quote"], "Not started"); ?>
+<?php draw_tasks_modal(5, "Upload", "Prepare Description", [], [], "Waiting"); ?>
+<?php draw_tasks_modal(6, "Go to the supermarket", "None", [], ["Fill tank", "Bring own bag"], "Completed"); ?>
+<?php draw_tasks_modal(7, "Go to farmer's market", "None", [], ["Bring own bag"], "Completed"); ?>
 <?php draw_footer(); ?>

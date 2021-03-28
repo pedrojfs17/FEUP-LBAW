@@ -118,8 +118,13 @@ CREATE TABLE task
     description VARCHAR,
     due_date    TIMESTAMP,
     task_status status DEFAULT 'Not Started',
-    parent_task INTEGER REFERENCES task (id) ON DELETE CASCADE,
     search      TSVECTOR
+);
+
+CREATE TABLE subtask
+(
+    id     INTEGER PRIMARY KEY REFERENCES task (id) ON DELETE CASCADE,
+    parent INTEGER NOT NULL REFERENCES task (id) ON DELETE CASCADE
 );
 
 CREATE TABLE waiting_on
@@ -162,11 +167,16 @@ CREATE TABLE check_list_item
 CREATE TABLE comment
 (
     id           SERIAL PRIMARY KEY,
-    comment_text VARCHAR,
     task         INTEGER   NOT NULL REFERENCES task (id) ON DELETE CASCADE,
     author       INTEGER   NOT NULL REFERENCES client (id) ON DELETE SET NULL,
-    replying_to  INTEGER REFERENCES comment (id) ON DELETE CASCADE,
     comment_date TIMESTAMP NOT NULL
+    comment_text VARCHAR,
+);
+
+CREATE TABLE comment_reply
+(
+    id     INTEGER PRIMARY KEY REFERENCES comment (id) ON DELETE CASCADE,
+    parent INTEGER NOT NULL REFERENCES comment (id) ON DELETE CASCADE
 );
 
 CREATE TABLE social_media_account

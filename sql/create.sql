@@ -126,7 +126,7 @@ CREATE TABLE invite
 (
     project_id  INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
     client_id   INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE,
-    accepted    BOOLEAN NOT NULL DEFAULT FALSE,
+    accepted    BOOLEAN,
     PRIMARY KEY (project_id, client_id)
 );
 

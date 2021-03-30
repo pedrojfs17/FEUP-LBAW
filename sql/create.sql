@@ -118,7 +118,7 @@ CREATE TABLE project
     id          SERIAL PRIMARY KEY,
     name        VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
-    due_date    DATE CHECK (due_date > CURRENT_DATE),
+    due_date    TIMESTAMP CHECK (due_date > CURRENT_DATE),
     search      TSVECTOR
 );
 
@@ -144,7 +144,7 @@ CREATE TABLE task
     project     INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
     name        VARCHAR NOT NULL,
     description VARCHAR,
-    due_date    TIMESTAMP,
+    due_date    TIMESTAMP CHECK (due_date > (SELECT project.due_date FROM project WHERE task.project = project.id)),
     task_status status DEFAULT 'Not Started',
     search      TSVECTOR
 );

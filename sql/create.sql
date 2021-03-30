@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
 DROP TABLE IF EXISTS client CASCADE;
 DROP TABLE IF EXISTS project CASCADE;
+DROP TABLE IF EXISTS invite CASCADE;
 DROP TABLE IF EXISTS team_member CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS waiting_on CASCADE;
@@ -21,11 +22,13 @@ DROP TABLE IF EXISTS comment_notification CASCADE;
 DROP TABLE IF EXISTS assignment_notification CASCADE;
 DROP TABLE IF EXISTS project_notification CASCADE;
 DROP TABLE IF EXISTS report_notification CASCADE;
+DROP TABLE IF EXISTS user_support CASCADE;
 
 DROP TYPE IF EXISTS status;
 DROP TYPE IF EXISTS gender;
 DROP TYPE IF EXISTS role;
 DROP TYPE IF EXISTS website;
+DROP TYPE IF EXISTS report_state;
 
 -- Types
 
@@ -52,6 +55,12 @@ CREATE TYPE website as ENUM (
     'Facebook',
     'Instagram',
     'Twitter'
+    );
+
+CREATE TYPE report_state as ENUM (
+    'Pending',
+    'Ignored',
+    'Banned'
     );
 
 -- Tables
@@ -84,13 +93,22 @@ CREATE TABLE country
 
 CREATE TABLE client
 (
-    id            INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
-    fullname      VARCHAR,
-    company       VARCHAR,
-    client_avatar INTEGER             NOT NULL REFERENCES avatar (id) ON DELETE CASCADE,
-    color         VARCHAR             NOT NULL,
-    client_gender gender DEFAULT 'Unspecified',
-    country       INTEGER REFERENCES country (id) ON DELETE CASCADE
+    id                INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
+    fullname          VARCHAR,
+    company           VARCHAR,
+    client_avatar     INTEGER             NOT NULL REFERENCES avatar (id) ON DELETE CASCADE,
+    client_gender     gender DEFAULT 'Unspecified',
+    country           INTEGER REFERENCES country (id) ON DELETE CASCADE,
+    allowNoti         BOOLEAN             NOT NULL,
+    inviteNoti        BOOLEAN             NOT NULL,
+    memberNoti        BOOLEAN             NOT NULL,
+    assignNoti        BOOLEAN             NOT NULL,
+    waitingNoti       BOOLEAN             NOT NULL,
+    commentNoti       BOOLEAN             NOT NULL,
+    reportNoti        BOOLEAN             NOT NULL,
+    hideCompleted     BOOLEAN             NOT NULL,
+    simplifiedTasks   BOOLEAN             NOT NULL,
+    color             VARCHAR             NOT NULL
 );
 
 CREATE TABLE project
@@ -100,6 +118,14 @@ CREATE TABLE project
     description VARCHAR NOT NULL,
     due_date    DATE CHECK (due_date > CURRENT_DATE),
     search      TSVECTOR
+);
+
+CREATE TABLE invite 
+(
+    project_id  INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
+    client_id   INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE,
+    accepted    BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (project_id, client_id)
 );
 
 CREATE TABLE team_member
@@ -168,9 +194,9 @@ CREATE TABLE comment
 (
     id           SERIAL PRIMARY KEY,
     task         INTEGER   NOT NULL REFERENCES task (id) ON DELETE CASCADE,
-    author       INTEGER   NOT NULL REFERENCES client (id) ON DELETE SET NULL,
-    comment_date TIMESTAMP NOT NULL
-    comment_text VARCHAR,
+    author       INTEGER   REFERENCES client (id) ON DELETE SET NULL,
+    comment_date TIMESTAMP NOT NULL,
+    comment_text VARCHAR
 );
 
 CREATE TABLE comment_reply
@@ -205,6 +231,7 @@ CREATE TABLE report
 (
     id          SERIAL PRIMARY KEY,
     report_text VARCHAR NOT NULL,
+    state       report_state NOT NULL DEFAULT 'Pending',
     reporter    INTEGER REFERENCES client (id) ON DELETE SET NULL,
     reported    INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE
 );
@@ -239,4 +266,15 @@ CREATE TABLE report_notification
 (
     id     INTEGER NOT NULL REFERENCES notification (id) ON DELETE CASCADE,
     report INTEGER NOT NULL REFERENCES report (id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_support
+(
+    id        SERIAL PRIMARY KEY,
+    email     VARCHAR NOT NULL,
+    name      VARCHAR,
+    subject   VARCHAR NOT NULL,
+    body      VARCHAR NOT NULL,
+    responded BOOLEAN NOT NULL DEFAULT FALSE,
+    response  VARCHAR
 );

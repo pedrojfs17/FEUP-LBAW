@@ -32,6 +32,7 @@ DROP TYPE IF EXISTS role;
 DROP TYPE IF EXISTS website;
 DROP TYPE IF EXISTS report_state;
 
+
 -- Types
 
 CREATE TYPE status as ENUM (
@@ -64,6 +65,7 @@ CREATE TYPE report_state as ENUM (
     'Ignored',
     'Banned'
     );
+
 
 -- Tables
 
@@ -144,7 +146,7 @@ CREATE TABLE task
     project     INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
     name        VARCHAR NOT NULL,
     description VARCHAR,
-    due_date    TIMESTAMP CHECK (due_date > (SELECT project.due_date FROM project WHERE task.project = project.id)),
+    due_date    TIMESTAMP,
     task_status status DEFAULT 'Not Started',
     search      TSVECTOR
 );
@@ -280,3 +282,256 @@ CREATE TABLE user_support
     responded BOOLEAN NOT NULL DEFAULT FALSE,
     response  VARCHAR
 );
+
+
+-- Functions
+
+CREATE OR REPLACE FUNCTION client_search_update() RETURNS TRIGGER AS 
+$BODY$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.search = (SELECT setweight(to_tsvector(coalesce(NEW.fullname, '')), 'A') || setweight(to_tsvector(coalesce(NEW.company, '')), 'B'));
+    ELSIF TG_OP = 'UPDATE' AND (NEW.fullname <> OLD.fullname OR NEW.company <> OLD.company) THEN
+        NEW.search = (SELECT setweight(to_tsvector(coalesce(NEW.fullname, '')), 'A') || setweight(to_tsvector(coalesce(NEW.company, '')), 'B'));
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+CREATE OR REPLACE FUNCTION project_search_update() RETURNS TRIGGER AS 
+$BODY$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+CREATE OR REPLACE FUNCTION task_search_update() RETURNS TRIGGER AS 
+$BODY$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+CREATE OR REPLACE FUNCTION assign_tag() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF NOT EXISTS (SELECT * FROM tag, task WHERE NEW.task = task.id AND NEW.tag = tag.id AND tag.project = task.project) THEN
+        RAISE EXCEPTION 'Tag does not belong to this project';
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION assign_member() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF NOT EXISTS (SELECT * FROM team_member, task WHERE NEW.task = task.id AND NEW.client = team_member.client AND team_member.project = task.project) THEN
+        RAISE EXCEPTION 'Client is not a member of project';
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION check_task_date() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF NEW.due_date > (SELECT project.due_date FROM project WHERE NEW.project = project.id)
+    THEN RAISE EXCEPTION 'Date is greater than the projects date';
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION check_sub_date() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF (SELECT due_date FROM task WHERE NEW.id = task.id) > (SELECT due_date FROM task WHERE NEW.parent = task.id)
+    THEN RAISE EXCEPTION 'Date is greater than that of its parent task';
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_project_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    INSERT INTO notification (client,seen,notification_text)
+    SELECT team_member.client_id, false, concat((SELECT username FROM account where NEW.client_id = id)," joined ",(SELECT name FROM project where NEW.project_id = id))
+    FROM team_member
+    WHERE team_member.project_id = NEW.project_id and team_member.client_id != NEW.client_id 
+    RETURNING notification_id;
+    INSERT INTO project_notification VALUES (notification_id, NEW.project_id);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_assignment_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    INSERT INTO notification (client,seen,notification_text)
+    SELECT team_member.client, false, concat((SELECT username FROM account where NEW.client_id = id)," was assigned to ",(SELECT name FROM task where NEW.task = id))
+    FROM team_member 
+    WHERE team_member.project_id = (SELECT project_i FROM task WHERE task.id = NEW.task)
+    RETURNING notification_id;
+    INSERT INTO assignement_notification VALUES (notification_id, NEW.task);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    INSERT INTO notification (client,seen,notification_text)
+    SELECT assignment.client, false, concat((SELECT username FROM account where NEW.client = id)," commented on task ",(SELECT name FROM task where NEW.task = id))
+    FROM assignment
+    WHERE assignment.task = NEW.task
+    RETURNING notification_id;
+    INSERT INTO comment_notification VALUES (notification_id, NEW.id);
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+-- add_report_notification
+
+
+CREATE OR REPLACE FUNCTION add_members(project_id INT,client_ids integer[]) RETURNS VOID AS
+$BODY$
+BEGIN
+   INSERT INTO team_member VALUES (c_id,project_id, 'Reader');
+   SELECT * FROM unnest(client_ids);  -- must be in FROM list
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+-- Triggers
+
+DROP TRIGGER IF EXISTS insert_client_search ON client;
+DROP TRIGGER IF EXISTS update_client_search ON client;
+DROP TRIGGER IF EXISTS insert_project_search ON project;
+DROP TRIGGER IF EXISTS update_project_search ON project;
+DROP TRIGGER IF EXISTS insert_task_search ON task;
+DROP TRIGGER IF EXISTS update_task_search ON task;
+DROP TRIGGER IF EXISTS assign_tag ON contains_tag;
+DROP TRIGGER IF EXISTS assign_member ON assignment;
+DROP TRIGGER IF EXISTS check_task_date ON task;
+DROP TRIGGER IF EXISTS check_sub_date ON subtask;
+DROP TRIGGER IF EXISTS add_project_notification ON team_member;
+DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
+DROP TRIGGER IF EXISTS add_comment_notification ON comment;
+
+
+-- TRIGGER01
+CREATE TRIGGER insert_client_search 
+    AFTER INSERT ON client
+    FOR EACH ROW 
+    EXECUTE PROCEDURE client_search_update();
+
+CREATE TRIGGER update_client_search 
+    AFTER UPDATE ON client
+    FOR EACH ROW 
+    EXECUTE PROCEDURE client_search_update();
+
+
+-- TRIGGER02
+CREATE TRIGGER insert_project_search 
+    AFTER INSERT ON project
+    FOR EACH ROW 
+    EXECUTE PROCEDURE project_search_update();
+
+CREATE TRIGGER update_project_search 
+    AFTER UPDATE ON project
+    FOR EACH ROW 
+    EXECUTE PROCEDURE project_search_update();
+
+
+-- TRIGGER03
+CREATE TRIGGER insert_task_search 
+    AFTER INSERT ON task
+    FOR EACH ROW 
+    EXECUTE PROCEDURE task_search_update();
+
+CREATE TRIGGER update_task_search 
+    AFTER UPDATE ON task
+    FOR EACH ROW 
+    EXECUTE PROCEDURE task_search_update();
+
+
+-- TRIGGER04
+CREATE TRIGGER assign_tag
+    BEFORE INSERT ON contains_tag
+    FOR EACH ROW 
+    EXECUTE PROCEDURE assign_tag();
+
+
+-- TRIGGER05
+CREATE TRIGGER assign_member
+    BEFORE INSERT ON assignment
+    FOR EACH ROW 
+    EXECUTE PROCEDURE assign_member();
+
+
+-- TRIGGER06
+CREATE TRIGGER check_task_date
+    BEFORE INSERT OR UPDATE ON task
+    FOR EACH ROW 
+    EXECUTE PROCEDURE check_task_date();
+
+
+-- TRIGGER07
+CREATE TRIGGER check_sub_date
+    BEFORE INSERT OR UPDATE ON subtask
+    FOR EACH ROW 
+    EXECUTE PROCEDURE check_sub_date();
+
+
+-- TRIGGER08
+CREATE TRIGGER add_project_notification
+    AFTER INSERT ON team_member
+    FOR EACH ROW 
+    EXECUTE PROCEDURE add_project_notification();
+
+
+-- TRIGGER09
+CREATE TRIGGER add_assignment_notification
+    AFTER INSERT ON assignment
+    FOR EACH ROW 
+    EXECUTE PROCEDURE add_assignment_notification();
+
+
+-- TRIGGER010
+CREATE TRIGGER add_comment_notification
+    AFTER INSERT ON comment
+    FOR EACH ROW 
+    EXECUTE PROCEDURE add_comment_notification();
+
+
+-- TRIGGER11
+-- report notification

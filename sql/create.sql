@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS avatar CASCADE;
 DROP TABLE IF EXISTS account CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
@@ -69,12 +68,6 @@ CREATE TYPE report_state as ENUM (
 
 -- Tables
 
-CREATE TABLE avatar
-(
-    id    SERIAL PRIMARY KEY,
-    image bytea NOT NULL
-);
-
 CREATE TABLE account
 (
     id       SERIAL PRIMARY KEY,
@@ -100,7 +93,7 @@ CREATE TABLE client
     id              INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
     fullname        VARCHAR,
     company         VARCHAR,
-    client_avatar   INTEGER             NOT NULL REFERENCES avatar (id) ON DELETE CASCADE,
+    avatar          VARCHAR,
     client_gender   gender DEFAULT 'Unspecified',
     country         INTEGER REFERENCES country (id) ON DELETE CASCADE,
     allowNoti       BOOLEAN             NOT NULL,

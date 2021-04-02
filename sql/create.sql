@@ -199,7 +199,7 @@ CREATE TABLE comment
     id           SERIAL PRIMARY KEY,
     task         INTEGER   NOT NULL REFERENCES task (id) ON DELETE CASCADE,
     author       INTEGER   REFERENCES client (id) ON DELETE SET NULL,
-    comment_date TIMESTAMP NOT NULL,
+    comment_date TIMESTAMP NOT NULL DEFAULT NOW(),
     comment_text VARCHAR
 );
 
@@ -245,6 +245,7 @@ CREATE TABLE notification
     id                SERIAL PRIMARY KEY,
     client            INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE,
     seen              BOOLEAN NOT NULL DEFAULT FALSE,
+    notification_date TIMESTAMP NOT NULL DEFAULT NOW(),
     notification_text VARCHAR NOT NULL
 );
 
@@ -379,8 +380,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION add_project_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client,seen,notification_text)
-    SELECT team_member.client_id, false, concat((SELECT username FROM account where NEW.client_id = id)," joined ",(SELECT name FROM project where NEW.project_id = id))
+    INSERT INTO notification (client, notification_text)
+    SELECT team_member.client_id, concat((SELECT username FROM account where NEW.client_id = id)," joined ",(SELECT name FROM project where NEW.project_id = id))
     FROM team_member
     WHERE team_member.project_id = NEW.project_id and team_member.client_id != NEW.client_id 
     RETURNING notification_id;
@@ -393,8 +394,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION add_assignment_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client,seen,notification_text)
-    SELECT team_member.client, false, concat((SELECT username FROM account where NEW.client_id = id)," was assigned to ",(SELECT name FROM task where NEW.task = id))
+    INSERT INTO notification (client, notification_text)
+    SELECT team_member.client, concat((SELECT username FROM account where NEW.client_id = id)," was assigned to ",(SELECT name FROM task where NEW.task = id))
     FROM team_member 
     WHERE team_member.project_id = (SELECT project_i FROM task WHERE task.id = NEW.task)
     RETURNING notification_id;
@@ -407,8 +408,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client,seen,notification_text)
-    SELECT assignment.client, false, concat((SELECT username FROM account where NEW.client = id)," commented on task ",(SELECT name FROM task where NEW.task = id))
+    INSERT INTO notification (client, notification_text)
+    SELECT assignment.client, concat((SELECT username FROM account where NEW.client = id)," commented on task ",(SELECT name FROM task where NEW.task = id))
     FROM assignment
     WHERE assignment.task = NEW.task
     RETURNING notification_id;
@@ -418,7 +419,16 @@ $BODY$
 LANGUAGE plpgsql;
 
 
--- add_report_notification
+CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    INSERT INTO notification (client, notification_text)
+    (NEW.reporter, concat("Your report has been reviewed! Decision: ", NEW.state, "!"))
+    RETURNING notification_id;
+    INSERT INTO report_notification VALUES (notification_id, NEW.id);
+END;
+$BODY$
+LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_members(project_id INT,client_ids integer[]) RETURNS VOID AS
@@ -446,6 +456,7 @@ DROP TRIGGER IF EXISTS check_sub_date ON subtask;
 DROP TRIGGER IF EXISTS add_project_notification ON team_member;
 DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
 DROP TRIGGER IF EXISTS add_comment_notification ON comment;
+DROP TRIGGER IF EXISTS add_report_notification ON report;
 
 
 -- TRIGGER01
@@ -534,4 +545,75 @@ CREATE TRIGGER add_comment_notification
 
 
 -- TRIGGER11
--- report notification
+CREATE TRIGGER add_report_notification
+    AFTER UPDATE OF state ON report
+    FOR EACH ROW 
+    EXECUTE PROCEDURE add_report_notification();
+
+
+-- Indexes
+
+DROP INDEX IF EXISTS client_member_index;
+DROP INDEX IF EXISTS project_member_index;
+DROP INDEX IF EXISTS task_index;
+DROP INDEX IF EXISTS subtask_index;
+DROP INDEX IF EXISTS waiting_index;
+DROP INDEX IF EXISTS task_assign_index;
+DROP INDEX IF EXISTS client_assign_index;
+DROP INDEX IF EXISTS tag_index;
+DROP INDEX IF EXISTS task_tag_index;
+DROP INDEX IF EXISTS tag_task_index;
+DROP INDEX IF EXISTS check_list_index;
+DROP INDEX IF EXISTS comment_index;
+DROP INDEX IF EXISTS notification_index;
+DROP INDEX IF EXISTS search_client;
+DROP INDEX IF EXISTS search_project;
+DROP INDEX IF EXISTS search_task;
+
+-- IDX01
+CREATE INDEX client_member_index ON team_member USING hash(client_id);
+
+-- IDX02
+CREATE INDEX project_member_index ON team_member USING hash(project_id);
+
+-- IDX03
+CREATE INDEX task_index ON task USING hash(project);
+
+-- IDX04
+CREATE INDEX subtask_index ON subtask USING hash(parent);
+
+-- IDX05
+CREATE INDEX waiting_index ON subtask USING hash(task1);
+
+-- IDX06
+CREATE INDEX task_assign_index ON assigment USING hash(task);
+
+-- IDX07
+CREATE INDEX client_assign_index ON assigment USING hash(task);
+
+-- IDX08
+CREATE INDEX tag_index ON tag USING hash(project);
+
+-- IDX09
+CREATE INDEX task_tag_index ON contains_tag USING hash(task);
+
+-- IDX10
+CREATE INDEX tag_task_index ON contains_tag USING hash(tag);
+
+-- IDX11
+CREATE INDEX check_list_index ON check_list_item USING hash(task);
+
+-- IDX12
+CREATE INDEX comment_index ON comment USING btree(task, comment_date);
+
+-- IDX13
+CREATE INDEX notification_index ON notification USING btree(client, notification_date);
+
+-- IDX14
+CREATE INDEX search_client ON client USING GIN (search);
+
+-- IDX15
+CREATE INDEX search_project ON project USING GIN (search);
+
+-- IDX16
+CREATE INDEX search_task ON task USING GIN (search);

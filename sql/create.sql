@@ -78,7 +78,7 @@ CREATE TABLE avatar
 CREATE TABLE account
 (
     id       SERIAL PRIMARY KEY,
-    username VARCHAR UNIQUE,
+    username VARCHAR UNIQUE NOT NULL ,
     password VARCHAR        NOT NULL,
     email    VARCHAR UNIQUE NOT NULL
 );

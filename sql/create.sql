@@ -96,15 +96,15 @@ CREATE TABLE client
     avatar          VARCHAR,
     client_gender   gender DEFAULT 'Unspecified',
     country         INTEGER REFERENCES country (id) ON DELETE CASCADE,
-    allowNoti       BOOLEAN             NOT NULL,
-    inviteNoti      BOOLEAN             NOT NULL,
-    memberNoti      BOOLEAN             NOT NULL,
-    assignNoti      BOOLEAN             NOT NULL,
-    waitingNoti     BOOLEAN             NOT NULL,
-    commentNoti     BOOLEAN             NOT NULL,
-    reportNoti      BOOLEAN             NOT NULL,
-    hideCompleted   BOOLEAN             NOT NULL,
-    simplifiedTasks BOOLEAN             NOT NULL,
+    allowNoti       BOOLEAN             NOT NULL DEFAULT TRUE,
+    inviteNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    memberNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    assignNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    waitingNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    commentNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    reportNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    hideCompleted   BOOLEAN             NOT NULL DEFAULT FALSE,
+    simplifiedTasks BOOLEAN             NOT NULL DEFAULT FALSE,
     color           VARCHAR             NOT NULL,
     search          TSVECTOR
 );
@@ -120,17 +120,17 @@ CREATE TABLE project
 
 CREATE TABLE invite
 (
-    project_id INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
     client_id  INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE,
-    accepted   BOOLEAN,
-    PRIMARY KEY (project_id, client_id)
+    project_id INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
+    decision   BOOLEAN,
+    PRIMARY KEY (client_id, project_id)
 );
 
 CREATE TABLE team_member
 (
     client_id   INTEGER NOT NULL REFERENCES client (id) ON DELETE CASCADE,
     project_id  INTEGER NOT NULL REFERENCES project (id) ON DELETE CASCADE,
-    member_role role,
+    member_role role NOT NULL DEFAULT 'Reader',
     PRIMARY KEY (client_id, project_id)
 );
 
@@ -369,6 +369,19 @@ $BODY$
     LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION check_project_owner() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF OLD.member_role = 'Owner' AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
+    THEN
+        RAISE EXCEPTION 'Project must have at least one owner!';
+    END IF;
+    RETURN OLD;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION check_task_date() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -395,18 +408,36 @@ $BODY$
     LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    WITH inserted AS (
+        INSERT INTO notification (client, notification_text)
+        VALUES (NEW.client_id, concat('You have been invited to join ', (SELECT name FROM project where NEW.project_id = id), '!'))
+        RETURNING id
+    )
+    INSERT INTO project_notification SELECT inserted.id, NEW.project_id FROM inserted;
+    RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION add_project_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client, notification_text)
-    SELECT team_member.client_id,
-           concat((SELECT username FROM account where NEW.client_id = id), ' joined ',
-                  (SELECT name FROM project where NEW.project_id = id))
-    FROM team_member
-    WHERE team_member.project_id = NEW.project_id
-      and team_member.client_id != NEW.client_id
-    RETURNING id;
-    INSERT INTO project_notification VALUES (id, NEW.project_id);
+    WITH inserted AS (
+        INSERT INTO notification (client, notification_text)
+            SELECT team_member.client_id,
+                concat((SELECT username FROM account where NEW.client_id = id), ' joined ',
+                        (SELECT name FROM project where NEW.project_id = id), '!')
+            FROM team_member
+            WHERE team_member.project_id = NEW.project_id
+            AND team_member.client_id != NEW.client_id
+            RETURNING id
+    )
+    INSERT INTO project_notification SELECT inserted.id, NEW.project_id FROM inserted;
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -415,14 +446,17 @@ $BODY$
 CREATE OR REPLACE FUNCTION add_assignment_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client, notification_text)
-    SELECT team_member.client_id,
-           concat((SELECT username FROM account where NEW.client = id), ' was assigned to ',
-                  (SELECT name FROM task where NEW.task = id))
-    FROM team_member
-    WHERE team_member.project_id = (SELECT project_id FROM task WHERE task.id = NEW.task)
-    RETURNING id;
-    INSERT INTO assignment_notification VALUES (id, NEW.task);
+    WITH inserted AS (
+        INSERT INTO notification (client, notification_text)
+        SELECT team_member.client_id,
+            concat((SELECT username FROM account where NEW.client = id), ' was assigned to ',
+                    (SELECT name FROM task where NEW.task = id), '!')
+        FROM team_member
+        WHERE team_member.project_id = (SELECT project FROM task WHERE task.id = NEW.task)
+        RETURNING id
+    )
+    INSERT INTO assignment_notification SELECT inserted.id, NEW.task FROM inserted;
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -431,14 +465,17 @@ $BODY$
 CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client, notification_text)
-    SELECT assignment.client,
-           concat((SELECT username FROM account where NEW.author = id), ' commented on task ',
-                  (SELECT name FROM task where NEW.task = id))
-    FROM assignment
-    WHERE assignment.task = NEW.task
-    RETURNING id;
-    INSERT INTO comment_notification VALUES (id, NEW.id);
+    WITH inserted AS (
+        INSERT INTO notification (client, notification_text)
+        SELECT assignment.client,
+            concat((SELECT username FROM account where NEW.author = id), ' commented on task ',
+                    (SELECT name FROM task where NEW.task = id), '!')
+        FROM assignment
+        WHERE assignment.task = NEW.task
+        RETURNING id
+    )
+    INSERT INTO comment_notification SELECT inserted.id, NEW.id FROM inserted;
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -447,10 +484,13 @@ $BODY$
 CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    INSERT INTO notification (client, notification_text)
-    VALUES (NEW.reporter, concat('Your report has been reviewed! Decision: ', NEW.state, '!'))
-    RETURNING id;
-    INSERT INTO report_notification VALUES (id, NEW.id);
+    WITH inserted AS (
+        INSERT INTO notification (client, notification_text)
+        VALUES (NEW.reporter, concat('Your report has been reviewed! Decision: ', NEW.state, '!'))
+        RETURNING id
+    )
+    INSERT INTO report_notification SELECT inserted.id, NEW.id FROM inserted;
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -475,8 +515,10 @@ DROP TRIGGER IF EXISTS insert_task_search ON task;
 DROP TRIGGER IF EXISTS update_task_search ON task;
 DROP TRIGGER IF EXISTS assign_tag ON contains_tag;
 DROP TRIGGER IF EXISTS assign_member ON assignment;
+DROP TRIGGER IF EXISTS check_project_owner ON team_member;
 DROP TRIGGER IF EXISTS check_task_date ON task;
 DROP TRIGGER IF EXISTS check_sub_date ON subtask;
+DROP TRIGGER IF EXISTS add_invite_notification ON invite;
 DROP TRIGGER IF EXISTS add_project_notification ON team_member;
 DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
 DROP TRIGGER IF EXISTS add_comment_notification ON comment;
@@ -542,6 +584,14 @@ EXECUTE PROCEDURE assign_member();
 
 
 -- TRIGGER06
+CREATE TRIGGER check_project_owner
+    BEFORE DELETE
+    ON team_member
+    FOR EACH ROW
+EXECUTE PROCEDURE check_project_owner();
+
+
+-- TRIGGER07
 CREATE TRIGGER check_task_date
     BEFORE INSERT OR UPDATE
     ON task
@@ -549,7 +599,7 @@ CREATE TRIGGER check_task_date
 EXECUTE PROCEDURE check_task_date();
 
 
--- TRIGGER07
+-- TRIGGER08
 CREATE TRIGGER check_sub_date
     BEFORE INSERT OR UPDATE
     ON subtask
@@ -557,7 +607,15 @@ CREATE TRIGGER check_sub_date
 EXECUTE PROCEDURE check_sub_date();
 
 
--- TRIGGER08
+-- TRIGGER09
+CREATE TRIGGER add_invite_notification
+    AFTER INSERT
+    ON invite
+    FOR EACH ROW
+EXECUTE PROCEDURE add_invite_notification();
+
+
+-- TRIGGER10
 CREATE TRIGGER add_project_notification
     AFTER INSERT
     ON team_member
@@ -565,7 +623,7 @@ CREATE TRIGGER add_project_notification
 EXECUTE PROCEDURE add_project_notification();
 
 
--- TRIGGER09
+-- TRIGGER11
 CREATE TRIGGER add_assignment_notification
     AFTER INSERT
     ON assignment
@@ -573,7 +631,7 @@ CREATE TRIGGER add_assignment_notification
 EXECUTE PROCEDURE add_assignment_notification();
 
 
--- TRIGGER010
+-- TRIGGER012
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON comment
@@ -581,7 +639,7 @@ CREATE TRIGGER add_comment_notification
 EXECUTE PROCEDURE add_comment_notification();
 
 
--- TRIGGER11
+-- TRIGGER13
 CREATE TRIGGER add_report_notification
     AFTER UPDATE OF state
     ON report

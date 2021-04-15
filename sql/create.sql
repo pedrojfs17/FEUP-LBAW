@@ -382,6 +382,19 @@ $BODY$
     LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION accept_invite() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF OLD.decision = NULL AND NEW.decision = TRUE
+    THEN
+        INSERT INTO team_member (client_id, project_id) SELECT NEW.client_id, NEW.project_id;
+    END IF;
+    RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION check_task_date() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -516,6 +529,7 @@ DROP TRIGGER IF EXISTS update_task_search ON task;
 DROP TRIGGER IF EXISTS assign_tag ON contains_tag;
 DROP TRIGGER IF EXISTS assign_member ON assignment;
 DROP TRIGGER IF EXISTS check_project_owner ON team_member;
+DROP TRIGGER IF EXISTS accept_invite ON invite;
 DROP TRIGGER IF EXISTS check_task_date ON task;
 DROP TRIGGER IF EXISTS check_sub_date ON subtask;
 DROP TRIGGER IF EXISTS add_invite_notification ON invite;
@@ -592,6 +606,14 @@ EXECUTE PROCEDURE check_project_owner();
 
 
 -- TRIGGER07
+CREATE TRIGGER accept_invite
+    AFTER UPDATE
+    ON invite
+    FOR EACH ROW
+EXECUTE PROCEDURE accept_invite();
+
+
+-- TRIGGER08
 CREATE TRIGGER check_task_date
     BEFORE INSERT OR UPDATE
     ON task
@@ -599,7 +621,7 @@ CREATE TRIGGER check_task_date
 EXECUTE PROCEDURE check_task_date();
 
 
--- TRIGGER08
+-- TRIGGER09
 CREATE TRIGGER check_sub_date
     BEFORE INSERT OR UPDATE
     ON subtask
@@ -607,7 +629,7 @@ CREATE TRIGGER check_sub_date
 EXECUTE PROCEDURE check_sub_date();
 
 
--- TRIGGER09
+-- TRIGGER10
 CREATE TRIGGER add_invite_notification
     AFTER INSERT
     ON invite
@@ -615,7 +637,7 @@ CREATE TRIGGER add_invite_notification
 EXECUTE PROCEDURE add_invite_notification();
 
 
--- TRIGGER10
+-- TRIGGER11
 CREATE TRIGGER add_project_notification
     AFTER INSERT
     ON team_member
@@ -623,7 +645,7 @@ CREATE TRIGGER add_project_notification
 EXECUTE PROCEDURE add_project_notification();
 
 
--- TRIGGER11
+-- TRIGGER12
 CREATE TRIGGER add_assignment_notification
     AFTER INSERT
     ON assignment
@@ -631,7 +653,7 @@ CREATE TRIGGER add_assignment_notification
 EXECUTE PROCEDURE add_assignment_notification();
 
 
--- TRIGGER012
+-- TRIGGER013
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON comment
@@ -639,7 +661,7 @@ CREATE TRIGGER add_comment_notification
 EXECUTE PROCEDURE add_comment_notification();
 
 
--- TRIGGER13
+-- TRIGGER14
 CREATE TRIGGER add_report_notification
     AFTER UPDATE OF state
     ON report

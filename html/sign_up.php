@@ -1,5 +1,5 @@
 <?php
-    include_once('templates/tpl_common.php');
+include_once('templates/tpl_common.php');
 ?>
 
 <?php draw_header([], []); ?>
@@ -15,7 +15,9 @@
         <div class="col-xl-4 col-lg-5 col-md-7">
             <div class="fs-2">Sign up</div>
             <div class="text-muted fs-5">Welcome to Oversee!</div>
-            <div class="text-muted fs-5">Have an account already? <a href="sign_in.php" class="text-decoration-none" style="color: #00AFB9;">Sign in</a> instead.</div>
+            <div class="text-muted fs-5">Have an account already? <a href="sign_in.php" class="text-decoration-none"
+                                                                     style="color: #00AFB9;">Sign in</a> instead.
+            </div>
         </div>
     </div>
 
@@ -36,7 +38,8 @@
                 </div>
                 <div class="d-grid mt-4">
                     <!-- <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">Sign up</a> -->
-                    <a href="dashboard.php" role="button" class="btn btn-danger" style="background-color: #ea4c89;">Sign up</a>
+                    <a href="dashboard.php" role="button" class="btn btn-danger" style="background-color: #ea4c89;">Sign
+                        up</a>
                 </div>
             </form>
         </div>
@@ -45,9 +48,12 @@
     <div class="row justify-content-center my-4">
         <div class="col-xl-4 col-lg-5 col-md-7">
             <div class="d-grid gap-2">
-                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-google me-2"></i>Sign up with Google</a>
-                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-facebook me-2"></i>Sign up with Facebook</a>
-                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-twitter me-2"></i>Sign up with Twitter</a>
+                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-google me-2"></i>Sign
+                    up with Google</a>
+                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i
+                            class="bi bi-facebook me-2"></i>Sign up with Facebook</a>
+                <a href="#" role="button" class="btn btn-outline-secondary text-start"><i
+                            class="bi bi-twitter me-2"></i>Sign up with Twitter</a>
             </div>
         </div>
     </div>

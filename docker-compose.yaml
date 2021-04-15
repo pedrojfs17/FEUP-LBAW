@@ -11,11 +11,14 @@ services:
       - "5432:5432"
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:5.1
     environment:
-      PGADMIN_DEFAULT_EMAIL: postgres
+      PGADMIN_DEFAULT_EMAIL: postgres@lbaw.com
       PGADMIN_DEFAULT_PASSWORD: pg!lol!2021
     ports:
-      - "5050:80"
+      - "4321:80"
     depends_on:
       - postgres
+
+
+

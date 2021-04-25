@@ -8,11 +8,11 @@
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <form id="msform">
+                        <form id="msform" method="POST" action="{{ route('api/project') }}">
                             <div class="col-10 offset-1 mb-5">
                                 <div class="position-relative m-4" id="progressbar">
                                     <div class="progress" style="height: 2px;">
-                                        <div id="ms-form-progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background-color: #00AFB9;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="ms-form-progress-bar" class="progress-bar" role="progressbar" style="width: 0; background-color: #00AFB9;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm rounded-pill active" style="width: 3rem; height:3rem; background-color: white;"><i class="bi bi-pencil fs-3"></i></button>
                                     <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm rounded-pill" style="width: 3rem; height:3rem; background-color: white;"><i class="bi bi-gear fs-3"></i></button>
@@ -36,7 +36,7 @@
                                     <textarea class="form-control" id="projectDescriptionInput" rows="3" placeholder="Describe your project"></textarea>
                                 </div>
                                 <button type="button" class="next btn btn-lg btn-primary float-end">Next</button>
-                                <button type="button" class="btn btn-lg btn-secondary float-end mx-3" data-bs-dismiss="modal">Cancel</a>
+                                <button type="button" class="btn btn-lg btn-secondary float-end mx-3" data-bs-dismiss="modal">Cancel</button>
                             </fieldset>
 
                             <fieldset>

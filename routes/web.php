@@ -10,19 +10,59 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Home
-Route::get('/', 'Auth\LoginController@home');
 
-// Cards
-Route::get('cards', 'CardController@list');
-Route::get('cards/{id}', 'CardController@show');
+// Static Pages
+Route::view('/', 'pages.landing')->name('/');
 
-// API
-Route::put('api/cards', 'CardController@create');
-Route::delete('api/cards/{card_id}', 'CardController@delete');
-Route::put('api/cards/{card_id}/', 'ItemController@create');
-Route::post('api/item/{id}', 'ItemController@update');
-Route::delete('api/item/{id}', 'ItemController@delete');
+Route::get('contacts', 'ContactsController@show')->name('contacts');
+Route::post('contacts', 'ContactsController@create');
+
+Route::get('dashboard', 'DashboardController@show')->name('dashboard');
+
+Route::get('search', 'SearchController@show')->name('search');
+Route::get('api/search', 'SearchController@search');
+
+// Projects
+Route::view('project/create', 'partials.createProjectModal');
+
+Route::get('project/{id}/overview', 'ProjectController@overview');
+Route::get('project/{id}/status_board', 'ProjectController@status_board');
+Route::get('project/{id}/assignments', 'ProjectController@assignments');
+Route::get('project/{id}/preferences', 'ProjectController@preferences');
+Route::patch('project/{id}/preferences', 'ProjectController@update');
+Route::delete('project/{id}/preferences', 'ProjectController@delete');
+
+Route::get('api/project', 'ProjectController@list');
+Route::post('api/project', 'ProjectController@create');
+Route::get('api/project/{id}', 'ProjectController@show');
+Route::delete('api/project/{id}', 'ProjectController@leave');
+
+// Invites
+Route::post('api/project/{id}/invite', 'ProjectController@invite');
+Route::patch('api/project/{id}/invite/{invite}', 'ProjectController@updateInvite');
+
+// Tags
+Route::get('api/project/{id}/tag', 'TagController@list');
+Route::post('api/project/{id}/tag', 'TagController@create');
+Route::delete('api/project/{id}/tag/{tag}', 'TagController@delete');
+
+// Tasks
+Route::get('api/project/{id}/task', 'TaskController@list');
+Route::post('api/project/{id}/task', 'TaskController@create');
+Route::get('api/project/{id}/task/{task}', 'TaskController@show');
+Route::patch('api/project/{id}/task/{task}', 'TaskController@update');
+Route::delete('api/project/{id}/task/{task}', 'TaskController@delete');
+Route::post('api/project/{id}/task/{task}/tag', 'TaskController@tag');
+Route::post('api/project/{id}/task/{task}/subtask', 'TaskController@subtask');
+Route::post('api/project/{id}/task/{task}/waiting_on', 'TaskController@waitingOn');
+Route::post('api/project/{id}/task/{task}/assignment', 'TaskController@assignment');
+Route::post('api/project/{id}/task/{task}/comment', 'TaskController@comment');
+
+// Social Media
+Route::get('api/account', 'SocialMediaAccountController@list');
+Route::post('api/account', 'SocialMediaAccountController@create');
+Route::get('api/account/{id}', 'SocialMediaAccountController@show');
+Route::delete('api/account/{id}', 'SocialMediaAccountController@delete');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -30,3 +70,17 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
+
+// Profile
+Route::get('profile/{username}', 'ClientController@show');
+Route::patch('profile/{username}', 'ClientController@update');
+Route::delete('profile/{username}', 'ClientController@delete');
+Route::get('settings', 'ClientController@showSettings');
+Route::patch('settings', 'ClientController@updateSettings');
+
+// Administration
+Route::get('admin/users', 'AdminController@users');
+Route::get('admin/statistics', 'AdminController@statistics');
+Route::get('admin/support', 'AdminController@support');
+
+

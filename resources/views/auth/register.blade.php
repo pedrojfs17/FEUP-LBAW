@@ -1,39 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-<form method="POST" action="{{ route('register') }}">
-    {{ csrf_field() }}
+<div class="container d-flex flex-column justify-content-center my-5">
+  <div class="row justify-content-center">
+    <a href="{{ route('/') }}" style="width: auto;">
+      <img src= {{ asset("images/oversee_blue_txt.svg") }} height="90" alt="company logo">
+    </a>
+  </div>
 
-    <label for="name">Name</label>
-    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
-    @if ($errors->has('name'))
-      <span class="error">
-          {{ $errors->first('name') }}
-      </span>
-    @endif
+  <div class="row justify-content-center mt-5">
+    <div class="col-xl-4 col-lg-5 col-md-7">
+      <div class="fs-2">Sign up</div>
+      <div class="text-muted fs-5">Welcome to Oversee!</div>
+      <div class="text-muted fs-5">Have an account already? <a href="{{ route('login') }}" class="text-decoration-none"
+                                                               style="color: #00AFB9;">Sign in</a> instead.
+      </div>
+    </div>
+  </div>
 
-    <label for="email">E-Mail Address</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-    @if ($errors->has('email'))
-      <span class="error">
-          {{ $errors->first('email') }}
-      </span>
-    @endif
+  <div class="row justify-content-center my-4">
+    <div class="col-xl-4 col-lg-5 col-md-7">
+      <form method="POST" action="{{ route('register') }}">
+        {{ csrf_field() }}
 
-    <label for="password">Password</label>
-    <input id="password" type="password" name="password" required>
-    @if ($errors->has('password'))
-      <span class="error">
-          {{ $errors->first('password') }}
-      </span>
-    @endif
+        <div class="mb-3">
+          <label for="inputEmail" class="form-label">Email <span class="text-muted">*</span></label>
+          <input type="email" class="form-control" id="inputEmail">
+        </div>
+        <div class="mb-3">
+          <label for="inputUsername" class="form-label">Username <span class="text-muted">*</span></label>
+          <input type="text" class="form-control" id="inputUsername">
+        </div>
+        <div class="mb-3">
+          <label for="inputPassword" class="form-label">Password <span class="text-muted">*</span></label>
+          <input type="password" class="form-control" id="inputPassword">
+        </div>
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-    <label for="password-confirm">Confirm Password</label>
-    <input id="password-confirm" type="password" name="password_confirmation" required>
-
-    <button type="submit">
-      Register
-    </button>
-    <a class="button button-outline" href="{{ route('login') }}">Login</a>
-</form>
+  <div class="row justify-content-center my-4">
+    <div class="col-xl-4 col-lg-5 col-md-7">
+      <div class="d-grid gap-2">
+        <a href="#" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-google me-2"></i>Sign
+          up with Google</a>
+        <a href="#" role="button" class="btn btn-outline-secondary text-start"><i
+            class="bi bi-facebook me-2"></i>Sign up with Facebook</a>
+        <a href="#" role="button" class="btn btn-outline-secondary text-start"><i
+            class="bi bi-twitter me-2"></i>Sign up with Twitter</a>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

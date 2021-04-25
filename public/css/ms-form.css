@@ -1,0 +1,7 @@
+#msform fieldset:not(:first-of-type) {
+    display: none
+}
+
+#progressbar .active {
+    color: #00AFB9
+}

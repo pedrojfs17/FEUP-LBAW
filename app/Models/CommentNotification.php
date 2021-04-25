@@ -8,19 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommentNotification extends Model
 {
-    public $timestamps=false;
+  public $timestamps = false;
 
-    protected $table='comment_notification';
+  protected $table = 'comment_notification';
 
-    protected $fillable = [
-        'comment'
-    ];
+  protected $fillable = [
+    'comment'
+  ];
 
-    public function notification() {
-        return $this->belongsTo(Notification::class);
-    }
+  public function notification()
+  {
+    return $this->belongsTo(Notification::class);
+  }
 
-    public function comment() {
-        return $this->hasOne(Comment::class,'comment');
-    }
+  public function comment()
+  {
+    return $this->belongsTo(Comment::class, 'comment');
+  }
 }

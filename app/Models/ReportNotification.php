@@ -8,19 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReportNotification extends Model
 {
-    public $timestamps = false;
+  public $timestamps = false;
 
-    protected $table = 'report_notification';
+  protected $table = 'report_notification';
 
-    protected $fillable = [
-        'report'
-    ];
+  protected $fillable = [
+    'report'
+  ];
 
-    public function notification() {
-        return $this->belongsTo(Notification::class);
-    }
+  public function notification()
+  {
+    return $this->belongsTo(Notification::class);
+  }
 
-    public function report() {
-        return $this->hasOne(Report::class,'report');
-    }
+  public function report()
+  {
+    return $this->belongsTo(Report::class, 'report');
+  }
 }

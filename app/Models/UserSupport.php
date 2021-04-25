@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserSupport extends Model
 {
-    public $timestamps=false;
+  public $timestamps = false;
 
-    protected $table='user_support';
+  protected $table = 'user_support';
 
-    protected $fillable =[
-      'email', 'name','subject','body', 'responded','response'
-    ];
+  protected $fillable = [
+    'email', 'name', 'subject', 'body', 'responded', 'response'
+  ];
 
 
 }

@@ -8,19 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommentReply extends Model
 {
-    public $timestamps =false;
+  public $timestamps = false;
 
-    protected $table='comment_reply';
+  protected $table = 'comment_reply';
 
-    protected $fillable = [
-        'parent'
-    ];
+  protected $fillable = [
+    'parent'
+  ];
 
-    public function reply() {
-        return $this->hasOne(Comment::class);
-    }
+  public function reply()
+  {
+    return $this->hasOne(Comment::class);
+  }
 
-    public function comment() {
-        return $this->belongsTo(Comment::class,'parent');
-    }
+  public function comment()
+  {
+    return $this->belongsTo(Comment::class, 'parent');
+  }
 }

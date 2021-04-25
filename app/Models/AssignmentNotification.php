@@ -8,19 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssignmentNotification extends Model
 {
-    public $timestamps = false;
+  public $timestamps = false;
 
-    protected $table = 'assignment_notification';
+  protected $table = 'assignment_notification';
 
-    protected $fillable = [
-        'assignment'
-    ];
+  protected $fillable = [
+    'assignment'
+  ];
 
-    public function notification() {
-        return $this->belongsTo(Notification::class);
-    }
+  public function notification()
+  {
+    return $this->belongsTo(Notification::class);
+  }
 
-    public function assignment() {
-        return $this->hasOne(Assignment::class,'assignment');
-    }
+  public function assignment()
+  {
+    return $this->belongsTo(Task::class, 'assignment');
+  }
 }

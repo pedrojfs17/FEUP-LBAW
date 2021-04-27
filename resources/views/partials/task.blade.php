@@ -1,16 +1,16 @@
 <div class="card m-2" data-id="{{ $task->id }}">
-  <div class="card-header status-{{ str_replace(' ', '-', strtolower($task->status)) }}"></div>
+  <div class="card-header status-{{ str_replace(' ', '-', strtolower($task->task_status)) }}"></div>
 
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ $task->name }}</h5>
 
     <div class="d-flex flex-sm-column flex-row mb-2">
-      @if (count($task->check_list_items) > 0)
+      @if (count($task->checklistItems) > 0)
         <div class="checklist my-auto">
-          <span class="{{ count($task->check_list_item->where('completed', true)) === count($task->check_list_items) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
+          <span class="{{ count($task->checklistItems->where('completed', true)) === count($task->checklistItems) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
               <i class="bi bi-check2-circle"></i>
               <span class="d-none d-sm-inline-block">
-                {{ count($task->check_list_item->where('completed', true)) }}/{{ count($task->check_list_items) }}
+                {{ count($task->checklistItems->where('completed', true)) }}/{{ count($task->checklistItems) }}
               </span>
           </span>
         </div>
@@ -27,12 +27,12 @@
         </div>
       @endif
 
-      @if (count($task->waiting_on) > 0)
+      @if (count($task->waitingOn) > 0)
         <div class="waiting-on my-auto mx-1 mx-sm-0">
-        <span class="{{ count($task->waiting_on->where('status', 'Completed')) === count($task->waiting_on) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
+        <span class="{{ count($task->waitingOn->where('status', 'Completed')) === count($task->waitingOn) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
             <i class="bi bi-clock"></i>
             <span class="d-none d-sm-inline-block">
-              {{ count($task->waiting_on->where('status', 'Completed')) }}/{{ count($task->waiting_on) }}
+              {{ count($task->waitingOn->where('status', 'Completed')) }}/{{ count($task->waitingOn) }}
             </span>
         </span>
         </div>

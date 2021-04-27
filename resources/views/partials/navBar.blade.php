@@ -27,21 +27,15 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img class="rounded-circle me-2" src="{{ asset('images/avatar.png') }}" width="30px" height="30px" alt="avatar">
-                        <?php if (!$admin) { ?>
-                        Pedro Jorge
-                        <?php } else { ?>
-                        Admin
-                        <?php } ?>
+                        {{ Auth::user()->username }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <?php if (!$admin) { ?>
-                        <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile', ['username' => Auth::user()->username]) }}"><i class="bi bi-person me-2"></i>Profile</a></li>
                         <li><a class="dropdown-item" href="{{ route('settings') }}"><i class="bi bi-gear me-2"></i>Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <?php } ?>
-                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
                     </ul>
                 </li>
             </ul>

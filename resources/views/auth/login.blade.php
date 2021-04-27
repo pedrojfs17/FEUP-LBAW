@@ -24,12 +24,22 @@
         {{ csrf_field() }}
 
         <div class="mb-3">
-          <label for="inputUsername" class="form-label">Username / Email</label>
-          <input type="text" class="form-control" id="inputUsername">
+          <label for="username" class="form-label">Username / Email</label>
+          <input type="text" class="form-control" id="username" value="{{ old('username') }}" name="username" required autofocus>
+          @if ($errors->has('username'))
+            <span class="error">
+              {{ $errors->first('username') }}
+            </span>
+          @endif
         </div>
         <div class="mb-3">
-          <label for="inputPassword" class="form-label">Password</label>
-          <input type="password" class="form-control" id="inputPassword">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          @if ($errors->has('password'))
+            <span class="error">
+              {{ $errors->first('password') }}
+            </span>
+          @endif
         </div>
         <div class="d-grid mt-4">
           <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">

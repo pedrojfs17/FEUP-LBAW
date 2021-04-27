@@ -10,9 +10,9 @@
   <link rel="stylesheet" href={{ asset('css/overview.css') }}>
 @endpush
 
-{{--@section('navbar')
+@section('navbar')
   @include('partials.navBar')
-@endsection--}}
+@endsection
 
 @section('content')
   <div class="container">
@@ -62,7 +62,7 @@
                 <div role="button" class="card my-2">
                   <div class="card-body">
                     <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset"
-                                              href="project_overview.php">The Ultimate Apple Pie</a>
+                                              href="{{ route('project.overview', ['id' => 1]) }}">The Ultimate Apple Pie</a>
                     </h5>
                     <div class="row align-items-center">
                       <div class="col-lg-3 col-md-3 d-none d-md-block">
@@ -304,8 +304,4 @@
       </div>
     </div>
   </div>
-@endsection
-
-@section('footer')
-  @include('partials.landingFooter')
 @endsection

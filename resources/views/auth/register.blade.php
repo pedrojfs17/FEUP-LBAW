@@ -25,15 +25,39 @@
 
         <div class="mb-3">
           <label for="inputEmail" class="form-label">Email <span class="text-muted">*</span></label>
-          <input type="email" class="form-control" id="inputEmail">
+          <input type="email" class="form-control" id="inputEmail" name="email" required autofocus>
+          @if ($errors->has('email'))
+            <span class="error">
+                {{ $errors->first('email') }}
+            </span>
+          @endif
         </div>
         <div class="mb-3">
           <label for="inputUsername" class="form-label">Username <span class="text-muted">*</span></label>
-          <input type="text" class="form-control" id="inputUsername">
+          <input type="text" class="form-control" id="inputUsername" name="username" required>
+          @if ($errors->has('username'))
+            <span class="error">
+                {{ $errors->first('username') }}
+            </span>
+          @endif
         </div>
         <div class="mb-3">
           <label for="inputPassword" class="form-label">Password <span class="text-muted">*</span></label>
-          <input type="password" class="form-control" id="inputPassword">
+          <input type="password" class="form-control" id="inputPassword" name="password" required>
+          @if ($errors->has('password'))
+            <span class="error">
+                {{ $errors->first('password') }}
+            </span>
+          @endif
+        </div>
+        <div class="mb-3">
+          <label for="inputPasswordConfirmation" class="form-label">Password Confirmation <span class="text-muted">*</span></label>
+          <input type="password" class="form-control" id="inputPasswordConfirmation" name="password_confirmation" required>
+          @if ($errors->has('password_confirmation'))
+            <span class="error">
+                {{ $errors->first('password_confirmation') }}
+            </span>
+          @endif
         </div>
         <div class="d-grid mt-4">
           <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">

@@ -115,35 +115,34 @@ class TaskController extends Controller
   {
     if (!Auth::check()) return redirect('login');
     $this->authorize('tag', Project::find($id));
-    $taskObj = Task::find($task);
-    $taskObj->tags()->attach($request->input('tag'));
+    Task::find($task)->tags()->attach($request->input('tag'));
   }
 
-  public function subtask($task1_id, $task2_id)
+  public function subtask(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($task1_id);
-    $task->subtasks()->attach($task2_id);
+    $this->authorize('subtask', Project::find($id));
+    Task::find($task)->subtasks()->attach($request->input('subtask'));
   }
 
-  public function waiting_on($task1_id, $task2_id)
+  public function waiting_on(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($task1_id);
-    $task->waitingOn()->attach($task2_id);
+    $this->authorize('waiting_on', Project::find($id));
+    Task::find($task)->waitingOn()->attach($request->input('task'));
   }
 
-  public function assignment($task_id, $client_id)
+  public function assignment(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($task_id);
-    $task->assignees()->attach($client_id);
+    $this->authorize('assignment', Project::find($id));
+    Task::find($task)->assignees()->attach($request->input('member'));
   }
 
-  public function comment($task_id, $comment_id)
+  public function comment(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($task_id);
-    $task->comments()->attach($comment_id);
+    $this->authorize('comment', Project::find($id));
+    Task::find($task)->comments()->attach($request->input('comment'));
   }
 }

@@ -25,10 +25,11 @@ Route::get('api/search', 'SearchController@search');
 // Projects
 Route::view('project/create', 'partials.createProjectModal');
 
-Route::get('project/{id}/overview', 'ProjectController@overview');
-Route::get('project/{id}/status_board', 'ProjectController@status_board');
-Route::get('project/{id}/assignments', 'ProjectController@assignments');
-Route::get('project/{id}/preferences', 'ProjectController@preferences');
+Route::get('project/{id}/overview', 'ProjectController@overview')->name('project.overview');
+Route::get('project/{id}/status_board', 'ProjectController@status_board')->name('project.status');
+Route::get('project/{id}/assignments', 'ProjectController@assignments')->name('project.assignments');
+Route::get('project/{id}/statistics', 'ProjectController@statistics')->name('project.statistics');
+Route::get('project/{id}/preferences', 'ProjectController@preferences')->name('project.preferences');
 Route::patch('project/{id}/preferences', 'ProjectController@update');
 Route::delete('project/{id}/preferences', 'ProjectController@delete');
 
@@ -72,15 +73,15 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 
 // Profile
-Route::get('profile/{username}', 'ClientController@show');
+Route::get('profile/{username}', 'ClientController@show')->name('profile');
 Route::patch('profile/{username}', 'ClientController@update');
 Route::delete('profile/{username}', 'ClientController@delete');
-Route::get('settings', 'ClientController@showSettings');
+Route::get('settings', 'ClientController@showSettings')->name('settings');
 Route::patch('settings', 'ClientController@updateSettings');
 
 // Administration
-Route::get('admin/users', 'AdminController@users');
-Route::get('admin/statistics', 'AdminController@statistics');
-Route::get('admin/support', 'AdminController@support');
+Route::get('admin/users', 'AdminController@users')->name('admin.users');
+Route::get('admin/statistics', 'AdminController@statistics')->name('admin.statistics');
+Route::get('admin/support', 'AdminController@support')->name('admin.support');
 
 

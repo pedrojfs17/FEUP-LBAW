@@ -158,7 +158,7 @@ class ProjectController extends Controller
    * @param int $id
    * @return \Illuminate\Http\Response
    */
-  public function status_board(Request $request, $id)
+  public function status(Request $request, $id)
   {
     if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
@@ -173,12 +173,27 @@ class ProjectController extends Controller
    * @param int $id
    * @return \Illuminate\Http\Response
    */
+  public function statistics(Request $request, $id)
+  {
+    if (!Auth::check()) return redirect('login');
+    $project = Project::find($id);
+    $this->authorize('statistics', $project);
+    return view('pages.statistics', ['project' => $project]);
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param \Illuminate\Http\Request $request
+   * @param int $id
+   * @return \Illuminate\Http\Response
+   */
   public function overview(Request $request, $id)
   {
     if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('overview', $project);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project]);
   }
 
   /**

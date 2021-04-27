@@ -19,8 +19,6 @@ class ContactsController extends Controller
 
   public function create(Request $request)
   {
-    if (!Auth::check()) return redirect('login');
-
     $validated = $request->validate([
       'email' => 'required|email',
       'name' => 'string',
@@ -29,7 +27,6 @@ class ContactsController extends Controller
     ]);
 
     $support = new UserSupport();
-    $this->authorize('create', $support);
     $support->email = $validated->input('email');
     $support->name = empty($validated->input('name')) ? "Anonymous" : $validated->input('name');
     $support->subject = $validated->input('subject');

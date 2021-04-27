@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -10,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+  public function list(Request $request, $id)
+  {
+    if (!Auth::check()) return redirect('login');
+    $project = Project::find($id);
+    $this->authorize('list', $project);
+    return Response::json($project->tasks()->orderBy('id')->get());
+  }
+
   /**
    * Show the form for creating a new resource.
    *
@@ -28,10 +37,10 @@ class TaskController extends Controller
     ]);
 
     $task = new Task();
-
-    $this->authorize('create', $task);
-
     $task->project = $id;
+
+    $this->authorize('create', Project::find($id));
+
     $task->name = $validated->input('name');
     $task->description = empty($validated->input('description')) ? "No description" : $validated->input('description');
     $task->due_date = empty($validated->input('due_date')) ? 0 : $validated->input('due_date');
@@ -50,12 +59,11 @@ class TaskController extends Controller
    * @param \App\Models\Task $task
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($id);
-    $this->authorize('show', $task);
-    return Response::json($task);
+    $this->authorize('show', Project::find($id));
+    return Response::json(Task::find($task));
   }
 
   /**
@@ -65,7 +73,7 @@ class TaskController extends Controller
    * @param \App\Models\Task $task
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $project, $id)
+  public function update(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
 
@@ -76,14 +84,16 @@ class TaskController extends Controller
       'task_status' => 'string'
     ]);
 
-    $task = Task::find($id);
-    $this->authorize('update', $task);
-    $task->name = empty($validated->input('name')) ? $task->name : $validated->input('name');
-    $task->description = empty($validated->input('description')) ? $task->description : $validated->input('description');
-    $task->due_date = empty($validated->input('due_date')) ? $task->due_date : $validated->input('due_date');
-    $task->task_status = empty($validated->input('task_status')) ? $task->task_status : $validated->input('task_status');
-    $task->save();
-    return $task;
+    $this->authorize('update', Project::find($id));
+
+    $taskObj = Task::find($task);
+    $taskObj->name = empty($validated->input('name')) ? $taskObj->name : $validated->input('name');
+    $taskObj->description = empty($validated->input('description')) ? $taskObj->description : $validated->input('description');
+    $taskObj->due_date = empty($validated->input('due_date')) ? $taskObj->due_date : $validated->input('due_date');
+    $taskObj->task_status = empty($validated->input('task_status')) ? $taskObj->task_status : $validated->input('task_status');
+    $taskObj->save();
+
+    return $taskObj;
   }
 
   /**
@@ -92,27 +102,21 @@ class TaskController extends Controller
    * @param \App\Models\Task $task
    * @return \Illuminate\Http\Response
    */
-  public function delete(Request $request, $id)
+  public function delete(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($id);
-    $this->authorize('delete', $task);
-    $task->delete();
-    return $task;
+    $this->authorize('delete', Project::find($id));
+    $taskObj = Task::find($task);
+    $taskObj->delete();
+    return $taskObj;
   }
 
-  public function list()
-  {
-    if (!Auth::check()) return redirect('/login');
-    $this->authorize('list', Task::class);
-    return Response::json(Auth::user()->projects()->tasks()->orderBy('id')->get());
-  }
-
-  public function tag($task_id, $tag_id)
+  public function tag(Request $request, $id, $task)
   {
     if (!Auth::check()) return redirect('login');
-    $task = Task::find($task_id);
-    $task->tags()->attach($tag_id);
+    $this->authorize('tag', Project::find($id));
+    $taskObj = Task::find($task);
+    $taskObj->tags()->attach($request->input('tag'));
   }
 
   public function subtask($task1_id, $task2_id)
@@ -122,7 +126,7 @@ class TaskController extends Controller
     $task->subtasks()->attach($task2_id);
   }
 
-  public function waitingOn($task1_id, $task2_id)
+  public function waiting_on($task1_id, $task2_id)
   {
     if (!Auth::check()) return redirect('login');
     $task = Task::find($task1_id);

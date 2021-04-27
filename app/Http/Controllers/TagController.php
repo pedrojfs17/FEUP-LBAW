@@ -24,10 +24,10 @@ class TagController extends Controller
     ]);
 
     $tag = new Tag();
+    $tag->project =$id;
     $this->authorize('create', $tag);
     $tag->name = $validated->input('name');
     $tag->color = $validated->input('color');
-    $tag->project =$id;
     $tag->save();
     return $tag;
 

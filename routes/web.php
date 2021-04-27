@@ -54,7 +54,7 @@ Route::patch('api/project/{id}/task/{task}', 'TaskController@update');
 Route::delete('api/project/{id}/task/{task}', 'TaskController@delete');
 Route::post('api/project/{id}/task/{task}/tag', 'TaskController@tag');
 Route::post('api/project/{id}/task/{task}/subtask', 'TaskController@subtask');
-Route::post('api/project/{id}/task/{task}/waiting_on', 'TaskController@waitingOn');
+Route::post('api/project/{id}/task/{task}/waiting_on', 'TaskController@waiting_on');
 Route::post('api/project/{id}/task/{task}/assignment', 'TaskController@assignment');
 Route::post('api/project/{id}/task/{task}/comment', 'TaskController@comment');
 

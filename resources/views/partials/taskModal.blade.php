@@ -1,11 +1,11 @@
-<div class="modal fade" id="tasks<?=$id?>Modal" tabindex="-1" aria-labelledby="tasks<?=$id?>ModalLabel" aria-hidden="true">
+<div class="modal fade" id="tasks{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks<?=$id?>ModalLabel">
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks{{$task->id}}ModalLabel">
                     <ol class="my-0 breadcrumb text-muted">
-                        <li class="breadcrumb-item"><a>Sourdough Baking</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><?=$title?></li>
+                        <li class="breadcrumb-item"><a>{{$project}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
                     </ol>
                 </nav>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -13,17 +13,17 @@
             <div class="modal-body d-grid gap-4 px-sm-5">
                 <div>
                     <header>
-                        <h3 class="d-inline-block"><?= $title ?></h3>
-                        <h6 class="d-inline-block text-secondary mx-2"><?= $status ?></h6>
+                        <h3 class="d-inline-block">{{$task->name}}</h3>
+                        <h6 class="d-inline-block text-secondary mx-2">{{$task->status}}</h6>
                     </header>
-                    <textarea style="height:75px;width:100%;" placeholder="Description"></textarea>
+                    <textarea style="height:75px;width:100%;" placeholder="{{$task->description}}"></textarea>
                 </div>
                 <div>
                     <h5>Subtasks</h5>
                     <div class="d-grid gap-2 my-3">
-                        <?php foreach ($subtasks as $id => $name) { ?>
-                        <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#tasks<?=$id?>Modal"><?=$name?></button>
-                        <?php } ?>
+                       @foreach ($task->subtasks as $subtask) { ?>
+                        <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#tasks{{$subtask->id}}Modal">{{$subtask->name}}</button>
+                       @endforeach
                     </div>
                 </div>
                 <div class="row">
@@ -34,20 +34,20 @@
                             <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-grid gap-2 my-3">
-                            <?php foreach ($checklist as $c) { ?>
+                            @foreach ($task->checklistItems as $c) { ?>
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <?= $c ?>
+                                    {{$c}}
                                     <input class="form-check-input" type="checkbox" value="" checked>
                                 </label>
                             </div>
-                            <?php } ?>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <h5 class=" d-inline-block mr-3">Tags</h5>
-                        <a class="text-muted float-end" data-bs-toggle="collapse" href="#task<?=$id?>CreateTag" role="button" aria-expanded="false" aria-controls="task<?=$id?>CreateTag"><i class="bi bi-plus-circle"></i></a>
-                        <div id="task<?=$id?>CreateTag" class="collapse mb-3">
+                        <a class="text-muted float-end" data-bs-toggle="collapse" href="#task{{$task->id}}CreateTag" role="button" aria-expanded="false" aria-controls="task{{$task->id}}CreateTag"><i class="bi bi-plus-circle"></i></a>
+                        <div id="task{{$task->id}}CreateTag" class="collapse mb-3">
                             <form class="d-flex">
                                 <input type="text" class="form-control" placeholder="Tag Name" aria-label="Tag name">
                                 <input type="color" class="form-control form-control-color mx-2" value="#20c94d" title="Choose tag color">
@@ -56,10 +56,10 @@
                         </div>
 
                         <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                            <p class="d-inline-block m-0 py-1 px-2 rounded bg-danger text-bg-check" type="button"><small>must have</small></p>
-                            <p class="d-inline-block m-0 py-1 px-2 rounded bg-info text-bg-check" type="button"><small>cooking</small></p>
-                            <p class="d-inline-block m-0 py-1 px-2 rounded bg-warning text-bg-check" type="button"><small>must</small></p>
-                            <p class="d-inline-block m-0 py-1 px-2 rounded bg-success text-bg-check" type="button"><small>ingredients</small></p>
+                          @foreach ($task->tags as $tag)
+                            <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color: {{ $tag->color }}">
+                              <small>{{ $tag->name }}</small></p>
+                          @endforeach
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-lg-4 mb-3">
                         <h5 class="mb-1">Waiting on:</h5>
-                        <h6><?=$waiting_on?></h6>
+                        <h6>{{$task->waitingOn}}</h6>
                     </div>
                     <div class="col-lg-4">
                         <h5 class="mb-1">Deadline:</h5>

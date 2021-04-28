@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-sm-12 col-md-6">
-                <img class="d-inline-block align-top" src={{ asset("images/oversee_blue_txt_only.svg") }} height="60" alt="">
+                <img class="d-inline-block align-top" src="{{ asset("images/oversee_blue_txt_only.svg") }}" height="60" alt="">
                 <p class="text-justify mt-4">The social media focused project manager.<br>Developed as coursework for LBAW@FEUP 20/21. </p>
             </div>
 

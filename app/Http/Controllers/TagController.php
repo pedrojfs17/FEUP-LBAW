@@ -7,17 +7,19 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
   public function list()
   {
-    if (!Auth::check()) return redirect('login');
-    $this->authorize('list', Tag::class);
-    return Response::json(Auth::user()->projects()->tags()->orderBy('id')->get());
+    $tags = Client::find(Auth::user()->id)->projects()->tags()->orderBy('id')->get();
+    return response()->json($tags);
   }
 
   public function create(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
-
     $validated = $request->validate([
       'name' => 'required|string',
       'color' => 'required|string'
@@ -29,16 +31,15 @@ class TagController extends Controller
     $tag->name = $validated->input('name');
     $tag->color = $validated->input('color');
     $tag->save();
-    return $tag;
 
+    return response()->json($tag);
   }
 
   public function delete(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $tag = Tag::find($id);
     $this->authorize('delete', $tag);
     $tag->delete();
-    return $tag;
+    return response()->json($tag);
   }
 }

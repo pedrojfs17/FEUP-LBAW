@@ -4,30 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
-use http\Env\Response;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
   public function list(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('list', $project);
-    return Response::json($project->tasks()->orderBy('id')->get());
+    $tasks = $project->tasks()->orderBy('id')->get();
+    return response()->json($tasks);
   }
 
   /**
    * Show the form for creating a new resource.
    *
-   * @return Task
+   * @return \Illuminate\Http\JsonResponse
    */
   public function create(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
-
     $validated = $request->validate([
       'name' => 'required|string',
       'description' => 'string',
@@ -50,20 +50,20 @@ class TaskController extends Controller
     if (!empty($validated->input('parent')))
       $this->subtask($task->id, $validated->input('parent'));
 
-    return $task;
+    return response()->json($task);
   }
 
   /**
    * Display the specified resource.
    *
    * @param \App\Models\Task $task
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('show', Project::find($id));
-    return Response::json(Task::find($task));
+    $taskObj = Task::find($task);
+    return response()->json($taskObj);
   }
 
   /**
@@ -71,12 +71,10 @@ class TaskController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param \App\Models\Task $task
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
-
     $validated = $request->validate([
       'name' => 'string',
       'project' => 'string',
@@ -93,55 +91,49 @@ class TaskController extends Controller
     $taskObj->task_status = empty($validated->input('task_status')) ? $taskObj->task_status : $validated->input('task_status');
     $taskObj->save();
 
-    return $taskObj;
+    return response()->json($taskObj);
   }
 
   /**
    * Remove the specified resource from storage.
    *
    * @param \App\Models\Task $task
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function delete(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('delete', Project::find($id));
     $taskObj = Task::find($task);
     $taskObj->delete();
-    return $taskObj;
+    return response()->json($taskObj);
   }
 
   public function tag(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('tag', Project::find($id));
     Task::find($task)->tags()->attach($request->input('tag'));
   }
 
   public function subtask(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('subtask', Project::find($id));
     Task::find($task)->subtasks()->attach($request->input('subtask'));
   }
 
   public function waiting_on(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('waiting_on', Project::find($id));
     Task::find($task)->waitingOn()->attach($request->input('task'));
   }
 
   public function assignment(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('assignment', Project::find($id));
     Task::find($task)->assignees()->attach($request->input('member'));
   }
 
   public function comment(Request $request, $id, $task)
   {
-    if (!Auth::check()) return redirect('login');
     $this->authorize('comment', Project::find($id));
     Task::find($task)->comments()->attach($request->input('comment'));
   }

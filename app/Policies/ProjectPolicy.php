@@ -8,27 +8,14 @@ use App\Models\Account;
 use App\Models\Project;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectPolicy
 {
   use HandlesAuthorization;
 
-  public function create(Account $account, Project $project)
-  {
-    // Any client can create a project
-    return Auth::check();
-  }
-
   public function show(Account $account, Project $project)
   {
     // Only a team member can see a project
-    return $project->teamMembers()->where('client_id', $account->id)->exists();
-  }
-
-  public function list(Account $account, Project $project)
-  {
-    // Only a team member can see his projects
     return $project->teamMembers()->where('client_id', $account->id)->exists();
   }
 

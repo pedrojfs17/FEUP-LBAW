@@ -10,7 +10,7 @@ class ContactsController extends Controller
   /**
    * Shows the card for a given id.
    *
-   * @return Response
+   * @return \Illuminate\Contracts\View\View
    */
   public function show()
   {
@@ -33,6 +33,6 @@ class ContactsController extends Controller
     $support->body = $validated->input('body');
     $support->save();
 
-    return $support;
+    return response()->json($support);
   }
 }

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src={{ asset('js/text-bg.js') }} defer></script>
+  <script src="{{ asset('js/text-bg.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href={{ asset('css/style.css') }}>
-  <link rel="stylesheet" href={{ asset('css/overview.css') }}>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
 @endpush
 
 @section('navbar')

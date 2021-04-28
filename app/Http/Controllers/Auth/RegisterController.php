@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Account;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -62,10 +64,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Account::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return DB::transaction(function() use ($data) {
+            $newAcct = Account::create([
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+
+            Client::create([
+                'id' => $newAcct->id,
+                'color' => '#' . str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT),
+            ]);
+
+            return $newAcct;
+        });
     }
 }

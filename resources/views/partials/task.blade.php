@@ -56,7 +56,7 @@
     </div>
 
     <div class="d-none d-sm-flex justify-content-between mt-2">
-      <img class="rounded-circle" src={{ asset("images/avatar.png") }} width="40px" height="40px" alt="avatar">
+      <img class="rounded-circle" src="{{ asset("images/avatar.png") }}" width="40px" height="40px" alt="avatar">
       <span class="text-end align-self-center">{{ count($task->comments) }}<i class="fas fa-comment-alt m-2"></i></span>
     </div>
 

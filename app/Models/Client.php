@@ -12,7 +12,7 @@ class Client extends Account
   protected $table = 'client';
 
   protected $fillable = [
-    'fullname', 'company', 'avatar', 'client_gender',
+    'id', 'fullname', 'company', 'avatar', 'client_gender',
     'allowNoti', 'inviteNoti', 'assignNoti', 'waitingNoti', 'commentNoti',
     'reportNoti', 'hideCompleted', 'simplifiedTasks', 'color', 'search'
   ];
@@ -54,7 +54,7 @@ class Client extends Account
 
   public function projects()
   {
-    return $this->belongsToMany(Project::class, 'team_member', 'client_id', 'project_id')->withPivot('role');
+    return $this->belongsToMany(Project::class, 'team_member', 'client_id', 'project_id')->withPivot('member_role');
   }
 
   public function socialMediaAccounts()

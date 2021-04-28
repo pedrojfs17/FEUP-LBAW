@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src={{ asset('js/ms-form.js') }} defer></script>
+  <script src="{{ asset('js/ms-form.js') }}" defer></script>
+  <script src="{{ asset('js/dashboard.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href={{ asset('css/style.css') }}>
-  <link rel="stylesheet" href={{ asset('css/ms-form.css') }}>
-  <link rel="stylesheet" href={{ asset('css/overview.css') }}>
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/ms-form.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
 @endpush
 
 @section('navbar')
@@ -58,76 +59,7 @@
               </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-              <div class="accordion-body">
-                <div role="button" class="card my-2">
-                  <div class="card-body">
-                    <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset"
-                                              href="{{ route('project.overview', ['id' => 1]) }}">The Ultimate Apple Pie</a>
-                    </h5>
-                    <div class="row align-items-center">
-                      <div class="col-lg-3 col-md-3 d-none d-md-block">
-                        <ul class="avatar-overlap">
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                        </ul>
-                      </div>
-                      <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
-                      <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">
-                        Progress
-                        <div class="progress">
-                          <div class="progress-bar bg-success" role="progressbar"
-                               style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                               aria-valuemax="100">50%
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div role="button" class="card my-2">
-                  <div class="card-body">
-                    <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset"
-                                              href="project_overview.php">Sourdough Baking</a></h5>
-                    <div class="row align-items-center">
-                      <div class="col-lg-3 col-md-3">
-                        <ul class="avatar-overlap d-none d-md-block">
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                        </ul>
-                      </div>
-                      <div class="col-lg-3 col-md-3 text-muted">ETA: 2 weeks</div>
-                      <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">
-                        Progress
-                        <div class="progress">
-                          <div class="progress-bar bg-success" role="progressbar"
-                               style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-                               aria-valuemax="100">25%
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="accordion-body" id="projects">
               </div>
             </div>
           </div>

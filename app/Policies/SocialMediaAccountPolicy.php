@@ -8,17 +8,10 @@ use App\Models\Account;
 use App\Models\SocialMediaAccount;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
 class SocialMediaAccountPolicy
 {
   use HandlesAuthorization;
-
-  public function create(Account $account, SocialMediaAccount $socialMediaAccount)
-  {
-    // Any client can create a socialMediaAccount
-    return Auth::check();
-  }
 
   public function show(Account $account, SocialMediaAccount $socialMediaAccount)
   {

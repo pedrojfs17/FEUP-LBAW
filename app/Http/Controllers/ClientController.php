@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
 
   /**
    * Display the specified resource.
    *
    * @param string $username
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show(Request $request, $username)
   {
-    if (!Auth::check()) return redirect('login');
     $client = Client::find($username);
-    $this->authorize('show', $client);
-    return Response::json($client);
+    return response()->json($client);
   }
 
   /**
@@ -28,16 +31,16 @@ class ClientController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param string $username
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(Request $request, $username)
   {
-    if (!Auth::check()) return redirect('login');
     $validated = $request->validate([
       'email' => 'unique:account|email'
     ]);
     $client = Client::find($username);
     $this->authorize('update', $client);
+
     $client->account()->email = empty($validated->input('email')) ? $client->account()->email : $validated->input('email');
     $client->account()->password = empty($validated->input('password')) ? $client->account()->password : $validated->input('password');
     $client->fullname = empty($validated->input('fullname')) ? $client->fullname : $validated->input('fullname');
@@ -46,7 +49,8 @@ class ClientController extends Controller
     $client->gender = empty($validated->input('gender')) ? $client->gender : $validated->input('gender');
     $client->country = empty($validated->input('country')) ? $client->country : $validated->input('country');
     $client->save();
-    return $client;
+
+    return response()->json($client);
   }
 
   /**
@@ -54,15 +58,14 @@ class ClientController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param string $username
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function delete(Request $request, $username)
   {
-    if (!Auth::check()) return redirect('login');
     $client = Client::find($username);
     $this->authorize('delete', $client);
     $client->delete();
-    return $client;
+    return response()->json($client);
   }
 
   /**
@@ -73,8 +76,7 @@ class ClientController extends Controller
    */
   public function showSettings(Request $request)
   {
-    if (!Auth::check()) return redirect('login');
-    $client = Client::find(Auth::id());
+    $client = Client::find(Auth::user()->id);
     $this->authorize('showSettings', $client);
     return view('pages.settings', ['client' => $client]);
   }
@@ -83,11 +85,10 @@ class ClientController extends Controller
    * Remove the specified resource from storage.
    *
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function updateSettings(Request $request)
   {
-    if (!Auth::check()) return redirect('login');
     $validated = $request->validate([
       'allowNoti' => 'boolean',
       'inviteNoti' => 'boolean',
@@ -113,6 +114,6 @@ class ClientController extends Controller
     $client->simplifiedTasks = empty($validated->input('simplifiedTasks')) ? $client->simplifiedTasks : $validated->input('simplifiedTasks');
     $client->color = empty($validated->input('color')) ? $client->color : $validated->input('color');
     $client->save();
-    return $client;
+    return response()->json($client);
   }
 }

@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
 
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
+
   /**
    * Show the form for creating a new resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function create(Request $request)
   {
-    if (!Auth::check()) return redirect('login');
-
     $validated = $request->validate([
       'name' => 'required|string',
       'description' => 'required|string',
@@ -25,14 +30,13 @@ class ProjectController extends Controller
     ]);
 
     $project = new Project();
-    $this->authorize('create', $project);
     $project->name = $validated->input('name');
     $project->description = $validated->input('description');
     if (!empty($validated->input('due_date')))
       $project->due_date = $validated->input('due_date');
     $project->save();
-    return $project;
 
+    return response()->json($project);
   }
 
   /**
@@ -40,26 +44,24 @@ class ProjectController extends Controller
    *
    * @param int $id
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function show(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('show', $project);
-    return Response::json($project);
+    return response()->json($project);
   }
 
   /**
    * Display the specified resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function list()
   {
-    if (!Auth::check()) return redirect('login');
-    $this->authorize('list', Project::class);
-    return Response::json(Auth::user()->projects()->orderBy('id')->get());
+    $projects = Client::find(Auth::user()->id)->projects()->orderBy('id')->get();
+    return response()->json($projects);
   }
 
   /**
@@ -67,38 +69,38 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function update(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $validated = $request->validate([
       'name' => 'string',
       'description' => 'string',
       'due_date' => 'integer'
     ]);
+
     $project = Project::find($id);
     $this->authorize('update', $project);
     $project->name = empty($validated->input('name')) ? $project->name : $validated->input('name');
     $project->description = empty($validated->input('description')) ? $project->description : $validated->input('description');
     $project->due_date = empty($validated->input('due_date')) ? $project->due_date : $validated->input('due_date');
     $project->save();
-    return $project;
+
+    return response()->json($project);
   }
 
   /**
    * Remove the specified resource from storage.
    *
    * @param \App\Models\Project $project
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function delete(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('delete', $project);
     $project->delete();
-    return $project;
+    return response()->json($project);
   }
 
   /**
@@ -106,14 +108,13 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
    */
   public function leave(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
-    $this->authorize('leave', Project::class);
-
     $project = Project::find($id);
+
+    $this->authorize('leave', $project);
 
     $team_member = $project->teamMembers()::find(Auth::user()->id);
     $team_member->delete();
@@ -126,11 +127,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function preferences(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('preferences', $project);
     return view('pages.preferences', ['project' => $project]);
@@ -141,11 +141,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function assignments(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('assignments', $project);
     return view('pages.assignments', ['assignments' => $project->assignments()]);
@@ -156,11 +155,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function status(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('status_board', $project);
     return view('pages.status_board', ['status_board' => $project->tasks()]);
@@ -171,11 +169,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function statistics(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('statistics', $project);
     return view('pages.statistics', ['project' => $project]);
@@ -186,11 +183,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function overview(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('overview', $project);
     return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project]);
@@ -201,11 +197,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function invite(Request $request, $id)
   {
-    if (!Auth::check()) return redirect('login');
     $project = Project::find($id);
     $this->authorize('invite', $project);
     $project->invites()->attach($request->client);
@@ -217,12 +212,10 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
    */
   public function updateInvite(Request $request, $id, $invite_id)
   {
-    if (!Auth::check()) return redirect('login');
-
     $project = Project::find($id);
     $validated = $request->validate([
       'decision' => 'required|boolean',

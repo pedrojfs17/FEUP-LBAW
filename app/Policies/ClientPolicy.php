@@ -9,17 +9,10 @@ use App\Models\Admin;
 use App\Models\Client;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
 class ClientPolicy
 {
   use HandlesAuthorization;
-
-  public function show(Account $account, Client $client)
-  {
-    // Any client can see a profile
-    return Auth::check();
-  }
 
   public function update(Account $account, Client $client)
   {

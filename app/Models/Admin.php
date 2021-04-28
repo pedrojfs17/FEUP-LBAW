@@ -11,6 +11,8 @@ class Admin extends Account
 
   protected $table = 'admin';
 
+  protected $fillable = ['id'];
+
   public function account()
   {
     return $this->belongsTo(Account::class);

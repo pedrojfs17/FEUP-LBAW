@@ -16,7 +16,12 @@
 @endsection
 
 @section('content')
-  <div class="container">
+  @if ($errors->any())
+    <div class="alert alert-danger text-center" role="alert">
+      {{ $errors->first() }}
+    </div>
+  @endif
+  <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active fs-3" id="myprojects-tab" data-bs-toggle="tab"
@@ -59,7 +64,7 @@
               </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-              <div class="accordion-body" id="projects">
+              <div class="accordion-body" id="open-projects">
               </div>
             </div>
           </div>
@@ -71,42 +76,7 @@
               </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-              <div class="accordion-body">
-                <div class="card my-2">
-                  <div class="card-body">
-                    <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset"
-                                              href="project_overview.php">Valentine 's day
-                        campaign</a></h5>
-                    <div class="row align-items-center">
-                      <div class="col-lg-3 col-md-3 d-none d-md-block">
-                        <ul class="avatar-overlap">
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                          <li class="avatar-overlap-item"><img class="rounded-circle"
-                                                               src="images/avatar.png"
-                                                               width="40px" height="40px"
-                                                               alt="avatar"></li>
-                        </ul>
-                      </div>
-                      <div class="col-lg-3 col-md-3 text-muted">Completed 5 days ago</div>
-                      <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">
-                        Progress
-                        <div class="progress">
-                          <div class="progress-bar bg-success" role="progressbar"
-                               style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-                               aria-valuemax="100">Completed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="accordion-body" id="closed-projects">
               </div>
             </div>
           </div>
@@ -237,3 +207,5 @@
     </div>
   </div>
 @endsection
+
+@include('partials.createProjectModal')

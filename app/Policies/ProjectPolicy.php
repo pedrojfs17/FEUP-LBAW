@@ -40,7 +40,7 @@ class ProjectPolicy
   public function preferences(Account $account, Project $project)
   {
     // Only a team member can see a project's settings
-    return $project->teamMembers()->where('client_id', $account->id)->exists();
+    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
   public function assignents(Account $account, Project $project)

@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -19,24 +20,26 @@ class ProjectController extends Controller
   /**
    * Show the form for creating a new resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
    */
   public function create(Request $request)
   {
-    $validated = $request->validate([
+    $request->validate([
       'name' => 'required|string',
       'description' => 'required|string',
-      'due_date' => 'integer'
+      'due_date' => 'date|after:today'
     ]);
 
     $project = new Project();
-    $project->name = $validated->input('name');
-    $project->description = $validated->input('description');
-    if (!empty($validated->input('due_date')))
-      $project->due_date = $validated->input('due_date');
+    $project->name = $request->input('name');
+    $project->description = $request->input('description');
+    if (!empty($request->input('due_date')))
+      $project->due_date = $request->input('due_date');
     $project->save();
 
-    return response()->json($project);
+    $project->teamMembers()->attach(Auth::User()->id, ['member_role' => 'Owner']);
+
+    return redirect(route('project.overview', ['id' => $project->id]));
   }
 
   /**
@@ -60,8 +63,24 @@ class ProjectController extends Controller
    */
   public function list()
   {
-    $projects = Client::find(Auth::user()->id)->projects()->orderBy('id')->get();
-    return response()->json($projects);
+    $results = DB::select("
+        SELECT projects.*, round(avg((task_status = 'Completed')::int) * 100) AS completion
+        FROM (
+            SELECT project.*
+            FROM project JOIN team_member ON project.id = team_member.project_id
+            WHERE team_member.client_id = :client_id
+        ) AS projects LEFT JOIN task ON projects.id = task.project
+        GROUP BY projects.id,
+            projects.name,
+            projects.description,
+            projects.due_date,
+            projects.search
+        ORDER BY projects.id DESC;
+      ",
+      ['client_id' => Auth::user()->id]
+    );
+
+    return response()->json($results);
   }
 
   /**
@@ -73,17 +92,17 @@ class ProjectController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $validated = $request->validate([
+    $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'integer'
+      'due_date' => 'date'
     ]);
 
     $project = Project::find($id);
     $this->authorize('update', $project);
-    $project->name = empty($validated->input('name')) ? $project->name : $validated->input('name');
-    $project->description = empty($validated->input('description')) ? $project->description : $validated->input('description');
-    $project->due_date = empty($validated->input('due_date')) ? $project->due_date : $validated->input('due_date');
+    $project->name = empty($request->input('name')) ? $project->name : $request->input('name');
+    $project->description = empty($request->input('description')) ? $project->description : $request->input('description');
+    $project->due_date = empty($request->input('due_date')) ? $project->due_date : $request->input('due_date');
     $project->save();
 
     return response()->json($project);
@@ -188,6 +207,7 @@ class ProjectController extends Controller
   public function overview(Request $request, $id)
   {
     $project = Project::find($id);
+    //if ($project == null) return redirect('404');
     $this->authorize('overview', $project);
     return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project]);
   }
@@ -217,12 +237,12 @@ class ProjectController extends Controller
   public function updateInvite(Request $request, $id, $invite_id)
   {
     $project = Project::find($id);
-    $validated = $request->validate([
+    $request->validate([
       'decision' => 'required|boolean',
     ]);
     $this->authorize('updateInvite', $project);
     $project->invites()->updateExistingPivot($invite_id, [
-      'decision' => $validated->decision
+      'decision' => $request->decision
     ]);
     return view('pages.overview', ['overview' => $project->tasks()]);
   }

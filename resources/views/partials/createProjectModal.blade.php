@@ -8,7 +8,8 @@
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <form id="msform" method="POST" action="{{ route('api/project') }}">
+                        <form id="msform" method="POST" action="api/project">
+                            @csrf
                             <div class="col-10 offset-1 mb-5">
                                 <div class="position-relative m-4" id="progressbar">
                                     <div class="progress" style="height: 2px;">
@@ -29,11 +30,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectNameInput" class="form-label">Name <span class="text-muted">*</span></label>
-                                    <input type="text" class="form-control" id="projectNameInput" placeholder="Add Project Title">
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="projectNameInput" placeholder="Add Project Title" name="name" value="{{ old('name') }}" required autofocus>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="projectDescriptionInput" class="form-label">Description</label>
-                                    <textarea class="form-control" id="projectDescriptionInput" rows="3" placeholder="Describe your project"></textarea>
+                                    <label for="projectDescriptionInput" class="form-label">Description <span class="text-muted">*</span></label>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" id="projectDescriptionInput" rows="3" placeholder="Describe your project" name="description" required>{{ old('description') }}</textarea>
                                 </div>
                                 <button type="button" class="next btn btn-lg btn-primary float-end">Next</button>
                                 <button type="button" class="btn btn-lg btn-secondary float-end mx-3" data-bs-dismiss="modal">Cancel</button>
@@ -44,8 +45,9 @@
                                     <legend class="fs-3" style="width: auto;">Setup</legend>
                                     <h5 class="steps">Step 2 - 3</h5>
                                 </div>
-                                <div class="mb-3" style="cursor: pointer;">
-                                    <div class="fs-5 px-3"> + End Date</div>
+                                <div class="mb-3">
+                                    <label for="dueDateInput" class="form-label">Due Date</label>
+                                    <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateInput" type="date" name="due_date" value="{{ old('due_date') }}">
                                 </div>
                                 <div class="mb-3" style="cursor: pointer;">
                                     <div class="fs-5 px-3"> + Connect Instagram</div>
@@ -66,7 +68,7 @@
                                     <input type="text" class="form-control" placeholder="Username or Email" aria-label="Find Members" aria-describedby="button-search">
                                     <button class="btn btn-outline-secondary" type="button" id="button-search"><i class="bi bi-search"></i></button>
                                 </div>
-                                <button type="button" class="btn btn-lg btn-primary float-end">Submit</button>
+                                <button type="submit" class="btn btn-lg btn-primary float-end">Submit</button>
                                 <button type="button" class="previous btn btn-lg btn-secondary float-end mx-3">Previous</button>
                             </fieldset>
                         </form>

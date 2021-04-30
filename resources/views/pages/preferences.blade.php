@@ -1,0 +1,81 @@
+@extends('layouts.app')
+
+@push('scripts')
+  <script src="{{ asset('js/edit-form.js') }}" defer></script>
+@endpush
+
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+@endpush
+
+@section('navbar')
+  @include('partials.navBar')
+@endsection
+
+@section('content')
+  <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
+    @include('partials.projectNavBar', ['page' => 'preferences'])
+    @csrf
+
+    <div class="container">
+      <div class="row align-items-center mt-5 px-5">
+        <h4>Basic info</h4>
+        <hr>
+      </div>
+
+      <section class="row justify-content-center align-items-begin px-5">
+        <label for="name" class="form-label">Name</label>
+        <div class="input-group mb-3">
+          <input type="text" value="{{ $project->name }}" class="form-control" id="name" disabled>
+          <button class="btn btn-outline-secondary edit-button" data-edit-input="name" type="button"><i
+              class="bi bi-pencil"></i></button>
+        </div>
+
+        <label for="description" class="form-label">Description</label>
+        <div class="input-group mb-3">
+          <textarea class="form-control" id="description" style="height: 8em;" disabled>{{ $project->description }}</textarea>
+          <button class="btn btn-outline-secondary edit-button" data-edit-input="description" type="button"><i
+              class="bi bi-pencil"></i></button>
+        </div>
+
+        <label for="due_date" class="form-label">Due Date</label>
+        <div class="input-group mb-3">
+          <input type="date" value="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" class="form-control" id="due_date" disabled>
+          <button class="btn btn-outline-secondary edit-button" data-edit-input="due_date" type="button"><i
+              class="bi bi-pencil"></i></button>
+        </div>
+      </section>
+
+      <div class="row align-items-center mt-5 px-5">
+        <h4>Manage members</h4>
+        <hr>
+      </div>
+
+      <div class="card mx-5 my-1">
+        <div class="card-body">
+          <img class="rounded-circle d-inline-block mx-2" src="images/avatar.png" width="40px" height="40px"
+               alt="avatar">
+          <h5 class="card-title d-inline-block">Pedro Jorge</h5>
+          <button class="btn btn-danger float-end" type="button">Remove</button>
+        </div>
+      </div>
+      <div class="card mx-5 my-1">
+        <div class="card-body">
+          <img class="rounded-circle d-inline-block mx-2" src="images/avatar.png" width="40px" height="40px"
+               alt="avatar">
+          <h5 class="card-title d-inline-block">António Bezerra</h5>
+          <button class="btn btn-danger float-end" type="button">Remove</button>
+        </div>
+      </div>
+
+      <div class="row justify-content-center align-items-begin px-5 my-5">
+        <div class="d-grid gap-2">
+          <p class="text-muted mb-2">Once you delete this project, there is no coming back...</p>
+          <button class="btn btn-danger" type="button">Delete Project</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+@endsection

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -95,14 +94,21 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'date'
+      'due_date' => 'date|after:today'
     ]);
 
     $project = Project::find($id);
     $this->authorize('update', $project);
-    $project->name = empty($request->input('name')) ? $project->name : $request->input('name');
-    $project->description = empty($request->input('description')) ? $project->description : $request->input('description');
-    $project->due_date = empty($request->input('due_date')) ? $project->due_date : $request->input('due_date');
+
+    if (!empty($request->input('name')))
+      $project->name = $request->input('name');
+
+    if (!empty($request->input('description')))
+      $project->description = $request->input('description');
+
+    if (!empty($request->input('due_date')))
+      $project->due_date = $request->input('due_date');
+
     $project->save();
 
     return response()->json($project);
@@ -152,7 +158,7 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('preferences', $project);
-    return view('pages.preferences', ['project' => $project]);
+    return view('pages.preferences', ['project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
   }
 
   /**
@@ -166,7 +172,7 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('assignments', $project);
-    return view('pages.assignments', ['assignments' => $project->assignments()]);
+    return view('pages.assignments', ['assignments' => $project->assignments(), 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
   }
 
   /**
@@ -180,7 +186,7 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('status_board', $project);
-    return view('pages.status_board', ['status_board' => $project->tasks()]);
+    return view('pages.status_board', ['status_board' => $project->tasks(), 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
   }
 
   /**
@@ -194,7 +200,7 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('statistics', $project);
-    return view('pages.statistics', ['project' => $project]);
+    return view('pages.statistics', ['project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
   }
 
   /**
@@ -209,7 +215,7 @@ class ProjectController extends Controller
     $project = Project::find($id);
     //if ($project == null) return redirect('404');
     $this->authorize('overview', $project);
-    return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project]);
+    return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
   }
 
   /**

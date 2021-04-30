@@ -1,10 +1,14 @@
-<div class="modal fade" id="tasks{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel" aria-hidden="true">
+<div class="modal fade" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks{{$task->id}}ModalLabel">
                     <ol class="my-0 breadcrumb text-muted">
-                        <li class="breadcrumb-item"><a>{{$project}}</a></li>
+                        <li class="breadcrumb-item"><a>Project</a></li>
+                        {{ $task->parent()->get() }}
+{{--
+                        <li class="breadcrumb-item" aria-current="page"><a href="#task{{Subtask::find($task->id)->parent()->id}}Modal" data-bs-toggle="modal">{{$task->name}}</a></li>
+--}}
                         <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
                     </ol>
                 </nav>
@@ -21,24 +25,24 @@
                 <div>
                     <h5>Subtasks</h5>
                     <div class="d-grid gap-2 my-3">
-                       @foreach ($task->subtasks as $subtask) { ?>
-                        <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#tasks{{$subtask->id}}Modal">{{$subtask->name}}</button>
-                       @endforeach
+                        @foreach ($task->subtasks as $subtask)
+                        <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#task{{ $subtask->task()->first()->id }}Modal">{{ $subtask->task()->first()->name }}</button>
+                        @endforeach
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-6">
                         <h5 class=" d-inline-block mr-3">Checklist</h5>
-                        <p class=" d-inline-block text-secondary">100%</p>
+                        <p class=" d-inline-block text-secondary">@if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}% @else 0% @endif</p>
                         <div class="progress" style="height:5px;">
-                            <div class="progress-bar" role="progressbar" style="width: 100%;height:5px;background-color:green;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: @if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}%; @else 0; @endif height:5px; background-color:green;" aria-valuenow=@if (count($task->checkListItems) > 0) "{{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}" @else "0" @endif aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-grid gap-2 my-3">
-                            @foreach ($task->checklistItems as $c) { ?>
+                            @foreach ($task->checklistItems as $item)
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    {{$c}}
-                                    <input class="form-check-input" type="checkbox" value="" checked>
+                                    {{$item->item_text}}
+                                    <input class="form-check-input" type="checkbox" @if ($item->completed) checked @endif>
                                 </label>
                             </div>
                             @endforeach

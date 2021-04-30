@@ -18,10 +18,10 @@
 
       @if (count($task->subtasks) > 0)
         <div class="subtasks my-auto mx-1 mx-sm-0">
-        <span class="{{ count($task->subtasks->where('status', 'Completed')) === count($task->subtasks) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
+        <span class="{{ $task->subtasks->reduce(function ($carry, $subtask) { return $subtask->task()->first('task_status')['task_status'] === 'Completed' ? $carry + 1 : $carry;}, 0) === count($task->subtasks) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
             <i class="bi bi-list-check"></i>
             <span class="d-none d-sm-inline-block">
-              {{ count($task->subtasks->where('status', 'Completed')) }}/{{ count($task->subtasks) }}
+              {{ $task->subtasks->reduce(function ($carry, $subtask) { return $subtask->task()->first('task_status')['task_status'] === 'Completed' ? $carry + 1 : $carry;}, 0) }}/{{ count($task->subtasks) }}
             </span>
         </span>
         </div>
@@ -29,10 +29,10 @@
 
       @if (count($task->waitingOn) > 0)
         <div class="waiting-on my-auto mx-1 mx-sm-0">
-        <span class="{{ count($task->waitingOn->where('status', 'Completed')) === count($task->waitingOn) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
+        <span class="{{ count($task->waitingOn->where('task_status', 'Completed')) === count($task->waitingOn) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
             <i class="bi bi-clock"></i>
             <span class="d-none d-sm-inline-block">
-              {{ count($task->waitingOn->where('status', 'Completed')) }}/{{ count($task->waitingOn) }}
+              {{ count($task->waitingOn->where('task_status', 'Completed')) }}/{{ count($task->waitingOn) }}
             </span>
         </span>
         </div>

@@ -20,15 +20,19 @@
         <li class="nav-item">
           <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" href="{{ route('project.statistics', ['id' => $project->id]) }}">Statistics</a>
         </li>
+        @if ($role == 'Owner')
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('project.preferences', ['id' => $project->id]) }}"><span class="d-lg-none">Preferences</span><i
+          <a class="nav-link {{$page == 'preferences' ? 'active' : ''}}" href="{{ route('project.preferences', ['id' => $project->id]) }}"><span class="d-lg-none">Preferences</span><i
               class="bi bi-gear me-2 d-none d-lg-inline-block"></i></a>
         </li>
+        @endif
+        @if ($role != 'Reader')
         <li class="nav-item ms-lg-auto">
           <a class="nav-link d-flex align-items-center" style="margin-right: 0.5em !important;"
              data-bs-toggle="modal" data-bs-target="#tasks0Modal"><span class="mx-lg-2">Add Task</span> <i
               class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i></a>
         </li>
+        @endif
       </ul>
     </div>
   </nav>

@@ -21,8 +21,8 @@ class ProjectPolicy
 
   public function update(Account $account, Project $project)
   {
-    // Only an editor or owner can update a project
-    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => ['Editor', 'Owner']])->exists();
+    // Only an owner can update a project
+    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
   public function delete(Account $account, Project $project)

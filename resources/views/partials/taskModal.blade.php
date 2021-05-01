@@ -5,10 +5,11 @@
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks{{$task->id}}ModalLabel">
                     <ol class="my-0 breadcrumb text-muted">
                         <li class="breadcrumb-item"><a>Project</a></li>
-                        {{ $task->parent()->get() }}
-{{--
-                        <li class="breadcrumb-item" aria-current="page"><a href="#task{{Subtask::find($task->id)->parent()->id}}Modal" data-bs-toggle="modal">{{$task->name}}</a></li>
---}}
+                        @if (count($task->parent()->get()) > 0)
+                        <li class="breadcrumb-item" aria-current="page">
+                          <a class="" href="#task{{$task->parent()->first()->id}}Modal" data-bs-toggle="modal">{{$task->parent()->first()->parent()->first()->name}}</a>
+                        </li>
+                        @endif
                         <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
                     </ol>
                 </nav>

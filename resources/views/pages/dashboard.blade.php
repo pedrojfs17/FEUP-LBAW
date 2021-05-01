@@ -21,6 +21,13 @@
       {{ $errors->first() }}
     </div>
   @endif
+
+  @if (session('message') !== null)
+    <div class="alert alert-success text-center" role="alert">
+      {{ session('message') }}
+    </div>
+  @endif
+
   <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
       <li class="nav-item" role="presentation">

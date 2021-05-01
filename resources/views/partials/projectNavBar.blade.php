@@ -1,6 +1,6 @@
 <header class="page-header header container-md">
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand text-dark" href="{{ route('project.overview', ['id' => $project->id]) }}">{{ $project->name }}</a>
+    <a id="project-title" class="navbar-brand text-dark" href="{{ route('project.overview', ['id' => $project->id]) }}">{{ $project->name }}</a>
     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
             aria-expanded="false" aria-label="Toggle navigation">

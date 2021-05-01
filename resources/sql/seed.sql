@@ -372,7 +372,9 @@ $BODY$
 CREATE OR REPLACE FUNCTION check_project_owner() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    IF OLD.member_role = 'Owner' AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
+    IF OLD.member_role = 'Owner'
+        AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
+        AND (SELECT COUNT(*) FROM team_member WHERE project_id = OLD.project_id) > 1
     THEN
         RAISE EXCEPTION 'Project must have at least one owner!';
     END IF;

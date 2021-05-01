@@ -16,7 +16,6 @@
 @section('content')
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
     @include('partials.projectNavBar', ['page' => 'preferences'])
-    @csrf
 
     <div class="container">
       <div class="row align-items-center mt-5 px-5">
@@ -28,7 +27,7 @@
         <label for="name" class="form-label">Name</label>
         <div class="input-group mb-3">
           <input type="text" value="{{ $project->name }}" class="form-control" id="name" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-edit-input="name" type="button"><i
+          <button class="btn btn-outline-secondary edit-button" data-edit-input="name" data-on-edit="updateProjectName" type="button"><i
               class="bi bi-pencil"></i></button>
         </div>
 
@@ -69,13 +68,41 @@
         </div>
       </div>
 
-      <div class="row justify-content-center align-items-begin px-5 my-5">
+      <div class="row align-items-center mt-5 px-5">
+        <h4>Delete Project</h4>
+        <hr>
+      </div>
+
+      <div class="row justify-content-center align-items-begin px-5">
         <div class="d-grid gap-2">
           <p class="text-muted mb-2">Once you delete this project, there is no coming back...</p>
-          <button class="btn btn-danger" type="button">Delete Project</button>
+          <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">Delete Project</button>
         </div>
       </div>
-    </div>
 
-  </div>
+      <!-- Modal -->
+      <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete Project</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete this project?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <form method="POST" action="{{ route('project.preferences', ['id' => $project->id]) }}">
+                @method('DELETE')
+                @csrf
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
 @endsection

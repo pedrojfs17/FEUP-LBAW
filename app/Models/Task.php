@@ -26,6 +26,11 @@ class Task extends Model
     return $this->hasMany(Subtask::class, 'parent');
   }
 
+  public function parent()
+  {
+    return $this->belongsTo(Subtask::class, 'id');
+  }
+
   public function waitingOn()
   {
     return $this->belongsToMany(Task::class, 'waiting_on', 'task1', 'task2');

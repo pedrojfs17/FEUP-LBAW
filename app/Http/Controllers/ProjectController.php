@@ -118,14 +118,15 @@ class ProjectController extends Controller
    * Remove the specified resource from storage.
    *
    * @param \App\Models\Project $project
-   * @return \Illuminate\Http\JsonResponse
+   * @return
    */
   public function delete(Request $request, $id)
   {
     $project = Project::find($id);
     $this->authorize('delete', $project);
+    $project->teamMembers()->wherePivot('member_role', '!=', 'Owner')->detach();
     $project->delete();
-    return response()->json($project);
+    return redirect('dashboard')->with('message', 'Successfully deleted project: ' . $project->name);
   }
 
   /**

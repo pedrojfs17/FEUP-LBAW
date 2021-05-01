@@ -1,5 +1,5 @@
 const toggleButtons = document.querySelectorAll('.edit-button')
-const csrfTocken = document.querySelector('input[name="_token"]').value
+const csrfToken = document.querySelector('input[name="_token"]').value
 
 function encodeForAjax(data) {
   return Object.keys(data).map(function(k) {
@@ -17,15 +17,20 @@ toggleButtons.forEach(button => {
     } else {
       button.innerHTML = '<i class="bi bi-pencil"></i>'
       input.disabled = true
-      sendAjaxRequest(window.location.pathname, {
-          [button.dataset.editInput] : input.value,
-          "_token": csrfTocken,
-        })
+      sendPatchAjaxRequest(window.location.pathname, {
+        [button.dataset.editInput] : input.value,
+        "_token": csrfToken,
+      }, window[button.dataset.onEdit])
     }
   })
 })
 
-function sendAjaxRequest(route, data) {
+function updateProjectName(project) {
+  const title = document.querySelector('#project-title')
+  if (title) title.innerText = project.name
+}
+
+function sendPatchAjaxRequest(route, data, successFunction) {
   const xhr = new XMLHttpRequest();
   xhr.open("PATCH", route);
   xhr.setRequestHeader("Accept", "application/json");
@@ -33,8 +38,7 @@ function sendAjaxRequest(route, data) {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
+      if (successFunction) successFunction(JSON.parse(this.response))
     }
   };
 

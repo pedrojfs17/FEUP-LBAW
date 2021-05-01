@@ -17,7 +17,7 @@ toggleButtons.forEach(button => {
     } else {
       button.innerHTML = '<i class="bi bi-pencil"></i>'
       input.disabled = true
-      sendPatchAjaxRequest(window.location.pathname, {
+      sendPatchAjaxRequest(button.dataset.href, {
         [button.dataset.editInput] : input.value,
         "_token": csrfToken,
       }, window[button.dataset.onEdit])

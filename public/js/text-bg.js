@@ -9,7 +9,7 @@ elements.forEach(element => {
     let b = color[2]
 
     if (r * 0.299 + g * 0.587 + b * 0.114 > 186)
-        element.style.color = "#000000" 
-    else 
-        element.style.color = "#FFFFFF" 
+        element.style.color = "#000000"
+    else
+        element.style.color = "#FFFFFF"
 })

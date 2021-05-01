@@ -4,10 +4,12 @@
             <div class="modal-header">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks{{$task->id}}ModalLabel">
                     <ol class="my-0 breadcrumb text-muted">
-                        <li class="breadcrumb-item"><a>Project</a></li>
+                        <li class="breadcrumb-item">
+                          <a style="cursor: pointer; font-weight: bolder" data-bs-dismiss="modal">Project</a>
+                        </li>
                         @if (count($task->parent()->get()) > 0)
                         <li class="breadcrumb-item" aria-current="page">
-                          <a class="" href="#task{{$task->parent()->first()->id}}Modal" data-bs-toggle="modal">{{$task->parent()->first()->parent()->first()->name}}</a>
+                          <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent->parent}}Modal" data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent->parent()->first()->name}}</a>
                         </li>
                         @endif
                         <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
@@ -15,24 +17,34 @@
                 </nav>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body d-grid gap-4 px-sm-5">
-                <div>
-                    <header>
-                        <h3 class="d-inline-block">{{$task->name}}</h3>
-                        <h6 class="d-inline-block text-secondary mx-2">{{$task->status}}</h6>
-                    </header>
-                    <textarea style="height:75px;width:100%;" placeholder="{{$task->description}}"></textarea>
-                </div>
+            <section class="status-{{ str_replace(' ', '-', strtolower($task->task_status)) }} text-light px-3 py-2 text-bg-check">
+              {{$task->task_status}}
+            </section>
+            <div class="modal-body d-grid gap px-sm-5">
+                <header>
+                    <h3 class="d-inline-block">{{$task->name}}</h3>
+                    <button class="btn btn-outline-secondary float-end" type="button"><i class="bi bi-pencil"></i></button>
+                    <p class="text-muted">{{$task->due_date}}</p>
+                    <h6 class="text-muted">{{$task->description}}</h6>
+                    <hr>
+                </header>
                 <div>
                     <h5>Subtasks</h5>
                     <div class="d-grid gap-2 my-3">
                         @foreach ($task->subtasks as $subtask)
-                        <button type="button" style="background-color: #e7e7e7" class="btn text-start" data-bs-toggle="modal" data-bs-target="#task{{ $subtask->task()->first()->id }}Modal">{{ $subtask->task()->first()->name }}</button>
+                        <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->task()->first()->task_status)) }}" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $subtask->task()->first()->id }}Modal">{{ $subtask->task()->first()->name }}</button>
                         @endforeach
                     </div>
+                    <h5>Waiting On</h5>
+                    <div class="d-grid gap-2 my-3">
+                      @foreach ($task->waitingOn as $waitingOn)
+                        <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($waitingOn->task_status)) }}" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $waitingOn->id }}Modal">{{ $waitingOn->name }}</button>
+                      @endforeach
+                    </div>
+                    <hr>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-lg-6">
+                <div class="row gx-0">
+                    <div class="col-12 col-lg-6 pe-2">
                         <h5 class=" d-inline-block mr-3">Checklist</h5>
                         <p class=" d-inline-block text-secondary">@if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}% @else 0% @endif</p>
                         <div class="progress" style="height:5px;">
@@ -49,45 +61,38 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <h5 class=" d-inline-block mr-3">Tags</h5>
-                        <a class="text-muted float-end" data-bs-toggle="collapse" href="#task{{$task->id}}CreateTag" role="button" aria-expanded="false" aria-controls="task{{$task->id}}CreateTag"><i class="bi bi-plus-circle"></i></a>
-                        <div id="task{{$task->id}}CreateTag" class="collapse mb-3">
-                            <form class="d-flex">
-                                <input type="text" class="form-control" placeholder="Tag Name" aria-label="Tag name">
-                                <input type="color" class="form-control form-control-color mx-2" value="#20c94d" title="Choose tag color">
-                                <button type="submit" class="btn btn-outline-secondary flex-grow-1">Add</button>
-                            </form>
-                        </div>
-
-                        <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
-                          @foreach ($task->tags as $tag)
-                            <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color: {{ $tag->color }}">
-                              <small>{{ $tag->name }}</small></p>
-                          @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-12 col-lg-6 ps-2">
                         <h5 class="mb-1">Assigned to:</h5>
-                        <img class="rounded-circle" src="images/avatar.png " width="40px " height="40px " alt="avatar ">
+                        <img class="rounded-circle" src="{{ asset('images/avatar.png') }}" width="40px " height="40px " alt="avatar ">
                     </div>
-                    <div class="col-lg-4 mb-3">
-                        <h5 class="mb-1">Waiting on:</h5>
-                        <h6>{{$task->waitingOn}}</h6>
+                    <hr>
+                </div>
+                <div>
+                    <h5 class=" d-inline-block mr-3">Tags</h5>
+                    <a class="text-muted float-end" data-bs-toggle="collapse" href="#task{{$task->id}}CreateTag" role="button" aria-expanded="false" aria-controls="task{{$task->id}}CreateTag"><i class="bi bi-plus-circle"></i></a>
+                    <div id="task{{$task->id}}CreateTag" class="collapse mb-3">
+                        <form class="d-flex">
+                            <input type="text" class="form-control" placeholder="Tag Name" aria-label="Tag name">
+                            <input type="color" class="form-control form-control-color mx-2" value="#20c94d" title="Choose tag color">
+                            <button type="submit" class="btn btn-outline-secondary flex-grow-1">Add</button>
+                        </form>
                     </div>
-                    <div class="col-lg-4">
-                        <h5 class="mb-1">Deadline:</h5>
-                        <input type="date" class="form-control">
+
+                    <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+                        @foreach ($task->tags as $tag)
+                            <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color: {{ $tag->color }}">
+                                <small>{{ $tag->name }}</small>
+                            </p>
+                        @endforeach
                     </div>
+                    <hr>
                 </div>
                 <div>
                     <h5>Comments</h5>
                     <div class="mb-3">
                         <div class="comment mb-3">
                             <div class="comment-body d-flex ms-2">
-                                <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                <img class="rounded-circle mt-1" src="{{ asset('images/avatar.png') }}" width="30px" height="30px" alt="avatar">
                                 <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
                                     Are you sure these are all the ingredients needed?
                                 </div>
@@ -98,7 +103,7 @@
                             <div id="comment1reply" class="collapse">
                                 <div class="comment-replies my-2 ms-5">
                                     <div class="comment-body d-flex ms-2">
-                                        <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                        <img class="rounded-circle mt-1" src="{{ asset('images/avatar.png') }}" width="30px" height="30px" alt="avatar">
                                         <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
                                             For this first post we only need these. Maybe for another one we need more but they are in another task.
                                         </div>
@@ -112,7 +117,7 @@
                         </div>
                         <div class="comment mb-4">
                             <div class="comment-body d-flex ms-2">
-                                <img class="rounded-circle mt-1" src="images/avatar.png" width="30px" height="30px" alt="avatar">
+                                <img class="rounded-circle mt-1" src="{{ asset('images/avatar.png') }}" width="30px" height="30px" alt="avatar">
                                 <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2" style="background-color: #e7e7e7">
                                     I think you can assign this task to me.. I may be able to complete it quickly!
                                 </div>

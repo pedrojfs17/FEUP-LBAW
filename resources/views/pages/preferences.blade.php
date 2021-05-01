@@ -27,21 +27,21 @@
         <label for="name" class="form-label">Name</label>
         <div class="input-group mb-3">
           <input type="text" value="{{ $project->name }}" class="form-control" id="name" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-edit-input="name" data-on-edit="updateProjectName" type="button"><i
+          <button class="btn btn-outline-secondary edit-button" data-href="{{ route('project.preferences', ['id' => $project->id]) }}" data-edit-input="name" data-on-edit="updateProjectName" type="button"><i
               class="bi bi-pencil"></i></button>
         </div>
 
         <label for="description" class="form-label">Description</label>
         <div class="input-group mb-3">
           <textarea class="form-control" id="description" style="height: 8em;" disabled>{{ $project->description }}</textarea>
-          <button class="btn btn-outline-secondary edit-button" data-edit-input="description" type="button"><i
+          <button class="btn btn-outline-secondary edit-button" data-href="{{ route('project.preferences', ['id' => $project->id]) }}" data-edit-input="description" type="button"><i
               class="bi bi-pencil"></i></button>
         </div>
 
         <label for="due_date" class="form-label">Due Date</label>
         <div class="input-group mb-3">
           <input type="date" value="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" class="form-control" id="due_date" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-edit-input="due_date" type="button"><i
+          <button class="btn btn-outline-secondary edit-button" data-href="{{ route('project.preferences', ['id' => $project->id]) }}" data-edit-input="due_date" type="button"><i
               class="bi bi-pencil"></i></button>
         </div>
       </section>

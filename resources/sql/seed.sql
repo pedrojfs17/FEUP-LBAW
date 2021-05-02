@@ -522,11 +522,8 @@ $BODY$
 
 -- Triggers
 
-DROP TRIGGER IF EXISTS insert_client_search ON client;
 DROP TRIGGER IF EXISTS update_client_search ON client;
-DROP TRIGGER IF EXISTS insert_project_search ON project;
 DROP TRIGGER IF EXISTS update_project_search ON project;
-DROP TRIGGER IF EXISTS insert_task_search ON task;
 DROP TRIGGER IF EXISTS update_task_search ON task;
 DROP TRIGGER IF EXISTS assign_tag ON contains_tag;
 DROP TRIGGER IF EXISTS assign_member ON assignment;
@@ -542,42 +539,24 @@ DROP TRIGGER IF EXISTS add_report_notification ON report;
 
 
 -- TRIGGER01
-CREATE TRIGGER insert_client_search
-    AFTER INSERT
-    ON client
-    FOR EACH ROW
-EXECUTE PROCEDURE client_search_update();
-
 CREATE TRIGGER update_client_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON client
     FOR EACH ROW
 EXECUTE PROCEDURE client_search_update();
 
 
 -- TRIGGER02
-CREATE TRIGGER insert_project_search
-    AFTER INSERT
-    ON project
-    FOR EACH ROW
-EXECUTE PROCEDURE project_search_update();
-
 CREATE TRIGGER update_project_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON project
     FOR EACH ROW
 EXECUTE PROCEDURE project_search_update();
 
 
 -- TRIGGER03
-CREATE TRIGGER insert_task_search
-    AFTER INSERT
-    ON task
-    FOR EACH ROW
-EXECUTE PROCEDURE task_search_update();
-
 CREATE TRIGGER update_task_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON task
     FOR EACH ROW
 EXECUTE PROCEDURE task_search_update();

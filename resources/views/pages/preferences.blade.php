@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-  <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
+  <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="preferences">
     @include('partials.projectNavBar', ['page' => 'preferences'])
 
     <div class="container">
@@ -51,22 +51,7 @@
         <hr>
       </div>
 
-      <div class="card mx-5 my-1">
-        <div class="card-body">
-          <img class="rounded-circle d-inline-block mx-2" src="images/avatar.png" width="40px" height="40px"
-               alt="avatar">
-          <h5 class="card-title d-inline-block">Pedro Jorge</h5>
-          <button class="btn btn-danger float-end" type="button">Remove</button>
-        </div>
-      </div>
-      <div class="card mx-5 my-1">
-        <div class="card-body">
-          <img class="rounded-circle d-inline-block mx-2" src="images/avatar.png" width="40px" height="40px"
-               alt="avatar">
-          <h5 class="card-title d-inline-block">António Bezerra</h5>
-          <button class="btn btn-danger float-end" type="button">Remove</button>
-        </div>
-      </div>
+      @each('partials.projectMember', $project->teamMembers, 'member')
 
       <div class="row align-items-center mt-5 px-5">
         <h4>Delete Project</h4>

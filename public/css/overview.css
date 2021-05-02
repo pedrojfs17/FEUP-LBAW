@@ -1,0 +1,139 @@
+header .navbar-brand {
+    font-size: 2em;
+}
+
+header .nav-link,
+header .navbar-brand {
+    color: grey;
+    cursor: pointer;
+}
+
+header .nav-link {
+    margin-right: 1em !important;
+}
+
+header .active {
+    color: rgb(94, 94, 94);
+    font-weight: bold;
+}
+
+header .nav-link:hover {
+    color: #000;
+}
+
+header .navbar-collapse {
+    justify-content: flex-start;
+}
+
+@media (max-width:992px) {
+    .stats-dashboard {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media(min-width:992px) {
+    .stats-block {
+        width: 50%;
+    }
+}
+
+#overview .card {
+    width: 300px;
+}
+
+@media (max-width: 655px) {
+    #overview .card {
+        width: 100%;
+    }
+}
+
+.project-nav-toggler::before {
+    transition: transform .2s ease-in-out;
+}
+
+.navbar-toggler:not(.collapsed) .project-nav-toggler::before {
+    transform: rotate(180deg);
+}
+
+
+
+@media (max-width: 768px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+    .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* display 3 */
+@media (min-width: 768px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+      transform: translateX(33.333%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+      transform: translateX(-33.333%);
+    }
+}
+
+@media (max-width: 767px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+      transform: translateX(100%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+      transform: translateX(-100%);
+    }
+}
+
+.carousel-inner .carousel-item-start,
+.carousel-inner .carousel-item-end{
+  transform: translateX(0);
+}
+
+
+.card-header.status-waiting, section.status-waiting {
+    background: #ff8d23;
+}
+
+.card-header.status-not-started, section.status-not-started {
+    background: #ffcc23;
+}
+
+.card-header.status-in-progress, section.status-in-progress {
+    background: #46cbf4;
+}
+
+.card-header.status-completed, section.status-completed {
+    background: #00B961;
+}
+
+.subtask-waiting {
+    border-left: 5px solid #ff8d23;
+}
+
+.subtask-not-started {
+    border-left: 5px solid #ffcc23;
+}
+
+.subtask-in-progress {
+    border-left: 5px solid #46cbf4;
+}
+
+.subtask-completed {
+    border-left: 5px solid #00B961;
+}

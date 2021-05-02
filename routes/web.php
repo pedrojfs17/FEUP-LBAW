@@ -23,8 +23,6 @@ Route::get('search', 'SearchController@show')->name('search');
 Route::get('api/search', 'SearchController@search');
 
 // Projects
-Route::view('project/create', 'partials.createProjectModal');
-
 Route::get('project/{id}/overview', 'ProjectController@overview')->name('project.overview');
 Route::get('project/{id}/status_board', 'ProjectController@status_board')->name('project.status');
 Route::get('project/{id}/assignments', 'ProjectController@assignments')->name('project.assignments');
@@ -53,6 +51,7 @@ Route::post('api/project/{id}/task', 'TaskController@create');
 Route::get('api/project/{id}/task/{task}', 'TaskController@show');
 Route::patch('api/project/{id}/task/{task}', 'TaskController@update');
 Route::delete('api/project/{id}/task/{task}', 'TaskController@delete');
+
 Route::post('api/project/{id}/task/{task}/tag', 'TaskController@tag');
 Route::post('api/project/{id}/task/{task}/subtask', 'TaskController@subtask');
 Route::post('api/project/{id}/task/{task}/waiting_on', 'TaskController@waiting_on');
@@ -79,7 +78,7 @@ Route::delete('profile/{username}', 'ClientController@delete');
 Route::get('settings', 'ClientController@showSettings')->name('settings');
 Route::patch('settings', 'ClientController@updateSettings');
 
-Route::get('avatars/{img}', 'ImagesController@show')->name('avatar');
+Route::get('avatars/{img}', 'ImagesController@show');
 
 // Administration
 Route::get('admin/users', 'AdminController@users')->name('admin.users');

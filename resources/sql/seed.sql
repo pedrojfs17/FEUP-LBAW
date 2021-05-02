@@ -93,7 +93,7 @@ CREATE TABLE client
     id              INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
     fullname        VARCHAR,
     company         VARCHAR,
-    avatar          VARCHAR,
+    avatar          VARCHAR DEFAULT 'avatars/default.png',
     client_gender   gender DEFAULT 'Unspecified',
     country         INTEGER REFERENCES country (id) ON DELETE CASCADE,
     allowNoti       BOOLEAN             NOT NULL DEFAULT TRUE,

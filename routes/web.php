@@ -79,6 +79,8 @@ Route::delete('profile/{username}', 'ClientController@delete');
 Route::get('settings', 'ClientController@showSettings')->name('settings');
 Route::patch('settings', 'ClientController@updateSettings');
 
+Route::get('avatars/{img}', 'ImagesController@show')->name('avatar');
+
 // Administration
 Route::get('admin/users', 'AdminController@users')->name('admin.users');
 Route::get('admin/statistics', 'AdminController@statistics')->name('admin.statistics');

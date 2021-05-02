@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="d-flex flex-wrap align-content-start justify-content-center justify-content-md-between">
-          <div class="card m-1 border" style="max-width: 300px;">
+          {{--<div class="card m-1 border" style="max-width: 300px;">
             <div class="row gx-0 align-items-center">
               <div class="col-md-6 p-lg-4 p-md-2 px-5 pt-1">
                 <img src="images/avatar.png" alt="account avatar" class="img-fluid">
@@ -133,9 +133,9 @@
             <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;"
                     data-bs-toggle="modal" data-bs-target="#statisticsModal">See More
             </button>
-          </div>
+          </div>--}}
 
-          <div class="card m-1 border" style="max-width: 300px;">
+          {{--<div class="card m-1 border" style="max-width: 300px;">
             <div class="row gx-0 align-items-center">
               <div class="col-md-6 p-lg-4 p-md-2 px-5 pt-1">
                 <img src="images/avatar.png" alt="account avatar" class="img-fluid">
@@ -158,9 +158,9 @@
             <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;"
                     data-bs-toggle="modal" data-bs-target="#statisticsModal">See More
             </button>
-          </div>
+          </div>--}}
 
-          <div class="card m-1 border" style="max-width: 300px;">
+          {{--<div class="card m-1 border" style="max-width: 300px;">
             <div class="row gx-0 align-items-center">
               <div class="col-md-6 p-lg-4 p-md-2 px-5 pt-1">
                 <img src="images/avatar.png" alt="account avatar" class="img-fluid">
@@ -183,9 +183,9 @@
             <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;"
                     data-bs-toggle="modal" data-bs-target="#statisticsModal">See More
             </button>
-          </div>
+          </div>--}}
 
-          <div class="card m-1 border" style="max-width: 300px;">
+          {{--<div class="card m-1 border" style="max-width: 300px;">
             <div class="row gx-0 align-items-center">
               <div class="col-md-6 p-lg-4 p-md-2 px-5 pt-1">
                 <img src="images/avatar.png" alt="account avatar" class="img-fluid">
@@ -208,11 +208,11 @@
             <button type="button" class="btn btn-light card-footer" style="background-color:#f5ebef;"
                     data-bs-toggle="modal" data-bs-target="#statisticsModal">See More
             </button>
-          </div>
+          </div>--}}
         </div>
       </div>
     </div>
   </div>
+  
+  @include('partials.createProjectModal')
 @endsection
-
-@include('partials.createProjectModal')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -58,9 +59,9 @@ class ProjectController extends Controller
   /**
    * Display the specified resource.
    *
-   * @return \Illuminate\Http\JsonResponse
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
    */
-  public function list()
+  public function list(Request $request)
   {
     $results = DB::select("
         SELECT projects.*, round(avg((task_status = 'Completed')::int) * 100) AS completion
@@ -79,7 +80,12 @@ class ProjectController extends Controller
       ['client_id' => Auth::user()->id]
     );
 
-    return response()->json($results);
+    if ($request->wantsJson())
+    {
+      return response()->json($results);
+    }
+
+    return view('partials.myProjects', ['projects' => Client::find(Auth::user()->id)->projects()]);
   }
 
   /**
@@ -159,7 +165,11 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('preferences', $project);
-    return view('pages.preferences', ['project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
+    return view('pages.preferences', [
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 
   /**
@@ -173,7 +183,12 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('assignments', $project);
-    return view('pages.assignments', ['assignments' => $project->assignments(), 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
+    return view('pages.assignments', [
+      'tasks' => $project->tasks()->get(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 
   /**
@@ -187,7 +202,12 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('status_board', $project);
-    return view('pages.status_board', ['status_board' => $project->tasks(), 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
+    return view('pages.status_board', [
+      'tasks' => $project->tasks()->get(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 
   /**
@@ -201,7 +221,11 @@ class ProjectController extends Controller
   {
     $project = Project::find($id);
     $this->authorize('statistics', $project);
-    return view('pages.statistics', ['project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
+    return view('pages.statistics', [
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 
   /**
@@ -216,7 +240,12 @@ class ProjectController extends Controller
     $project = Project::find($id);
     //if ($project == null) return redirect('404');
     $this->authorize('overview', $project);
-    return view('pages.overview', ['tasks' => $project->tasks()->get(), 'project' => $project, 'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role]);
+    return view('pages.overview', [
+      'tasks' => $project->tasks()->get(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 
   /**

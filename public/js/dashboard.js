@@ -46,4 +46,5 @@ projectsRequest.onreadystatechange = function() {
 }
 
 projectsRequest.open("GET", "api/project", true)
+projectsRequest.setRequestHeader("Accept", "application/json")
 projectsRequest.send()

@@ -4,7 +4,9 @@
 namespace App\Models;
 
 
-class Client extends Account
+use Illuminate\Database\Eloquent\Model;
+
+class Client extends Model
 {
   // Don't add create and update timestamps in database.
   public $timestamps = false;
@@ -19,7 +21,7 @@ class Client extends Account
 
   public function account()
   {
-    return $this->belongsTo(Account::class);
+    return $this->belongsTo(Account::class, 'id');
   }
 
   public function country()

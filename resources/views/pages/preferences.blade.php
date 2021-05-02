@@ -51,7 +51,9 @@
         <hr>
       </div>
 
-      @each('partials.projectMember', $project->teamMembers, 'member')
+      <div class="mx-5">
+        @each('partials.projectMember', $project->teamMembers, 'member')
+      </div>
 
       <div class="row align-items-center mt-5 px-5">
         <h4>Delete Project</h4>

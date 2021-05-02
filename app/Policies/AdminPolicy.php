@@ -12,22 +12,22 @@ class AdminPolicy
 {
   use HandlesAuthorization;
 
-  public function users(Account $account)
+  public function users(Account $account, Admin $admin)
   {
     // Only an admin can access this page
-    return Admin::find($account->id) != null;
+    return $account->id == $admin->id;
   }
 
-  public function statistics(Account $account)
+  public function statistics(Account $account, Admin $admin)
   {
     // Only an admin can access this page
-    return Admin::find($account->id) != null;
+    return $account->id == $admin->id;
   }
 
-  public function support(Account $account)
+  public function support(Account $account, Admin $admin)
   {
     // Only an admin can access this page
-    return Admin::find($account->id) != null;
+    return $account->id == $admin->id;
   }
 
 }

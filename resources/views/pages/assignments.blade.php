@@ -25,7 +25,11 @@
         </div>
         <div class="card-body ">
           <div class="d-grid gap-2 ">
-            <button class="btn btn-light text-start " type="button ">Bake</button>
+            @foreach ($tasks as $task)
+              @if (count($task->assignees) == 0)
+                <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($task->task_status)) }}" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $task->id }}Modal">{{ $task->name }}</button>
+              @endif
+            @endforeach
           </div>
         </div>
       </div>
@@ -49,7 +53,7 @@
               </button>
             </div>
             <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel"
-                    type="button" data-bs-slide="prev">
+                    type="button" data-bs-slide="prev" style="height: max-content">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
@@ -59,7 +63,7 @@
               @endforeach
             </div>
             <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel"
-                    type="button" data-bs-slide="next">
+                    type="button" data-bs-slide="next" style="height: max-content">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
@@ -68,4 +72,6 @@
       </div>
     </div>
   </div>
+
+  @each('partials.taskModal', $tasks, 'task')
 @endsection

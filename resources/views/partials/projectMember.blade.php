@@ -4,6 +4,8 @@
          alt="avatar">
     <h5 class="card-title d-inline-block">{{ $member->account->username }}</h5>
     <h6 class="d-inline-block text-muted">{{ isset($member->pivot->member_role) ? $member->pivot->member_role : $member->account->email }}</h6>
-    <button class="btn btn-danger float-end" type="button">Remove</button>
+    @if ($member->account->id != Auth::user()->id && $role == 'Owner')
+    <button class="btn btn-danger float-end remove-button" data-href="/api/project/{{ $project->id }}/{{ $member->account->username }}" type="button">Remove</button>
+    @endunless
   </div>
 </div>

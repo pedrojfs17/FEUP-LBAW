@@ -146,15 +146,15 @@ class ProjectController extends Controller
   public function leave(Request $request, $id, $username)
   {
     $project = Project::find($id);
-    $account = Account::where('username', '=', $username);
+    $account = Account::where('username', '=', $username)->first();
 
-    $this->authorize('leave', $project, $account);
+    $this->authorize('leave', [$project, $account]);
 
     $member = $project->teamMembers()->wherePivot('client_id', '=', $account->id);
     $member->detach();
 
     if (Auth::user()->id == $account->id)
-      return redirect('pages.dashboard');
+      return redirect('dashboard');
     else
       return response()->json($member);
   }

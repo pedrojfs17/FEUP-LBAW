@@ -26,7 +26,7 @@ class ClientController extends Controller
     $account = Account::where('username', '=', $username)->first();
     if ($account == null) return view('errors.404');
     $client = Client::find($account->id);
-    return view('pages.profile', ['client' => $client]);
+    return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
   }
 
   /**
@@ -75,13 +75,13 @@ class ClientController extends Controller
    * Remove the specified resource from storage.
    *
    * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @return
    */
   public function showSettings(Request $request)
   {
     $client = Client::find(Auth::user()->id);
     $this->authorize('showSettings', $client);
-    return view('pages.settings', ['client' => $client]);
+    return view('pages.settings', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
   }
 
   /**

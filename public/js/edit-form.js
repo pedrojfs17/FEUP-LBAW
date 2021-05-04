@@ -1,4 +1,5 @@
 const toggleButtons = document.querySelectorAll('.edit-button')
+const removeButtons = document.querySelectorAll('.remove-button')
 const csrfToken = document.querySelector('input[name="_token"]').value
 
 function encodeForAjax(data) {
@@ -6,6 +7,22 @@ function encodeForAjax(data) {
     return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
   }).join('&')
 }
+
+removeButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("DELETE", button.dataset.href);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        button.parentElement.parentElement.remove()
+      }
+    };
+
+    xhr.send(encodeForAjax({'_token' : csrfToken}))
+  })
+})
 
 toggleButtons.forEach(button => {
   button.addEventListener('click', function() {

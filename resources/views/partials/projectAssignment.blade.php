@@ -9,7 +9,7 @@
         <div class="d-grid gap-2 ">
           @foreach($team_member->tasks as $task)
             @if ($task->project == $project->id)
-            <button class="btn btn-light text-start " type="button">{{$task->name}}</button>
+              <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($task->task_status)) }}" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $task->id }}Modal">{{ $task->name }}</button>
             @endif
           @endforeach
         </div>

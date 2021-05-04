@@ -25,4 +25,6 @@
       @endforeach
     </div>
   </div>
+
+  @each('partials.taskModal', $tasks, 'task')
 @endsection

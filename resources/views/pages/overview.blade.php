@@ -15,20 +15,20 @@
 
 
 @section('content')
-<div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
   @include('partials.projectNavBar', ['page' => 'overview'])
 
-  @foreach ($tasks as $task)
-      @include('partials.task', ['task' => $task])
-      @include('partials.taskModal', ['task' => $task])
-  @endforeach
+  <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
+    @foreach ($tasks as $task)
+        @include('partials.task', ['task' => $task])
+        @include('partials.taskModal', ['task' => $task])
+    @endforeach
 
-  @if ($role != 'Reader')
-  <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
-       style="background-color: #efefef; border-style: dashed; min-height: 10em">
-    <i class="bi bi-plus-circle text-muted fs-2"></i>
-    <a data-bs-toggle="modal" data-bs-target="#tasks0Modal" role="button" class="stretched-link p-0"></a>
+    @if ($role != 'Reader')
+    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
+         style="background-color: #efefef; border-style: dashed; min-height: 10em">
+      <i class="bi bi-plus-circle text-muted fs-2"></i>
+      <a data-bs-toggle="modal" data-bs-target="#tasks0Modal" role="button" class="stretched-link p-0"></a>
+    </div>
+    @endif
   </div>
-  @endif
-</div>
 @endsection

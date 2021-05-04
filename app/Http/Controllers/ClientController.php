@@ -23,8 +23,10 @@ class ClientController extends Controller
    */
   public function show(Request $request, $username)
   {
-    $client = Client::find($username);
-    return response()->json($client);
+    $account = Account::where('username', '=', $username)->first();
+    if ($account == null) return view('errors.404');
+    $client = Client::find($account->id);
+    return view('pages.profile', ['client' => $client]);
   }
 
   /**

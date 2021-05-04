@@ -10,7 +10,7 @@ items.forEach(function(item) {
 taskGroups.forEach(function(group) {
     group.addEventListener('drop', handleHover)
     group.addEventListener('drop', handleDrop)
-    group.addEventListener('dragover', handleDrop);
+    group.addEventListener('dragover', handleHover);
 })
 
 function handleDrag() {
@@ -18,6 +18,25 @@ function handleDrag() {
 }
 
 function handleDrop(e) {
+  let data = e.dataTransfer.getData('text');
+  let element = document.getElementById(data);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("PATCH",e.currentTarget.dataset.href + element.dataset.id);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send(encodeForAjax({
+    'task_status': e.currentTarget.dataset.status,
+    '_token': document.querySelector('input[name="_token"]').value
+  }));
+}
+
+function encodeForAjax(data) {
+  return Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+  }).join('&')
+}
+
+function handleHover(e) {
     e.preventDefault();
     let data = e.dataTransfer.getData('text');
     let element = document.getElementById(data);

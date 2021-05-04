@@ -214,7 +214,8 @@ class ProjectController extends Controller
       'tasks' => $project->tasks()->get(),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
-      'user' => Client::find(Auth::user()->id)
+      'user' => Client::find(Auth::user()->id),
+      'status_enum' => ["Not Started", 'Waiting', "In Progress", "Completed"]
     ]);
   }
 

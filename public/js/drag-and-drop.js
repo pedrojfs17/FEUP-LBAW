@@ -8,6 +8,7 @@ items.forEach(function(item) {
 });
 
 taskGroups.forEach(function(group) {
+    group.addEventListener('drop', handleHover)
     group.addEventListener('drop', handleDrop)
     group.addEventListener('dragover', handleDrop);
 })
@@ -34,7 +35,7 @@ function handleDrop(e) {
 
     if (nextNode)
         nextNode.insertAdjacentElement('afterend', element);
-    else 
+    else
         this.querySelector('.d-grid').insertAdjacentElement('afterbegin', element);
 }
 
@@ -45,7 +46,7 @@ function handleDragStart(e) {
 
 function handleDragEnd(e) {
     this.classList.remove('is-moving');
-	
+
 	window.setTimeout(function() {
 		e.target.classList.add('is-moved');
 		window.setTimeout(function() {

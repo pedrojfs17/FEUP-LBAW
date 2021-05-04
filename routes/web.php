@@ -24,17 +24,17 @@ Route::get('api/search', 'SearchController@search');
 
 // Projects
 Route::get('project/{id}/overview', 'ProjectController@overview')->name('project.overview');
-Route::get('project/{id}/status_board', 'ProjectController@status_board')->name('project.status');
+Route::get('project/{id}/status_board', 'ProjectController@status')->name('project.status');
 Route::get('project/{id}/assignments', 'ProjectController@assignments')->name('project.assignments');
 Route::get('project/{id}/statistics', 'ProjectController@statistics')->name('project.statistics');
 Route::get('project/{id}/preferences', 'ProjectController@preferences')->name('project.preferences');
-Route::patch('project/{id}/preferences', 'ProjectController@update');
-Route::delete('project/{id}/preferences', 'ProjectController@delete');
 
 Route::get('api/project', 'ProjectController@list');
 Route::post('api/project', 'ProjectController@create');
 Route::get('api/project/{id}', 'ProjectController@show');
-Route::delete('api/project/{id}', 'ProjectController@leave');
+Route::patch('api/project/{id}', 'ProjectController@update');
+Route::delete('api/project/{id}', 'ProjectController@delete');
+Route::delete('api/project/{id}/{username}', 'ProjectController@leave');
 
 // Invites
 Route::post('api/project/{id}/invite', 'ProjectController@invite');

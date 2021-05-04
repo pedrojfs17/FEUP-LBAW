@@ -34,7 +34,7 @@ function handleDrop(e) {
 
     if (nextNode)
         nextNode.insertAdjacentElement('afterend', element);
-    else 
+    else
         this.querySelector('.d-grid').insertAdjacentElement('afterbegin', element);
 }
 

@@ -31,10 +31,13 @@ class ProjectPolicy
     return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
-  public function leave(Account $account, Project $project)
+  public function leave(Account $account, Project $project, Account $deletedUser)
   {
-    // Only a team member can leave a project
-    return $project->teamMembers()->where('client_id', $account->id)->exists();
+    // Only a team member can leave a project. Only an Owner can kick a member
+    return $project->teamMembers()->where('client_id', $deletedUser->id)->exists() && (
+      $account->id === $deletedUser->id
+      || $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists()
+      );
   }
 
   public function preferences(Account $account, Project $project)
@@ -43,7 +46,7 @@ class ProjectPolicy
     return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
-  public function assignents(Account $account, Project $project)
+  public function assignments(Account $account, Project $project)
   {
     // Only a team member can see a project's assignments
     return $project->teamMembers()->where('client_id', $account->id)->exists();

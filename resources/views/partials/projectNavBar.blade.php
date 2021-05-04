@@ -12,10 +12,10 @@
           <a class="nav-link {{$page == 'overview' ? 'active' : ''}}" href="{{ route('project.overview', ['id' => $project->id]) }}">Overview</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{$page == 'status' ? 'active' : ''}}" {{--href="{{ route('project.status', ['id' => $project->id]) }}"--}}>Status Board</a>
+          <a class="nav-link {{$page == 'status' ? 'active' : ''}}" href="{{ route('project.status', ['id' => $project->id]) }}">Status Board</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{$page == 'assignments' ? 'active' : ''}}" {{--href="{{ route('project.assignments', ['id' => $project->id]) }}"--}}>Assignments</a>
+          <a class="nav-link {{$page == 'assignments' ? 'active' : ''}}" href="{{ route('project.assignments', ['id' => $project->id]) }}">Assignments</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" {{--href="{{ route('project.statistics', ['id' => $project->id]) }}"--}}>Statistics</a>

@@ -73,7 +73,8 @@ CREATE TABLE account
     id       SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR        NOT NULL,
-    email    VARCHAR UNIQUE NOT NULL
+    email    VARCHAR UNIQUE NOT NULL--,
+    --is_admin BOOLEAN        NOT NULL
 );
 
 CREATE TABLE admin

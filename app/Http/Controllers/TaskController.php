@@ -75,20 +75,29 @@ class TaskController extends Controller
    */
   public function update(Request $request, $id, $task)
   {
-    $validated = $request->validate([
+    $request->validate([
       'name' => 'string',
-      'project' => 'string',
-      'due_date' => 'integer',
+      'description' => 'string',
+      'due_date' => 'date|after:today',
       'task_status' => 'string'
     ]);
 
     $this->authorize('update', Project::find($id));
 
     $taskObj = Task::find($task);
-    $taskObj->name = empty($validated->input('name')) ? $taskObj->name : $validated->input('name');
-    $taskObj->description = empty($validated->input('description')) ? $taskObj->description : $validated->input('description');
-    $taskObj->due_date = empty($validated->input('due_date')) ? $taskObj->due_date : $validated->input('due_date');
-    $taskObj->task_status = empty($validated->input('task_status')) ? $taskObj->task_status : $validated->input('task_status');
+
+    if (!empty($request->input('name')))
+      $taskObj->name = $request->input('name');
+
+    if (!empty($request->input('description')))
+      $taskObj->description = $request->input('description');
+
+    if (!empty($request->input('due_date')))
+      $taskObj->due_date = $request->input('due_date');
+
+    if (!empty($request->input('task_status')))
+      $taskObj->task_status = $request->input('task_status');
+
     $taskObj->save();
 
     return response()->json($taskObj);

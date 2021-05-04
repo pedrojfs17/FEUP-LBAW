@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -140,18 +141,22 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
    */
-  public function leave(Request $request, $id)
+  public function leave(Request $request, $id, $username)
   {
     $project = Project::find($id);
+    $account = Account::where('username', '=', $username);
 
-    $this->authorize('leave', $project);
+    $this->authorize('leave', $project, $account);
 
-    $team_member = $project->teamMembers()::find(Auth::user()->id);
-    $team_member->delete();
+    $member = $project->teamMembers()->wherePivot('client_id', '=', $account->id);
+    $member->detach();
 
-    return redirect('pages.dashboard');
+    if (Auth::user()->id == $account->id)
+      return redirect('pages.dashboard');
+    else
+      return response()->json($member);
   }
 
   /**
@@ -164,6 +169,7 @@ class ProjectController extends Controller
   public function preferences(Request $request, $id)
   {
     $project = Project::find($id);
+    if ($project == null) return view('errors.404');
     $this->authorize('preferences', $project);
     return view('pages.preferences', [
       'project' => $project,
@@ -182,6 +188,7 @@ class ProjectController extends Controller
   public function assignments(Request $request, $id)
   {
     $project = Project::find($id);
+    if ($project == null) return view('errors.404');
     $this->authorize('assignments', $project);
     return view('pages.assignments', [
       'tasks' => $project->tasks()->get(),
@@ -201,6 +208,7 @@ class ProjectController extends Controller
   public function status(Request $request, $id)
   {
     $project = Project::find($id);
+    if ($project == null) return view('errors.404');
     $this->authorize('status_board', $project);
     return view('pages.status_board', [
       'tasks' => $project->tasks()->get(),
@@ -220,6 +228,7 @@ class ProjectController extends Controller
   public function statistics(Request $request, $id)
   {
     $project = Project::find($id);
+    if ($project == null) return view('errors.404');
     $this->authorize('statistics', $project);
     return view('pages.statistics', [
       'project' => $project,
@@ -238,7 +247,7 @@ class ProjectController extends Controller
   public function overview(Request $request, $id)
   {
     $project = Project::find($id);
-    //if ($project == null) return redirect('404');
+    if ($project == null) return view('errors.404');
     $this->authorize('overview', $project);
     return view('pages.overview', [
       'tasks' => $project->tasks()->get(),

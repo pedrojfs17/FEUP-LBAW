@@ -66,4 +66,17 @@ class Task extends Model
     return $this->hasMany(AssignmentNotification::class, 'assignment');
   }
 
+  public function getParentComments()
+  {
+    $parent_comments = array();
+    $comments = $this->comments;
+    foreach ($comments as $comment)
+    {
+      if (CommentReply::find($comment->id) == null) {
+        array_push($parent_comments, $comment);
+      }
+    }
+    return $parent_comments;
+  }
+
 }

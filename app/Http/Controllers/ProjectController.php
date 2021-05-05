@@ -64,29 +64,22 @@ class ProjectController extends Controller
    */
   public function list(Request $request)
   {
-    $results = DB::select("
-        SELECT projects.*, round(avg((task_status = 'Completed')::int) * 100) AS completion
-        FROM (
-            SELECT project.*
-            FROM project JOIN team_member ON project.id = team_member.project_id
-            WHERE team_member.client_id = :client_id
-        ) AS projects LEFT JOIN task ON projects.id = task.project
-        GROUP BY projects.id,
-            projects.name,
-            projects.description,
-            projects.due_date,
-            projects.search
-        ORDER BY projects.id DESC;
-      ",
-      ['client_id' => Auth::user()->id]
+    $client = Client::find(Auth::user()->id);
+    $projects = $client->projects->sortByDesc('id');
+
+    $results = array(
+      'open' => array(),
+      'closed' => array()
     );
 
-    if ($request->wantsJson())
-    {
-      return response()->json($results);
+    foreach ($projects as $project) {
+      if ($project->getCompletion() === 100)
+        array_push($results['closed'], view('partials.projectSummary', ['project' => $project])->render());
+      else
+        array_push($results['open'], view('partials.projectSummary', ['project' => $project])->render());
     }
 
-    return view('partials.myProjects', ['projects' => Client::find(Auth::user()->id)->projects()]);
+    return response()->json($results);
   }
 
   /**

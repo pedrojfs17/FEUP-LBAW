@@ -47,4 +47,24 @@ class Project extends Model
   {
     return $this->hasMany(ProjectNotification::class, 'project');
   }
+
+  public function getMemberCount()
+  {
+    return count($this->teamMembers);
+  }
+
+  public function getReadableDueDate()
+  {
+    if ($this->due_date != null) {
+      return date("D, j M Y", strtotime($this->due_date));
+    }
+    return null;
+  }
+
+  public function getCompletion()
+  {
+    if (count($this->tasks) > 0)
+      return intdiv(count($this->tasks->where('task_status', 'Completed')) * 100, count($this->tasks));
+    else return 0;
+  }
 }

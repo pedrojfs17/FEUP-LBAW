@@ -47,8 +47,8 @@
         <div class="row mb-3">
           <div class="col-lg-8 col-md-8 d-flex">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Find Projects"
-                     aria-label="Find Projects" aria-describedby="button-search" disabled>
+              <input id="searchProjects" name="query" type="text" class="form-control" placeholder="Find Projects"
+                     aria-label="Find Projects" aria-describedby="button-search">
               <button class="btn btn-outline-secondary" type="button" id="button-search-projects"><i
                   class="bi bi-search"></i></button>
             </div>

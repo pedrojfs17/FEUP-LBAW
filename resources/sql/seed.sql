@@ -288,14 +288,14 @@ BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search =
                 (SELECT setweight(to_tsvector(account.username), 'A') || setweight(to_tsvector(account.email), 'A') ||
-                        setweight(to_tsvector(coalesce(NEW.fullname, '')), 'B') ||
+                        setweight(to_tsvector('english', coalesce(NEW.fullname, '')), 'B') ||
                         setweight(to_tsvector(coalesce(NEW.company, '')), 'C')
                  FROM account
                  WHERE NEW.id = account.id);
     ELSIF TG_OP = 'UPDATE' AND (NEW.fullname <> OLD.fullname OR NEW.company <> OLD.company) THEN
         NEW.search =
                 (SELECT setweight(to_tsvector(account.username), 'A') || setweight(to_tsvector(account.email), 'A') ||
-                        setweight(to_tsvector(coalesce(NEW.fullname, '')), 'B') ||
+                        setweight(to_tsvector('english', coalesce(NEW.fullname, '')), 'B') ||
                         setweight(to_tsvector(coalesce(NEW.company, '')), 'C')
                  FROM account
                  WHERE NEW.id = account.id);
@@ -310,9 +310,9 @@ CREATE OR REPLACE FUNCTION project_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') || setweight(to_tsvector('english', NEW.description), 'B'));
     ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') || setweight(to_tsvector('english', NEW.description), 'B'));
     END IF;
     RETURN NEW;
 END;
@@ -324,11 +324,11 @@ CREATE OR REPLACE FUNCTION task_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') ||
-                             setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') ||
+                             setweight(to_tsvector('english', coalesce(NEW.description, '')), 'B'));
     ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') ||
-                             setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') ||
+                             setweight(to_tsvector('english', coalesce(NEW.description, '')), 'B'));
     END IF;
     RETURN NEW;
 END;

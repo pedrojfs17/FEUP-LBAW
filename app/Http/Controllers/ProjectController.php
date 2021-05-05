@@ -65,7 +65,18 @@ class ProjectController extends Controller
   public function list(Request $request)
   {
     $client = Client::find(Auth::user()->id);
-    $projects = $client->projects->sortByDesc('id');
+
+    $searchQuery = $request->input('query');
+
+    if (!empty($searchQuery)) {
+      $projects = $client->projects()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
+        return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
+          ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
+      })->get();
+    }
+    else {
+      $projects = $client->projects->sortByDesc('id');
+    }
 
     $results = array(
       'open' => array(),

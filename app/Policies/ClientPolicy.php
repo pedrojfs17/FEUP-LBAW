@@ -5,7 +5,6 @@ namespace App\Policies;
 
 
 use App\Models\Account;
-use App\Models\Admin;
 use App\Models\Client;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -20,10 +19,10 @@ class ClientPolicy
     return $account->id == $client->id;
   }
 
-  public function delete(Account $account, Client $client)
+  public function delete(Account $account, Client $client, bool $isAdmin)
   {
     // Only the user or an admin can delete an account
-    return $account->id == $client->id || Admin::find($account->id) != null;
+    return $account->id == $client->id || $isAdmin;
   }
 
   public function showSettings(Account $account, Client $client)

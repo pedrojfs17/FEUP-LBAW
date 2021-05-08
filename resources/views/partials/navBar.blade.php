@@ -36,7 +36,7 @@
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         @if (isset($user))
                         <li><a class="dropdown-item" href="{{ route('profile', ['username' => $user->account->username]) }}"><i class="bi bi-person me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" {{--href="{{ route('settings') }}"--}}><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <li><a class="dropdown-item" href="{{ route('settings') }}"><i class="bi bi-gear me-2"></i>Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

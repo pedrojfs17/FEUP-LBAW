@@ -91,23 +91,23 @@ CREATE TABLE country
 
 CREATE TABLE client
 (
-    id              INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
-    fullname        VARCHAR,
-    company         VARCHAR,
-    avatar          VARCHAR DEFAULT 'avatars/default.png',
-    client_gender   gender DEFAULT 'Unspecified',
-    country         INTEGER REFERENCES country (id) ON DELETE CASCADE,
-    allowNoti       BOOLEAN             NOT NULL DEFAULT TRUE,
-    inviteNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    memberNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    assignNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    waitingNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
-    commentNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
-    reportNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    hideCompleted   BOOLEAN             NOT NULL DEFAULT FALSE,
-    simplifiedTasks BOOLEAN             NOT NULL DEFAULT FALSE,
-    color           VARCHAR             NOT NULL,
-    search          TSVECTOR
+    id               INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
+    fullname         VARCHAR,
+    company          VARCHAR,
+    avatar           VARCHAR DEFAULT 'avatars/default.png',
+    client_gender    gender DEFAULT 'Unspecified',
+    country          INTEGER REFERENCES country (id) ON DELETE CASCADE,
+    allow_noti       BOOLEAN             NOT NULL DEFAULT TRUE,
+    invite_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    member_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    assign_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    waiting_noti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    comment_noti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    report_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    hide_completed   BOOLEAN             NOT NULL DEFAULT FALSE,
+    simplified_tasks BOOLEAN             NOT NULL DEFAULT FALSE,
+    color            VARCHAR             NOT NULL,
+    search           TSVECTOR
 );
 
 CREATE TABLE project

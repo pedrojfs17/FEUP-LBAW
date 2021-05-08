@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Admin;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,14 +62,15 @@ class ClientController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param string $username
-   * @return \Illuminate\Http\JsonResponse
+   * @return
    */
   public function delete(Request $request, $username)
   {
-    $client = Client::find($username);
-    $this->authorize('delete', $client);
+    $account = Account::where('username', '=', $username)->first();
+    $client = Client::find($account->id);
+    $this->authorize('delete', [$client, Admin::find(Auth::user()->id) != null]);
     $client->delete();
-    return response()->json($client);
+    return redirect(route('/'));
   }
 
   /**
@@ -81,7 +83,7 @@ class ClientController extends Controller
   {
     $client = Client::find(Auth::user()->id);
     $this->authorize('showSettings', $client);
-    return view('pages.settings', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
+    return view('pages.settings', ['user' => $client]);
   }
 
   /**
@@ -92,31 +94,45 @@ class ClientController extends Controller
    */
   public function updateSettings(Request $request)
   {
-    $validated = $request->validate([
-      'allowNoti' => 'boolean',
-      'inviteNoti' => 'boolean',
-      'memberNoti' => 'boolean',
-      'assignNoti' => 'boolean',
-      'waitingNoti' => 'boolean',
-      'commentNoti' => 'boolean',
-      'reportNoti' => 'boolean',
-      'hideCompleted' => 'boolean',
-      'simplifiedTasks' => 'boolean',
+    $request->validate([
+      'allow_noti' => 'boolean',
+      'invite_noti' => 'boolean',
+      'member_noti' => 'boolean',
+      'assign_noti' => 'boolean',
+      'waiting_noti' => 'boolean',
+      'comment_noti' => 'boolean',
+      'report_noti' => 'boolean',
+      'hide_completed' => 'boolean',
+      'simplified_tasks' => 'boolean',
       'color' => 'string',
     ]);
+
     $client = Client::find(Auth::id());
     $this->authorize('updateSettings', $client);
-    $client->allowNoti = empty($validated->input('allowNoti')) ? $client->allowNoti : $validated->input('allowNoti');
-    $client->inviteNoti = empty($validated->input('inviteNoti')) ? $client->inviteNoti : $validated->input('inviteNoti');
-    $client->memberNoti = empty($validated->input('memberNoti')) ? $client->memberNoti : $validated->input('memberNoti');
-    $client->assignNoti = empty($validated->input('assignNoti')) ? $client->assignNoti : $validated->input('assignNoti');
-    $client->waitingNoti = empty($validated->input('waitingNoti')) ? $client->waitingNoti : $validated->input('waitingNoti');
-    $client->commentNoti = empty($validated->input('commentNoti')) ? $client->commentNoti : $validated->input('commentNoti');
-    $client->reportNoti = empty($validated->input('reportNoti')) ? $client->reportNoti : $validated->input('reportNoti');
-    $client->hideCompleted = empty($validated->input('hideCompleted')) ? $client->hideCompleted : $validated->input('hideCompleted');
-    $client->simplifiedTasks = empty($validated->input('simplifiedTasks')) ? $client->simplifiedTasks : $validated->input('simplifiedTasks');
-    $client->color = empty($validated->input('color')) ? $client->color : $validated->input('color');
+
+    if ($request->input('allow_noti') != null)
+      $client->allow_noti = filter_var($request->input('allow_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('invite_noti') != null)
+      $client->invite_noti = filter_var($request->input('invite_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('member_noti') != null)
+      $client->memberNoti = filter_var($request->input('member_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('assign_noti') != null)
+      $client->assign_noti = filter_var($request->input('assign_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('waiting_noti') != null)
+      $client->waiting_noti = filter_var($request->input('waiting_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('comment_noti') != null)
+      $client->comment_noti = filter_var($request->input('comment_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('report_noti') != null)
+      $client->report_noti = filter_var($request->input('report_noti'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('hide_completed') != null)
+      $client->hide_completed = filter_var($request->input('hide_completed'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('simplified_tasks') != null)
+      $client->simplified_tasks = filter_var($request->input('simplified_tasks'), FILTER_VALIDATE_BOOLEAN);
+    if ($request->input('color') != null)
+      $client->color = $request->input('color');
+
     $client->save();
+
     return response()->json($client);
   }
 }

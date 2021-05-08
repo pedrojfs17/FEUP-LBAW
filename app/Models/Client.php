@@ -15,8 +15,8 @@ class Client extends Model
 
   protected $fillable = [
     'id', 'fullname', 'company', 'avatar', 'client_gender',
-    'allowNoti', 'inviteNoti', 'assignNoti', 'waitingNoti', 'commentNoti',
-    'reportNoti', 'hideCompleted', 'simplifiedTasks', 'color', 'search'
+    'allow_noti', 'invite_noti', 'assign_noti', 'waiting_noti', 'comment_noti',
+    'report_noti', 'hide_completed', 'simplified_tasks', 'color', 'search'
   ];
 
   public function account()

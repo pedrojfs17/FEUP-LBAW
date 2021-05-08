@@ -29,7 +29,7 @@
   <div class="row justify-content-center align-items-begin px-sm-5 px-1">
     <div class="row mt-2 form-switch ps-0">
       <label class="form-check-label" for="allow_noti">Allow Notifications</label>
-      <input class="form-check-input" type="checkbox" id="allow_noti" name="allow_noti" @if ($user->allowNoti) checked @endif>
+      <input class="form-check-input" type="checkbox" id="allow_noti" name="allow_noti" @if ($user->allow_noti) checked @endif>
     </div>
     <div id="notificationSettings" class="mt-3">
       <div class="row mb-3 form-switch mx-0">

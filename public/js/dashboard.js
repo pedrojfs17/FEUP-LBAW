@@ -1,18 +1,16 @@
-const closedDiv = document.getElementById('closed-projects')
-const openDiv = document.getElementById('open-projects')
+const projectsDiv = document.getElementById('projects')
+const projectsSpinner = document.getElementById('projectsSpinner')
 
 function receivedProjects(responseText) {
-  let projects = JSON.parse(responseText)
-  let openProjects = projects.open
-  let closedProjects = projects.closed
+  projectsDiv.innerHTML = JSON.parse(responseText)
+  projectsSpinner.classList.add('d-none')
 
-  openProjects.forEach(project => {
-    openDiv.innerHTML += project
-  })
-
-  closedProjects.forEach(project => {
-    closedDiv.innerHTML += project
-  })
+  let paginationLinks = document.getElementsByClassName('paginator-link')
+  Array.from(paginationLinks).forEach(link => link.addEventListener('click', function() {
+    projectsDiv.innerHTML = ""
+    projectsSpinner.classList.remove('d-none')
+    sendGetRequest(link.dataset.href);
+  }))
 }
 
 function sendGetRequest(url) {
@@ -38,14 +36,14 @@ const searchBar = document.getElementById('searchProjects')
 const searchButton = document.getElementById('button-search-projects')
 
 searchBar.addEventListener('keyup', function () {
-  closedDiv.innerHTML = ""
-  openDiv.innerHTML = ""
+  projectsDiv.innerHTML = ""
+  projectsSpinner.classList.remove('d-none')
   sendGetRequest("api/project?query=" + searchBar.value.trim());
 })
 
 searchButton.addEventListener('click', function () {
-  closedDiv.innerHTML = ""
-  openDiv.innerHTML = ""
+  projectsDiv.innerHTML = ""
+  projectsSpinner.classList.remove('d-none')
   sendGetRequest("api/project?query=" + searchBar.value.trim());
 })
 

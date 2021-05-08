@@ -72,25 +72,15 @@ class ProjectController extends Controller
       $projects = $client->projects()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })->get();
+      })->paginate(5);
     }
     else {
-      $projects = $client->projects->sortByDesc('id');
+      $projects = $client->projects()->orderBy('id', 'desc')->paginate(5);
     }
 
-    $results = array(
-      'open' => array(),
-      'closed' => array()
-    );
+    $view = view('partials.dashboardProjects', ['projects' => $projects])->render();
 
-    foreach ($projects as $project) {
-      if ($project->getCompletion() === 100)
-        array_push($results['closed'], view('partials.projectSummary', ['project' => $project])->render());
-      else
-        array_push($results['open'], view('partials.projectSummary', ['project' => $project])->render());
-    }
-
-    return response()->json($results);
+    return response()->json($view);
   }
 
   /**

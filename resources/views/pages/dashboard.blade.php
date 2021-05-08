@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/ms-form.css') }}">
   <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
 @endpush
 
 @section('navbar')
@@ -31,19 +32,19 @@
   <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active fs-3" id="myprojects-tab" data-bs-toggle="tab"
-                data-bs-target="#myprojects" type="button" role="tab" aria-controls="myprojects"
+        <button class="nav-link active fs-3" id="projects-btn" data-bs-toggle="tab"
+                data-bs-target="#projects-tab" type="button" role="tab" aria-controls="projects-tab"
                 aria-selected="true">Projects
         </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link fs-3" id="mystats-tab" data-bs-toggle="tab" data-bs-target="#mystats"
-                type="button" role="tab" aria-controls="mystats" aria-selected="false">Statistics
+        <button class="nav-link fs-3" id="stats-btn" data-bs-toggle="tab" data-bs-target="#stats-tab"
+                type="button" role="tab" aria-controls="stats-tab" aria-selected="false">Statistics
         </button>
       </li>
     </ul>
     <div class="tab-content" id="dashboardContent">
-      <div class="tab-pane fade show active" id="myprojects" role="tabpanel" aria-labelledby="myprojects-tab">
+      <div class="tab-pane fade show active" id="projects-tab" role="tabpanel" aria-labelledby="projects-tab">
         <div class="row mb-3">
           <div class="col-lg-8 col-md-8 d-flex">
             <div class="input-group">
@@ -62,35 +63,16 @@
             </button>
           </div>
         </div>
-        <div class="accordion" id="accordionProjects">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Open
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-              <div class="accordion-body" id="open-projects">
-              </div>
-            </div>
+        <div class="d-flex justify-content-center my-3" id="projectsSpinner">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Closed
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-              <div class="accordion-body" id="closed-projects">
-              </div>
-            </div>
-          </div>
+        </div>
+        <div id="projects">
         </div>
       </div>
 
-      <div class="tab-pane fade" id="mystats" role="tabpanel" aria-labelledby="mystats-tab">
+      <div class="tab-pane fade" id="stats-tab" role="tabpanel" aria-labelledby="stats-tab">
         <div class="row mb-3">
           <div class="col-lg-8 col-md-8 d-flex">
             <div class="input-group">

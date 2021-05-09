@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,23 +15,20 @@ class AdminController extends Controller
 
   public function users(Request $request)
   {
-    $admin = Admin::find(Auth::user()->id);
-    $this->authorize('users', $admin);
+    if (!Auth::user()->is_admin) return redirect(route('dashboard'));
     $users = Client::get();
     return view('pages.adminDashboard', ['users' => $users]);
   }
 
   public function statistics(Request $request)
   {
-    $admin = Admin::find(Auth::user()->id);
-    $this->authorize('statistics', $admin);
+    if (!Auth::user()->is_admin) return redirect(route('dashboard'));
     return view('pages.adminStatistics');
   }
 
   public function support(Request $request)
   {
-    $admin = Admin::find(Auth::user()->id);
-    $this->authorize('support', $admin);
+    if (!Auth::user()->is_admin) return redirect(route('dashboard'));
     return view('pages.adminSupport');
   }
 }

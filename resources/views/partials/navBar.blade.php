@@ -26,11 +26,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (isset($user))
-                        <img class="rounded-circle me-2" src="{{ url($user->avatar) }}" width="30px" height="30px" alt="avatar">
-                        {{ $user->account->username }}
-                        @else
+                        @if (Auth::user()->is_admin)
                         Admin
+                        @else
+                        <img class="rounded-circle me-2" src="{{ url(Auth::user()->client->avatar) }}" width="30px" height="30px" alt="avatar">
+                        {{ Auth::user()->username }}
                         @endif
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">

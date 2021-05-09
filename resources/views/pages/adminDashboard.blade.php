@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/script.js') }}" defer></script>
+  <script src="{{ asset('js/edit-form.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -28,6 +29,8 @@
 
   @include('partials.adminNavBar', ['page' => 'users'])
 
+  @csrf
+
   <div class="container">
     <div class="accordion" id="accordionAdmin">
       <div class="accordion-item">
@@ -51,7 +54,7 @@
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
           <div class="accordion-body">
-            @each('partials.projectMember', $users, 'member')
+            @each('partials.memberCard', $users, 'member')
           </div>
         </div>
       </div>

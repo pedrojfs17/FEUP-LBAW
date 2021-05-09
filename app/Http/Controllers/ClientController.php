@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Models\Admin;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,8 +67,12 @@ class ClientController extends Controller
   {
     $account = Account::where('username', '=', $username)->first();
     $client = Client::find($account->id);
-    $this->authorize('delete', [$client, Admin::find(Auth::user()->id) != null]);
+    $this->authorize('delete', [$client, Auth::user()->is_admin]);
     $client->delete();
+
+    if (Auth::user()->is_admin)
+      return response()->json($client);
+
     return redirect(route('/'));
   }
 

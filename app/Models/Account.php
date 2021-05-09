@@ -20,7 +20,7 @@ class Account extends Authenticatable
    * @var array
    */
   protected $fillable = [
-    'username', 'password', 'email',
+    'username', 'password', 'email', 'is_admin'
   ];
 
   /**
@@ -31,5 +31,10 @@ class Account extends Authenticatable
   protected $hidden = [
     'password'
   ]; //IN THE FUTURE - REMEMBER TOKEN FOR STAYING LOGGED IN
+
+  public function client()
+  {
+    return $this->hasOne(Client::class, 'id');
+  }
 
 }

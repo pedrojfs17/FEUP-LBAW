@@ -73,13 +73,8 @@ CREATE TABLE account
     id       SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR        NOT NULL,
-    email    VARCHAR UNIQUE NOT NULL--,
-    --is_admin BOOLEAN        NOT NULL
-);
-
-CREATE TABLE admin
-(
-    id INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE
+    email    VARCHAR UNIQUE NOT NULL,
+    is_admin BOOLEAN        NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE country
@@ -977,7 +972,7 @@ INSERT INTO country (iso, name) VALUES ('SS', 'South Sudan');
 
 -- Account
 
-INSERT INTO account (username, password, email) VALUES ('admin', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'admin@gmail.com');
+INSERT INTO account (username, password, email, is_admin) VALUES ('admin', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'admin@gmail.com', TRUE);
 INSERT INTO account (username, password, email) VALUES ('nenieats', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'nenieats@gmail.com');
 INSERT INTO account (username, password, email) VALUES ('pedgojodge', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'pedgojodge@gmail.com');
 INSERT INTO account (username, password, email) VALUES ('guninha_uwu', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'kbaby69@gmail.com');
@@ -1002,11 +997,6 @@ INSERT INTO account (username, password, email) VALUES ('edesquesnes6', '$2y$10$
 INSERT INTO account (username, password, email) VALUES ('mkleinhaus7', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'kscripture7@fc2.com');
 INSERT INTO account (username, password, email) VALUES ('tmorecomb8', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'gben8@huffingtonpost.com');
 INSERT INTO account (username, password, email) VALUES ('mbrockelsby9', '$2y$10$H79wwJSwhsb2aan4MMnv5ODCNrPZjtPge5MKRquDMZ7.dXjHriDhy', 'waustin9@baidu.com');
-
-
--- Admin
-
-INSERT INTO admin (id) VALUES (1);
 
 
 -- Client

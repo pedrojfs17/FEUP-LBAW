@@ -1,4 +1,5 @@
 <div class="card m-2" data-id="{{ $task->id }}">
+
   <div class="card-header status-{{ str_replace(' ', '-', strtolower($task->task_status)) }}"></div>
 
   <div class="card-body d-flex flex-column">

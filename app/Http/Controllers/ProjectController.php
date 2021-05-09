@@ -78,7 +78,7 @@ class ProjectController extends Controller
       $projects = $client->projects()->orderBy('id', 'desc')->paginate(5);
     }
 
-    $view = view('partials.dashboardProjects', ['projects' => $projects])->render();
+    $view = view('partials.dashboardProjects', ['projects' => $projects, 'pagination'=>true])->render();
 
     return response()->json($view);
   }

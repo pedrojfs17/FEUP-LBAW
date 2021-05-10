@@ -81,4 +81,16 @@ class ProjectPolicy
     // Only the invited client can change the decision
     return $project->invites()->where('client_id', $account->id)->exists();
   }
+
+  public function createTag(Account $account, Project $project)
+  {
+    // Only an editor or owner of a project can create a tag
+    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
+  }
+
+  public function deleteTag(Account $account, Project $project)
+  {
+    // Only an editor or owner of a project can create a tag
+    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
+  }
 }

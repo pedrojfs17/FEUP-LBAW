@@ -70,3 +70,7 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
 .choose-color {
     margin-right: 0.7em;
 }
+
+.delete-tag:hover {
+  opacity: 0.5;
+}

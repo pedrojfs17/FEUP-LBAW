@@ -69,17 +69,20 @@
                 </div>
                 <div>
                     <h5 class=" d-inline-block mr-3">Tags</h5>
-                    <a class="text-muted float-end edit-tags" data-href="project/{{$task->project()->first()->id}}/task/{{$task->id}}" data-bs-toggle="collapse" href=".multi-collapse" role="button"  aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
+                    <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" href=".multi-collapse" role="button"  aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
                     <div id="task{{$task->id}}CreateTag" class="collapse mb-3 multi-collapse" aria-expanded="false" >
-                        <select class="form-control tag-selection" multiple="multiple">
-                          @foreach ($task->project()->first()->tags as $tag)
-                            @if($task->tags()->where('id',$tag->id)->count()!==0)
-                              <option selected="selected">{{$tag->name}}</option>
-                            @else
-                              <option >{{$tag->name}}</option>
-                            @endif
-                          @endforeach
-                      </select>
+                        <form action="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
+                          @csrf
+                          <select class="form-control tag-selection" multiple="multiple" name="tag">
+                            @foreach ($task->project()->first()->tags as $tag)
+                              @if($task->tags()->where('id',$tag->id)->count()!==0)
+                                <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
+                              @else
+                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                              @endif
+                            @endforeach
+                          </select>
+                        </form>
                     </div>
 
                     <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse show" id="task{{$task->id}}Tags" aria-expanded="true">

@@ -119,8 +119,16 @@ class TaskController extends Controller
 
   public function tag(Request $request, $id, $task)
   {
-    $this->authorize('tag', Project::find($id));
-    Task::find($task)->tags()->attach($request->input('tag'));
+    //$this->authorize('tag', Project::find($id));
+    $request->validate([
+      'tag' => 'string',
+    ]);
+    $tags = explode(',',$request->input('tag'));
+    Task::find($task)->tags()->detach();
+    foreach($tags as $tag) {
+      Task::find($task)->tags()->attach(intval($tag));
+    }
+
   }
 
   public function subtask(Request $request, $id, $task)

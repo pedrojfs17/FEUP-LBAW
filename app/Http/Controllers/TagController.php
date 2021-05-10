@@ -39,11 +39,12 @@ class TagController extends Controller
     return response()->json($tag);
   }
 
-  public function delete(Request $request, $id)
+  public function delete(Request $request, $id, $tag)
   {
-    $tag = Tag::find($id);
-    $this->authorize('delete', $tag->project);
-    $tag->delete();
-    return response()->json($tag);
+    $tagObj = Tag::find($tag);
+    $project = Project::find($id);
+    $this->authorize('deleteTag', $project);
+    $tagObj->delete();
+    return response()->json($tagObj);
   }
 }

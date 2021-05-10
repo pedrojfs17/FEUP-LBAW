@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/edit-form.js') }}" defer></script>
+  <script src="{{ asset('js/ajax.js') }}" defer></script>
 @endpush
 
 @push('styles')

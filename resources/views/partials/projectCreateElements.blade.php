@@ -5,6 +5,7 @@
   </div>
   <div class="offcanvas-body">
     Create task
+    {{-- TODO --}}
   </div>
 </div>
 
@@ -29,9 +30,10 @@
     </section>
     <hr class="my-4">
     <section id="project-tags">
-      <h3>Project Tags</h3>
+      <h3>Delete Tag</h3>
+      <h6 class="text-muted">Click on the tags you wish to remove</h6>
       @foreach($project->tags as $tag)
-        <p class="d-inline-block m-0 my-1 py-1 px-3 px-sm-2 rounded text-bg-check" type="button" style="background-color: {{ $tag->color }}">
+        <p class="delete-tag delete-button d-inline-block m-0 my-1 py-1 px-3 px-sm-2 rounded text-bg-check" type="button" data-href="/api/project/{{ $project->id }}/tag/{{ $tag->id }}" style="background-color: {{ $tag->color }}">
           <small class="d-none d-sm-inline-block">{{ $tag->name }}</small>
         </p>
       @endforeach

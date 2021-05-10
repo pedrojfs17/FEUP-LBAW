@@ -29,8 +29,8 @@
             <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item">Task</a></li>
-            <li><a class="dropdown-item">Tag</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask">Task</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tag</a></li>
           </ul>
         </li>
         @endif

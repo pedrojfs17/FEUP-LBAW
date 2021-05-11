@@ -18,7 +18,7 @@ class CommentReply extends Model
 
   public function reply()
   {
-    return $this->hasOne(Comment::class);
+    return $this->hasOne(Comment::class, 'id');
   }
 
   public function comment()

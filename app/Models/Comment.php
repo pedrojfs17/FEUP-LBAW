@@ -23,7 +23,7 @@ class Comment extends Model
 
   public function author()
   {
-    return $this->hasOne(Client::class, 'author');
+    return $this->belongsTo(Client::class, 'author');
   }
 
   public function replies()

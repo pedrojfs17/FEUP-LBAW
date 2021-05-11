@@ -57,6 +57,14 @@ function addTagElement(responseText) {
   addDeleteEventListener(tagsSection.querySelector('p:last-of-type'))
 }
 
+function addTaskElement(responseText) {
+  const tasks = document.getElementById('overview')
+  const task = JSON.parse(responseText)
+
+  console.log(task)
+  tasks.innerHTML += task['taskCard'] + task['taskModal']
+}
+
 
 /* DELETE BUTTONS */
 

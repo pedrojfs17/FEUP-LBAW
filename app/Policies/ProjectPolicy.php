@@ -93,4 +93,10 @@ class ProjectPolicy
     // Only an editor or owner of a project can create a tag
     return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
   }
+
+  public function createTask(Account $account, Project $project)
+  {
+    // Only team members with Editor or Owner permissions can create tasks
+    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
+  }
 }

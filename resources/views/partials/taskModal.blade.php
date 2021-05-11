@@ -71,7 +71,7 @@
                     <h5 class=" d-inline-block mr-3">Tags</h5>
                     <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" href=".multi-collapse" role="button"  aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
                     <div id="task{{$task->id}}CreateTag" class="collapse mb-3 multi-collapse" aria-expanded="false" >
-                        <form action="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
+                        <form data-id="task{{$task->id}}Tags" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
                           @csrf
                           <select class="form-control tag-selection" multiple="multiple" name="tag">
                             @foreach ($task->project()->first()->tags as $tag)
@@ -82,6 +82,7 @@
                               @endif
                             @endforeach
                           </select>
+                          <button type="submit" class="d-none"></button>
                         </form>
                     </div>
 

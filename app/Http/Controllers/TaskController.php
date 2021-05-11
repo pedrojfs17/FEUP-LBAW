@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -126,7 +127,7 @@ class TaskController extends Controller
     $tags = explode(',',$request->input('tag'));
     Task::find($task)->tags()->detach();
     foreach($tags as $tag) {
-      Task::find($task)->tags()->attach(intval($tag));
+      Task::find($task)->tags()->attach($tag);
     }
 
   }

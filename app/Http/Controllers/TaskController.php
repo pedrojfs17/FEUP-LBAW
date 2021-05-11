@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Project;
+use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -132,8 +131,20 @@ class TaskController extends Controller
 
   public function tag(Request $request, $id, $task)
   {
-    $this->authorize('tag', Project::find($id));
-    Task::find($task)->tags()->attach($request->input('tag'));
+    //$this->authorize('tag', Project::find($id));
+    $request->validate([
+      'tag' => 'string',
+    ]);
+    $tags = array_map('intval',explode(',',$request->input('tag')));
+    Task::find($task)->tags()->detach();
+    foreach($tags as $tag) {
+      Task::find($task)->tags()->attach($tag);
+    }
+
+    $result = Tag::whereIn('id', $tags)->get();
+
+    return response()->json($result);
+
   }
 
   public function subtask(Request $request, $id, $task)

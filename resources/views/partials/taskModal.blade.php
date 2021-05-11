@@ -97,17 +97,26 @@
         </div>
         <div>
           <h5 class=" d-inline-block mr-3">Tags</h5>
-          <a class="text-muted float-end" data-bs-toggle="collapse" href="#task{{$task->id}}CreateTag" role="button"
-             aria-expanded="false" aria-controls="task{{$task->id}}CreateTag"><i class="bi bi-plus-circle"></i></a>
-          <div id="task{{$task->id}}CreateTag" class="collapse mb-3">
-            <form class="d-flex">
-              <input type="text" class="form-control" placeholder="Tag Name" aria-label="Tag name">
-              <input type="color" class="form-control form-control-color mx-2" value="#20c94d" title="Choose tag color">
-              <button type="submit" class="btn btn-outline-secondary flex-grow-1">Add</button>
+          <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}" role="button"
+             aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
+          <div id="task{{$task->id}}CreateTag" class="collapse mb-3 multi-collapse-{{$task->id}}" aria-expanded="false">
+            <form data-id="task{{$task->id}}Tags"
+                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
+              @csrf
+              <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection-{{$task->id}}">
+                @foreach ($task->project()->first()->tags as $tag)
+                  @if($task->tags()->where('id',$tag->id)->count()!==0)
+                    <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
+                  @else
+                    <option value="{{$tag->id}}">{{$tag->name}}</option>
+                  @endif
+                @endforeach
+              </select>
+              <button type="submit" class="d-none"></button>
             </form>
           </div>
 
-          <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show task{{$task->id}}Tags" aria-expanded="true">
             @foreach ($task->tags as $tag)
               <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button"
                  style="background-color: {{ $tag->color }}">

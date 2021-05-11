@@ -50,7 +50,7 @@
       @endif
     </div>
 
-    <div class="d-flex flex-wrap gap-2 my-2 mt-auto">
+    <div class="d-flex flex-wrap gap-2 my-2 mt-auto task{{$task->id}}Tags">
       @foreach ($task->tags as $tag)
         <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded text-bg-check" type="button"
            style="background-color: {{ $tag->color }}">
@@ -62,10 +62,12 @@
     <div class="d-none d-sm-flex justify-content-between mt-2">
       <ul class="position-relative avatar-overlap d-none d-md-block" style="width: max-content; z-index: 1">
         @foreach ($task->assignees as $member)
-          <li class="avatar-overlap-item" style="z-index: {{ 3 - $loop->iteration }}"><img class="rounded-circle"
-                                                                                           src="{{ url($member->avatar) }}"
-                                                                                           width="40px" height="40px"
-                                                                                           alt="avatar"></li>
+          <li class="avatar-overlap-item" style="z-index: {{ 3 - $loop->iteration }}">
+            <img class="rounded-circle"
+                 src="{{ url($member->avatar) }}"
+                 width="40px" height="40px"
+                 alt="avatar">
+          </li>
           @if ($loop->iteration == 3)
             @break
           @endif
@@ -76,7 +78,10 @@
           </li>
         @endif
       </ul>
-      <span class="text-end align-self-center">{{ count($task->comments) }}<i class="fas fa-comment-alt m-2"></i></span>
+      @if(count($task->comments) > 0)
+        <span class="text-end align-self-center">{{ count($task->comments) }}<i
+            class="fas fa-comment-alt m-2"></i></span>
+      @endif
     </div>
 
     <a data-bs-toggle="modal" data-bs-target="#task{{ $task->id }}Modal" role="button" class="stretched-link p-0"></a>

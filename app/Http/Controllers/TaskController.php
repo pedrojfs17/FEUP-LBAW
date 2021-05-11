@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -28,10 +30,10 @@ class TaskController extends Controller
    */
   public function create(Request $request, $id)
   {
-    $validated = $request->validate([
+    $request->validate([
       'name' => 'required|string',
       'description' => 'string',
-      'due_date' => 'integer',
+      'due_date' => 'date|after:today',
       'task_status' => 'string',
       'parent' => 'integer'
     ]);
@@ -39,18 +41,23 @@ class TaskController extends Controller
     $task = new Task();
     $task->project = $id;
 
-    $this->authorize('create', Project::find($id));
+    $this->authorize('createTask', Project::find($id));
 
-    $task->name = $validated->input('name');
-    $task->description = empty($validated->input('description')) ? "No description" : $validated->input('description');
-    $task->due_date = empty($validated->input('due_date')) ? 0 : $validated->input('due_date');
-    $task->task_status = empty($validated->input('task_status')) ? "Not Started" : $validated->input('task_status');
+    $task->name = $request->input('name');
+    $task->description = empty($request->input('description')) ? "No description" : $request->input('description');
+    $task->due_date = empty($request->input('due_date')) ? 0 : $request->input('due_date');
+    $task->task_status = empty($request->input('task_status')) ? "Not Started" : $request->input('task_status');
     $task->save();
 
-    if (!empty($validated->input('parent')))
-      $this->subtask($task->id, $validated->input('parent'));
+    if (!empty($request->input('parent')))
+      $this->subtask($task->id, $request->input('parent'));
 
-    return response()->json($task);
+    $result = array();
+
+    $result['taskCard'] = view('partials.task', ['task' => $task])->render();
+    $result['taskModal'] = view('partials.taskModal', ['task' => $task])->render();
+
+    return response()->json($result);
   }
 
   /**
@@ -63,7 +70,13 @@ class TaskController extends Controller
   {
     $this->authorize('show', Project::find($id));
     $taskObj = Task::find($task);
-    return response()->json($taskObj);
+
+    $result = array();
+
+    $result['taskCard'] = view('partials.task', ['task' => $taskObj])->render();
+    $result['taskModal'] = view('partials.taskModal', ['task' => $taskObj])->render();
+
+    return response()->json($result);
   }
 
   /**

@@ -4,8 +4,30 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    Create task
-    {{-- TODO --}}
+    <section id="create-task">
+      <h3>Create Task</h3>
+      <form class="d-flex flex-column create-form" data-href="/api/project/{{ $project->id }}/task" data-on-submit="addTaskElement">
+        @csrf
+        <label>Name
+          <input type="text" class="form-control" name="name" aria-label="Task name">
+        </label>
+        <label class="flex-grow-1 my-2">Description
+          <input type="text" class="form-control" name="description" title="Task description">
+        </label>
+        <label class="flex-grow-1 my-2">Due date
+          <input type="date" class="form-control" name="due_date" title="Due date">
+        </label>
+        <label class="flex-grow-1 my-2">Subtask of
+          <select class="form-select" aria-label="Task parent select">
+            <option selected>None</option>
+            @foreach ($project->tasks as $task)
+            <option value="{{$task->id}}">{{$task->name}}</option>
+            @endforeach
+          </select>
+        </label>
+        <button type="submit" class="btn btn-outline-secondary flex-grow-1 mt-3">Add</button>
+      </form>
+    </section>
   </div>
 </div>
 

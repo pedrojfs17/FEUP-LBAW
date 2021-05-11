@@ -6,7 +6,6 @@ const tagSelect = document.querySelectorAll('.edit-tags')
 const csrfToken = document.querySelector('input[name="_token"]').value
 
 
-
 tagSelect.forEach(select => {
   let tagForm = select.parentElement.querySelector('form')
 
@@ -30,8 +29,7 @@ tagSelect.forEach(select => {
   })
 
   let show = false;
-  const click = new CustomEvent('submit');
-  select.addEventListener('click', function(e) {
+  select.addEventListener('click', function (e) {
     show = !show
     if (!show) tagForm.querySelector('button[type="submit"]').click()
   })
@@ -53,7 +51,22 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 }
 
 function encodeForAjax(data) {
-  return Object.keys(data).map(function(k) {
+  return Object.keys(data).map(function (k) {
     return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
   }).join('&')
 }
+
+
+function updateTags(task, tags) {
+  const tagDivs = document.querySelectorAll('.' + task)
+  tagDivs.forEach(tagDiv => {
+    tagDiv.innerHTML=""
+    tags.forEach(tag => {
+      tagDiv.innerHTML += '<p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color:' + tag.color + '"> <small>' + tag.name + '</small> </p>'
+    })
+
+    tagDiv.querySelectorAll('*').forEach(element => checkColor(element))
+  })
+}
+
+

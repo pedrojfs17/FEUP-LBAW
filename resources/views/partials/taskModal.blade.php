@@ -86,7 +86,7 @@
                         </form>
                     </div>
 
-                    <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse show" id="task{{$task->id}}Tags" aria-expanded="true">
+                    <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse show task{{$task->id}}Tags" aria-expanded="true">
                         @foreach ($task->tags as $tag)
                             <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color: {{ $tag->color }}">
                                 <small>{{ $tag->name }}</small>

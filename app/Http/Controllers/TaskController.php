@@ -124,11 +124,15 @@ class TaskController extends Controller
     $request->validate([
       'tag' => 'string',
     ]);
-    $tags = explode(',',$request->input('tag'));
+    $tags = array_map('intval',explode(',',$request->input('tag')));
     Task::find($task)->tags()->detach();
     foreach($tags as $tag) {
       Task::find($task)->tags()->attach($tag);
     }
+
+    $result = Tag::whereIn('id', $tags)->get();
+
+    return response()->json($result);
 
   }
 

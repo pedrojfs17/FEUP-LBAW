@@ -22,8 +22,8 @@
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
     @foreach ($tasks as $task)
         @include('partials.task', ['task' => $task])
-        @include('partials.taskModal', ['task' => $task])
     @endforeach
+    <div class="modal-container"></div>
   </div>
 
   @include('partials.projectCreateElements')

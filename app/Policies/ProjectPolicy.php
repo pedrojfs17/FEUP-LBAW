@@ -99,4 +99,10 @@ class ProjectPolicy
     // Only team members with Editor or Owner permissions can create tasks
     return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
   }
+
+  public function updateTask(Account $account, Project $project)
+  {
+    // Only team members with Editor or Owner permissions can edit tasks
+    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
+  }
 }

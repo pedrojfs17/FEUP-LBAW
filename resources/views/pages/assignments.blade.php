@@ -3,6 +3,7 @@
 @push('scripts')
   <script src="{{ asset('js/text-bg.js') }}" defer></script>
   <script src="{{ asset('js/carousel.js') }}" defer></script>
+  <script src="{{ asset('js/ajax.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -73,5 +74,5 @@
     </div>
   </div>
 
-  @each('partials.taskModal', $tasks, 'task')
+  <div class="modal-container"></div>
 @endsection

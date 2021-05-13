@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/drag-and-drop.js') }}" defer></script>
+  <script src="{{ asset('js/ajax.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -15,7 +16,7 @@
 @endsection
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'status-board'])
+  @include('partials.projectNavBar', ['page' => 'status'])
 
   <div class="container-md pb-5">
     <div class="row">
@@ -26,5 +27,5 @@
     </div>
   </div>
 
-  @each('partials.taskModal', $tasks, 'task')
+  <div class="modal-container"></div>
 @endsection

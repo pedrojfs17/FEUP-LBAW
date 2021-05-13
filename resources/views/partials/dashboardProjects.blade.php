@@ -1,3 +1,4 @@
 @each('partials.projectSummary', $projects, 'project')
-
-{{ $projects->links() }}
+@if ($pagination)
+  {{ $projects->links() }}
+@endif

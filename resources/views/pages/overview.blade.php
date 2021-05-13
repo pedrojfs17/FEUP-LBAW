@@ -21,10 +21,7 @@
   @include('partials.taskFilter',['project' => $tasks->first()->project()->first()])
 
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
-    @foreach ($tasks as $task)
-        @include('partials.task', ['task' => $task])
-    @endforeach
-    <div class="modal-container"></div>
+    @include('partials.projectTasks',['tasks'=>$tasks])
   </div>
 
   @include('partials.projectCreateElements')

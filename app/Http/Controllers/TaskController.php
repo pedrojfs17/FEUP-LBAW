@@ -34,7 +34,9 @@ class TaskController extends Controller
     }): $tasks;
     $tasks = !empty($beforeDate) ? $tasks->whereDate('due_date',"<=",$beforeDate) : $tasks;
 
-    return response()->json($tasks);
+    $view = view('partials.projectTasks', ['tasks' => $tasks])->render();
+
+    return response()->json($view);
   }
 
   /**

@@ -84,6 +84,6 @@
       @endif
     </div>
 
-    <a data-bs-toggle="modal" data-bs-target="#task{{ $task->id }}Modal" role="button" class="stretched-link p-0"></a>
+    <a data-href="/api/project/{{ $task->project }}/task/{{ $task->id }}" data-target="task{{ $task->id }}Modal" role="button" class="stretched-link p-0 open-task"></a>
   </div>
 </div>

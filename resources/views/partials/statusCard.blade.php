@@ -7,7 +7,7 @@
       <div class="d-grid gap-2 ">
         @foreach ($tasks as $task)
           @if ($task->task_status == $status)
-            <button id="task{{$task->id}}" type="button" draggable="true" data-id="{{$task->id}}" class="btn text-start draggable" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $task->id }}Modal">{{ $task->name }}</button>
+            <button id="task{{$task->id}}" type="button" draggable="true" data-id="{{$task->id}}" class="btn text-start draggable open-task" data-target="task{{ $task->id }}Modal" data-href="/api/project/{{ $task->project }}/task/{{ $task->id }}">{{ $task->name }}</button>
           @endif
         @endforeach
       </div>

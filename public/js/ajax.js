@@ -1,4 +1,5 @@
-const csrfToken = document.querySelector('input[name="_token"]').value
+let csrf = document.querySelector('input[name="_token"]')
+const csrfToken = csrf ? csrf.value : ''
 
 /* AJAX FUNCTIONS */
 
@@ -121,4 +122,38 @@ function updateProjectName(responseText) {
   const project = JSON.parse(responseText)
   const title = document.querySelector('#project-title')
   if (title) title.innerText = project.name
+}
+
+
+/* GET ELEMENTS */
+
+const openTaskButtons = document.querySelectorAll('.open-task')
+
+function addGetEventListener(button, data, func) {
+  button.addEventListener('click', function(e) {
+    e.preventDefault()
+    let requestUrl = button.dataset.href + (data ? '?' + encodeForAjax(data) : '')
+    sendAjaxRequest("GET", requestUrl, null, func)
+  })
+}
+
+openTaskButtons.forEach(button => {
+  let callback = function(responseText) {
+    onModalReceived(responseText, button)
+  }
+  addGetEventListener(button, null, callback)
+})
+
+function onModalReceived(responseText, button) {
+  let response = JSON.parse(responseText)
+  const div = document.querySelector('.modal-container')
+  div.innerHTML = ""
+
+  let elem = document.createElement('div')
+  elem.innerHTML = response.taskModal
+
+  div.append(elem.children[0])
+
+  let modal = new bootstrap.Modal(document.getElementById(button.dataset.target), {});
+  modal.show()
 }

@@ -184,7 +184,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('assignments', $project);
     return view('pages.assignments', [
-      'tasks' => $project->tasks()->get(),
+      'tasks' => $project->tasks()->get()->reverse(),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
@@ -204,7 +204,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('status_board', $project);
     return view('pages.status_board', [
-      'tasks' => $project->tasks()->get(),
+      'tasks' => $project->tasks()->get()->reverse(),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id),
@@ -244,7 +244,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('overview', $project);
     return view('pages.overview', [
-      'tasks' => $project->tasks()->get(),
+      'tasks' => $project->tasks()->get()->reverse(),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)

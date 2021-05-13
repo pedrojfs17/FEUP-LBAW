@@ -87,6 +87,7 @@ class TaskController extends Controller
 
     $result = array();
 
+    $result['taskId'] = $task;
     $result['taskCard'] = view('partials.task', ['task' => $taskObj])->render();
     $result['taskModal'] = view('partials.taskModal', ['task' => $taskObj])->render();
 
@@ -109,7 +110,7 @@ class TaskController extends Controller
       'task_status' => 'string'
     ]);
 
-    $this->authorize('update', Project::find($id));
+    $this->authorize('updateTask', Project::find($id));
 
     $taskObj = Task::find($task);
 

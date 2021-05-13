@@ -17,8 +17,23 @@ class TaskController extends Controller
   public function list(Request $request, $id)
   {
     $project = Project::find($id);
-    $this->authorize('list', $project);
-    $tasks = $project->tasks()->orderBy('id')->get();
+    //$this->authorize('list', $project);
+
+    $tags = $request->input('tag');
+    $assignees = $request->input('assignees');
+    dd($request);
+    $beforeDate = $request->input('due_date')[0];
+
+    $tasks = $project->tasks()->orderBy('id');
+
+    $tasks = !empty($tag) ? $tasks->whereHas('tags', function ($q) use ($tags) {
+      $q->whereIn('tag', $tags);
+    }) : $tasks;
+    $tasks = !empty($assignees) ? $tasks->whereHas('assignees', function ($q) use ($assignees) {
+      $q->whereIn('client', $assignees);
+    }): $tasks;
+    $tasks = !empty($beforeDate) ? $tasks->whereDate('due_date',"<=",$beforeDate) : $tasks;
+
     return response()->json($tasks);
   }
 

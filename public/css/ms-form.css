@@ -5,3 +5,7 @@
 #progressbar .active {
     color: #00AFB9
 }
+
+.invalid-input {
+  border: red 2px solid;
+}

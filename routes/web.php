@@ -72,6 +72,7 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 
 // Profile
+Route::get('profile', 'ClientController@list');
 Route::get('profile/{username}', 'ClientController@show')->name('profile');
 Route::patch('profile/{username}', 'ClientController@update');
 Route::delete('profile/{username}', 'ClientController@delete');

@@ -11,16 +11,7 @@ const steps = fieldsets.length;
 
 setProgressBar(current);
 
-progressBarItems.forEach((button, index) => button.addEventListener('click', function() {
-	const field = index + 1
 
-	while(current != field) {
-		if (current > index)
-			previousFieldset()
-		else
-			nextFieldset()
-	}
-}))
 
 nextButtons.forEach(button => button.addEventListener('click', nextFieldset))
 
@@ -38,7 +29,9 @@ closeButton.addEventListener('click', function() {
   form.reset()
   inputs.forEach(input => input.classList.remove('invalid-input'))
   textareas.forEach(textarea => textarea.classList.remove('invalid-input'))
-  current = 1
+  while(current !== 1)
+      previousFieldset()
+
 })
 
 function checkMissing(field) {

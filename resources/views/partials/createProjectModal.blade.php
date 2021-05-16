@@ -19,15 +19,15 @@
                          aria-valuemax="100"></div>
                   </div>
                   <div
-                    class="progress-item position-absolute top-0 start-0 translate-middle btn btn-sm rounded-pill active"
+                    class="progress-item position-absolute top-0 start-0 text-center translate-middle rounded-pill active"
                     style="width: 3rem; height:3rem; background-color: white;"><i class="bi bi-pencil fs-3"></i>
                   </div>
                   <div
-                    class="progress-item position-absolute top-0 start-50 translate-middle btn btn-sm rounded-pill"
+                    class="progress-item position-absolute top-0 start-50 text-center translate-middle rounded-pill"
                     style="width: 3rem; height:3rem; background-color: white;"><i class="bi bi-gear fs-3"></i>
                   </div>
                   <div
-                    class="progress-item position-absolute top-0 start-100 translate-middle btn btn-sm rounded-pill"
+                    class="progress-item position-absolute top-0 start-100 text-center translate-middle rounded-pill"
                     style="width: 3rem; height:3rem; background-color: white;"><i
                       class="bi bi-person-plus fs-3"></i></div>
                 </div>
@@ -105,10 +105,12 @@
                   </div>
                 </div>
                 <select id="selected-members" name="members[]" hidden multiple="multiple"></select>
-                <div id="members">
+                <div id="members" class="">
                 </div>
-                <h6>Added Members</h6>
-                <div id="added-members"></div>
+                <div class="d-block">
+                  <h6>Added Members</h6>
+                  <div id="added-members"></div>
+                </div>
                 <button type="submit" class="btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
                   Submit
                 </button>

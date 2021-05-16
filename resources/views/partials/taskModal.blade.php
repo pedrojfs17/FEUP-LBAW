@@ -174,7 +174,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" id="deleteTask" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>

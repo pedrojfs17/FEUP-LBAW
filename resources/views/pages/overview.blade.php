@@ -4,6 +4,7 @@
   <script src="{{ asset('js/text-bg.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/tags.js') }}" defer></script>
+  <script src="{{ asset('js/deleteTask.js') }}" defer></script>
 @endpush
 
 @push('styles')

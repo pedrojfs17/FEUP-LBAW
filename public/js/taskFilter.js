@@ -25,14 +25,12 @@ taskFilter.addEventListener('submit', function (e) {
   let data = new FormData(taskFilter)
 
   data.forEach((value, key) => {
-    console.log(value, key)
     object[key] = data.getAll(key)
   })
-  console.log(object)
-  sendPatchAjaxRequest(taskFilter.dataset.href+'?'+encodeForAjax(object))
+  sendGetAjaxRequest(taskFilter.dataset.href + '?' + encodeForAjax(object))
 })
 
-function sendPatchAjaxRequest(route) {
+function sendGetAjaxRequest(route) {
   let xhr = new XMLHttpRequest();
   xhr.open("GET", route);
   xhr.setRequestHeader("Accept", "application/json");
@@ -60,10 +58,22 @@ function buildFilteredTasks(responseText) {
   div.innerHTML = ""
 
   let elem = document.createElement('div')
-  elem.innerHTML = responseText
+  elem.innerHTML = JSON.parse(responseText)
 
-  div.append(elem.children[0])
+
+  Array.from(elem.children).forEach(element => div.append(element))
+
+  const openTaskButtons = document.querySelectorAll('.open-task')
+
+  openTaskButtons.forEach(button => {
+    let callback = function(responseText) {
+      onModalReceived(responseText, button)
+    }
+    addGetEventListener(button, null, callback)
+  })
 
 }
+
+
 
 

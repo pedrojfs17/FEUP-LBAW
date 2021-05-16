@@ -1,6 +1,6 @@
 @push('scripts')
   <script src="{{ asset('js/tooltip.js') }}" defer></script>
-  <script src="{{ asset('js/filter.js') }}" defer></script>
+  <script src="{{ asset('js/taskFilter.js') }}" defer></script>
 @endpush
 
 <div class="modal fade" id="taskFilterModal" tabindex="-1" aria-labelledby="tasksFilterModalLabel"
@@ -19,7 +19,6 @@
       </div>
       <div>
           <form data-id="taskFilter" id="taskFilter" data-href="/api/project/{{$project->id}}/task/">
-            @csrf
             <label for="tag-selection">Tags</label>
             <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection">
               @foreach ($project->tags as $tag)

@@ -19,23 +19,24 @@ class TaskController extends Controller
     $project = Project::find($id);
     //$this->authorize('list', $project);
 
-    $tags = $request->input('tag');
-    $assignees = $request->input('assignees');
-    dd($request);
-    $beforeDate = $request->input('due_date')[0];
+    $tags = $request->input('tag')==NULL ? NULL : explode(',',$request->input('tag'));
+    $assignees =$request->input('assignees')==NULL? NULL: explode(',',$request->input('assignees'));
+    $beforeDate = $request->input('due_date');
 
-    $tasks = $project->tasks()->orderBy('id');
+    $tasks = $project->tasks();
 
-    $tasks = !empty($tag) ? $tasks->whereHas('tags', function ($q) use ($tags) {
+    $tasks = !empty($tags) ? $tasks->whereHas('tags', function ($q) use ($tags) {
       $q->whereIn('tag', $tags);
     }) : $tasks;
+
     $tasks = !empty($assignees) ? $tasks->whereHas('assignees', function ($q) use ($assignees) {
       $q->whereIn('client', $assignees);
     }): $tasks;
+
     $tasks = !empty($beforeDate) ? $tasks->whereDate('due_date',"<=",$beforeDate) : $tasks;
 
-    $view = view('partials.projectTasks', ['tasks' => $tasks])->render();
 
+    $view = view('partials.projectTasks', ['tasks' => $tasks->get()])->render();
     return response()->json($view);
   }
 

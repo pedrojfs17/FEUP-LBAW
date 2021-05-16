@@ -50,5 +50,11 @@
     @yield('navbar')
     @yield('content')
     @yield('footer')
+
+    <!-- Messages -->
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+      <div class="toast-container position-fixed bottom-0 end-0 p-3" id="message-container"></div>
+    </div>
+
   </body>
 </html>

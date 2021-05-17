@@ -23,6 +23,10 @@
         <li class="nav-item">
           <a class="nav-link {{$page == 'preferences' ? 'active' : ''}}" href="{{ route('project.preferences', ['id' => $project->id]) }}">Preferences</a>
         </li>
+        <li>
+          <button class="btn btn-light mx-1" type="button" id="button-filter-projects" data-bs-toggle="modal" data-bs-target="#taskFilterModal"><i
+              class="text-muted bi bi-funnel-fill"></i></button>
+        </li>
         @if ($role != 'Reader')
         <li class="nav-item ms-lg-auto dropdown">
           <a class="nav-link" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">

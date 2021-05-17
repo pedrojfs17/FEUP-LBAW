@@ -8,6 +8,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
@@ -67,18 +68,29 @@ class ProjectController extends Controller
     $client = Client::find(Auth::user()->id);
 
     $searchQuery = $request->input('query');
+    $completion = $request->input('completion');
+    $beforeDate = $request->input('due_date');
 
-    if (!empty($searchQuery)) {
-      $projects = $client->projects()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
+    $projects = $client->projects()
+      ->when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })->paginate(5);
-    }
-    else {
-      $projects = $client->projects()->orderBy('id', 'desc')->paginate(5);
-    }
+      })
+      ->when(!empty($beforeDate), function ($query) use ($beforeDate) {
+        return $query->whereDate('due_date','<=',$beforeDate);
+      })
+      ->get()->sortByDesc('id')
+      ->when(!empty($completion), function ($query) use ($completion) {
+        return $query->where('completion','>=',intval($completion));
+      });
 
-    $view = view('partials.dashboardProjects', ['projects' => $projects, 'pagination'=>true])->render();
+    $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
+
+    $paginator = new Paginator($projects->forPage($page, 5), $projects->count(), 5, $page);
+    $paginator->setPath("/api/project");
+
+
+    $view = view('partials.dashboardProjects', ['projects' => $paginator, 'pagination'=>true])->render();
 
     return response()->json($view);
   }

@@ -21,9 +21,9 @@
       <div class="col-lg-3 col-md-3 text-muted"></div>
       @endif
       <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2 text-end text-muted">
-        @if ($project->getCompletion() === 100) Completed @else Progress ({{ $project->getCompletion() }}%) @endif
+        @if ($project->completion === 100) Completed @else Progress ({{ $project->completion }}%) @endif
         <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: {{ $project->getCompletion() }}%" aria-valuenow="{{ $project->getCompletion() }}" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="progress-bar bg-success" role="progressbar" style="width: {{ $project->completion }}%" aria-valuenow="{{ $project->completion }}" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
     </div>

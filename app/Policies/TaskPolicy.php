@@ -25,12 +25,6 @@ class TaskPolicy
     return $project->teamMembers()->where('client_id', $account->id)->exists();
   }
 
-  public function delete(Account $account, Project $project)
-  {
-    // Only team members with Editor or Owner permissions can delete tasks
-    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
-  }
-
   public function tag(Account $account, Project $project)
   {
     // Only team members with Editor or Owner permissions can add tags to tasks

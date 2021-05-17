@@ -85,13 +85,13 @@ function addTaskElement(task) {
 const deleteButtons = document.querySelectorAll('.delete-button')
 const removeButtons = document.querySelectorAll('.remove-button')
 
-function addDeleteEventListener(button, removeElement) {
+function addDeleteEventListener(button, removeElements) {
   button.addEventListener('click', function(e) {
     e.preventDefault()
 
     let callback = function () {
-      if (removeElement)
-        removeElement.remove()
+      if (removeElements)
+        removeElements.forEach(element => element.remove())
       else
         button.remove()
     }
@@ -101,7 +101,7 @@ function addDeleteEventListener(button, removeElement) {
 }
 
 deleteButtons.forEach(button => addDeleteEventListener(button))
-removeButtons.forEach(button => addDeleteEventListener(button, button.parentElement.parentElement))
+removeButtons.forEach(button => addDeleteEventListener(button, [button.parentElement.parentElement]))
 
 
 /* EDIT BUTTONS */
@@ -180,9 +180,15 @@ function onModalReceived(response, button) {
 
   let elem = document.createElement('div')
   elem.innerHTML = response.taskModal
-
-  div.append(elem.children[0])
+  let element = elem.children[0]
+  div.append(element)
 
   let modal = new bootstrap.Modal(document.getElementById(button.dataset.target), {});
   modal.show()
+  addModalEventListeners(element)
+}
+
+function addModalEventListeners(element) {
+  tagEventListener(element)
+  element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
 }

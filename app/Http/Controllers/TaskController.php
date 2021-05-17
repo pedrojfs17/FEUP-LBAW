@@ -17,9 +17,27 @@ class TaskController extends Controller
   public function list(Request $request, $id)
   {
     $project = Project::find($id);
-    $this->authorize('list', $project);
-    $tasks = $project->tasks()->orderBy('id')->get();
-    return response()->json($tasks);
+    //$this->authorize('list', $project);
+
+    $tags = $request->input('tag')==NULL ? NULL : explode(',',$request->input('tag'));
+    $assignees =$request->input('assignees')==NULL? NULL: explode(',',$request->input('assignees'));
+    $beforeDate = $request->input('due_date');
+
+    $tasks = $project->tasks();
+
+    $tasks = !empty($tags) ? $tasks->whereHas('tags', function ($q) use ($tags) {
+      $q->whereIn('tag', $tags);
+    }) : $tasks;
+
+    $tasks = !empty($assignees) ? $tasks->whereHas('assignees', function ($q) use ($assignees) {
+      $q->whereIn('client', $assignees);
+    }): $tasks;
+
+    $tasks = !empty($beforeDate) ? $tasks->whereDate('due_date',"<=",$beforeDate) : $tasks;
+
+
+    $view = view('partials.projectTasks', ['tasks' => $tasks->get()])->render();
+    return response()->json($view);
   }
 
   /**
@@ -124,7 +142,7 @@ class TaskController extends Controller
    */
   public function delete(Request $request, $id, $task)
   {
-    $this->authorize('delete', Project::find($id));
+    $this->authorize('deleteTask', Project::find($id));
     $taskObj = Task::find($task);
     $taskObj->delete();
     return response()->json($taskObj);

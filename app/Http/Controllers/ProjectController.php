@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -141,6 +142,31 @@ class ProjectController extends Controller
     return redirect('dashboard')->with('message', 'Successfully deleted project: ' . $project->name);
   }
 
+  public function editMember(Request $request, $id, $username)
+  {
+    $request->validate([
+      'member_role' => ['required', Rule::in(['Reader', 'Editor', 'Owner']),]
+    ]);
+
+    $project = Project::find($id);
+    $account = Account::where('username', '=', $username)->first();
+
+    $this->authorize('changePermissions', $project);
+
+    $project->teamMembers()->updateExistingPivot($account->id, ['member_role' => $request->input('member_role')]);
+    $member = $project->teamMembers()->where('client_id', '=', $account->id)->first();
+    $message = $username . " is now " . $request->input('member_role') . "!";
+
+    $results = array();
+    $results['message'] = view('partials.successMessage', ['message' => $message])->render();
+    $results['member'] = array(
+      'username' => $username,
+      'role' => view('partials.memberRoleIcon', ['member' => $member])->render()
+    );
+
+    return response()->json($results);
+  }
+
   /**
    * Display the specified resource.
    *
@@ -160,8 +186,10 @@ class ProjectController extends Controller
 
     if (Auth::user()->id == $account->id)
       return redirect('dashboard');
-    else
-      return response()->json($member);
+    else {
+      $results = array('message' => view('partials.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
+      return response()->json($results);
+    }
   }
 
   /**

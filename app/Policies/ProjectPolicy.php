@@ -31,6 +31,12 @@ class ProjectPolicy
     return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
+  public function changePermissions(Account $account, Project $project)
+  {
+    // Only an owner can update a project
+    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
+  }
+
   public function leave(Account $account, Project $project, Account $deletedUser)
   {
     // Only a team member can leave a project. Only an Owner can kick a member

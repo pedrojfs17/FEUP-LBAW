@@ -31,6 +31,12 @@ class ProjectPolicy
     return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
   }
 
+  public function changePermissions(Account $account, Project $project)
+  {
+    // Only an owner can update a project
+    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
+  }
+
   public function leave(Account $account, Project $project, Account $deletedUser)
   {
     // Only a team member can leave a project. Only an Owner can kick a member
@@ -103,6 +109,12 @@ class ProjectPolicy
   public function updateTask(Account $account, Project $project)
   {
     // Only team members with Editor or Owner permissions can edit tasks
+    return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
+  }
+
+  public function deleteTask(Account $account, Project $project)
+  {
+    // Only team members with Editor or Owner permissions can delete tasks
     return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
   }
 }

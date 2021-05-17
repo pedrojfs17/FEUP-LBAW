@@ -18,6 +18,8 @@ class Project extends Model
     'name', 'description', 'due_date',
   ];
 
+  protected $appends = ['completion'];
+
   public function teamMembers()
   {
     return $this->belongsToMany(Client::class, 'team_member', 'project_id', 'client_id')->withPivot('member_role');
@@ -61,7 +63,7 @@ class Project extends Model
     return null;
   }
 
-  public function getCompletion()
+  public function getCompletionAttribute()
   {
     if (count($this->tasks) > 0)
       return intdiv(count($this->tasks->where('task_status', 'Completed')) * 100, count($this->tasks));

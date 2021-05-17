@@ -15,7 +15,9 @@ function sendAjaxRequest(method, url, data, callback) {
   request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200) {
-        if (callback) callback(this.responseText)
+        let response = JSON.parse(this.responseText)
+        if (callback) callback(response)
+        if (response.message) showMessage(response.message)
       }
       else {
         console.log('There was an error ' + request);
@@ -28,6 +30,21 @@ function sendAjaxRequest(method, url, data, callback) {
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
   request.send(data)
+}
+
+function showMessage(message) {
+  const container = document.querySelector('#message-container')
+  let elem = document.createElement('div')
+  elem.innerHTML = message
+  let element = elem.children[0]
+
+  container.append(element)
+  let toast = new bootstrap.Toast(element, {});
+  toast.show()
+
+  element.addEventListener('hidden.bs.toast', function () {
+    element.remove()
+  })
 }
 
 
@@ -46,9 +63,8 @@ function addCreateEventListener(form) {
 
 createForms.forEach(form => addCreateEventListener(form))
 
-function addTagElement(responseText) {
+function addTagElement(tag) {
   const tagsSection = document.getElementById('project-tags')
-  const tag = JSON.parse(responseText)
 
   tagsSection.innerHTML +=
     ' <p class="delete-tag delete-button d-inline-block m-0 my-1 py-1 px-3 px-sm-2 rounded text-bg-check" type="button" data-href="/api/project/' + tag.project + '/tag/' + tag.id + '" style="background-color: ' + tag.color + '">\n' +
@@ -58,11 +74,8 @@ function addTagElement(responseText) {
   addDeleteEventListener(tagsSection.querySelector('p:last-of-type'))
 }
 
-function addTaskElement(responseText) {
+function addTaskElement(task) {
   const tasks = document.getElementById('overview')
-  const task = JSON.parse(responseText)
-
-  console.log(task)
   tasks.innerHTML += task['taskCard'] + task['taskModal']
 }
 
@@ -72,13 +85,13 @@ function addTaskElement(responseText) {
 const deleteButtons = document.querySelectorAll('.delete-button')
 const removeButtons = document.querySelectorAll('.remove-button')
 
-function addDeleteEventListener(button, removeElement) {
+function addDeleteEventListener(button, removeElements) {
   button.addEventListener('click', function(e) {
     e.preventDefault()
 
     let callback = function () {
-      if (removeElement)
-        removeElement.remove()
+      if (removeElements)
+        removeElements.forEach(element => element.remove())
       else
         button.remove()
     }
@@ -88,12 +101,13 @@ function addDeleteEventListener(button, removeElement) {
 }
 
 deleteButtons.forEach(button => addDeleteEventListener(button))
-removeButtons.forEach(button => addDeleteEventListener(button, button.parentElement.parentElement))
+removeButtons.forEach(button => addDeleteEventListener(button, [button.parentElement.parentElement]))
 
 
 /* EDIT BUTTONS */
 
 const toggleButtons = document.querySelectorAll('.edit-button')
+const changeRoleButtons = document.querySelectorAll('.edit-role-button')
 
 function addUpdateEventListener(button) {
   button.addEventListener('click', function(e) {
@@ -116,12 +130,28 @@ function addUpdateEventListener(button) {
   })
 }
 
-toggleButtons.forEach(button => addUpdateEventListener(button))
+function addPatchOnClickEventListener(button) {
+  button.addEventListener('click', function(e) {
+    e.preventDefault()
+    let data = {
+      'member_role' : button.innerText,
+      "_token": csrfToken,
+    }
+    sendAjaxRequest("PATCH", button.dataset.href, encodeForAjax(data), window[button.dataset.onEdit])
+  })
+}
 
-function updateProjectName(responseText) {
-  const project = JSON.parse(responseText)
+toggleButtons.forEach(button => addUpdateEventListener(button))
+changeRoleButtons.forEach(button => addPatchOnClickEventListener(button))
+
+function updateProjectName(project) {
   const title = document.querySelector('#project-title')
   if (title) title.innerText = project.name
+}
+
+function updateUserRole(response) {
+  const memberCard = document.querySelector('#role-' + response.member.username)
+  memberCard.innerHTML = response.member.role
 }
 
 
@@ -144,16 +174,21 @@ openTaskButtons.forEach(button => {
   addGetEventListener(button, null, callback)
 })
 
-function onModalReceived(responseText, button) {
-  let response = JSON.parse(responseText)
+function onModalReceived(response, button) {
   const div = document.querySelector('.modal-container')
   div.innerHTML = ""
 
   let elem = document.createElement('div')
   elem.innerHTML = response.taskModal
-
-  div.append(elem.children[0])
+  let element = elem.children[0]
+  div.append(element)
 
   let modal = new bootstrap.Modal(document.getElementById(button.dataset.target), {});
   modal.show()
+  addModalEventListeners(element)
+}
+
+function addModalEventListeners(element) {
+  tagEventListener(element)
+  element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
 }

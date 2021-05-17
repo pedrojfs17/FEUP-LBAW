@@ -8,6 +8,8 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -70,17 +72,29 @@ class ProjectController extends Controller
     $client = Client::find(Auth::user()->id);
 
     $searchQuery = $request->input('query');
+    $completion = $request->input('completion');
+    $beforeDate = $request->input('due_date');
 
-    if (!empty($searchQuery)) {
-      $projects = $client->projects()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
+    $projects = $client->projects()
+      ->when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })->paginate(5);
-    } else {
-      $projects = $client->projects()->orderBy('id', 'desc')->paginate(5);
-    }
+      })
+      ->when(!empty($beforeDate), function ($query) use ($beforeDate) {
+        return $query->whereDate('due_date','<=',$beforeDate);
+      })
+      ->get()->sortByDesc('id')
+      ->when(!empty($completion), function ($query) use ($completion) {
+        return $query->where('completion','>=',intval($completion));
+      });
 
-    $view = view('partials.dashboardProjects', ['projects' => $projects, 'pagination' => true])->render();
+    $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
+
+    $paginator = new Paginator($projects->forPage($page, 5), $projects->count(), 5, $page);
+    $paginator->setPath("/api/project");
+
+
+    $view = view('partials.dashboardProjects', ['projects' => $paginator, 'pagination'=>true])->render();
 
     return response()->json($view);
   }
@@ -132,6 +146,31 @@ class ProjectController extends Controller
     return redirect('dashboard')->with('message', 'Successfully deleted project: ' . $project->name);
   }
 
+  public function editMember(Request $request, $id, $username)
+  {
+    $request->validate([
+      'member_role' => ['required', Rule::in(['Reader', 'Editor', 'Owner']),]
+    ]);
+
+    $project = Project::find($id);
+    $account = Account::where('username', '=', $username)->first();
+
+    $this->authorize('changePermissions', $project);
+
+    $project->teamMembers()->updateExistingPivot($account->id, ['member_role' => $request->input('member_role')]);
+    $member = $project->teamMembers()->where('client_id', '=', $account->id)->first();
+    $message = $username . " is now " . $request->input('member_role') . "!";
+
+    $results = array();
+    $results['message'] = view('partials.successMessage', ['message' => $message])->render();
+    $results['member'] = array(
+      'username' => $username,
+      'role' => view('partials.memberRoleIcon', ['member' => $member])->render()
+    );
+
+    return response()->json($results);
+  }
+
   /**
    * Display the specified resource.
    *
@@ -151,8 +190,10 @@ class ProjectController extends Controller
 
     if (Auth::user()->id == $account->id)
       return redirect('dashboard');
-    else
-      return response()->json($member);
+    else {
+      $results = array('message' => view('partials.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
+      return response()->json($results);
+    }
   }
 
   /**

@@ -87,3 +87,7 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
 .remove-member-btn {
   float: right;
 }
+  
+a {
+  cursor: pointer;
+}

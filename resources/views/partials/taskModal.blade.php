@@ -2,7 +2,7 @@
   <script src="{{ asset('js/tooltip.js') }}" defer></script>
 @endpush
 
-<div class="modal fade" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
+<div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -174,7 +174,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>

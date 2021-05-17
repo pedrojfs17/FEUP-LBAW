@@ -29,6 +29,8 @@
     </div>
   @endif
 
+  @include('partials.projectFilter')
+
   <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
       <li class="nav-item" role="presentation">
@@ -53,7 +55,7 @@
               <button class="btn btn-outline-secondary" type="button" id="button-search-projects"><i
                   class="bi bi-search"></i></button>
             </div>
-            <button class="btn btn-light mx-1" type="button" id="button-filter-projects"><i
+            <button class="btn btn-light mx-1" type="button" id="button-filter-projects" data-bs-toggle="modal" data-bs-target="#projectFilterModal"><i
                 class="text-muted bi bi-funnel-fill"></i></button>
           </div>
           <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">

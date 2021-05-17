@@ -34,6 +34,7 @@ Route::post('api/project', 'ProjectController@create');
 Route::get('api/project/{id}', 'ProjectController@show');
 Route::patch('api/project/{id}', 'ProjectController@update');
 Route::delete('api/project/{id}', 'ProjectController@delete');
+Route::patch('api/project/{id}/{username}', 'ProjectController@editMember');
 Route::delete('api/project/{id}/{username}', 'ProjectController@leave');
 
 // Invites

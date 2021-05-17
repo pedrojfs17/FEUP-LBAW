@@ -1,5 +1,6 @@
 @if ($paginator->hasPages())
-  <ul class="pagination float-end my-3">
+  <div class="d-flex justify-content-end">
+  <ul class="pagination my-3">
     {{-- Previous Page Link --}}
     <li><button class="paginator-link btn" data-href="{{ $paginator->previousPageUrl() }}" rel="prev" @if($paginator->onFirstPage()) disabled @endif>&lt;</button></li>
 
@@ -25,5 +26,6 @@
     {{-- Next Page Link --}}
     <li><button class="paginator-link btn" data-href="{{ $paginator->nextPageUrl() }}" rel="prev" @if(!$paginator->hasMorePages()) disabled @endif>&gt;</button></li>
   </ul>
+  </div>
 @endif
 

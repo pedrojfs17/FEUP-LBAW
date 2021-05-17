@@ -29,6 +29,24 @@ class ClientController extends Controller
     return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
   }
 
+  public function list(Request $request)
+  {
+    $searchQuery = $request->input('query');
+
+    if (!empty($searchQuery)) {
+      $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
+        return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
+          ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
+      })->paginate(5);
+    } else {
+      $clients = Client::orderBy('id', 'desc')->paginate(5);
+    }
+
+    $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
+
+    return response()->json($view);
+  }
+
   /**
    * Update the specified resource in storage.
    *

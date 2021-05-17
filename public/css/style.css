@@ -75,6 +75,19 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
   opacity: 0.5;
 }
 
+.add-member-btn {
+  float: right;
+  background-color: #ea4c89;
+}
+
+.add-member-btn:hover {
+  background-color: rgba(238, 9, 121, 0.5);
+}
+
+.remove-member-btn {
+  float: right;
+}
+  
 a {
   cursor: pointer;
 }

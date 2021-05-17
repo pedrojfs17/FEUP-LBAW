@@ -1,14 +1,23 @@
 function tagEventListener(element) {
   const tagSelections = element.querySelectorAll('.tag-selection')
+  const subTaskSelections = element.querySelector('.subtask-selection')
+
 
   tagSelections.forEach(selection => {
     $(selection).select2({
       width: '100%',
-      placeholder: 'Search for project tags',
       allowClear: true,
       dropdownParent: $(selection).parent()
     })
   })
+
+  console.log(subTaskSelections)
+
+  $(subTaskSelections).select2({
+      width: '100%',
+      allowClear: true,
+      dropdownParent: $(subTaskSelections).parent()
+    })
 
   const tagSelect = element.querySelectorAll('.edit-tags')
 
@@ -28,7 +37,10 @@ function tagEventListener(element) {
       })
 
       let successFunction = function(response) {
-        updateTags(tagForm.dataset.id, JSON.parse(response))
+        if(tagForm.dataset.id.includes("SubTask"))
+          updateSubTasks(tagForm.dataset.id, JSON.parse(response))
+        else
+          updateTags(tagForm.dataset.id, JSON.parse(response))
       }
 
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
@@ -71,6 +83,21 @@ function updateTags(task, tags) {
     })
 
     tagDiv.querySelectorAll('*').forEach(element => checkColor(element))
+  })
+}
+
+function updateSubTasks(task, subtask) {
+  const subTaskDivs = document.querySelectorAll('.' + task)
+  subTaskDivs.forEach(subTask => {
+    subTask.innerHTML=""
+    subtask.forEach(subtask => {
+      subTask.innerHTML+='<button type="button" style="background-color: #e7e7e7"\n' +
+      '              className="btn text-start subtask-'+subtask.task_status.toLowerCase().replace(' ','-')+'"'+
+      '              data-bs-toggle="modal" data-bs-dismiss="modal"\n' +
+      '              data-bs-target="#task'+subtask.id+'Modal>"'+subtask.name+'</button>'
+    })
+
+    subTask.querySelectorAll('*').forEach(element => checkColor(element))
   })
 }
 

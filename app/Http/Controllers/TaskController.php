@@ -168,8 +168,22 @@ class TaskController extends Controller
 
   public function subtask(Request $request, $id, $task)
   {
-    $this->authorize('subtask', Project::find($id));
-    Task::find($task)->subtasks()->attach($request->input('subtask'));
+    //$this->authorize('subtask', Project::find($id));
+    $request->validate([
+      'subtask' => 'string',
+    ]);
+    $subtask = array_map('intval',explode(',',$request->input('subtask')));
+    $task = Task::find($task);
+    $task->subtasks()->delete();
+    foreach($subtask as $sub) {
+      $subtaskObj = Task::find($sub);
+      $subtaskObj->parent = $task;
+      $subtaskObj->save();
+    }
+
+    $result = Tag::whereIn('id', $subtask)->get();
+
+    return response()->json($result);
   }
 
   public function waiting_on(Request $request, $id, $task)

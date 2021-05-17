@@ -36,8 +36,28 @@
           <hr>
         </header>
         <div>
-          <h5>Subtasks</h5>
-          <div class="d-grid gap-2 my-3">
+          <h5 class=" d-inline-block mr-3">Subtasks</h5>
+          <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
+             aria-controls="task{{$task->id}}CreateTag task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
+          <div id="task{{$task->id}}SubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
+            <form data-id="task{{$task->id}}SubTask"
+                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
+              @csrf
+              <select class="form-control subtask-selection" multiple="multiple" name="subtask" id="subtask-selection-{{$task->id}}">
+                @foreach ($task->project()->first()->tasks as $subtask)
+                  @if ($task->id == $subtask->id)
+                    @continue
+                  @elseif($task->subtasks()->where('id',$subtask->id)->count()!==0)
+                    <option value="{{$subtask->id}}" selected="selected">{{$subtask->name}}</option>
+                  @else
+                    <option value="{{$subtask->id}}">{{$subtask->name}}</option>
+                  @endif
+                @endforeach
+              </select>
+              <button type="submit" class="d-none"></button>
+            </form>
+          </div>
+          <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
             @foreach ($task->subtasks as $subtask)
               <button type="button" style="background-color: #e7e7e7"
                       class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->task()->first()->task_status)) }}"

@@ -48,9 +48,13 @@ function showMessage(message) {
 }
 
 
-/* CREATE FORMS */
+/* FORMS */
 
 const createForms = document.querySelectorAll('.create-form')
+const editForms = document.querySelectorAll('.edit-form')
+
+createForms.forEach(form => addCreateEventListener(form))
+editForms.forEach(form => addPatchFormEventListener(form))
 
 function addCreateEventListener(form) {
   form.addEventListener('submit', function(e) {
@@ -61,7 +65,14 @@ function addCreateEventListener(form) {
   })
 }
 
-createForms.forEach(form => addCreateEventListener(form))
+function addPatchFormEventListener(form) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault()
+    let object = {};
+    new FormData(form).forEach((value, key) => object[key] = value);
+    sendAjaxRequest("PATCH", form.dataset.href, encodeForAjax(object), window[form.dataset.onSubmit])
+  })
+}
 
 function addTagElement(tag) {
   const tagsSection = document.getElementById('project-tags')
@@ -108,6 +119,8 @@ removeButtons.forEach(button => addDeleteEventListener(button, [button.parentEle
 
 const toggleButtons = document.querySelectorAll('.edit-button')
 const changeRoleButtons = document.querySelectorAll('.edit-role-button')
+const settingsToggles = document.querySelectorAll('.settings-button')
+const colorInput = document.querySelectorAll('.color-input')
 
 function addUpdateEventListener(button) {
   button.addEventListener('click', function(e) {
@@ -143,6 +156,28 @@ function addPatchOnClickEventListener(button) {
 
 toggleButtons.forEach(button => addUpdateEventListener(button))
 changeRoleButtons.forEach(button => addPatchOnClickEventListener(button))
+
+settingsToggles.forEach(button => {
+  button.addEventListener('change', function(e) {
+    e.preventDefault()
+    let data = {
+      [button.getAttribute('id')] : button.checked ? 1 : 0,
+      "_token": csrfToken,
+    }
+    sendAjaxRequest("PATCH", "settings", encodeForAjax(data))
+  })
+})
+
+colorInput.forEach(button => {
+  button.addEventListener('change', function(e) {
+    e.preventDefault()
+    let data = {
+      [button.getAttribute('id')] : button.value,
+      "_token": csrfToken,
+    }
+    sendAjaxRequest("PATCH", "settings", encodeForAjax(data))
+  })
+})
 
 function updateProjectName(project) {
   const title = document.querySelector('#project-title')

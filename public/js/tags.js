@@ -1,49 +1,51 @@
-const tagSelections = document.querySelectorAll('.tag-selection')
+function tagEventListener(element) {
+  const tagSelections = element.querySelectorAll('.tag-selection')
 
-tagSelections.forEach(selection => {
-  $(selection).select2({
-    width: '100%',
-    placeholder: 'Search for project tags',
-    allowClear: true,
-    dropdownParent: $(selection).parent()
+  tagSelections.forEach(selection => {
+    $(selection).select2({
+      width: '100%',
+      placeholder: 'Search for project tags',
+      allowClear: true,
+      dropdownParent: $(selection).parent()
+    })
   })
-})
 
-const tagSelect = document.querySelectorAll('.edit-tags')
+  const tagSelect = element.querySelectorAll('.edit-tags')
 
-tagSelect.forEach(select => {
-  let tagForm = select.parentElement.querySelector('form')
+  tagSelect.forEach(select => {
+    let tagForm = select.parentElement.querySelector('form')
 
-  tagForm.addEventListener('submit', function (e) {
-    e.preventDefault()
-    let object = {}
-    let data = new FormData(tagForm)
+    tagForm.addEventListener('submit', function (e) {
+      e.preventDefault()
+      let object = {}
+      let data = new FormData(tagForm)
 
-    data.forEach((value, key) => {
-      if (data.getAll(key).length === 1)
-        object[key] = value
-      else
-        object[key] = data.getAll(key)
+      data.forEach((value, key) => {
+        if (data.getAll(key).length === 1)
+          object[key] = value
+        else
+          object[key] = data.getAll(key)
+      })
+
+      let successFunction = function(response) {
+        updateTags(tagForm.dataset.id, JSON.parse(response))
+      }
+
+      sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
     })
 
-    let successFunction = function(response) {
-      updateTags(tagForm.dataset.id, JSON.parse(response))
-    }
-
-    sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
+    select.addEventListener('click', function (e) {
+      if (select.dataset.editing === "false") {
+        select.innerHTML = '<i class="bi bi-check2"></i>'
+        select.dataset.editing = "true"
+      } else {
+        select.innerHTML = '<i class="bi bi-pencil"></i>'
+        select.dataset.editing = "false"
+        tagForm.querySelector('button[type="submit"]').click()
+      }
+    })
   })
-
-  select.addEventListener('click', function (e) {
-    if (select.dataset.editing === "false") {
-      select.innerHTML = '<i class="bi bi-check2"></i>'
-      select.dataset.editing = "true"
-    } else {
-      select.innerHTML = '<i class="bi bi-pencil"></i>'
-      select.dataset.editing = "false"
-      tagForm.querySelector('button[type="submit"]').click()
-    }
-  })
-})
+}
 
 function sendPatchAjaxRequest(route, data, successFunction) {
   let xhr = new XMLHttpRequest();
@@ -59,13 +61,6 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 
   xhr.send(encodeForAjax(data));
 }
-
-function encodeForAjax(data) {
-  return Object.keys(data).map(function (k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-  }).join('&')
-}
-
 
 function updateTags(task, tags) {
   const tagDivs = document.querySelectorAll('.' + task)

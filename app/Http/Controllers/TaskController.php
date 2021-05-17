@@ -142,7 +142,7 @@ class TaskController extends Controller
    */
   public function delete(Request $request, $id, $task)
   {
-    $this->authorize('delete', Project::find($id));
+    $this->authorize('deleteTask', Project::find($id));
     $taskObj = Task::find($task);
     $taskObj->delete();
     return response()->json($taskObj);

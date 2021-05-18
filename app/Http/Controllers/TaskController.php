@@ -152,15 +152,18 @@ class TaskController extends Controller
   {
     //$this->authorize('tag', Project::find($id));
     $request->validate([
-      'tag' => 'string',
+      'tag' => 'nullable|string',
     ]);
-    $tags = array_map('intval',explode(',',$request->input('tag')));
     Task::find($task)->tags()->detach();
-    foreach($tags as $tag) {
-      Task::find($task)->tags()->attach($tag);
+
+    if(!empty($request->input('tag'))) {
+      $tags = array_map('intval',explode(',',$request->input('tag')));
+      foreach($tags as $tag) {
+        Task::find($task)->tags()->attach($tag);
+      }
     }
 
-    $result = Tag::whereIn('id', $tags)->get();
+    $result = Task::find($task)->tags()->get();
 
     return response()->json($result);
 

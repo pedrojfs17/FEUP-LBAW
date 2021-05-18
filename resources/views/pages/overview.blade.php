@@ -18,7 +18,7 @@
 
 @section('content')
   @include('partials.projectNavBar', ['page' => 'overview'])
-  @include('partials.taskFilter',['project' => $tasks->first()->project()->first()])
+  @include('partials.taskFilter',['project' => $project])
 
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
     @include('partials.projectTasks',['tasks'=>$tasks])

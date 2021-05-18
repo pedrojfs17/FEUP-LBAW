@@ -92,9 +92,9 @@ function updateSubTasks(task, subtask) {
     subTask.innerHTML=""
     subtask.forEach(subtask => {
       subTask.innerHTML+='<button type="button" style="background-color: #e7e7e7"\n' +
-      '              className="btn text-start subtask-'+subtask.task_status.toLowerCase().replace(' ','-')+'"'+
+      '              class="btn text-start subtask-'+subtask.task_status.toLowerCase().replace(' ','-')+'"'+
       '              data-bs-toggle="modal" data-bs-dismiss="modal"\n' +
-      '              data-bs-target="#task'+subtask.id+'Modal>"'+subtask.name+'</button>'
+      '              data-bs-target="#task'+subtask.id+'Modal">'+subtask.name+'</button>'
     })
 
     subTask.querySelectorAll('*').forEach(element => checkColor(element))

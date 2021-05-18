@@ -173,18 +173,26 @@ class TaskController extends Controller
   {
     //$this->authorize('subtask', Project::find($id));
     $request->validate([
-      'subtask' => 'string',
+      'subtask' => 'nullable|string',
     ]);
-    $subtask = array_map('intval',explode(',',$request->input('subtask')));
-    $task = Task::find($task);
-    $task->subtasks()->delete();
-    foreach($subtask as $sub) {
-      $subtaskObj = Task::find($sub);
-      $subtaskObj->parent = $task;
+
+    $subTasks = Task::where('parent',$task)->get();
+    foreach ($subTasks as $sub) {
+      $subtaskObj = Task::find($sub->id);
+      $subtaskObj->parent = null;
       $subtaskObj->save();
     }
 
-    $result = Tag::whereIn('id', $subtask)->get();
+    if(!empty($request->input('subtask'))) {
+      $subtask = array_map('intval', explode(',', $request->input('subtask')));
+      foreach ($subtask as $sub) {
+        $subtaskObj = Task::find($sub);
+        $subtaskObj->parent = $task;
+        $subtaskObj->save();
+      }
+    }
+
+    $result = Task::where('parent',$task)->get();
 
     return response()->json($result);
   }

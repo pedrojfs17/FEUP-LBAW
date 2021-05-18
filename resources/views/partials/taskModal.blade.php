@@ -38,7 +38,7 @@
         <div>
           <h5 class=" d-inline-block mr-3">Subtasks</h5>
           <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
-             aria-controls="task{{$task->id}}CreateTag task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
+             aria-controls="task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
           <div id="task{{$task->id}}SubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
             <form data-id="task{{$task->id}}SubTask"
                   data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
@@ -60,9 +60,9 @@
           <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
             @foreach ($task->subtasks as $subtask)
               <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->first()->task_status)) }}"
+                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->task_status)) }}"
                       data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $subtask->first()->id }}Modal">{{ $subtask->first()->name }}</button>
+                      data-bs-target="#task{{ $subtask->id }}Modal">{{ $subtask->name }}</button>
             @endforeach
           </div>
           <h5>Waiting On</h5>

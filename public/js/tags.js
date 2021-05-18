@@ -55,7 +55,8 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      successFunction(this.responseText)
+      if(successFunction)
+        successFunction(this.responseText)
     }
   };
 

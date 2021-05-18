@@ -14,8 +14,8 @@
             </li>
             @if (count($task->parent()->get()) > 0)
               <li class="breadcrumb-item" aria-current="page">
-                <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent->parent}}Modal"
-                   data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent->parent()->first()->name}}</a>
+                <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent}}Modal"
+                   data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
               </li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
@@ -60,9 +60,9 @@
           <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
             @foreach ($task->subtasks as $subtask)
               <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->task()->first()->task_status)) }}"
+                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->first()->task_status)) }}"
                       data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $subtask->task()->first()->id }}Modal">{{ $subtask->task()->first()->name }}</button>
+                      data-bs-target="#task{{ $subtask->first()->id }}Modal">{{ $subtask->first()->name }}</button>
             @endforeach
           </div>
           <h5>Waiting On</h5>

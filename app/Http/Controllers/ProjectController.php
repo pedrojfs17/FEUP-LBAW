@@ -40,7 +40,11 @@ class ProjectController extends Controller
     $project->save();
 
     $project->teamMembers()->attach(Auth::User()->id, ['member_role' => 'Owner']);
-
+    $members = $request->input('members');
+    if ($members != null) {
+      foreach ($request->input('members') as $member)
+        $project->teamMembers()->attach($member, ['member_role' => 'Editor']);
+    }
     return redirect(route('project.overview', ['id' => $project->id]));
   }
 

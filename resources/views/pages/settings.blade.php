@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @push('scripts')
+  <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/settings.js') }}" defer></script>
 @endpush
@@ -85,26 +86,29 @@
 
   <div class="row justify-content-center align-items-begin px-sm-5 px-1">
     <div class="d-grid gap-2 mb-3">
-      <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#changePassword" aria-expanded="false" aria-controls="changePassword">
+      <button class="btn btn-dark reset-form-button" type="button" data-target="changePassword" data-bs-toggle="collapse" data-bs-target="#changePassword" aria-expanded="false" aria-controls="changePassword">
         Change Password
       </button>
     </div>
 
-    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form" id="changePassword" data-href="password">
+    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="giveFormFeedback">
       @csrf
       <div class="col-lg-4">
         <label for="inputPassword" class="form-label">Old Password <span class="text-muted">*</span></label>
-        <input type="password" class="form-control" id="inputPassword" name="password" required>
+        <input type="password" class="form-control" id="inputPassword" name="password" required aria-describedby="inputPasswordFeedback">
+        <div id="inputPasswordFeedback" class="invalid-feedback"></div>
       </div>
       <div class="col-lg-4">
         <label for="inputNewPassword" class="form-label">New Password <span class="text-muted">*</span></label>
-        <input type="password" class="form-control" id="inputNewPassword" name="new_password" required>
+        <input type="password" class="form-control" id="inputNewPassword" name="new_password" required aria-describedby="inputNewPasswordFeedback">
+        <div id="inputNewPasswordFeedback" class="invalid-feedback">Password must be at least 6 characters long!</div>
       </div>
       <div class="col-lg-4">
         <label for="inputNewPasswordConfirmation" class="form-label">New Password Confirmation <span class="text-muted">*</span></label>
-        <input type="password" class="form-control" id="inputNewPasswordConfirmation" name="new_password_confirmation" required>
+        <input type="password" class="form-control" id="inputNewPasswordConfirmation" name="new_password_confirmation" required aria-describedby="inputNewPasswordConfirmationFeedback">
+        <div id="inputNewPasswordConfirmationFeedback" class="invalid-feedback">Passwords must match!</div>
         <div class="d-grid pt-4 gap-2">
-          <button type="submit" class="btn btn-dark" data-bs-toggle="collapse" data-bs-target="#changePassword">Confirm</button>
+          <button type="submit" class="btn btn-dark">Confirm</button>
         </div>
       </div>
     </form>

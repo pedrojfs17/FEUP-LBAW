@@ -42,3 +42,5 @@
     </div>
   </nav>
 </header>
+
+@include('partials.projectCreateElements')

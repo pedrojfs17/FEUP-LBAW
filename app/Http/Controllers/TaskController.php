@@ -49,10 +49,9 @@ class TaskController extends Controller
   {
     $request->validate([
       'name' => 'required|string',
-      'description' => 'string',
-      'due_date' => 'date|after:today',
-      'task_status' => 'string',
-      'parent' => 'integer'
+      'description' => 'nullable|string',
+      'due_date' => 'nullable|date|after:today',
+      'parent' => 'nullable|integer'
     ]);
 
     $task = new Task();
@@ -61,18 +60,19 @@ class TaskController extends Controller
     $this->authorize('createTask', Project::find($id));
 
     $task->name = $request->input('name');
-    $task->description = empty($request->input('description')) ? "No description" : $request->input('description');
-    $task->due_date = empty($request->input('due_date')) ? 0 : $request->input('due_date');
-    $task->task_status = empty($request->input('task_status')) ? "Not Started" : $request->input('task_status');
+    if (!empty($request->input('description')))
+      $task->description = $request->input('description');
+    if (!empty($request->input('due_date')))
+      $task->due_date = $request->input('due_date');
+    if (!empty($request->input('parent'))) {
+      // TODO - Add task as subtask of parent
+    }
+
     $task->save();
 
-    if (!empty($request->input('parent')))
-      $this->subtask($task->id, $request->input('parent'));
-
-    $result = array();
-
-    $result['taskCard'] = view('partials.task', ['task' => $task])->render();
-    $result['taskModal'] = view('partials.taskModal', ['task' => $task])->render();
+    $result = array(
+      'taskCard' => view('partials.task', ['task' => Task::find($task->id)])->render()
+    );
 
     return response()->json($result);
   }

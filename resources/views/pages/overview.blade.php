@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/text-bg.js') }}" defer></script>
+  <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/tags.js') }}" defer></script>
 @endpush
@@ -23,6 +24,4 @@
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
     @include('partials.projectTasks',['tasks'=>$tasks])
   </div>
-
-  @include('partials.projectCreateElements')
 @endsection

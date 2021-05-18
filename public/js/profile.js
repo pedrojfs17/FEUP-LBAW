@@ -1,60 +1,27 @@
-const editUsernameButton = document.getElementById('button-editUsername')
-const editNameButton = document.getElementById('button-editName')
-const editEmailButton = document.getElementById('button-editEmail')
-const editCompanyButton = document.getElementById('button-editCompany')
+const editProfileButton = document.getElementById('editProfile')
+const saveEditButton = document.getElementById('saveEdit')
+const cancelEditButton = document.getElementById('cancelEdit')
+const actions = document.getElementById('editActions')
+const inputs = document.querySelectorAll('form input')
+const values = {}
 
-if (editUsernameButton) {
-	editUsernameButton.addEventListener('click', function() {
-		const usernameInput = document.getElementById('usernameInput')
-		
-		if (usernameInput.disabled) {
-			editUsernameButton.innerHTML = '<i class="bi bi-check2"></i>'
-			usernameInput.disabled = false
-		} else {
-			editUsernameButton.innerHTML = '<i class="bi bi-pencil"></i>'
-			usernameInput.disabled = true
-		}
-	})
+function editProfileHandler(e){
+  inputs.forEach(function (field) {
+    values[field.id] = field.placeholder
+    field.disabled = false
+  })
+  actions.style.display = 'block'
+  e.target.style.display = 'none'
 }
 
-if (editNameButton) {
-	editNameButton.addEventListener('click', function() {
-		const nameInput = document.getElementById('nameInput')
-		
-		if (nameInput.disabled) {
-			editNameButton.innerHTML = '<i class="bi bi-check2"></i>'
-			nameInput.disabled = false
-		} else {
-			editNameButton.innerHTML = '<i class="bi bi-pencil"></i>'
-			nameInput.disabled = true
-		}
-	})
+if (editProfileButton) {
+    editProfileButton.addEventListener('click', editProfileHandler)
 }
 
-if (editEmailButton) {
-	editEmailButton.addEventListener('click', function() {
-		const emailInput = document.getElementById('emailInput')
-		
-		if (emailInput.disabled) {
-			editEmailButton.innerHTML = '<i class="bi bi-check2"></i>'
-			emailInput.disabled = false
-		} else {
-			editEmailButton.innerHTML = '<i class="bi bi-pencil"></i>'
-			emailInput.disabled = true
-		}
-	})
+if (saveEditButton) {
+    saveEditButton.addEventListener('click', saveEditHandler)
 }
 
-if (editCompanyButton) {
-	editCompanyButton.addEventListener('click', function() {
-		const companyInput = document.getElementById('companyInput')
-		
-		if (companyInput.disabled) {
-			editCompanyButton.innerHTML = '<i class="bi bi-check2"></i>'
-			companyInput.disabled = false
-		} else {
-			editCompanyButton.innerHTML = '<i class="bi bi-pencil"></i>'
-			companyInput.disabled = true
-		}
-	})
+if (cancelEditButton) {
+    cancelEditButton.addEventListener('click', cancelEditHandler)
 }

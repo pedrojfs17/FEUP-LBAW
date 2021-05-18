@@ -29,12 +29,13 @@
         </li>
         @if ($role != 'Reader')
         <li class="nav-item ms-lg-auto dropdown">
-          <a class="nav-link" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">
+          <a class="nav-link p-0" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">
             <i class="bi bi-plus-circle fs-4 d-none d-lg-inline-block"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="profileDropdown">
             <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask">Task</a></li>
             <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tag</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#addMembers" aria-controls="addMembers">Member</a></li>
           </ul>
         </li>
         @endif

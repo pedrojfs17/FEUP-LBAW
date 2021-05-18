@@ -87,7 +87,38 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
 .remove-member-btn {
   float: right;
 }
-  
+
 a {
   cursor: pointer;
+}
+
+.profile-info {
+  color: #5e5e5e;
+}
+
+.profile-username {
+  color: #00AFB9;
+}
+
+.profile-username:before {
+  content:"@";
+}
+
+#editProfile:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#editActions {
+  display: none;
+}
+
+#saveEdit:hover {
+  color: #00AFB9;
+  text-decoration: underline;
+}
+
+#cancelEdit:hover {
+  color: red;
+  text-decoration: underline;
 }

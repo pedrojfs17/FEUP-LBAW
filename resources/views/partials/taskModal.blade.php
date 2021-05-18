@@ -88,9 +88,9 @@
           <div class="col-12 col-lg-6 ps-2">
             <h5 class="mb-1">Assigned to:</h5>
             @foreach ($task->assignees as $assignee)
-              <img class="rounded-circle" src="{{ url($assignee->avatar) }}" data-bs-toggle="tooltip"
+              <a href="{{route('profile', ['username' => $assignee->account->username])}}"><img class="rounded-circle" src="{{ url($assignee->avatar) }}" data-bs-toggle="tooltip"
                    data-bs-placement="top" title="{{$assignee->account->username}}" width="40px " height="40px "
-                   alt="avatar ">
+                   alt="avatar "></a>
             @endforeach
           </div>
           <hr>

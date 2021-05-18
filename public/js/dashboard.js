@@ -123,3 +123,76 @@ function sendGetMembersRequest(url) {
   membersRequest.setRequestHeader("Accept", "application/json")
   membersRequest.send()
 }
+
+const membersInviteSearchBar = document.getElementById('searchMembersInvite')
+const membersInviteSearchButton = document.getElementById('button-search-members-invite')
+const membersInviteDiv = document.getElementById('members-invite')
+const membersInviteSpinner = document.getElementById('membersInviteSpinner')
+const addedMembersInvite = document.getElementById('added-members-invited')
+
+membersInviteSearchBar.addEventListener('keyup', function () {
+  membersInviteDiv.innerHTML = ""
+  membersInviteSpinner.classList.remove('d-none')
+  sendGetMembersInviteRequest("profile?query=" + membersInviteSearchBar.value.trim());
+})
+
+membersInviteSearchButton.addEventListener('click', function () {
+  membersInviteDiv.innerHTML = ""
+  membersInviteSpinner.classList.remove('d-none')
+  sendGetMembersInviteRequest("profile?query=" + membersInviteSearchBar.value.trim());
+})
+
+function receivedMembersInvite(responseText) {
+  membersInviteDiv.innerHTML = JSON.parse(responseText)
+  membersInviteSpinner.classList.add('d-none')
+
+  let addButtons = document.querySelectorAll('.add-member-btn')
+  addButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selectedMembers.innerHTML += '<option value="' + btn.dataset.id + '" selected></option>'
+
+      let memberCard = btn.parentElement.parentElement.cloneNode(true)
+      let removeButton = memberCard.querySelector('button')
+      removeButton.classList.remove('add-member-btn')
+      removeButton.classList.add('remove-member-btn')
+      removeButton.innerHTML = "Remove"
+
+      addedMembers.appendChild(memberCard)
+      removeButton.addEventListener('click', function () {
+        let removed = selectedMembers.querySelector('option[value="' + removeButton.dataset.id + '"]')
+        selectedMembers.removeChild(removed)
+        addedMembers.removeChild(removeButton.parentElement.parentElement)
+        btn.style.visibility='visible'
+      })
+
+      btn.style.visibility='hidden'
+    })
+  })
+
+  let paginationLinks = document.getElementsByClassName('paginator-link')
+  Array.from(paginationLinks).forEach(link => link.addEventListener('click', function() {
+    membersDiv.innerHTML = ""
+    membersSpinner.classList.remove('d-none')
+    sendGetMembersRequest(link.dataset.href);
+  }))
+}
+
+function sendGetMembersRequest(url) {
+  let membersRequest = new XMLHttpRequest()
+
+  membersRequest.onreadystatechange = function() {
+    if (membersRequest.readyState === XMLHttpRequest.DONE) {
+      if (membersRequest.status === 200) {
+        receivedMembers(this.responseText)
+      }
+      else {
+        alert('There was an error ' + membersRequest.status);
+      }
+    }
+  }
+
+  membersRequest.open("GET", url, true)
+  membersRequest.setRequestHeader("Accept", "application/json")
+  membersRequest.send()
+}
+

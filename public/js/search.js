@@ -39,8 +39,14 @@ function sendGetRequest(url) {
 const searchBar = document.getElementById('search')
 const searchButton = document.getElementById('button-search-projects')
 
+searchBar.addEventListener('keyup', function () {
+  projectsDiv.innerHTML = ""
+  tasksDiv.innerHTML = ""
+  usersDiv.innerHTML = ""
+  sendGetRequest("api/search?query=" + searchBar.value.trim());
+})
+
 searchButton.addEventListener('click', function () {
-  console.log(searchBar)
   projectsDiv.innerHTML = ""
   tasksDiv.innerHTML = ""
   usersDiv.innerHTML = ""

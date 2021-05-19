@@ -79,6 +79,7 @@ Route::patch('profile/{username}', 'ClientController@update');
 Route::delete('profile/{username}', 'ClientController@delete');
 Route::get('settings', 'ClientController@showSettings')->name('settings');
 Route::patch('settings', 'ClientController@updateSettings');
+Route::patch('password', 'ClientController@updatePassword');
 
 Route::get('avatars/{img}', 'ImagesController@show');
 

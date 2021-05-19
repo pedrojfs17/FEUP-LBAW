@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container mb-5">
   <div class="row my-4">
     <div class="input-group">
       <input id="search" name="query" type="text" class="form-control" placeholder="Search"

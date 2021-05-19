@@ -36,7 +36,13 @@ class TagController extends Controller
     $tag->color = $request->input('color');
     $tag->save();
 
-    return response()->json($tag);
+    $result = array(
+      'delete_tag' => view('partials.deleteTag', ['tag' => $tag])->render(),
+      'tag' => view('partials.tag', ['tag' => $tag])->render(),
+      'message' => view('partials.successMessage', ['message' => 'Tag created!'])->render()
+    );
+
+    return response()->json($result);
   }
 
   public function delete(Request $request, $id, $tag)

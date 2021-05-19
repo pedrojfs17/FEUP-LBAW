@@ -324,8 +324,9 @@ class ProjectController extends Controller
       'decision' => 'required|boolean',
     ]);
     $this->authorize('updateInvite', $project);
+    $decision = filter_var($request->input('decision'), FILTER_VALIDATE_BOOLEAN);
     $project->invites()->updateExistingPivot($invite_id, [
-      'decision' => $request->decision
+      'decision' => $decision
     ]);
     return view('pages.overview', [
       'tasks' => $project->tasks()->get()->reverse(),

@@ -388,7 +388,7 @@ BEGIN
     THEN
         INSERT INTO team_member (client_id, project_id) SELECT NEW.client_id, NEW.project_id;
     END IF;
-    RETURN NEW;
+    DELETE FROM invite WHERE invite.client_id == NEW.client_id AND invite.project_id == NEW.project_id;
 END;
 $BODY$
     LANGUAGE plpgsql;

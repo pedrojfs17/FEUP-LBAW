@@ -8,16 +8,10 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasksFilterModalLabel">
-          <ol class="my-0 breadcrumb text-muted">
-            <li class="breadcrumb-item">
-              <a style="cursor: pointer; font-weight: bolder" data-bs-dismiss="modal">Filter Tasks</a>
-            </li>
-          </ol>
-        </nav>
+        <h5 class="modal-title">Task Filters</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div>
+      <div class="modal-body">
           <form data-id="taskFilter" id="taskFilter" data-href="/api/project/{{$project->id}}/task/">
             <label for="tag-selection">Tags</label>
             <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection">
@@ -31,9 +25,17 @@
                 <option value="{{$teamMember->id}}">{{$teamMember->account->username}}</option>
               @endforeach
             </select>
-            <label for="dueDateInput">Due Date</label>
-            <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateInput" type="date"
-                                                     name="due_date" value="{{ old('due_date') }}">
+
+            <hr>
+
+            <h6 class="text-muted">Due Date</h6>
+
+            <label for="filterTasksBeforeDate">Before</label>
+            <input class="form-control" id="filterTasksBeforeDate" type="date" name="before_date">
+
+            <label for="filterTasksAfterDate">After</label>
+            <input class="form-control" id="filterTasksAfterDate" type="date" name="after_date">
+
             <button type="submit" class="d-none"></button>
           </form>
       </div>

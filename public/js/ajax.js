@@ -89,7 +89,11 @@ function addTagElement(response) {
 
 function addTaskElement(task) {
   const tasks = document.getElementById('overview')
-  tasks.innerHTML = task['taskCard'] + tasks.innerHTML
+  const createTaskDiv = tasks.querySelector('#createTaskCard')
+
+  let div = document.createElement('div')
+  div.innerHTML = task['taskCard']
+  tasks.insertBefore(div.children[0], createTaskDiv)
 }
 
 

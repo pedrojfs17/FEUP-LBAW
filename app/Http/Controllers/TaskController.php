@@ -19,22 +19,28 @@ class TaskController extends Controller
     $project = Project::find($id);
     //$this->authorize('list', $project);
 
-    $tags = $request->input('tag')==NULL ? NULL : explode(',',$request->input('tag'));
-    $assignees =$request->input('assignees')==NULL? NULL: explode(',',$request->input('assignees'));
-    $beforeDate = $request->input('due_date');
+    $tags = $request->input('tag') == NULL ? NULL : explode(',',$request->input('tag'));
+    $assignees =$request->input('assignees') == NULL ? NULL : explode(',',$request->input('assignees'));
+    $beforeDate = $request->input('before_date');
+    $afterDate = $request->input('after_date');
 
-    $tasks = $project->tasks();
-
-    $tasks = !empty($tags) ? $tasks->whereHas('tags', function ($q) use ($tags) {
-      $q->whereIn('tag', $tags);
-    }) : $tasks;
-
-    $tasks = !empty($assignees) ? $tasks->whereHas('assignees', function ($q) use ($assignees) {
-      $q->whereIn('client', $assignees);
-    }): $tasks;
-
-    $tasks = !empty($beforeDate) ? $tasks->whereDate('due_date',"<=",$beforeDate) : $tasks;
-
+    $tasks = $project->tasks()
+      ->when(!empty($tags), function ($query) use ($tags) {
+        return $query->whereHas('tags', function ($q) use ($tags) {
+          $q->whereIn('tag', $tags);
+        });
+      })
+      ->when(!empty($assignees), function ($query) use ($assignees) {
+        return $query->whereHas('assignees', function ($q) use ($assignees) {
+          $q->whereIn('client', $assignees);
+        });
+      })
+      ->when(!empty($beforeDate), function ($query) use ($beforeDate) {
+        return $query->whereDate('due_date','<=',$beforeDate);
+      })
+      ->when(!empty($afterDate), function ($query) use ($afterDate) {
+        return $query->whereDate('due_date','>=',$afterDate);
+      });
 
     $view = view('partials.projectTasks', ['tasks' => $tasks->get()])->render();
     return response()->json($view);

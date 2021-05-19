@@ -13,7 +13,7 @@ class Task extends Model
   protected $table = 'task';
 
   protected $fillable = [
-    'project', 'name', 'description', 'due_date', 'task_status', 'search'
+    'project', 'name', 'description', 'due_date', 'task_status', 'search', 'parent'
   ];
 
   public function project()
@@ -23,12 +23,12 @@ class Task extends Model
 
   public function subtasks()
   {
-    return $this->hasMany(Subtask::class, 'parent');
+    return $this->hasMany(Task::class, 'parent');
   }
 
   public function parent()
   {
-    return $this->belongsTo(Subtask::class, 'id');
+    return $this->belongsTo(Task::class, 'id');
   }
 
   public function waitingOn()

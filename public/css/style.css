@@ -105,20 +105,24 @@ a {
 }
 
 #editProfile:hover {
+  user-select: none;
   cursor: pointer;
   text-decoration: underline;
 }
 
 #editActions {
   display: none;
+  user-select: none;
 }
 
 #saveEdit:hover {
+  cursor: pointer;
   color: #00AFB9;
   text-decoration: underline;
 }
 
 #cancelEdit:hover {
+  cursor: pointer;
   color: red;
   text-decoration: underline;
 }

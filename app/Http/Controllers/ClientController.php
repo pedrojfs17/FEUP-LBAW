@@ -60,19 +60,20 @@ class ClientController extends Controller
    */
   public function update(Request $request, $username)
   {
-    $validated = $request->validate([
-      'email' => 'unique:account|email'
+    $request->validate([
+      'email' => 'nullable|unique:account|email'
     ]);
-    $client = Client::find($username);
+    $account = Account::where('username', '=', $username)->first();
+    $client = Client::find($account->id);
     $this->authorize('update', $client);
 
-    $client->account()->email = empty($validated->input('email')) ? $client->account()->email : $validated->input('email');
-    $client->account()->password = empty($validated->input('password')) ? $client->account()->password : $validated->input('password');
-    $client->fullname = empty($validated->input('fullname')) ? $client->fullname : $validated->input('fullname');
-    $client->company = empty($validated->input('company')) ? $client->company : $validated->input('company');
-    $client->avatar = empty($validated->input('avatar')) ? $client->avatar : $validated->input('avatar');
-    $client->gender = empty($validated->input('gender')) ? $client->gender : $validated->input('gender');
-    $client->country = empty($validated->input('country')) ? $client->country : $validated->input('country');
+    $account->email = empty($request->input('email')) ? $account->email : $request->input('email');
+    $account->password = empty($request->input('password')) ? $account->password : $request->input('password');
+    $client->fullname = empty($request->input('fullname')) ? $client->fullname : $request->input('fullname');
+    $client->company = empty($request->input('company')) ? $client->company : $request->input('company');
+    $client->avatar = empty($request->input('avatar')) ? $client->avatar : $request->input('avatar');
+    $client->client_gender = empty($request->input('client_gender')) ? $client->client_gender : $request->input('client_gender');
+    $client->country = empty($request->input('country')) ? $client->country : $request->input('country');
     $client->save();
 
     return response()->json($client);

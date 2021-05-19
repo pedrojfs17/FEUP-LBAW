@@ -11,18 +11,53 @@ function editProfileHandler(e){
     field.disabled = false
   })
   actions.style.display = 'block'
-  e.target.style.display = 'none'
+  editProfileButton.style.display = 'none'
 }
 
 function saveEditHandler(e) {
-  console.log("Guardadah")
+  actions.style.display = 'none'
+  editProfileButton.style = ''
+
+  let data = {}
+  inputs.forEach((field) => {
+    if (field.value) {
+      data[field.name] = field.value
+      if (field.name != '_token') {
+        field.placeholder = field.value
+        field.value = ''
+      }
+    }
+    field.disabled = true
+  })
+  
+  if (Object.keys(data).length === 1) return
+
+  let request = new XMLHttpRequest()
+  request.open('PATCH', e.target.dataset.href)
+  request.setRequestHeader("Accept", "application/json");
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  request.onreadystatechange = () => {
+    if (request.readyState === XMLHttpRequest.DONE) {
+      let status = request.status
+      if (status === 200) {
+        console.log("Succ")
+      } else {
+        console.log("UnSucc")
+      }
+    }
+  }
+  request.send(encodeForAjax(data))
 }
 
 function cancelEditHandler(e) {
-  Object.keys(values).forEach(function (field) {
-
+  inputs.forEach((field) => {
+    if (field.name != '_token')
+      field.value = ''
+    field.disabled = true
   })
-  console.log("Canceladah")
+  actions.style.display = 'none'
+  editProfileButton.style = ''
 }
 
 if (editProfileButton) {

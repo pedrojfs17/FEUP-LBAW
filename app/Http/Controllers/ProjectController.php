@@ -300,14 +300,14 @@ class ProjectController extends Controller
    *
    * @param \Illuminate\Http\Request $request
    * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
+   * @return \Illuminate\Http\JsonResponse
    */
   public function invite(Request $request, $id)
   {
     $project = Project::find($id);
     $this->authorize('invite', $project);
     $project->invites()->attach($request->client);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return response()->json(['message' => 'added invite']);
   }
 
   /**

@@ -63,7 +63,7 @@
   </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="addMembers" aria-labelledby="addMembersLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addMembers" aria-labelledby="addMembersLabel" data-project="{{$project->id}}">
   <div class="offcanvas-header">
     <h5 id="addMembersLabel">Members</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -72,23 +72,23 @@
     <section id="add-member">
       <h3>Add member</h3>
         <div class="input-group mb-3">
-          <input id="searchMembersInvite" name="query" type="text" class="form-control"
+          <input id="searchMembers" name="query" type="text" class="form-control"
                  placeholder="Username or Email"
                  aria-label="Find Members" aria-describedby="button-search">
 
-          <button class="btn btn-outline-secondary" type="button" id="button-search-members-invite"><i
+          <button class="btn btn-outline-secondary" type="button" id="button-search-members" data-href="/profile?project={{$project->id}}"><i
               class="bi bi-search"></i></button>
         </div>
-        <div class="d-flex justify-content-center my-3 d-none" id="membersInviteSpinner">
+        <div class="d-flex justify-content-center my-3 d-none" id="membersSpinner">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <div id="members-invite" class="">
+        <div id="members" class="">
         </div>
         <div class="d-block">
           <h6>Added Members</h6>
-          <div id="added-members-invite"></div>
+          <div id="added-members"></div>
         </div>
     </section>
   </div>

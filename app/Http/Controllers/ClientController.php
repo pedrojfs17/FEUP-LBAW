@@ -32,15 +32,19 @@ class ClientController extends Controller
   public function list(Request $request)
   {
     $searchQuery = $request->input('query');
+    $project = $request->input('project');
 
-    if (!empty($searchQuery)) {
-      $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
+    $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })->paginate(5);
-    } else {
-      $clients = Client::orderBy('id', 'desc')->paginate(5);
-    }
+      })->when(!empty($project), function ($query) use ($project) {
+      return $query->whereDoesntHave('projects', function ($q) use ($project) {
+        $q->where('project_id','=', $project);
+      })->whereDoesntHave('invites', function ($q) use ($project) {
+        $q->where('project_id', '=', $project);
+      });
+    })->paginate(5);
+
 
     $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
 

@@ -14,6 +14,17 @@ function editProfileHandler(e){
   e.target.style.display = 'none'
 }
 
+function saveEditHandler(e) {
+  console.log("Guardadah")
+}
+
+function cancelEditHandler(e) {
+  Object.keys(values).forEach(function (field) {
+
+  })
+  console.log("Canceladah")
+}
+
 if (editProfileButton) {
     editProfileButton.addEventListener('click', editProfileHandler)
 }

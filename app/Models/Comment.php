@@ -13,7 +13,7 @@ class Comment extends Model
   protected $table = 'comment';
 
   protected $fillable = [
-    'task', 'author', 'comment_date', 'comment_text'
+    'task', 'author', 'comment_date', 'comment_text', 'parent'
   ];
 
   public function task()
@@ -28,7 +28,7 @@ class Comment extends Model
 
   public function replies()
   {
-    return $this->hasMany(CommentReply::class, 'parent');
+    return $this->hasMany(Comment::class, 'parent');
   }
 
   public function notification()

@@ -72,7 +72,7 @@ class Task extends Model
     $comments = $this->comments;
     foreach ($comments as $comment)
     {
-      if (CommentReply::find($comment->id) == null) {
+      if ($comment->parent == null) {
         array_push($parent_comments, $comment);
       }
     }

@@ -2,7 +2,7 @@
   <script src="{{ asset('js/tooltip.js') }}" defer></script>
 @endpush
 
-<div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
+<div class="modal fade task-modal" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -123,8 +123,9 @@
         </div>
         <div>
           <h5>Comments</h5>
-          <div class="mb-3">
-            @foreach ($task->getParentComments() as $comment)
+          <div class="mb-3 task-comments">
+            @foreach ($task->comments as $comment)
+              @if ($comment->parent == null)
               <div class="comment mb-3">
                 <div class="comment-body d-flex ms-2">
                   <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
@@ -141,7 +142,7 @@
                   </a>
                 </div>
                 <div id="comment{{$comment->id}}reply" class="collapse">
-                  @foreach ($comment->replies as $reply)
+                  @foreach ($comment->replies() as $reply)
                     <div class="comment-replies my-2 ms-5">
                       <div class="comment-body d-flex ms-2">
                         <img class="rounded-circle mt-1" src="{{ url($reply->reply->author()->first()->avatar) }}"
@@ -155,16 +156,19 @@
                     </div>
                   @endforeach
                   <div class="comment-footer d-flex mt-2 ms-5">
-                    <input class="form-control me-3" type="text" placeholder="Add comment">
-                    <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
+                    <input id="replyTo{{$comment->id}}" class="form-control me-3" type="text" placeholder="Add comment">
+                    <button type="button" class="btn btn-outline-secondary btn-sm btn-add-reply" data-comment="{{$comment->id}}" data-href="/api/project/{{$task->project}}/task/{{$task->id}}/comment"
+                      data-author="{{$user->account->id}}">Reply</button>
                   </div>
                 </div>
               </div>
+              @endif
             @endforeach
           </div>
           <div class="d-flex">
-            <input class="form-control me-3" type="text" placeholder="Add comment">
-            <button type="button" class="btn btn-primary">Comment</button>
+            <input id="commentOn{{$task->id}}" class="form-control me-3" type="text" placeholder="Add comment">
+            <button type="button" class="btn btn-primary btn-add-comment btn-add-comment" data-task="{{$task->id}}" data-href="/api/project/{{$task->project}}/task/{{$task->id}}/comment"
+                    data-author="{{$user->account->id}}">Comment</button>
           </div>
         </div>
       </div>

@@ -2,13 +2,14 @@ const editProfileButton = document.getElementById('editProfile')
 const saveEditButton = document.getElementById('saveEdit')
 const cancelEditButton = document.getElementById('cancelEdit')
 const actions = document.getElementById('editActions')
-const inputs = document.querySelectorAll('form input')
-const values = {}
+const inputs = document.querySelectorAll('form input, form textarea')
 
 function editProfileHandler(e){
   inputs.forEach(function (field) {
-    values[field.id] = field.placeholder
-    field.disabled = false
+    if (field.name != '_token') {
+      field.value = field.placeholder
+      field.disabled = false
+    }
   })
   actions.style.display = 'block'
   editProfileButton.style.display = 'none'
@@ -20,11 +21,10 @@ function saveEditHandler(e) {
 
   let data = {}
   inputs.forEach((field) => {
-    if (field.value) {
+    if (field.value != field.placeholder || field.name === '_token') {
       data[field.name] = field.value
       if (field.name != '_token') {
         field.placeholder = field.value
-        field.value = ''
       }
     }
     field.disabled = true
@@ -32,28 +32,13 @@ function saveEditHandler(e) {
   
   if (Object.keys(data).length === 1) return
 
-  let request = new XMLHttpRequest()
-  request.open('PATCH', e.target.dataset.href)
-  request.setRequestHeader("Accept", "application/json");
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-  request.onreadystatechange = () => {
-    if (request.readyState === XMLHttpRequest.DONE) {
-      let status = request.status
-      if (status === 200) {
-        console.log("Succ")
-      } else {
-        console.log("UnSucc")
-      }
-    }
-  }
-  request.send(encodeForAjax(data))
+  sendAjaxRequest('PATCH', saveEditButton.dataset.href, encodeForAjax(data), window[saveEditButton.dataset.onEdit])
 }
 
 function cancelEditHandler(e) {
   inputs.forEach((field) => {
     if (field.name != '_token')
-      field.value = ''
+      field.value = field.placeholder
     field.disabled = true
   })
   actions.style.display = 'none'

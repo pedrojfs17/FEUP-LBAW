@@ -117,12 +117,12 @@ a {
 
 #saveEdit:hover {
   cursor: pointer;
-  color: #00AFB9;
+  color: #00AFB9!important;
   text-decoration: underline;
 }
 
 #cancelEdit:hover {
   cursor: pointer;
-  color: red;
+  color: red!important;
   text-decoration: underline;
 }

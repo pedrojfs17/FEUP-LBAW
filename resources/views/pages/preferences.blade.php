@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/ajax.js') }}" defer></script>
+  <script src="{{ asset('js/profile.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -19,32 +20,42 @@
 
     <div class="container">
       <div class="row align-items-center mt-5 px-5">
-        <h4>Basic info</h4>
+        <div class='col'>
+          <h4>Basic info</h4>
+        </div>
+        <div class='col text-end'>
+          <button class="btn btn-link text-muted" id="editProfile">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </div>
+        <div class='col text-end' id="editActions">
+          <button class="btn btn-link text-muted" id="cancelEdit">
+            <i class="bi bi-x fa-lg"></i>
+          </button>
+          <button class="btn btn-link text-muted" id="saveEdit" data-href="/api/project/{{ $project->id }}" data-on-edit="updateProjectName">
+            <i class="bi bi-check fa-lg"></i>
+          </button>
+        </div>
         <hr>
       </div>
 
-      <section class="row justify-content-center align-items-begin px-5">
+      <form class="row justify-content-center align-items-begin px-5">
+        @csrf
         <label for="name" class="form-label">Name</label>
         <div class="input-group mb-3">
-          <input type="text" value="{{ $project->name }}" class="form-control" id="name" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="name" data-on-edit="updateProjectName" type="button"><i
-              class="bi bi-pencil"></i></button>
+          <input type="text" placeholder="{{ $project->name }}" value="{{ $project->name }}" class="form-control" name="name" disabled>
         </div>
 
         <label for="description" class="form-label">Description</label>
         <div class="input-group mb-3">
-          <textarea class="form-control" id="description" style="height: 8em;" disabled>{{ $project->description }}</textarea>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="description" type="button"><i
-              class="bi bi-pencil"></i></button>
+          <textarea class="form-control" name="description" style="height: 8em;" disabled placeholder='{{ $project->description }}'>{{ $project->description }}</textarea>
         </div>
 
         <label for="due_date" class="form-label">Due Date</label>
         <div class="input-group mb-3">
-          <input type="date" value="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" class="form-control" id="due_date" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="due_date" type="button"><i
-              class="bi bi-pencil"></i></button>
+          <input type="date" value="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" placeholder="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" class="form-control" name="due_date" disabled>
         </div>
-      </section>
+      </form>
 
       <div class="row align-items-center mt-5 px-5">
         <h4>Manage members</h4>

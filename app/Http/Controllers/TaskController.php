@@ -194,13 +194,33 @@ class TaskController extends Controller
 
     $result = Task::where('parent',$task)->get();
 
-    return response()->json($result);
+    $view = view('partials.taskButton', ['taskArray' => $result])->render();
+
+    return response()->json($view);
   }
 
   public function waiting_on(Request $request, $id, $task)
   {
-    $this->authorize('waiting_on', Project::find($id));
-    Task::find($task)->waitingOn()->attach($request->input('task'));
+    //$this->authorize('waiting_on', Project::find($id));
+    $request->validate([
+      'waiting' => 'nullable|string',
+    ]);
+    Task::find($task)->waitingOn()->detach();
+
+    if(!empty($request->input('waiting'))) {
+      $waitingTasks = array_map('intval',explode(',',$request->input('waiting')));
+      foreach($waitingTasks as $waiting) {
+        Task::find($task)->waitingOn()->attach($waiting);
+      }
+
+    }
+
+    $result = Task::find($task)->waitingOn()->get();
+
+    $view = view('partials.taskButton', ['taskArray' => $result])->render();
+
+    return response()->json($view);
+
   }
 
   public function assignment(Request $request, $id, $task)

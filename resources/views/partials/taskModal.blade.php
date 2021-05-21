@@ -36,43 +36,57 @@
           <hr>
         </header>
         <div>
-          <h5 class=" d-inline-block mr-3">Subtasks</h5>
-          <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
-             aria-controls="task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
-          <div id="task{{$task->id}}SubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
-            <form data-id="task{{$task->id}}SubTask"
-                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
-              @csrf
-              <select class="form-control subtask-selection" multiple="multiple" name="subtask" id="subtask-selection-{{$task->id}}">
-                @foreach ($task->project()->first()->tasks as $subtask)
-                  @if ($task->id == $subtask->id)
-                    @continue
-                  @elseif($task->subtasks()->where('id',$subtask->id)->count()!==0)
-                    <option value="{{$subtask->id}}" selected="selected">{{$subtask->name}}</option>
-                  @else
-                    <option value="{{$subtask->id}}">{{$subtask->name}}</option>
-                  @endif
-                @endforeach
-              </select>
-              <button type="submit" class="d-none"></button>
-            </form>
+          <div>
+            <h5 class=" d-inline-block mr-3">Subtasks</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
+               aria-controls="task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}SubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
+              <form data-id="task{{$task->id}}SubTask"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
+                @csrf
+                <select class="form-control subtask-selection" multiple="multiple" name="subtask" id="subtask-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tasks as $subtask)
+                    @if ($task->id == $subtask->id)
+                      @continue
+                    @elseif($task->subtasks()->where('id',$subtask->id)->count()!==0)
+                      <option value="{{$subtask->id}}" selected="selected">{{$subtask->name}}</option>
+                    @else
+                      <option value="{{$subtask->id}}">{{$subtask->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
+            </div>
+            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
+                @include('partials.taskButton',['taskArray'=>$task->subtasks])
+            </div>
           </div>
-          <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
-            @foreach ($task->subtasks as $subtask)
-              <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->task_status)) }}"
-                      data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $subtask->id }}Modal">{{ $subtask->name }}</button>
-            @endforeach
-          </div>
-          <h5>Waiting On</h5>
-          <div class="d-grid gap-2 my-3">
-            @foreach ($task->waitingOn as $waitingOn)
-              <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($waitingOn->task_status)) }}"
-                      data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $waitingOn->id }}Modal">{{ $waitingOn->name }}</button>
-            @endforeach
+          <div>
+            <h5 class="d-inline-block mr-3">Waiting On</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-wait" role="button"
+               aria-controls="task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}Waiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait" aria-expanded="false">
+              <form data-id="task{{$task->id}}Waiting"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/waiting_on">
+                @csrf
+                <select class="form-control waiting-selection" multiple="multiple" name="waiting" id="waiting-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tasks as $task_wait)
+                    @if ($task->id == $task_wait->id)
+                      @continue
+                    @elseif($task->waitingOn()->where('id',$task_wait->id)->count()!==0)
+                      <option value="{{$task_wait->id}}" selected="selected">{{$task_wait->name}}</option>
+                    @else
+                      <option value="{{$task_wait->id}}">{{$task_wait->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
+            </div>
+            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-wait show task{{$task->id}}Waiting" aria-expanded="true">
+              @include('partials.taskButton',['taskArray'=>$task->waitingOn])
+            </div>
           </div>
           <hr>
         </div>

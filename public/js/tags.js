@@ -1,6 +1,7 @@
 function tagEventListener(element) {
   const tagSelections = element.querySelectorAll('.tag-selection')
   const subTaskSelections = element.querySelector('.subtask-selection')
+  const waitingSelection = element.querySelector('.waiting-selection')
 
 
   tagSelections.forEach(selection => {
@@ -11,13 +12,17 @@ function tagEventListener(element) {
     })
   })
 
-  console.log(subTaskSelections)
-
   $(subTaskSelections).select2({
       width: '100%',
       allowClear: true,
       dropdownParent: $(subTaskSelections).parent()
     })
+
+  $(waitingSelection).select2({
+    width: '100%',
+    allowClear: true,
+    dropdownParent: $(waitingSelection).parent()
+  })
 
   const tagSelect = element.querySelectorAll('.edit-tags')
 
@@ -37,10 +42,12 @@ function tagEventListener(element) {
       })
 
       let successFunction = function(response) {
-        if(tagForm.dataset.id.includes("SubTask"))
-          updateSubTasks(tagForm.dataset.id, JSON.parse(response))
-        else
+        if(!tagForm.dataset.id.includes("Waiting"))
           updateTags(tagForm.dataset.id, JSON.parse(response))
+        else
+          updateTaskButtons(tagForm.dataset.id, JSON.parse(response))
+
+
       }
 
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
@@ -86,19 +93,11 @@ function updateTags(task, tags) {
   })
 }
 
-function updateSubTasks(task, subtask) {
-  const subTaskDivs = document.querySelectorAll('.' + task)
-  subTaskDivs.forEach(subTask => {
-    subTask.innerHTML=""
-    subtask.forEach(subtask => {
-      subTask.innerHTML+='<button type="button" style="background-color: #e7e7e7"\n' +
-      '              class="btn text-start subtask-'+subtask.task_status.toLowerCase().replace(' ','-')+'"'+
-      '              data-bs-toggle="modal" data-bs-dismiss="modal"\n' +
-      '              data-bs-target="#task'+subtask.id+'Modal">'+subtask.name+'</button>'
-    })
-
-    subTask.querySelectorAll('*').forEach(element => checkColor(element))
-  })
+function updateTaskButtons(task, subtask) {
+  const subTaskDiv = document.querySelector('.' + task)
+  subTaskDiv.innerHTML=subtask
+  subTaskDiv.querySelectorAll('*').forEach(element => checkColor(element))
 }
+
 
 

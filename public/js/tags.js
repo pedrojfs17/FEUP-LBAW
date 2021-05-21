@@ -2,6 +2,7 @@ function tagEventListener(element) {
   const tagSelections = element.querySelectorAll('.tag-selection')
   const subTaskSelections = element.querySelector('.subtask-selection')
   const waitingSelection = element.querySelector('.waiting-selection')
+  const assignmentsSelection = element.querySelector('.assign-selection')
 
 
   tagSelections.forEach(selection => {
@@ -23,6 +24,11 @@ function tagEventListener(element) {
     allowClear: true,
     dropdownParent: $(waitingSelection).parent()
   })
+  $(assignmentsSelection).select2({
+    width: '100%',
+    allowClear: true,
+    dropdownParent: $(assignmentsSelection).parent()
+  })
 
   const tagSelect = element.querySelectorAll('.edit-tags')
 
@@ -42,14 +48,11 @@ function tagEventListener(element) {
       })
 
       let successFunction = function(response) {
-        if(!tagForm.dataset.id.includes("Waiting"))
+        if(!tagForm.dataset.id.includes("Waiting") && !tagForm.dataset.id.includes("SubTask") && !tagForm.dataset.id.includes("Assign"))
           updateTags(tagForm.dataset.id, JSON.parse(response))
         else
           updateTaskButtons(tagForm.dataset.id, JSON.parse(response))
-
-
       }
-
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
     })
 
@@ -98,6 +101,5 @@ function updateTaskButtons(task, subtask) {
   subTaskDiv.innerHTML=subtask
   subTaskDiv.querySelectorAll('*').forEach(element => checkColor(element))
 }
-
 
 

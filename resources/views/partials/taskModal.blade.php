@@ -87,9 +87,8 @@
             <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-wait show task{{$task->id}}Waiting" aria-expanded="true">
               @include('partials.taskButton',['taskArray'=>$task->waitingOn])
             </div>
+            <hr>
           </div>
-          <hr>
-        </div>
         <div class="row gx-0">
           <div class="col-12 col-lg-6 pe-2">
             <h5 class=" d-inline-block mr-3">Checklist</h5>
@@ -119,13 +118,29 @@
               @endforeach
             </div>
           </div>
-          <div class="col-12 col-lg-6 ps-2">
-            <h5 class="mb-1">Assigned to:</h5>
-            @foreach ($task->assignees as $assignee)
-              <img class="rounded-circle" src="{{ url($assignee->avatar) }}" data-bs-toggle="tooltip"
-                   data-bs-placement="top" title="{{$assignee->account->username}}" width="40px " height="40px "
-                   alt="avatar ">
-            @endforeach
+          <div class="col-12 col-lg-6 pe-2">
+            <h5 class="d-inline-block mr-3">Assigned to:</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-assign" role="button"
+               aria-controls="task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}Assign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign" aria-expanded="false">
+              <form data-id="task{{$task->id}}Assign"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
+                @csrf
+                <select class="form-control assign-selection" multiple="multiple" name="assign" id="assign-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->teamMembers as $team_member)
+                    @if($task->assignees()->where('id',$team_member->id)->count()!==0)
+                      <option value="{{$team_member->id}}" selected="selected">{{$team_member->account->username}}</option>
+                    @else
+                      <option value="{{$team_member->id}}">{{$team_member->account->username}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
+            </div>
+            <div class="my-3 multi-collapse-{{$task->id}}-assign show task{{$task->id}}Assign" aria-expanded="true">
+              @include('partials.clientPhoto',['assignees'=>$task->assignees])
+            </div>
           </div>
           <hr>
         </div>
@@ -212,5 +227,6 @@
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>
+  </div>
   </div>
 </div>

@@ -225,8 +225,24 @@ class TaskController extends Controller
 
   public function assignment(Request $request, $id, $task)
   {
-    $this->authorize('assignment', Project::find($id));
-    Task::find($task)->assignees()->attach($request->input('member'));
+    //$this->authorize('assignment', Project::find($id));
+    $request->validate([
+      'assign' => 'nullable|string',
+    ]);
+    Task::find($task)->assignees()->detach();
+
+    if(!empty($request->input('assign'))) {
+      $assignees = array_map('intval',explode(',',$request->input('assign')));
+      foreach($assignees as $assignee) {
+        Task::find($task)->assignees()->attach($assignee);
+      }
+    }
+
+    $result = Task::find($task)->assignees()->get();
+
+    $view = view('partials.clientPhoto', ['assignees' => $result])->render();
+
+    return response()->json($view);
   }
 
   public function comment(Request $request, $id, $task)

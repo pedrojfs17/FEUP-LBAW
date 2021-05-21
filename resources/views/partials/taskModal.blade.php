@@ -58,7 +58,7 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
+            <div class=" my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
                 @include('partials.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
@@ -84,7 +84,7 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-wait show " id="task{{$task->id}}Waiting" aria-expanded="true">
+            <div class="my-3 multi-collapse-{{$task->id}}-wait show" id="task{{$task->id}}Waiting" aria-expanded="true">
               @include('partials.taskButton',['taskArray'=>$task->waitingOn])
             </div>
             <hr>

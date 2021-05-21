@@ -93,13 +93,12 @@ function updateCard(taskID, card) {
   newElem.innerHTML = card
   parentDiv.insertBefore(newElem.children[0],cardDiv)
   cardDiv.remove()
+  const updatedCard = document.querySelector('#task-'+taskID).querySelector('.open-task')
+  addCardEventListener(updatedCard)
 }
 
 function updateTaskModal(task, modalElement) {
-  console.log(task)
-  console.log(modalElement)
   const subTaskDiv = document.querySelector('#' + task)
-  console.log(subTaskDiv)
   subTaskDiv.innerHTML = modalElement
   subTaskDiv.querySelectorAll('*').forEach(element => checkColor(element))
 }

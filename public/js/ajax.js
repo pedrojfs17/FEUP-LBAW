@@ -167,11 +167,15 @@ function addGetEventListener(button, data, func) {
   })
 }
 
-openTaskButtons.forEach(button => {
+function addCardEventListener(button) {
   let callback = function(responseText) {
     onModalReceived(responseText, button)
   }
   addGetEventListener(button, null, callback)
+}
+
+openTaskButtons.forEach(button => {
+  addCardEventListener(button)
 })
 
 function onModalReceived(response, button) {

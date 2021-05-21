@@ -29,10 +29,19 @@
       </section>
       <div class="modal-body d-grid gap px-sm-5">
         <header>
-          <h3 class="d-inline-block">{{$task->name}}</h3>
-          <button class="btn btn-outline-secondary float-end" type="button"><i class="bi bi-pencil"></i></button>
-          <p class="text-muted">{{$task->due_date}}</p>
-          <h6 class="text-muted">{{$task->description}}</h6>
+          <div id='taskInfo'>
+            <h3 class="d-inline-block">{{$task->name}}</h3>
+            <button class="btn btn-outline-secondary float-end editButton" type="button" form='editTaskForm'><i class="bi bi-pencil"></i></button>
+            <p class="text-muted">Due by: {{{ (new DateTime($task->due_date))->format('d/m/Y H:i') }}}</p>
+            <h6 class="text-muted">{{$task->description}}</h6>
+          </div>
+          <form id='editTaskForm' action='api/project/{id}/task/{task}' class='d-none'>
+            <button class="btn btn-outline-secondary float-end saveButton" type="button"><i class="bi bi-check fa-lg"></i></button>
+            <button class="btn btn-outline-secondary float-end cancelButton" type="button"><i class="bi bi-x fa-lg"></i></button>
+            <input type='text' placeholder='{{$task->name}}' value='{{$task->name}}' class='form-control' name='name'>
+            <input type="date" value="{{(new DateTime($task->due_date))->format('Y-m-d')}}" placeholder="{{(new DateTime($task->due_date))->format('Y-m-d')}}" class="form-control" name="due_date">
+            <textarea type='text' placeholder='{{$task->description}}' class='form-control' name='description'>{{$task->description}}</textarea>
+          </form>
           <hr>
         </header>
         <div>

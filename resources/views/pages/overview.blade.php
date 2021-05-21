@@ -5,6 +5,7 @@
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/tags.js') }}" defer></script>
   <script src="{{ asset('js/addmembers.js') }}" defer></script>
+  <script src="{{ asset('js/taskForm.js') }}" defer></script>
 @endpush
 
 @push('styles')

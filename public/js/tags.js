@@ -14,10 +14,10 @@ function tagEventListener(element) {
   })
 
   $(subTaskSelections).select2({
-      width: '100%',
-      allowClear: true,
-      dropdownParent: $(subTaskSelections).parent()
-    })
+    width: '100%',
+    allowClear: true,
+    dropdownParent: $(subTaskSelections).parent()
+  })
 
   $(waitingSelection).select2({
     width: '100%',
@@ -47,11 +47,11 @@ function tagEventListener(element) {
           object[key] = data.getAll(key)
       })
 
-      let successFunction = function(response) {
-        if(!tagForm.dataset.id.includes("Waiting") && !tagForm.dataset.id.includes("SubTask") && !tagForm.dataset.id.includes("Assign"))
-          updateTags(tagForm.dataset.id, JSON.parse(response))
-        else
-          updateTaskButtons(tagForm.dataset.id, JSON.parse(response))
+      let successFunction = function (response) {
+        let msg = JSON.parse(response)
+        console.log(msg)
+        updateCard(msg['taskID'],msg['taskCard'])
+        updateTaskModal(tagForm.dataset.id, msg['modalChanges'])
       }
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
     })
@@ -84,21 +84,23 @@ function sendPatchAjaxRequest(route, data, successFunction) {
   xhr.send(encodeForAjax(data));
 }
 
-function updateTags(task, tags) {
-  const tagDivs = document.querySelectorAll('.' + task)
-  tagDivs.forEach(tagDiv => {
-    tagDiv.innerHTML=""
-    tags.forEach(tag => {
-      tagDiv.innerHTML += '<p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button" style="background-color:' + tag.color + '"> <small>' + tag.name + '</small> </p>'
-    })
 
-    tagDiv.querySelectorAll('*').forEach(element => checkColor(element))
-  })
+function updateCard(taskID, card) {
+  const parentDiv = document.querySelector('#overview')
+  const cardDiv = document.querySelector('#task-'+taskID)
+  cardDiv.innerHTML=""
+  let newElem = document.createElement('div')
+  newElem.innerHTML = card
+  parentDiv.insertBefore(newElem.children[0],cardDiv)
+  cardDiv.remove()
 }
 
-function updateTaskButtons(task, subtask) {
-  const subTaskDiv = document.querySelector('.' + task)
-  subTaskDiv.innerHTML=subtask
+function updateTaskModal(task, modalElement) {
+  console.log(task)
+  console.log(modalElement)
+  const subTaskDiv = document.querySelector('#' + task)
+  console.log(subTaskDiv)
+  subTaskDiv.innerHTML = modalElement
   subTaskDiv.querySelectorAll('*').forEach(element => checkColor(element))
 }
 

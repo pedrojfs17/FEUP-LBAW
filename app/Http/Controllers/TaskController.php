@@ -163,7 +163,11 @@ class TaskController extends Controller
       }
     }
 
-    $result = Task::find($task)->tags()->get();
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tagButton', ['tags' => $updatedTask->tags])->render();
 
     return response()->json($result);
 
@@ -192,11 +196,13 @@ class TaskController extends Controller
       }
     }
 
-    $result = Task::where('parent',$task)->get();
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->subtasks])->render();
 
-    $view = view('partials.taskButton', ['taskArray' => $result])->render();
-
-    return response()->json($view);
+    return response()->json($result);
   }
 
   public function waiting_on(Request $request, $id, $task)
@@ -215,11 +221,13 @@ class TaskController extends Controller
 
     }
 
-    $result = Task::find($task)->waitingOn()->get();
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->waitingOn])->render();
 
-    $view = view('partials.taskButton', ['taskArray' => $result])->render();
-
-    return response()->json($view);
+    return response()->json($result);
 
   }
 
@@ -238,11 +246,13 @@ class TaskController extends Controller
       }
     }
 
-    $result = Task::find($task)->assignees()->get();
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.clientPhoto', ['assignees' => $updatedTask->assignees])->render();
 
-    $view = view('partials.clientPhoto', ['assignees' => $result])->render();
-
-    return response()->json($view);
+    return response()->json($result);
   }
 
   public function comment(Request $request, $id, $task)

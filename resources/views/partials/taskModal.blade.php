@@ -39,8 +39,8 @@
           <div>
             <h5 class=" d-inline-block mr-3">Subtasks</h5>
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
-               aria-controls="task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}SubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
+               aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateSubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
               <form data-id="task{{$task->id}}SubTask"
                     data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
                 @csrf
@@ -58,15 +58,15 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show task{{$task->id}}SubTask" aria-expanded="true">
+            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
                 @include('partials.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
           <div>
             <h5 class="d-inline-block mr-3">Waiting On</h5>
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-wait" role="button"
-               aria-controls="task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}Waiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait" aria-expanded="false">
+               aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateWaiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait" aria-expanded="false">
               <form data-id="task{{$task->id}}Waiting"
                     data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/waiting_on">
                 @csrf
@@ -84,7 +84,7 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-wait show task{{$task->id}}Waiting" aria-expanded="true">
+            <div class="d-grid gap-2 my-3 multi-collapse-{{$task->id}}-wait show " id="task{{$task->id}}Waiting" aria-expanded="true">
               @include('partials.taskButton',['taskArray'=>$task->waitingOn])
             </div>
             <hr>
@@ -121,8 +121,8 @@
           <div class="col-12 col-lg-6 pe-2">
             <h5 class="d-inline-block mr-3">Assigned to:</h5>
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-assign" role="button"
-               aria-controls="task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}Assign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign" aria-expanded="false">
+               aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateAssign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign" aria-expanded="false">
               <form data-id="task{{$task->id}}Assign"
                     data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
                 @csrf
@@ -138,7 +138,7 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="my-3 multi-collapse-{{$task->id}}-assign show task{{$task->id}}Assign" aria-expanded="true">
+            <div class="my-3 multi-collapse-{{$task->id}}-assign show" id="task{{$task->id}}Assign" aria-expanded="true">
               @include('partials.clientPhoto',['assignees'=>$task->assignees])
             </div>
           </div>
@@ -147,8 +147,8 @@
         <div>
           <h5 class=" d-inline-block mr-3">Tags</h5>
           <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}" role="button"
-             aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
-          <div id="task{{$task->id}}CreateTag" class="collapse mb-3 multi-collapse-{{$task->id}}" aria-expanded="false">
+             aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
+          <div id="task{{$task->id}}UpdateTag" class="collapse mb-3 multi-collapse-{{$task->id}}" aria-expanded="false">
             <form data-id="task{{$task->id}}Tags"
                   data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
               @csrf
@@ -165,7 +165,7 @@
             </form>
           </div>
 
-          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show task{{$task->id}}Tags" aria-expanded="true">
+          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags" aria-expanded="true">
             @foreach ($task->tags as $tag)
               <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button"
                  style="background-color: {{ $tag->color }}">

@@ -12,10 +12,14 @@ function commentEventListener(modal) {
     }))
 }
 
-function addReply(text) {
+function addReply(comment, text) {
+  let parent = document.getElementById('comment' + comment + 'replyDiv')
+  parent.innerHTML += JSON.parse(text);
 }
 
-function addComment(modal, text) {
+function addComment(text) {
+  let parent = document.querySelectorAll('.task-comments')[0]
+  parent.innerHTML += JSON.parse(text);
 }
 
 function getDate() {
@@ -30,10 +34,10 @@ function sendReplyRequest(button) {
   request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200)
-        addReply(this.responseText)
-    }
-    else {
-      alert('There was an error ' + request.status)
+        addReply(button.dataset.comment, this.responseText)
+      else {
+        alert('There was an error ' + request.status)
+      }
     }
   }
 
@@ -49,17 +53,17 @@ function sendReplyRequest(button) {
   }))
 }
 
-function sendCommentRequest(button, modal) {
+function sendCommentRequest(button) {
   let replyText = document.getElementById('commentOn' + button.dataset.task).value.trim()
 
   let request = new XMLHttpRequest()
   request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200)
-        addComment(modal, this.responseText)
-    }
-    else {
-      alert('There was an error ' + request.status)
+        addComment(this.responseText)
+      else {
+        alert('There was an error ' + request.status)
+      }
     }
   }
 

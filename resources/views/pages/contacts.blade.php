@@ -45,7 +45,7 @@
                     <textarea placeholder="" class="form-control" id="textInput" rows="4"
                               cols="50"></textarea>
                   </div>
-                  <button class="btn btn-primary btn-xl rounded-pill mt-5" type="submit"
+                  <button class="btn btn-primary btn-xl rounded-pill mt-5 disabled" type="submit"
                           id="button-editCompany">Send Request
                   </button>
                 </form>

@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/profile';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -68,7 +69,7 @@ class RegisterController extends Controller
             $newAcct = Account::create([
                 'username' => $data['username'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
+                'password' => Hash::make($data['password']),
             ]);
 
             Client::create([

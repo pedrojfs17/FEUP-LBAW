@@ -83,4 +83,11 @@ class Task extends Model
     return $parent_comments;
   }
 
+  public function getReadableDueDate()
+  {
+    if ($this->due_date != null) {
+      return date("D, j M Y", strtotime($this->due_date));
+    }
+    return null;
+  }
 }

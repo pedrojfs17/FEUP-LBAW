@@ -72,8 +72,10 @@ class ProjectController extends Controller
     $client = Client::find(Auth::user()->id);
 
     $searchQuery = $request->input('query');
-    $completion = $request->input('completion');
-    $beforeDate = $request->input('due_date');
+    $higherThanCompletion = $request->input('higher_completion');
+    $lowerThanCompletion = $request->input('lower_completion');
+    $beforeDate = $request->input('before_date');
+    $afterDate = $request->input('after_date');
 
     $projects = $client->projects()
       ->when(!empty($searchQuery), function ($query) use ($searchQuery) {
@@ -83,9 +85,15 @@ class ProjectController extends Controller
       ->when(!empty($beforeDate), function ($query) use ($beforeDate) {
         return $query->whereDate('due_date','<=',$beforeDate);
       })
+      ->when(!empty($afterDate), function ($query) use ($afterDate) {
+        return $query->whereDate('due_date','>=',$afterDate);
+      })
       ->get()->sortByDesc('id')
-      ->when(!empty($completion), function ($query) use ($completion) {
-        return $query->where('completion','>=',intval($completion));
+      ->when(!empty($higherThanCompletion), function ($query) use ($higherThanCompletion) {
+        return $query->where('completion','>=',intval($higherThanCompletion));
+      })
+      ->when(!empty($lowerThanCompletion), function ($query) use ($lowerThanCompletion) {
+        return $query->where('completion','<=',intval($lowerThanCompletion));
       });
 
     $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);

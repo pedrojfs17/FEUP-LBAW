@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @push('scripts')
+  <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
 @endpush
 

@@ -2,7 +2,8 @@
   <script src="{{ asset('js/tooltip.js') }}" defer></script>
 @endpush
 
-<div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
+<div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1"
+     aria-labelledby="tasks{{$task->id}}ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -38,13 +39,16 @@
         <div>
           <div>
             <h5 class=" d-inline-block mr-3">Subtasks</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-sub" role="button"
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}-sub" role="button"
                aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}UpdateSubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub" aria-expanded="false">
+            <div id="task{{$task->id}}UpdateSubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub"
+                 aria-expanded="false">
               <form data-id="task{{$task->id}}SubTask"
                     data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
                 @csrf
-                <select class="form-control subtask-selection" multiple="multiple" name="subtask" id="subtask-selection-{{$task->id}}">
+                <select class="form-control subtask-selection" multiple="multiple" name="subtask"
+                        id="subtask-selection-{{$task->id}}">
                   @foreach ($task->project()->first()->tasks as $subtask)
                     @if ($task->id == $subtask->id)
                       @continue
@@ -59,18 +63,21 @@
               </form>
             </div>
             <div class=" my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
-                @include('partials.taskButton',['taskArray'=>$task->subtasks])
+              @include('partials.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
           <div>
             <h5 class="d-inline-block mr-3">Waiting On</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-wait" role="button"
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}-wait" role="button"
                aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}UpdateWaiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait" aria-expanded="false">
+            <div id="task{{$task->id}}UpdateWaiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait"
+                 aria-expanded="false">
               <form data-id="task{{$task->id}}Waiting"
                     data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/waiting_on">
                 @csrf
-                <select class="form-control waiting-selection" multiple="multiple" name="waiting" id="waiting-selection-{{$task->id}}">
+                <select class="form-control waiting-selection" multiple="multiple" name="waiting"
+                        id="waiting-selection-{{$task->id}}">
                   @foreach ($task->project()->first()->tasks as $task_wait)
                     @if ($task->id == $task_wait->id)
                       @continue
@@ -89,144 +96,130 @@
             </div>
             <hr>
           </div>
-        <div class="row gx-0">
-          <div class="col-12 col-lg-6 pe-2">
-            <h5 class=" d-inline-block mr-3">Checklist</h5>
-            <p
-              class=" d-inline-block text-secondary">@if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}
-              % @else 0% @endif</p>
-            <div class="progress" style="height:5px;">
-              @if (count($task->checkListItems))
-                <div class="progress-bar" role="progressbar"
-                     style="width: {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}%; height:5px; background-color:green;"
-                     aria-valuenow="{{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}"
-                     aria-valuemin="0" aria-valuemax="100">
-                </div>
-              @else
-                <div class="progress-bar" role="progressbar" style="width: 0; height:5px; background-color:green;"
-                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-              @endif
+          <div class="row gx-0">
+            <div class="col-12 col-lg-6 pe-3" id="task{{$task->id}}CheckList">
+              @include('partials.checklistItems',['task'=>$task])
             </div>
-            <div class="d-grid gap-2 my-3">
-              @foreach ($task->checklistItems as $item)
-                <div class="form-check">
-                  <label class="form-check-label">
-                    {{$item->item_text}}
-                    <input class="form-check-input" type="checkbox" @if ($item->completed) checked @endif>
-                  </label>
-                </div>
-              @endforeach
+            <div class="col-12 col-lg-6">
+              <h5 class="d-inline-block mr-3">Assigned to:</h5>
+              <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+                 href=".multi-collapse-{{$task->id}}-assign" role="button"
+                 aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
+              <div id="task{{$task->id}}UpdateAssign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign"
+                   aria-expanded="false">
+                <form data-id="task{{$task->id}}Assign"
+                      data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
+                  @csrf
+                  <select class="form-control assign-selection" multiple="multiple" name="assign"
+                          id="assign-selection-{{$task->id}}">
+                    @foreach ($task->project()->first()->teamMembers as $team_member)
+                      @if($task->assignees()->where('id',$team_member->id)->count()!==0)
+                        <option value="{{$team_member->id}}"
+                                selected="selected">{{$team_member->account->username}}</option>
+                      @else
+                        <option value="{{$team_member->id}}">{{$team_member->account->username}}</option>
+                      @endif
+                    @endforeach
+                  </select>
+                  <button type="submit" class="d-none"></button>
+                </form>
+              </div>
+              <div class="my-3 multi-collapse-{{$task->id}}-assign show" id="task{{$task->id}}Assign"
+                   aria-expanded="true">
+                @include('partials.clientPhoto',['assignees'=>$task->assignees])
+              </div>
             </div>
+            <hr>
           </div>
-          <div class="col-12 col-lg-6">
-            <h5 class="d-inline-block mr-3">Assigned to:</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-assign" role="button"
-               aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
-            <div id="task{{$task->id}}UpdateAssign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign" aria-expanded="false">
-              <form data-id="task{{$task->id}}Assign"
-                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
+          <div>
+            <h5 class=" d-inline-block mr-3">Tags</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}" role="button"
+               aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateTag" class="collapse mb-3 multi-collapse-{{$task->id}}"
+                 aria-expanded="false">
+              <form data-id="task{{$task->id}}Tags"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
                 @csrf
-                <select class="form-control assign-selection" multiple="multiple" name="assign" id="assign-selection-{{$task->id}}">
-                  @foreach ($task->project()->first()->teamMembers as $team_member)
-                    @if($task->assignees()->where('id',$team_member->id)->count()!==0)
-                      <option value="{{$team_member->id}}" selected="selected">{{$team_member->account->username}}</option>
+                <select class="form-control tag-selection" multiple="multiple" name="tag"
+                        id="tag-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tags as $tag)
+                    @if($task->tags()->where('id',$tag->id)->count()!==0)
+                      <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
                     @else
-                      <option value="{{$team_member->id}}">{{$team_member->account->username}}</option>
+                      <option value="{{$tag->id}}">{{$tag->name}}</option>
                     @endif
                   @endforeach
                 </select>
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
-            <div class="my-3 multi-collapse-{{$task->id}}-assign show" id="task{{$task->id}}Assign" aria-expanded="true">
-              @include('partials.clientPhoto',['assignees'=>$task->assignees])
-            </div>
-          </div>
-          <hr>
-        </div>
-        <div>
-          <h5 class=" d-inline-block mr-3">Tags</h5>
-          <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}" role="button"
-             aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
-          <div id="task{{$task->id}}UpdateTag" class="collapse mb-3 multi-collapse-{{$task->id}}" aria-expanded="false">
-            <form data-id="task{{$task->id}}Tags"
-                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
-              @csrf
-              <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection-{{$task->id}}">
-                @foreach ($task->project()->first()->tags as $tag)
-                  @if($task->tags()->where('id',$tag->id)->count()!==0)
-                    <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
-                  @else
-                    <option value="{{$tag->id}}">{{$tag->name}}</option>
-                  @endif
-                @endforeach
-              </select>
-              <button type="submit" class="d-none"></button>
-            </form>
-          </div>
 
-          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags" aria-expanded="true">
-            @foreach ($task->tags as $tag)
-              <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button"
-                 style="background-color: {{ $tag->color }}">
-                <small>{{ $tag->name }}</small>
-              </p>
-            @endforeach
+            <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags"
+                 aria-expanded="true">
+              @foreach ($task->tags as $tag)
+                <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button"
+                   style="background-color: {{ $tag->color }}">
+                  <small>{{ $tag->name }}</small>
+                </p>
+              @endforeach
+            </div>
+            <hr>
           </div>
-          <hr>
-        </div>
-        <div>
-          <h5>Comments</h5>
-          <div class="mb-3">
-            @foreach ($task->getParentComments() as $comment)
-              <div class="comment mb-3">
-                <div class="comment-body d-flex ms-2">
-                  <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
-                       height="30px"
-                       alt="avatar">
-                  <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
-                       style="background-color: #e7e7e7">
-                    {{$comment->comment_text}}
+          <div>
+            <h5>Comments</h5>
+            <div class="mb-3">
+              @foreach ($task->getParentComments() as $comment)
+                <div class="comment mb-3">
+                  <div class="comment-body d-flex ms-2">
+                    <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
+                         height="30px"
+                         alt="avatar">
+                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
+                         style="background-color: #e7e7e7">
+                      {{$comment->comment_text}}
+                    </div>
+                    <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse"
+                       href="#comment{{$comment->id}}reply"
+                       role="button" aria-expanded="false" aria-controls="comment{{$comment->id}}reply">
+                      <i class="bi bi-chat-text fs-5 text-muted"></i>
+                    </a>
                   </div>
-                  <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse"
-                     href="#comment{{$comment->id}}reply"
-                     role="button" aria-expanded="false" aria-controls="comment{{$comment->id}}reply">
-                    <i class="bi bi-chat-text fs-5 text-muted"></i>
-                  </a>
-                </div>
-                <div id="comment{{$comment->id}}reply" class="collapse">
-                  @foreach ($comment->replies as $reply)
-                    <div class="comment-replies my-2 ms-5">
-                      <div class="comment-body d-flex ms-2">
-                        <img class="rounded-circle mt-1" src="{{ url($reply->reply->author()->first()->avatar) }}"
-                             width="30px" height="30px"
-                             alt="avatar">
-                        <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
-                             style="background-color: #e7e7e7">
-                          {{$reply->reply->comment_text}}
+                  <div id="comment{{$comment->id}}reply" class="collapse">
+                    @foreach ($comment->replies as $reply)
+                      <div class="comment-replies my-2 ms-5">
+                        <div class="comment-body d-flex ms-2">
+                          <img class="rounded-circle mt-1" src="{{ url($reply->reply->author()->first()->avatar) }}"
+                               width="30px" height="30px"
+                               alt="avatar">
+                          <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
+                               style="background-color: #e7e7e7">
+                            {{$reply->reply->comment_text}}
+                          </div>
                         </div>
                       </div>
+                    @endforeach
+                    <div class="comment-footer d-flex mt-2 ms-5">
+                      <input class="form-control me-3" type="text" placeholder="Add comment">
+                      <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
                     </div>
-                  @endforeach
-                  <div class="comment-footer d-flex mt-2 ms-5">
-                    <input class="form-control me-3" type="text" placeholder="Add comment">
-                    <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
                   </div>
                 </div>
-              </div>
-            @endforeach
-          </div>
-          <div class="d-flex mb-2">
-            <input class="form-control me-3" type="text" placeholder="Add comment">
-            <button type="button" class="btn btn-primary">Comment</button>
+              @endforeach
+            </div>
+            <div class="d-flex mb-2">
+              <input class="form-control me-3" type="text" placeholder="Add comment">
+              <button type="button" class="btn btn-primary">Comment</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal"
+                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete
+          </button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>

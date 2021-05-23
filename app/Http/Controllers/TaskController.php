@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CheckListItem;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
@@ -259,5 +260,68 @@ class TaskController extends Controller
   {
     $this->authorize('comment', Project::find($id));
     Task::find($task)->comments()->attach($request->input('comment'));
+  }
+
+  public function createItem(Request $request, $id, $task)
+  {
+    //$this->authorize('comment', Project::find($id));
+    $request->validate([
+      'new_item' => 'required|string'
+    ]);
+
+    $item = new CheckListItem();
+    $item->task = $task;
+
+    //$this->authorize('createTask', Project::find($id));
+
+    $item->item_text = $request->input('new_item');
+    $item->completed = false;
+    $item->save();
+
+    $result = array();
+    $updatedTask = Task::find($task);
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
+
+    return response()->json($result);
+  }
+
+  public function updateItem(Request $request, $id, $task, $item)
+  {
+    $request->validate([
+      'completed' => 'required|string'
+    ]);
+
+    $item = CheckListItem::find($item);
+
+    //$this->authorize('createTask', Project::find($id));
+
+    $item->completed = filter_var($request->input('completed'), FILTER_VALIDATE_BOOLEAN);
+    $item->save();
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
+    return response()->json($result);
+  }
+
+  public function deleteItem(Request $request, $id, $task, $item)
+  {
+    //$this->authorize('createTask', Project::find($id));
+    $item = CheckListItem::find($item);
+    $item->delete();
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
+    return response()->json($result);
   }
 }

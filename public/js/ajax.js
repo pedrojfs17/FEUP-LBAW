@@ -193,6 +193,6 @@ function onModalReceived(response, button) {
 }
 
 function addModalEventListeners(element) {
-  tagEventListener(element)
+  taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
 }

@@ -87,7 +87,32 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
 .remove-member-btn {
   float: right;
 }
-  
+
 a {
   cursor: pointer;
+}
+
+.checklist-item a{
+  display: none;
+}
+
+
+.checklist-item:hover a{
+  display: inline-block;
+}
+
+.checklist-input {
+  border: none;
+  width: 90%;
+  margin-left: 1.5rem;
+}
+
+.checklist-input:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .checklist-item a{
+    display: inline-block;
+  }
 }

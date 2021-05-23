@@ -41,13 +41,14 @@
           <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
             Sign in
           </button>
+          <div class="text-center mt-2">
+            <a href="{{ route('forgot_password') }}" style="color: #00AFB9;">Forgot Password</a>
+          </div>
         </div>
       </form>
-    </div>
-  </div>
 
-  <div class="row justify-content-center my-4">
-    <div class="col-xl-4 col-lg-5 col-md-7">
+      <hr>
+
       <div class="d-grid gap-2">
         <a href="#" role="button" class="btn btn-outline-secondary text-start disabled"><i class="bi bi-google me-2"></i>Sign
           in with Google</a>

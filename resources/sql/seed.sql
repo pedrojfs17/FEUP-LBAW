@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS account CASCADE;
+DROP TABLE IF EXISTS password_resets CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
 DROP TABLE IF EXISTS client CASCADE;
@@ -75,6 +76,13 @@ CREATE TABLE account
     password VARCHAR        NOT NULL,
     email    VARCHAR UNIQUE NOT NULL,
     is_admin BOOLEAN        NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE password_resets
+(
+    email VARCHAR NOT NULL,
+    token VARCHAR NOT NULL,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
 );
 
 CREATE TABLE country
@@ -648,6 +656,16 @@ EXECUTE PROCEDURE add_report_notification();
 
 
 -- Indexes
+
+-- Laravel Indexes
+
+DROP INDEX IF EXISTS password_resets_email_index;
+DROP INDEX IF EXISTS password_resets_token_index;
+
+CREATE INDEX password_resets_email_index ON password_resets (email);
+create index password_resets_token_index ON password_resets (token);
+
+-- Oversee Indexes
 
 DROP INDEX IF EXISTS client_member_index;
 DROP INDEX IF EXISTS project_member_index;

@@ -12,7 +12,7 @@
             <li class="breadcrumb-item">
               <a style="cursor: pointer; font-weight: bolder" data-bs-dismiss="modal">Project</a>
             </li>
-            @if (count($task->parent()->get()) > 0)
+            @if ($task->hasParent())
               <li class="breadcrumb-item" aria-current="page">
                 <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent}}Modal"
                    data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
@@ -118,7 +118,7 @@
               @endforeach
             </div>
           </div>
-          <div class="col-12 col-lg-6 pe-2">
+          <div class="col-12 col-lg-6">
             <h5 class="d-inline-block mr-3">Assigned to:</h5>
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}-assign" role="button"
                aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
@@ -216,7 +216,7 @@
               </div>
             @endforeach
           </div>
-          <div class="d-flex">
+          <div class="d-flex mb-2">
             <input class="form-control me-3" type="text" placeholder="Add comment">
             <button type="button" class="btn btn-primary">Comment</button>
           </div>

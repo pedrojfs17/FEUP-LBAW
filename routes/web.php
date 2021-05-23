@@ -59,6 +59,10 @@ Route::patch('api/project/{id}/task/{task}/waiting_on', 'TaskController@waiting_
 Route::patch('api/project/{id}/task/{task}/assignment', 'TaskController@assignment');
 Route::post('api/project/{id}/task/{task}/comment', 'TaskController@comment');
 
+Route::post('api/project/{id}/task/{task}/checklist', 'TaskController@createItem');
+Route::patch('api/project/{id}/task/{task}/checklist/{item}', 'TaskController@updateItem');
+Route::delete('api/project/{id}/task/{task}/checklist/{item}', 'TaskController@deleteItem');
+
 // Social Media
 Route::get('api/account', 'SocialMediaAccountController@list');
 Route::post('api/account', 'SocialMediaAccountController@create');

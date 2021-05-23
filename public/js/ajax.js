@@ -208,11 +208,15 @@ function addGetEventListener(button, data, func) {
   })
 }
 
-openTaskButtons.forEach(button => {
+function addCardEventListener(button) {
   let callback = function(responseText) {
     onModalReceived(responseText, button)
   }
   addGetEventListener(button, null, callback)
+}
+
+openTaskButtons.forEach(button => {
+  addCardEventListener(button)
 })
 
 function onModalReceived(response, button) {
@@ -230,6 +234,6 @@ function onModalReceived(response, button) {
 }
 
 function addModalEventListeners(element) {
-  tagEventListener(element)
+  taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
 }

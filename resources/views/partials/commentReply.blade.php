@@ -6,6 +6,7 @@
     <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
          style="background-color: #e7e7e7">
       {{$reply->comment_text}}
+      <small class="text-muted float-end">{{ $reply->getReadableCommentDate() }} ago</small>
     </div>
   </div>
 </div>

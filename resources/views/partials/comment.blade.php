@@ -5,7 +5,7 @@
          alt="avatar">
     <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
          style="background-color: #e7e7e7">
-      {{$comment->comment_text}}
+      {{$comment->comment_text}} <small class="text-muted float-end">{{ $comment->getReadableCommentDate() }} ago</small>
     </div>
     <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse"
        href="#comment{{$comment->id}}reply"

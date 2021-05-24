@@ -379,7 +379,7 @@ $BODY$
 CREATE OR REPLACE FUNCTION accept_invite() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    IF OLD.decision = NULL AND NEW.decision = TRUE
+    IF OLD.decision IS NULL AND NEW.decision = TRUE
     THEN
         INSERT INTO team_member (client_id, project_id) SELECT NEW.client_id, NEW.project_id;
     END IF;

@@ -90,4 +90,11 @@ class Task extends Model
     }
     return null;
   }
+
+  public function getChecklistCompletion(): int
+  {
+    if (count($this->checkListItems) > 0)
+      return intdiv(count($this->checklistItems->where('completed', true)) * 100, count($this->checklistItems));
+    else return 0;
+  }
 }

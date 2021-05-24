@@ -88,13 +88,14 @@ class ProjectController extends Controller
       ->when(!empty($afterDate), function ($query) use ($afterDate) {
         return $query->whereDate('due_date','>=',$afterDate);
       })
-      ->get()->sortByDesc('id')
+      ->get()
       ->when(!empty($higherThanCompletion), function ($query) use ($higherThanCompletion) {
         return $query->where('completion','>=',intval($higherThanCompletion));
       })
       ->when(!empty($lowerThanCompletion), function ($query) use ($lowerThanCompletion) {
         return $query->where('completion','<=',intval($lowerThanCompletion));
-      });
+      })
+      ->sortByDesc('id');
 
     $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
 
@@ -236,7 +237,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('assignments', $project);
     return view('pages.assignments', [
-      'tasks' => $project->tasks()->get()->reverse(),
+      'tasks' => $project->tasks()->get()->sortBy('id'),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
@@ -256,7 +257,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('status_board', $project);
     return view('pages.status_board', [
-      'tasks' => $project->tasks()->get()->reverse(),
+      'tasks' => $project->tasks()->get()->sortBy('id'),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id),
@@ -296,7 +297,7 @@ class ProjectController extends Controller
     if ($project == null) return view('errors.404');
     $this->authorize('overview', $project);
     return view('pages.overview', [
-      'tasks' => $project->tasks()->get()->reverse(),
+      'tasks' => $project->tasks()->get()->sortBy('id'),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)

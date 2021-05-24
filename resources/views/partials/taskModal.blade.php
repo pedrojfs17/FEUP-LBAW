@@ -15,8 +15,8 @@
             </li>
             @if ($task->hasParent())
               <li class="breadcrumb-item" aria-current="page">
-                <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent}}Modal"
-                   data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
+                <a class="open-task remove-anchor-css" style="cursor: pointer; font-weight: bolder" data-target="#task{{$task->parent}}Modal"
+                   data-href="/api/project/{{ $task->project }}/task/{{ $task->parent }}" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
               </li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
@@ -30,7 +30,7 @@
       </section>
       <div class="modal-body d-grid gap px-sm-5">
         <header>
-          <h3 class="d-inline-block">{{$task->name}}</h3>
+          <h3 class="d-inline-block text-wrap">{{$task->name}}</h3>
           <button class="btn btn-outline-secondary float-end" type="button"><i class="bi bi-pencil"></i></button>
           <p class="text-muted">{{$task->getReadableDueDate()}}</p>
           <h6 class="text-muted">{{$task->description}}</h6>
@@ -206,8 +206,8 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
+      <div class="modal-footer px-0">
+        <button type="button" class="btn btn-danger delete-task-button mx-0" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}"><i class="bi bi-trash"></i> Delete Task</button>
       </div>
     </div>
   </div>

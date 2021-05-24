@@ -96,6 +96,11 @@ a {
   display: none;
 }
 
+.remove-anchor-css {
+  color: inherit;
+  text-decoration: none;
+}
+
 
 .checklist-item:hover a{
   display: inline-block;

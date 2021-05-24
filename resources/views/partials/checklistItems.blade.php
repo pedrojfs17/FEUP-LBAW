@@ -1,18 +1,13 @@
-<h5 class=" d-inline-block mr-3">Checklist</h5>
-<p
-  class=" d-inline-block text-secondary">@if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}
-  % @else 0% @endif</p>
+<h5 class="d-inline-block">Checklist</h5>
+<span class="d-inline-block float-end text-secondary">
+  {{ $task->getChecklistCompletion() }}%
+</span>
 <div class="progress" style="height:5px;">
-  @if (count($task->checkListItems))
-    <div class="progress-bar" role="progressbar"
-         style="width: {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}%; height:5px; background-color:green;"
-         aria-valuenow="{{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}"
-         aria-valuemin="0" aria-valuemax="100">
-    </div>
-  @else
-    <div class="progress-bar" role="progressbar" style="width: 0; height:5px; background-color:green;"
-         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-  @endif
+  <div class="progress-bar" role="progressbar"
+       style="width: {{ $task->getChecklistCompletion() }}%; height:5px; background-color:green;"
+       aria-valuenow="{{ $task->getChecklistCompletion() }}"
+       aria-valuemin="0" aria-valuemax="100">
+  </div>
 </div>
 <div class="d-grid gap-2 my-3">
   @csrf

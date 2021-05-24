@@ -93,7 +93,10 @@ function addTaskElement(task) {
 
   let div = document.createElement('div')
   div.innerHTML = task['taskCard']
-  tasks.insertBefore(div.children[0], createTaskDiv)
+  let element = div.children[0]
+  tasks.insertBefore(element, createTaskDiv)
+
+  element.querySelectorAll('.open-task').forEach(button => addGetEventListener(button, null, onModalReceived))
 }
 
 
@@ -208,18 +211,9 @@ function addGetEventListener(button, data, func) {
   })
 }
 
-function addCardEventListener(button) {
-  let callback = function(responseText) {
-    onModalReceived(responseText, button)
-  }
-  addGetEventListener(button, null, callback)
-}
+openTaskButtons.forEach(button => addGetEventListener(button, null, onModalReceived))
 
-openTaskButtons.forEach(button => {
-  addCardEventListener(button)
-})
-
-function onModalReceived(response, button) {
+function onModalReceived(response) {
   const div = document.querySelector('.modal-container')
   div.innerHTML = ""
 
@@ -228,7 +222,7 @@ function onModalReceived(response, button) {
   let element = elem.children[0]
   div.append(element)
 
-  let modal = new bootstrap.Modal(document.getElementById(button.dataset.target), {});
+  let modal = new bootstrap.Modal(element, {});
   modal.show()
   addModalEventListeners(element)
 }
@@ -236,4 +230,6 @@ function onModalReceived(response, button) {
 function addModalEventListeners(element) {
   taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
+  element.querySelectorAll('.open-task').forEach(button => addGetEventListener(button, null, onModalReceived))
+  element.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
 }

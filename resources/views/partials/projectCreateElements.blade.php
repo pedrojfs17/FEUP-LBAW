@@ -22,7 +22,7 @@
 
         <label for="inputTaskParent" class="form-label">Subtask of</label>
         <select class="form-select" name="parent" aria-label="Task parent select">
-          <option selected>None</option>
+          <option selected value="">None</option>
           @foreach ($project->tasks as $task)
             <option value="{{$task->id}}">{{$task->name}}</option>
           @endforeach

@@ -18,7 +18,7 @@ class TaskController extends Controller
   public function list(Request $request, $id)
   {
     $project = Project::find($id);
-    //$this->authorize('list', $project);
+    $this->authorize('showTasks', $project);
 
     $tags = $request->input('tag') == NULL ? NULL : explode(',',$request->input('tag'));
     $assignees =$request->input('assignees') == NULL ? NULL : explode(',',$request->input('assignees'));
@@ -41,9 +41,10 @@ class TaskController extends Controller
       })
       ->when(!empty($afterDate), function ($query) use ($afterDate) {
         return $query->whereDate('due_date','>=',$afterDate);
-      });
+      })
+      ->get()->sortBy('id');
 
-    $view = view('partials.projectTasks', ['tasks' => $tasks->get()])->render();
+    $view = view('partials.projectTasks', ['tasks' => $tasks])->render();
     return response()->json($view);
   }
 

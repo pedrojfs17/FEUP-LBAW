@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS invite CASCADE;
 DROP TABLE IF EXISTS team_member CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
-DROP TABLE IF EXISTS subtask CASCADE;
 DROP TABLE IF EXISTS waiting_on CASCADE;
 DROP TABLE IF EXISTS assignment CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
@@ -80,8 +79,8 @@ CREATE TABLE account
 
 CREATE TABLE password_resets
 (
-    email VARCHAR NOT NULL,
-    token VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL,
+    token      VARCHAR NOT NULL,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
 );
 
@@ -146,14 +145,8 @@ CREATE TABLE task
     description VARCHAR,
     due_date    TIMESTAMP,
     task_status status DEFAULT 'Not Started',
-    parent INTEGER REFERENCES task(id) ON DELETE CASCADE,
+    parent      INTEGER REFERENCES task(id) ON DELETE CASCADE,
     search      TSVECTOR
-);
-
-CREATE TABLE subtask
-(
-    id     INTEGER PRIMARY KEY REFERENCES task (id) ON DELETE CASCADE,
-    parent INTEGER NOT NULL REFERENCES task (id) ON DELETE CASCADE
 );
 
 CREATE TABLE waiting_on
@@ -415,19 +408,6 @@ $BODY$
     LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION check_sub_date() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF (SELECT due_date FROM task WHERE NEW.id = task.id) > (SELECT due_date FROM task WHERE NEW.parent = task.id)
-    THEN
-        RAISE EXCEPTION 'Date is greater than that of its parent task';
-    END IF;
-    RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-
 CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -535,7 +515,6 @@ DROP TRIGGER IF EXISTS assign_member ON assignment;
 DROP TRIGGER IF EXISTS check_project_owner ON team_member;
 DROP TRIGGER IF EXISTS accept_invite ON invite;
 DROP TRIGGER IF EXISTS check_task_date ON task;
-DROP TRIGGER IF EXISTS check_sub_date ON subtask;
 DROP TRIGGER IF EXISTS add_invite_notification ON invite;
 DROP TRIGGER IF EXISTS add_project_notification ON team_member;
 DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
@@ -608,14 +587,6 @@ EXECUTE PROCEDURE check_task_date();
 
 
 -- TRIGGER09
-CREATE TRIGGER check_sub_date
-    BEFORE INSERT OR UPDATE
-    ON subtask
-    FOR EACH ROW
-EXECUTE PROCEDURE check_sub_date();
-
-
--- TRIGGER10
 CREATE TRIGGER add_invite_notification
     AFTER INSERT
     ON invite
@@ -623,7 +594,7 @@ CREATE TRIGGER add_invite_notification
 EXECUTE PROCEDURE add_invite_notification();
 
 
--- TRIGGER11
+-- TRIGGER10
 CREATE TRIGGER add_project_notification
     AFTER INSERT
     ON team_member
@@ -631,7 +602,7 @@ CREATE TRIGGER add_project_notification
 EXECUTE PROCEDURE add_project_notification();
 
 
--- TRIGGER12
+-- TRIGGER11
 CREATE TRIGGER add_assignment_notification
     AFTER INSERT
     ON assignment
@@ -639,7 +610,7 @@ CREATE TRIGGER add_assignment_notification
 EXECUTE PROCEDURE add_assignment_notification();
 
 
--- TRIGGER013
+-- TRIGGER012
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON comment
@@ -647,7 +618,7 @@ CREATE TRIGGER add_comment_notification
 EXECUTE PROCEDURE add_comment_notification();
 
 
--- TRIGGER14
+-- TRIGGER13
 CREATE TRIGGER add_report_notification
     AFTER UPDATE OF state
     ON report
@@ -670,7 +641,6 @@ create index password_resets_token_index ON password_resets (token);
 DROP INDEX IF EXISTS client_member_index;
 DROP INDEX IF EXISTS project_member_index;
 DROP INDEX IF EXISTS task_index;
-DROP INDEX IF EXISTS subtask_index;
 DROP INDEX IF EXISTS waiting_index;
 DROP INDEX IF EXISTS task_assign_index;
 DROP INDEX IF EXISTS client_assign_index;
@@ -694,42 +664,39 @@ CREATE INDEX project_member_index ON team_member USING hash (project_id);
 CREATE INDEX task_index ON task USING hash (project);
 
 -- IDX04
-CREATE INDEX subtask_index ON subtask USING hash (parent);
-
--- IDX05
 CREATE INDEX waiting_index ON waiting_on USING hash (task1);
 
--- IDX06
+-- IDX05
 CREATE INDEX task_assign_index ON assignment USING hash (task);
 
--- IDX07
+-- IDX06
 CREATE INDEX client_assign_index ON assignment USING hash (task);
 
--- IDX08
+-- IDX07
 CREATE INDEX tag_index ON tag USING hash (project);
 
--- IDX09
+-- IDX08
 CREATE INDEX task_tag_index ON contains_tag USING hash (task);
 
--- IDX10
+-- IDX09
 CREATE INDEX tag_task_index ON contains_tag USING hash (tag);
 
--- IDX11
+-- IDX10
 CREATE INDEX check_list_index ON check_list_item USING hash (task);
 
--- IDX12
+-- IDX11
 CREATE INDEX comment_index ON comment USING btree (task, comment_date);
 
--- IDX13
+-- IDX12
 CREATE INDEX notification_index ON notification USING btree (client, notification_date);
 
--- IDX14
+-- IDX13
 CREATE INDEX search_client ON client USING GIN (search);
 
--- IDX15
+-- IDX14
 CREATE INDEX search_project ON project USING GIN (search);
 
--- IDX16
+-- IDX15
 CREATE INDEX search_task ON task USING GIN (search);
 
 

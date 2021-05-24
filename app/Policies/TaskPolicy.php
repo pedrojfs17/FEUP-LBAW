@@ -13,12 +13,6 @@ class TaskPolicy
 {
   use HandlesAuthorization;
 
-  public function list(Account $account, Project $project)
-  {
-    // Only a team member can see project tasks
-    return $project->teamMembers()->where('client_id', $account->id)->exists();
-  }
-
   public function show(Account $account, Project $project)
   {
     // Only a team member can see a task

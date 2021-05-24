@@ -15,15 +15,15 @@
                         <p class="d-inline-block d-sm-none ps-2 mb-0">Search</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" href="#" {{--data-bs-toggle="modal" data-bs-target="#notificationsModal"--}}>
+                {{--<li class="nav-item">
+                    <a class="nav-link fs-5" href="#" --}}{{--data-bs-toggle="modal" data-bs-target="#notificationsModal"--}}{{-->
                         <i class="bi bi-bell"></i>
                         <span class="badge rounded-pill badge-notify d-none d-sm-inline-block">3</span>
                         <p class="d-inline-block d-sm-none ps-2 mb-0">Notifications
                             <span class="badge rounded-pill bg-danger">3</span>
                         </p>
                     </a>
-                </li>
+                </li>--}}
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         @if (Auth::user()->is_admin)

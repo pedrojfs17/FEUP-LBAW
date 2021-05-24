@@ -95,10 +95,14 @@ function updateCard(taskID, card) {
   cardDiv.innerHTML = ""
   let newElem = document.createElement('div')
   newElem.innerHTML = card
-  parentDiv.insertBefore(newElem.children[0], cardDiv)
+  let updatedCard = newElem.children[0]
+  parentDiv.insertBefore(updatedCard, cardDiv)
   cardDiv.remove()
-  const updatedCard = document.querySelector('#task-' + taskID).querySelector('.open-task')
-  addCardEventListener(updatedCard)
+
+  const updatedCardButton = document.querySelector('#task-' + taskID).querySelector('.open-task')
+  addGetEventListener(updatedCardButton, null, onModalReceived)
+
+  updatedCard.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
 }
 
 function updateTaskModal(task, modalElement) {
@@ -139,7 +143,7 @@ function addCheckListItems(item) {
 function addInputEventListener() {
   const checklistForm = document.querySelector('#addItem')
   const newItemInput = checklistForm.querySelector('input[name="new_item"]')
-  
+
   newItemInput.addEventListener('keypress', function (event) {
     let form = newItemInput.parentElement.parentElement
     form.addEventListener('submit', (e) => {
@@ -155,7 +159,6 @@ function addInputEventListener() {
       })
     }
     if (event.key === 'Enter') {
-      console.log(newItemInput.value)
       sendAjaxRequest('POST', checklistForm.dataset.href, encodeForAjax({
         new_item: newItemInput.value,
         _token: csrfToken

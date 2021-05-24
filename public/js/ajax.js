@@ -230,6 +230,7 @@ function onModalReceived(response) {
 function addModalEventListeners(element) {
   taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
+  commentEventListener(element)
   element.querySelectorAll('.open-task').forEach(button => addGetEventListener(button, null, onModalReceived))
   element.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
 }

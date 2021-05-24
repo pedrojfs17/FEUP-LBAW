@@ -158,51 +158,20 @@
             @each('partials.tag', $task->tags, 'tag')
           </div>
           <hr>
-          <div>
-            <h5>Comments</h5>
-            <div class="mb-3">
-              @foreach ($task->getParentComments() as $comment)
-                <div class="comment mb-3">
-                  <div class="comment-body d-flex ms-2">
-                    <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
-                         height="30px"
-                         alt="avatar">
-                    <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
-                         style="background-color: #e7e7e7">
-                      {{$comment->comment_text}}
-                    </div>
-                    <a class="p-1 mx-2 d-flex align-items-center" data-bs-toggle="collapse"
-                       href="#comment{{$comment->id}}reply"
-                       role="button" aria-expanded="false" aria-controls="comment{{$comment->id}}reply">
-                      <i class="bi bi-chat-text fs-5 text-muted"></i>
-                    </a>
-                  </div>
-                  <div id="comment{{$comment->id}}reply" class="collapse">
-                    @foreach ($comment->replies as $reply)
-                      <div class="comment-replies my-2 ms-5">
-                        <div class="comment-body d-flex ms-2">
-                          <img class="rounded-circle mt-1" src="{{ url($reply->reply->author()->first()->avatar) }}"
-                               width="30px" height="30px"
-                               alt="avatar">
-                          <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
-                               style="background-color: #e7e7e7">
-                            {{$reply->reply->comment_text}}
-                          </div>
-                        </div>
-                      </div>
-                    @endforeach
-                    <div class="comment-footer d-flex mt-2 ms-5">
-                      <input class="form-control me-3" type="text" placeholder="Add comment">
-                      <button type="button" class="btn btn-outline-secondary btn-sm">Reply</button>
-                    </div>
-                  </div>
-                </div>
-              @endforeach
-            </div>
-            <div class="d-flex mb-2">
-              <input class="form-control me-3" type="text" placeholder="Add comment">
-              <button type="button" class="btn btn-primary">Comment</button>
-            </div>
+        </div>
+        <div>
+          <h5>Comments</h5>
+          <div class="mb-3 task-comments">
+            @foreach ($task->comments as $comment)
+              @if ($comment->parent == null)
+                @include('partials.comment', ['comment' => $comment])
+              @endif
+            @endforeach
+          </div>
+          <div class="d-flex">
+            <input id="commentOn{{$task->id}}" class="form-control me-3" type="text" placeholder="Add comment">
+            <button type="button" class="btn btn-primary btn-add-comment btn-add-comment" data-task="{{$task->id}}" data-href="/api/project/{{$task->project}}/task/{{$task->id}}/comment"
+                    data-author="{{$user->account->id}}">Comment</button>
           </div>
         </div>
       </div>

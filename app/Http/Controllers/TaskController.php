@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\Comment;
 use App\Models\CheckListItem;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -100,7 +103,7 @@ class TaskController extends Controller
 
     $result['taskId'] = $task;
     $result['taskCard'] = view('partials.task', ['task' => $taskObj])->render();
-    $result['taskModal'] = view('partials.taskModal', ['task' => $taskObj])->render();
+    $result['taskModal'] = view('partials.taskModal', ['task' => $taskObj, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -265,8 +268,27 @@ class TaskController extends Controller
 
   public function comment(Request $request, $id, $task)
   {
-    $this->authorize('comment', Project::find($id));
-    Task::find($task)->comments()->attach($request->input('comment'));
+    $comment = new Comment();
+    $comment->task = $task;
+
+    //$this->authorize('comment', Project::find($id));
+
+    $comment->author = $request->input('author');
+    $comment->comment_date = $request->input('date');
+    $comment->comment_text = $request->input('text');
+
+    //Task::find($task)->comments()->attach($comment->id);
+    if (!empty($request->input('parent'))) {
+      $comment->parent = $request->input('parent');
+      $comment->save();
+
+      $result = view('partials.commentReply', ['reply' => Comment::find($comment->id)])->render();
+      return response()->json($result);
+    }
+
+    $comment->save();
+    $result = view('partials.comment', ['comment' => Comment::find($comment->id), 'task' => Task::find($task), 'user' => Client::find(Auth::user()->id)])->render();
+    return response()->json($result);
   }
 
   public function createItem(Request $request, $id, $task)

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Comment;
-use App\Models\CommentReply;
+use App\Models\CheckListItem;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
@@ -21,7 +21,7 @@ class TaskController extends Controller
   public function list(Request $request, $id)
   {
     $project = Project::find($id);
-    //$this->authorize('list', $project);
+    $this->authorize('showTasks', $project);
 
     $tags = $request->input('tag') == NULL ? NULL : explode(',',$request->input('tag'));
     $assignees =$request->input('assignees') == NULL ? NULL : explode(',',$request->input('assignees'));
@@ -44,9 +44,10 @@ class TaskController extends Controller
       })
       ->when(!empty($afterDate), function ($query) use ($afterDate) {
         return $query->whereDate('due_date','>=',$afterDate);
-      });
+      })
+      ->get()->sortBy('id');
 
-    $view = view('partials.projectTasks', ['tasks' => $tasks->get()])->render();
+    $view = view('partials.projectTasks', ['tasks' => $tasks])->render();
     return response()->json($view);
   }
 
@@ -173,7 +174,11 @@ class TaskController extends Controller
       }
     }
 
-    $result = Task::find($task)->tags()->get();
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tagButton', ['tags' => $updatedTask->tags])->render();
 
     return response()->json($result);
 
@@ -181,20 +186,84 @@ class TaskController extends Controller
 
   public function subtask(Request $request, $id, $task)
   {
-    $this->authorize('subtask', Project::find($id));
-    Task::find($task)->subtasks()->attach($request->input('subtask'));
+    //$this->authorize('subtask', Project::find($id));
+    $request->validate([
+      'subtask' => 'nullable|string',
+    ]);
+
+    $subTasks = Task::where('parent',$task)->get();
+    foreach ($subTasks as $sub) {
+      $subtaskObj = Task::find($sub->id);
+      $subtaskObj->parent = null;
+      $subtaskObj->save();
+    }
+
+    if(!empty($request->input('subtask'))) {
+      $subtask = array_map('intval', explode(',', $request->input('subtask')));
+      foreach ($subtask as $sub) {
+        $subtaskObj = Task::find($sub);
+        $subtaskObj->parent = $task;
+        $subtaskObj->save();
+      }
+    }
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->subtasks])->render();
+
+    return response()->json($result);
   }
 
   public function waiting_on(Request $request, $id, $task)
   {
-    $this->authorize('waiting_on', Project::find($id));
-    Task::find($task)->waitingOn()->attach($request->input('task'));
+    //$this->authorize('waiting_on', Project::find($id));
+    $request->validate([
+      'waiting' => 'nullable|string',
+    ]);
+    Task::find($task)->waitingOn()->detach();
+
+    if(!empty($request->input('waiting'))) {
+      $waitingTasks = array_map('intval',explode(',',$request->input('waiting')));
+      foreach($waitingTasks as $waiting) {
+        Task::find($task)->waitingOn()->attach($waiting);
+      }
+
+    }
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->waitingOn])->render();
+
+    return response()->json($result);
+
   }
 
   public function assignment(Request $request, $id, $task)
   {
-    $this->authorize('assignment', Project::find($id));
-    Task::find($task)->assignees()->attach($request->input('member'));
+    //$this->authorize('assignment', Project::find($id));
+    $request->validate([
+      'assign' => 'nullable|string',
+    ]);
+    Task::find($task)->assignees()->detach();
+
+    if(!empty($request->input('assign'))) {
+      $assignees = array_map('intval',explode(',',$request->input('assign')));
+      foreach($assignees as $assignee) {
+        Task::find($task)->assignees()->attach($assignee);
+      }
+    }
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.clientPhoto', ['assignees' => $updatedTask->assignees])->render();
+
+    return response()->json($result);
   }
 
   public function comment(Request $request, $id, $task)
@@ -219,6 +288,69 @@ class TaskController extends Controller
 
     $comment->save();
     $result = view('partials.comment', ['comment' => Comment::find($comment->id), 'task' => Task::find($task), 'user' => Client::find(Auth::user()->id)])->render();
+    return response()->json($result);
+  }
+
+  public function createItem(Request $request, $id, $task)
+  {
+    //$this->authorize('comment', Project::find($id));
+    $request->validate([
+      'new_item' => 'required|string'
+    ]);
+
+    $item = new CheckListItem();
+    $item->task = $task;
+
+    //$this->authorize('createTask', Project::find($id));
+
+    $item->item_text = $request->input('new_item');
+    $item->completed = false;
+    $item->save();
+
+    $result = array();
+    $updatedTask = Task::find($task);
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
+
+    return response()->json($result);
+  }
+
+  public function updateItem(Request $request, $id, $task, $item)
+  {
+    $request->validate([
+      'completed' => 'required|string'
+    ]);
+
+    $item = CheckListItem::find($item);
+
+    //$this->authorize('createTask', Project::find($id));
+
+    $item->completed = filter_var($request->input('completed'), FILTER_VALIDATE_BOOLEAN);
+    $item->save();
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
+    return response()->json($result);
+  }
+
+  public function deleteItem(Request $request, $id, $task, $item)
+  {
+    //$this->authorize('createTask', Project::find($id));
+    $item = CheckListItem::find($item);
+    $item->delete();
+
+    $updatedTask = Task::find($task);
+    $result = array();
+    $result['taskID'] = $task;
+    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+
     return response()->json($result);
   }
 }

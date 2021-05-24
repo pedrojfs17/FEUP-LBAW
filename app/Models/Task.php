@@ -16,6 +16,10 @@ class Task extends Model
     'project', 'name', 'description', 'due_date', 'task_status', 'search', 'parent'
   ];
 
+  public function hasParent() {
+    return $this->getAttribute('parent') != null;
+  }
+
   public function project()
   {
     return $this->belongsTo(Project::class, 'project');
@@ -23,12 +27,12 @@ class Task extends Model
 
   public function subtasks()
   {
-    return $this->hasMany(Task::class, 'parent');
+    return $this->hasMany(Task::class, 'parent','id');
   }
 
   public function parent()
   {
-    return $this->belongsTo(Task::class, 'id');
+    return $this->belongsTo(Task::class, 'parent');
   }
 
   public function waitingOn()
@@ -85,5 +89,12 @@ class Task extends Model
       return date("D, j M Y", strtotime($this->due_date));
     }
     return null;
+  }
+
+  public function getChecklistCompletion(): int
+  {
+    if (count($this->checkListItems) > 0)
+      return intdiv(count($this->checklistItems->where('completed', true)) * 100, count($this->checklistItems));
+    else return 0;
   }
 }

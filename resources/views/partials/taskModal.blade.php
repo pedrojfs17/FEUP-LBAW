@@ -2,7 +2,8 @@
   <script src="{{ asset('js/tooltip.js') }}" defer></script>
 @endpush
 
-<div class="modal fade task-modal" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1" aria-labelledby="tasks{{$task->id}}ModalLabel"
+<div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1"
+     aria-labelledby="tasks{{$task->id}}ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -12,10 +13,10 @@
             <li class="breadcrumb-item">
               <a style="cursor: pointer; font-weight: bolder" data-bs-dismiss="modal">Project</a>
             </li>
-            @if (count($task->parent()->get()) > 0)
+            @if ($task->hasParent())
               <li class="breadcrumb-item" aria-current="page">
-                <a style="cursor: pointer; font-weight: bolder" data-bs-target="#task{{$task->parent}}Modal"
-                   data-bs-toggle="modal" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
+                <a class="open-task remove-anchor-css" style="cursor: pointer; font-weight: bolder" data-target="#task{{$task->parent}}Modal"
+                   data-href="/api/project/{{ $task->project }}/task/{{ $task->parent }}" data-bs-dismiss="modal">{{$task->parent()->first()->name}}</a>
               </li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">{{$task->name}}</li>
@@ -29,94 +30,131 @@
       </section>
       <div class="modal-body d-grid gap px-sm-5">
         <header>
-          <h3 class="d-inline-block">{{$task->name}}</h3>
+          <h3 class="d-inline-block text-wrap">{{$task->name}}</h3>
           <button class="btn btn-outline-secondary float-end" type="button"><i class="bi bi-pencil"></i></button>
           <p class="text-muted">{{$task->getReadableDueDate()}}</p>
           <h6 class="text-muted">{{$task->description}}</h6>
           <hr>
         </header>
         <div>
-          <h5>Subtasks</h5>
-          <div class="d-grid gap-2 my-3">
-            @foreach ($task->subtasks as $subtask)
-              <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($subtask->first()->task_status)) }}"
-                      data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $subtask->first()->id }}Modal">{{ $subtask->first()->name }}</button>
-            @endforeach
-          </div>
-          <h5>Waiting On</h5>
-          <div class="d-grid gap-2 my-3">
-            @foreach ($task->waitingOn as $waitingOn)
-              <button type="button" style="background-color: #e7e7e7"
-                      class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($waitingOn->task_status)) }}"
-                      data-bs-toggle="modal" data-bs-dismiss="modal"
-                      data-bs-target="#task{{ $waitingOn->id }}Modal">{{ $waitingOn->name }}</button>
-            @endforeach
-          </div>
-          <hr>
-        </div>
-        <div class="row gx-0">
-          <div class="col-12 col-lg-6 pe-2">
-            <h5 class=" d-inline-block mr-3">Checklist</h5>
-            <p
-              class=" d-inline-block text-secondary">@if (count($task->checkListItems) > 0) {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}
-              % @else 0% @endif</p>
-            <div class="progress" style="height:5px;">
-              @if (count($task->checkListItems))
-                <div class="progress-bar" role="progressbar"
-                     style="width: {{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}%; height:5px; background-color:green;"
-                     aria-valuenow="{{ count($task->checklistItems->where('completed', true)) / count($task->checklistItems) * 100 }}"
-                     aria-valuemin="0" aria-valuemax="100">
-                </div>
-              @else
-                <div class="progress-bar" role="progressbar" style="width: 0; height:5px; background-color:green;"
-                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-              @endif
+          <div>
+            <h5 class=" d-inline-block mr-3">Subtasks</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}-sub" role="button"
+               aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateSubTask" class="collapse mb-3 multi-collapse-{{$task->id}}-sub"
+                 aria-expanded="false">
+              <form data-id="task{{$task->id}}SubTask"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/subtask">
+                @csrf
+                <select class="form-control subtask-selection" multiple="multiple" name="subtask"
+                        id="subtask-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tasks as $subtask)
+                    @if ($task->id == $subtask->id)
+                      @continue
+                    @elseif($task->subtasks()->where('id',$subtask->id)->count()!==0)
+                      <option value="{{$subtask->id}}" selected="selected">{{$subtask->name}}</option>
+                    @else
+                      <option value="{{$subtask->id}}">{{$subtask->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
             </div>
-            <div class="d-grid gap-2 my-3">
-              @foreach ($task->checklistItems as $item)
-                <div class="form-check">
-                  <label class="form-check-label">
-                    {{$item->item_text}}
-                    <input class="form-check-input" type="checkbox" @if ($item->completed) checked @endif>
-                  </label>
-                </div>
-              @endforeach
+            <div class=" my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
+              @include('partials.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
-          <div class="col-12 col-lg-6 ps-2">
-            <h5 class="mb-1">Assigned to:</h5>
-            @foreach ($task->assignees as $assignee)
-              <img class="rounded-circle" src="{{ url($assignee->avatar) }}" data-bs-toggle="tooltip"
-                   data-bs-placement="top" title="{{$assignee->account->username}}" width="40px " height="40px "
-                   alt="avatar ">
-            @endforeach
+          <div>
+            <h5 class="d-inline-block mr-3">Waiting On</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}-wait" role="button"
+               aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateWaiting" class="collapse mb-3 multi-collapse-{{$task->id}}-wait"
+                 aria-expanded="false">
+              <form data-id="task{{$task->id}}Waiting"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/waiting_on">
+                @csrf
+                <select class="form-control waiting-selection" multiple="multiple" name="waiting"
+                        id="waiting-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tasks as $task_wait)
+                    @if ($task->id == $task_wait->id)
+                      @continue
+                    @elseif($task->waitingOn()->where('id',$task_wait->id)->count()!==0)
+                      <option value="{{$task_wait->id}}" selected="selected">{{$task_wait->name}}</option>
+                    @else
+                      <option value="{{$task_wait->id}}">{{$task_wait->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
+            </div>
+            <div class="my-3 multi-collapse-{{$task->id}}-wait show" id="task{{$task->id}}Waiting" aria-expanded="true">
+              @include('partials.taskButton',['taskArray'=>$task->waitingOn])
+            </div>
+            <hr>
           </div>
-          <hr>
-        </div>
-        <div>
-          <h5 class=" d-inline-block mr-3">Tags</h5>
-          <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false" href=".multi-collapse-{{$task->id}}" role="button"
-             aria-controls="task{{$task->id}}CreateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
-          <div id="task{{$task->id}}CreateTag" class="collapse mb-3 multi-collapse-{{$task->id}}" aria-expanded="false">
-            <form data-id="task{{$task->id}}Tags"
-                  data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
-              @csrf
-              <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection-{{$task->id}}">
-                @foreach ($task->project()->first()->tags as $tag)
-                  @if($task->tags()->where('id',$tag->id)->count()!==0)
-                    <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
-                  @else
-                    <option value="{{$tag->id}}">{{$tag->name}}</option>
-                  @endif
-                @endforeach
-              </select>
-              <button type="submit" class="d-none"></button>
-            </form>
+          <div class="row gx-0">
+            <div class="col-12 col-lg-6 pe-3" id="task{{$task->id}}CheckList">
+              @include('partials.checklistItems',['task'=>$task])
+            </div>
+            <div class="col-12 col-lg-6">
+              <h5 class="d-inline-block mr-3">Assigned to:</h5>
+              <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+                 href=".multi-collapse-{{$task->id}}-assign" role="button"
+                 aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
+              <div id="task{{$task->id}}UpdateAssign" class="collapse mb-3 multi-collapse-{{$task->id}}-assign"
+                   aria-expanded="false">
+                <form data-id="task{{$task->id}}Assign"
+                      data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
+                  @csrf
+                  <select class="form-control assign-selection" multiple="multiple" name="assign"
+                          id="assign-selection-{{$task->id}}">
+                    @foreach ($task->project()->first()->teamMembers as $team_member)
+                      @if($task->assignees()->where('id',$team_member->id)->count()!==0)
+                        <option value="{{$team_member->id}}"
+                                selected="selected">{{$team_member->account->username}}</option>
+                      @else
+                        <option value="{{$team_member->id}}">{{$team_member->account->username}}</option>
+                      @endif
+                    @endforeach
+                  </select>
+                  <button type="submit" class="d-none"></button>
+                </form>
+              </div>
+              <div class="my-3 multi-collapse-{{$task->id}}-assign show" id="task{{$task->id}}Assign"
+                   aria-expanded="true">
+                @include('partials.clientPhoto',['assignees'=>$task->assignees])
+              </div>
+            </div>
+            <hr>
           </div>
-
-          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show task{{$task->id}}Tags" aria-expanded="true">
+          <div>
+            <h5 class=" d-inline-block mr-3">Tags</h5>
+            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+               href=".multi-collapse-{{$task->id}}" role="button"
+               aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
+            <div id="task{{$task->id}}UpdateTag" class="collapse mb-3 multi-collapse-{{$task->id}}"
+                 aria-expanded="false">
+              <form data-id="task{{$task->id}}Tags"
+                    data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/tag">
+                @csrf
+                <select class="form-control tag-selection" multiple="multiple" name="tag"
+                        id="tag-selection-{{$task->id}}">
+                  @foreach ($task->project()->first()->tags as $tag)
+                    @if($task->tags()->where('id',$tag->id)->count()!==0)
+                      <option value="{{$tag->id}}" selected="selected">{{$tag->name}}</option>
+                    @else
+                      <option value="{{$tag->id}}">{{$tag->name}}</option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="submit" class="d-none"></button>
+              </form>
+            </div>
+          <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags" aria-expanded="true">
             @each('partials.tag', $task->tags, 'tag')
           </div>
           <hr>
@@ -137,8 +175,8 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
+      <div class="modal-footer px-0">
+        <button type="button" class="btn btn-danger delete-task-button mx-0" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}"><i class="bi bi-trash"></i> Delete Task</button>
       </div>
     </div>
   </div>

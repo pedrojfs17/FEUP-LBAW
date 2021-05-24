@@ -1,6 +1,6 @@
 <header class="page-header header container-md">
   <nav class="navbar navbar-expand-lg flex-lg-wrap flex-xl-nowrap">
-    <a id="project-title" class="navbar-brand text-dark col-lg-12 col-xl-4" href="{{ route('project.overview', ['id' => $project->id]) }}">{{ $project->name }}</a>
+    <a id="project-title" class="navbar-brand text-dark col-lg-12 col-xl-4 text-wrap text-capitalize" href="{{ route('project.overview', ['id' => $project->id]) }}">{{ $project->name }}</a>
     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -17,9 +17,9 @@
         <li class="nav-item">
           <a class="nav-link {{$page == 'assignments' ? 'active' : ''}}" href="{{ route('project.assignments', ['id' => $project->id]) }}">Assignments</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" {{--href="{{ route('project.statistics', ['id' => $project->id]) }}"--}}>Statistics</a>
-        </li>
+        {{--<li class="nav-item">
+          <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" --}}{{--href="{{ route('project.statistics', ['id' => $project->id]) }}"--}}{{-->Statistics</a>
+        </li>--}}
         <li class="nav-item">
           <a class="nav-link {{$page == 'preferences' ? 'active' : ''}}" href="{{ route('project.preferences', ['id' => $project->id]) }}">Preferences</a>
         </li>

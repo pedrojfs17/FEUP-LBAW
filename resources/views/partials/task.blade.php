@@ -44,19 +44,14 @@
       @if (isset($task->due_date) > 0)
         <div class="due-date my-auto mx-1 mx-sm-0">
         <span class="text-muted">
-            <i class="bi bi-calendar-date"></i> <span class="d-none d-sm-inline-block">{{ $task->due_date }}</span>
+            <i class="bi bi-calendar-date"></i> <span class="d-none d-sm-inline-block">{{ $task->getReadableDueDate() }}</span>
         </span>
         </div>
       @endif
     </div>
 
     <div class="d-flex flex-wrap gap-2 my-2 mt-auto task{{$task->id}}Tags">
-      @foreach ($task->tags as $tag)
-        <p class="d-inline-block m-0 py-1 px-3 px-sm-2 rounded text-bg-check" type="button"
-           style="background-color: {{ $tag->color }}">
-          <small class="d-none d-sm-inline-block">{{ $tag->name }}</small>
-        </p>
-      @endforeach
+      @each('partials.tag', $task->tags, 'tag')
     </div>
 
     <div class="d-none d-sm-flex justify-content-between mt-2">

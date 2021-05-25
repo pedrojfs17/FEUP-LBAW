@@ -8,25 +8,43 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="projectsFilterModalLabel">
-          <ol class="my-0 breadcrumb text-muted">
-            <li class="breadcrumb-item">
-              <a style="cursor: pointer; font-weight: bolder" data-bs-dismiss="modal">Filter Projects</a>
-            </li>
-          </ol>
-        </nav>
+        <h5 class="modal-title">Project Filters</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div>
+      <div class="modal-body">
         <form data-id="projectFilter" id="projectFilter" data-href="/api/project">
-          <label for="completion-selection">Completion</label>
-          <select class="form-control tag-selection" name="completion" id="completion-selection">
-            <option value="100">Completed</option>
-            <option value="0">In progress</option>
+          <h6 class="text-muted">Progress</h6>
+
+          <label for="higherCompletionSelection">Higher than</label>
+          <select class="form-select" name="higher_completion" id="higherCompletionSelection">
+            <option value="" selected>Select a percentage</option>
+            <option value="0">0%</option>
+            <option value="25">25%</option>
+            <option value="50">50%</option>
+            <option value="75">75%</option>
+            <option value="100">100%</option>
           </select>
-          <label for="dueDateInput">Due Date</label>
-          <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateProj" type="date"
-                 name="due_date" value="{{ old('due_date') }}">
+
+          <label for="lowerCompletionSelection">Lower than</label>
+          <select class="form-select" name="lower_completion" id="lowerCompletionSelection">
+            <option value="" selected>Select a percentage</option>
+            <option value="0">0%</option>
+            <option value="25">25%</option>
+            <option value="50">50%</option>
+            <option value="75">75%</option>
+            <option value="100">100%</option>
+          </select>
+
+          <hr>
+
+          <h6 class="text-muted">Due Date</h6>
+
+          <label for="filterProjBeforeDate">Before</label>
+          <input class="form-control" id="filterProjBeforeDate" type="date" name="before_date">
+
+          <label for="filterProjAfterDate">After</label>
+          <input class="form-control" id="filterProjAfterDate" type="date" name="after_date">
+
           <button type="submit" class="d-none"></button>
         </form>
       </div>

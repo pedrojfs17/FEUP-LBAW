@@ -9,7 +9,7 @@ function receivedProjects(responseText) {
   Array.from(paginationLinks).forEach(link => link.addEventListener('click', function() {
     projectsDiv.innerHTML = ""
     projectsSpinner.classList.remove('d-none')
-    sendGetRequest(link.dataset.href);
+    sendGetRequest(link.dataset.href + "&" + encodeForAjax(getProjectActiveFilters()));
   }))
 }
 

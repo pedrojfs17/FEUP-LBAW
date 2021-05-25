@@ -9,18 +9,18 @@ function encodeForAjax(data) {
   }).join('&')
 }
 
-function sendAjaxRequest(method, url, data, callback) {
+function sendAjaxRequest(method, url, data, onSuccess, onError) {
   let request = new XMLHttpRequest()
 
   request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
+      let response = JSON.parse(this.responseText)
       if (request.status === 200) {
-        let response = JSON.parse(this.responseText)
-        if (callback) callback(response)
+        if (onSuccess) onSuccess(response)
         if (response.message) showMessage(response.message)
       }
       else {
-        console.log('There was an error ' + request);
+        if (onError) onError(response)
       }
     }
   }
@@ -48,35 +48,52 @@ function showMessage(message) {
 }
 
 
-/* CREATE FORMS */
+/* FORMS */
 
 const createForms = document.querySelectorAll('.create-form')
+const editForms = document.querySelectorAll('.edit-form')
 
-function addCreateEventListener(form) {
+createForms.forEach(form => addFormEventListener(form, "POST"))
+editForms.forEach(form => addFormEventListener(form, "PATCH"))
+
+function addFormEventListener(form, method) {
   form.addEventListener('submit', function(e) {
     e.preventDefault()
+
+    if (!window[form.dataset.validateFunction]()) {
+      e.stopPropagation()
+      form.classList.add('was-validated')
+      return
+    }
+
     let object = {};
     new FormData(form).forEach((value, key) => object[key] = value);
-    sendAjaxRequest("POST", form.dataset.href, encodeForAjax(object), window[form.dataset.onSubmit])
+
+    let onError = function(response) {
+      serverSideValidation(form, response)
+    }
+
+    sendAjaxRequest(method, form.dataset.href, encodeForAjax(object), window[form.dataset.onSubmit], onError)
   })
 }
 
-createForms.forEach(form => addCreateEventListener(form))
-
-function addTagElement(tag) {
+function addTagElement(response) {
   const tagsSection = document.getElementById('project-tags')
 
-  tagsSection.innerHTML +=
-    ' <p class="delete-tag delete-button d-inline-block m-0 my-1 py-1 px-3 px-sm-2 rounded text-bg-check" type="button" data-href="/api/project/' + tag.project + '/tag/' + tag.id + '" style="background-color: ' + tag.color + '">\n' +
-    '   <small class="d-none d-sm-inline-block">' + tag.name + '</small>\n' +
-    ' </p> '
+  let div = document.createElement('div')
+  div.innerHTML = response.delete_tag
+  tagsSection.append(div.children[0])
 
-  addDeleteEventListener(tagsSection.querySelector('p:last-of-type'))
+  addDeleteEventListener(tagsSection.querySelector('div:last-of-type'))
 }
 
 function addTaskElement(task) {
   const tasks = document.getElementById('overview')
-  tasks.innerHTML += task['taskCard'] + task['taskModal']
+  const createTaskDiv = tasks.querySelector('#createTaskCard')
+
+  let div = document.createElement('div')
+  div.innerHTML = task['taskCard']
+  tasks.insertBefore(div.children[0], createTaskDiv)
 }
 
 
@@ -108,6 +125,8 @@ removeButtons.forEach(button => addDeleteEventListener(button, [button.parentEle
 
 const toggleButtons = document.querySelectorAll('.edit-button')
 const changeRoleButtons = document.querySelectorAll('.edit-role-button')
+const settingsToggles = document.querySelectorAll('.settings-button')
+const colorInput = document.querySelectorAll('.color-input')
 
 function addUpdateEventListener(button) {
   button.addEventListener('click', function(e) {
@@ -143,6 +162,28 @@ function addPatchOnClickEventListener(button) {
 
 toggleButtons.forEach(button => addUpdateEventListener(button))
 changeRoleButtons.forEach(button => addPatchOnClickEventListener(button))
+
+settingsToggles.forEach(button => {
+  button.addEventListener('change', function(e) {
+    e.preventDefault()
+    let data = {
+      [button.getAttribute('id')] : button.checked ? 1 : 0,
+      "_token": csrfToken,
+    }
+    sendAjaxRequest("PATCH", "settings", encodeForAjax(data))
+  })
+})
+
+colorInput.forEach(button => {
+  button.addEventListener('change', function(e) {
+    e.preventDefault()
+    let data = {
+      [button.getAttribute('id')] : button.value,
+      "_token": csrfToken,
+    }
+    sendAjaxRequest("PATCH", "settings", encodeForAjax(data))
+  })
+})
 
 function updateProjectName(project) {
   const title = document.querySelector('#project-title')

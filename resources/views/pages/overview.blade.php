@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/text-bg.js') }}" defer></script>
+  <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/tags.js') }}" defer></script>
   <script src="{{ asset('js/addmembers.js') }}" defer></script>
@@ -20,11 +21,14 @@
 
 @section('content')
   @include('partials.projectNavBar', ['page' => 'overview'])
-  @include('partials.taskFilter',['project' => $project])
 
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
     @include('partials.projectTasks',['tasks'=>$tasks])
-  </div>
 
-  @include('partials.projectCreateElements')
+    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
+         style="background-color: #efefef; border-style: dashed;" id="createTaskCard">
+      <i class="bi bi-plus-circle text-muted fs-2"></i>
+      <a data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask" role="button" class="stretched-link p-0"></a>
+    </div>
+  </div>
 @endsection

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Client;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -76,7 +78,9 @@ class ClientController extends Controller
     $client->country = empty($request->input('country')) ? $client->country : $request->input('country');
     $client->save();
 
-    return response()->json($client);
+    $response = array('message' => view('partials.successMessage', ['message' => 'Updated account!'])->render());
+
+    return response()->json($response);
   }
 
   /**
@@ -136,29 +140,69 @@ class ClientController extends Controller
     $client = Client::find(Auth::id());
     $this->authorize('updateSettings', $client);
 
-    if ($request->input('allow_noti') != null)
+    $message = "";
+
+    if ($request->input('allow_noti') != null) {
       $client->allow_noti = filter_var($request->input('allow_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('invite_noti') != null)
+      $message = $message . "Notifications are now " . ($client->allow_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('invite_noti') != null) {
       $client->invite_noti = filter_var($request->input('invite_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('member_noti') != null)
-      $client->memberNoti = filter_var($request->input('member_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('assign_noti') != null)
+      $message = $message . "Invite notifications are now " . ($client->invite_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('member_noti') != null) {
+      $client->member_noti = filter_var($request->input('member_noti'), FILTER_VALIDATE_BOOLEAN);
+      $message = $message . "New member notifications are now " . ($client->member_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('assign_noti') != null) {
       $client->assign_noti = filter_var($request->input('assign_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('waiting_noti') != null)
+      $message = $message . "Assignment notifications are now " . ($client->assign_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('waiting_noti') != null) {
       $client->waiting_noti = filter_var($request->input('waiting_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('comment_noti') != null)
+      $message = $message . "Tasks waiting notifications are now " . ($client->waiting_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('comment_noti') != null) {
       $client->comment_noti = filter_var($request->input('comment_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('report_noti') != null)
+      $message = $message . "Comment notifications are now " . ($client->comment_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('report_noti') != null) {
       $client->report_noti = filter_var($request->input('report_noti'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('hide_completed') != null)
+      $message = $message . "Report notifications are now " . ($client->report_noti ? "enabled" : "disabled") . "! ";
+    }
+    if ($request->input('hide_completed') != null) {
       $client->hide_completed = filter_var($request->input('hide_completed'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('simplified_tasks') != null)
+      $message = $message . "Completed tasks are now " . ($client->hide_completed ? "hidden" : "visible") . "! ";
+    }
+    if ($request->input('simplified_tasks') != null) {
       $client->simplified_tasks = filter_var($request->input('simplified_tasks'), FILTER_VALIDATE_BOOLEAN);
-    if ($request->input('color') != null)
+      $message = $message . "Showing " . ($client->simplified_tasks ? "simplified" : "complete") . " tasks! ";
+    }
+    if ($request->input('color') != null) {
       $client->color = $request->input('color');
+      $message = $message . "Updated color! ";
+    }
 
     $client->save();
 
-    return response()->json($client);
+    $response = array('message' => view('partials.successMessage', ['message' => $message])->render());
+
+    return response()->json($response);
+  }
+
+  public function updatePassword(Request $request)
+  {
+    $request->validate([
+      'password' => ['required', new MatchOldPassword],
+      'new_password' => 'required|string|min:6|confirmed'
+    ]);
+
+    $client = Auth::user();
+    $client->password = Hash::make($request->new_password);
+    $client->save();
+
+    $response = array('message' => view('partials.successMessage', ['message' => "Updated Password!"])->render());
+
+    return response()->json($response);
   }
 }

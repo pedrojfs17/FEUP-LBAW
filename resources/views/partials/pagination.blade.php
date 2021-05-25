@@ -13,13 +13,60 @@
 
       {{-- Array Of Links --}}
       @if (is_array($element))
-        @foreach ($element as $page => $url)
-          <li>
-            <button class="paginator-link btn btn-light" data-href="{{ $url }}" rel="prev" @if($page == $paginator->currentPage()) disabled @endif>
-              {{ $page }}
-            </button>
-          </li>
-        @endforeach
+
+        @if (count($element) > 3)
+
+          @if ($paginator->currentPage() < 3)
+
+            @foreach ($element as $page => $url)
+              @break($page > 3)
+              <li>
+                <button class="paginator-link btn btn-light" data-href="{{ $url }}" rel="prev" @if($page == $paginator->currentPage()) disabled @endif>
+                  {{ $page }}
+                </button>
+              </li>
+            @endforeach
+            <li><button class="paginator-link btn btn-light" disabled>...</button></li>
+
+          @elseif ($paginator->currentPage() > $paginator->lastPage() - 2)
+
+            <li><button class="paginator-link btn btn-light" disabled>...</button></li>
+            @foreach ($element as $page => $url)
+              @continue($page < $paginator->lastPage() - 2)
+              <li>
+                <button class="paginator-link btn btn-light" data-href="{{ $url }}" rel="prev" @if($page == $paginator->currentPage()) disabled @endif>
+                  {{ $page }}
+                </button>
+              </li>
+            @endforeach
+
+          @else
+
+            <li><button class="paginator-link btn btn-light" disabled>...</button></li>
+            @foreach ($element as $page => $url)
+              @continue($page < $paginator->currentPage() - 1 || $page > $paginator->currentPage() + 1)
+              <li>
+                <button class="paginator-link btn btn-light" data-href="{{ $url }}" rel="prev" @if($page == $paginator->currentPage()) disabled @endif>
+                  {{ $page }}
+                </button>
+              </li>
+            @endforeach
+            <li><button class="paginator-link btn btn-light" disabled>...</button></li>
+
+          @endif
+
+        @else
+
+          @foreach ($element as $page => $url)
+            <li>
+              <button class="paginator-link btn btn-light" data-href="{{ $url }}" rel="prev" @if($page == $paginator->currentPage()) disabled @endif>
+                {{ $page }}
+              </button>
+            </li>
+          @endforeach
+
+        @endif
+
       @endif
     @endforeach
 

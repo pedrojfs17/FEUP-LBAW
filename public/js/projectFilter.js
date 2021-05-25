@@ -2,11 +2,18 @@ const projectFilter = document.querySelector('#projectFilter')
 const tagsSelect = document.querySelector('#completion-selection')
 const submitFilter = document.querySelector('#projectFilterSubmit')
 
-console.log(projectFilter)
-
 submitFilter.addEventListener('click', function (e) {
   projectFilter.querySelector('button[type="submit"]').click()
 })
+
+function getProjectActiveFilters() {
+  let object = {}
+  let data = new FormData(projectFilter)
+  data.forEach((value, key) => {
+    object[key] = data.getAll(key)
+  })
+  return object
+}
 
 projectFilter.addEventListener('submit', function (e) {
   e.preventDefault()
@@ -56,7 +63,7 @@ function buildFilteredTasks(responseText) {
   Array.from(paginationLinks).forEach(link => link.addEventListener('click', function() {
     projectsDiv.innerHTML = ""
     projectsSpinner.classList.remove('d-none')
-    sendGetRequest(link.dataset.href);
+    sendGetRequest(link.dataset.href + "&" + encodeForAjax(getProjectActiveFilters()));
   }))
 
 }

@@ -32,7 +32,7 @@
           <div id='taskInfo'>
             <h3 class="d-inline-block">{{$task->name}}</h3>
             <button class="btn btn-outline-secondary float-end editButton" type="button" form='editTaskForm'><i class="bi bi-pencil"></i></button>
-            <p class="text-muted">Due by: {{{ (new DateTime($task->due_date))->format('d/m/Y H:i') }}}</p>
+            <p class="text-muted">Due by: {{$task->getReadableDueDate()}}</p>
             <h6 class="text-muted">{{$task->description}}</h6>
           </div>
           <form id='editTaskForm' action='../../api/project/{{$task->project}}/task/{{$task->id}}' class='d-none' data-info='taskInfo'>
@@ -132,12 +132,7 @@
           </div>
 
           <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show task{{$task->id}}Tags" aria-expanded="true">
-            @foreach ($task->tags as $tag)
-              <p class="d-inline-block m-0 py-1 px-2 rounded text-bg-check" type="button"
-                 style="background-color: {{ $tag->color }}">
-                <small>{{ $tag->name }}</small>
-              </p>
-            @endforeach
+            @each('partials.tag', $task->tags, 'tag')
           </div>
           <hr>
         </div>
@@ -190,7 +185,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger delete-task-button" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}">Delete</button>
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>

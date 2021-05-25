@@ -126,3 +126,23 @@ a {
   color: red!important;
   text-decoration: underline;
 }
+
+.saveButton:hover, .saveButton:active {
+  background-color: #00AFB922;
+  color: #00AFB9!important;
+  border-color: #00AFB9;
+}
+
+.saveButton:focus, .saveButton:focus:active {
+  box-shadow: 0 0 0 0.25rem #00b0b97e;
+}
+
+.cancelButton:hover, .cancelButton:active {
+  background-color: #dc354522;
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.cancelButton:focus, .cancelButton:focus:active {
+  box-shadow: 0 0 0 0.25rem #dc35457e;
+}

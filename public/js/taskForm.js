@@ -6,7 +6,61 @@ function addEditButtonEventListner(element) {
     }); 
 }
 
+function addCancelButtonEventListner(element) {
+    const cancelButtons = element.querySelectorAll('.cancelButton')
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', cancelButtonHandler)
+    })
+}
+
+function addSaveButtonEventListner(element) {
+    const saveButtons = element.querySelectorAll('.saveButton')
+    saveButtons.forEach(button => {
+        button.addEventListener('click', saveButtonHandler)
+    })
+}
+
 function editButtonHandler(e) {
-    e.target.parentElement.classList.toggle('d-none')
-    e.target.form.classList.toggle('d-none')
+    const button = e.target.closest('.editButton')
+    button.parentElement.classList.toggle('d-none')
+    button.form.classList.toggle('d-none')
+}
+
+function cancelButtonHandler(e) {
+    const button = e.target.closest('.cancelButton')
+    const info = document.getElementById(button.form.dataset.info)
+    const inputs = button.form.elements
+    for (input of inputs) {
+        if (input.name != '_token')
+            input.value = input.placeholder
+    }
+    info.classList.toggle('d-none')
+    button.form.classList.toggle('d-none')
+}
+
+function saveButtonHandler(e) {
+    const button = e.target.closest('.saveButton')
+    const info = document.getElementById(button.form.dataset.info)
+    const inputs = button.form.elements
+    let data = {}
+    for (input of inputs) {
+        if (input.value != input.placeholder || input.name === '_token') {
+            data[input.name] = input.value
+            if (input.name != '_token') {
+                input.placeholder = input.value
+            }
+        }
+        input.disabled = true
+    }
+
+    if (Object.keys(data).length === 1) return
+
+    sendAjaxRequest('PATCH', button.form.action, encodeForAjax(data), onSaveSuccess)
+
+
+    info.classList.toggle('d-none')
+    button.form.classList.toggle('d-none')
+}
+
+function onSaveSuccess(response) {
 }

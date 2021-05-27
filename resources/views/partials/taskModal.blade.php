@@ -159,7 +159,7 @@
           </div>
           <hr>
         </div>
-        <div>
+        <div class="mb-3">
           <h5>Comments</h5>
           <div class="mb-3 task-comments">
             @foreach ($task->comments as $comment)

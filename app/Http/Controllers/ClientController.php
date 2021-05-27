@@ -16,17 +16,8 @@ class ClientController extends Controller
     $this->middleware('auth');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param string $username
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
-   */
-  public function show(Request $request, $username)
+  public function show(Account $account)
   {
-    $account = Account::where('username', '=', $username)->first();
-    if ($account == null) return view('errors.404');
     $client = Client::find($account->id);
     return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
   }
@@ -78,16 +69,8 @@ class ClientController extends Controller
     return response()->json($response);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param string $username
-   * @return
-   */
-  public function delete(Request $request, $username)
+  public function delete(Account $account)
   {
-    $account = Account::where('username', '=', $username)->first();
     $client = Client::find($account->id);
     $this->authorize('delete', $client);
 
@@ -104,25 +87,12 @@ class ClientController extends Controller
     return redirect(route('/'));
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @return
-   */
-  public function showSettings(Request $request)
+  public function showSettings()
   {
     $client = Client::find(Auth::user()->id);
-    $this->authorize('showSettings', $client);
     return view('pages.settings', ['user' => $client]);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
   public function updateSettings(Request $request)
   {
     $request->validate([
@@ -139,7 +109,6 @@ class ClientController extends Controller
     ]);
 
     $client = Client::find(Auth::id());
-    $this->authorize('updateSettings', $client);
 
     $message = "";
 

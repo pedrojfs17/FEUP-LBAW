@@ -84,7 +84,7 @@
               </form>
             </div>
             <div class=" my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
-              @include('partials.taskButton',['taskArray'=>$task->subtasks])
+              @include('partials.tasks.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
           <div>
@@ -113,7 +113,7 @@
               </form>
             </div>
             <div class="my-3 multi-collapse-{{$task->id}}-wait show" id="task{{$task->id}}Waiting" aria-expanded="true">
-              @include('partials.taskButton',['taskArray'=>$task->waitingOn])
+              @include('partials.tasks.taskButton',['taskArray'=>$task->waitingOn])
             </div>
             <hr>
           </div>
@@ -176,7 +176,7 @@
               </form>
             </div>
           <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags" aria-expanded="true">
-            @each('partials.tag', $task->tags, 'tag')
+            @each('partials.tasks.tag', $task->tags, 'tag')
           </div>
           <hr>
         </div>

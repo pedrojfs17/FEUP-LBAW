@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS account CASCADE;
+DROP TABLE IF EXISTS password_resets CASCADE;
 DROP TABLE IF EXISTS admin CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
 DROP TABLE IF EXISTS client CASCADE;
@@ -6,14 +7,12 @@ DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS invite CASCADE;
 DROP TABLE IF EXISTS team_member CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
-DROP TABLE IF EXISTS subtask CASCADE;
 DROP TABLE IF EXISTS waiting_on CASCADE;
 DROP TABLE IF EXISTS assignment CASCADE;
 DROP TABLE IF EXISTS tag CASCADE;
 DROP TABLE IF EXISTS contains_tag CASCADE;
 DROP TABLE IF EXISTS check_list_item CASCADE;
 DROP TABLE IF EXISTS comment CASCADE;
-DROP TABLE IF EXISTS comment_reply CASCADE;
 DROP TABLE IF EXISTS social_media_account CASCADE;
 DROP TABLE IF EXISTS associated_project_account CASCADE;
 DROP TABLE IF EXISTS associated_client_account CASCADE;
@@ -73,12 +72,15 @@ CREATE TABLE account
     id       SERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR        NOT NULL,
-    email    VARCHAR UNIQUE NOT NULL
+    email    VARCHAR UNIQUE NOT NULL,
+    is_admin BOOLEAN        NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE admin
+CREATE TABLE password_resets
 (
-    id INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE
+    email      VARCHAR NOT NULL,
+    token      VARCHAR NOT NULL,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
 );
 
 CREATE TABLE country
@@ -90,23 +92,23 @@ CREATE TABLE country
 
 CREATE TABLE client
 (
-    id              INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
-    fullname        VARCHAR,
-    company         VARCHAR,
-    avatar          VARCHAR,
-    client_gender   gender DEFAULT 'Unspecified',
-    country         INTEGER REFERENCES country (id) ON DELETE CASCADE,
-    allowNoti       BOOLEAN             NOT NULL DEFAULT TRUE,
-    inviteNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    memberNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    assignNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    waitingNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
-    commentNoti     BOOLEAN             NOT NULL DEFAULT TRUE,
-    reportNoti      BOOLEAN             NOT NULL DEFAULT TRUE,
-    hideCompleted   BOOLEAN             NOT NULL DEFAULT FALSE,
-    simplifiedTasks BOOLEAN             NOT NULL DEFAULT FALSE,
-    color           VARCHAR             NOT NULL,
-    search          TSVECTOR
+    id               INTEGER PRIMARY KEY NOT NULL REFERENCES account (id) ON DELETE CASCADE,
+    fullname         VARCHAR,
+    company          VARCHAR,
+    avatar           VARCHAR DEFAULT 'avatars/default.png',
+    client_gender    gender DEFAULT 'Unspecified',
+    country          INTEGER REFERENCES country (id) ON DELETE CASCADE,
+    allow_noti       BOOLEAN             NOT NULL DEFAULT TRUE,
+    invite_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    member_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    assign_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    waiting_noti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    comment_noti     BOOLEAN             NOT NULL DEFAULT TRUE,
+    report_noti      BOOLEAN             NOT NULL DEFAULT TRUE,
+    hide_completed   BOOLEAN             NOT NULL DEFAULT FALSE,
+    simplified_tasks BOOLEAN             NOT NULL DEFAULT FALSE,
+    color            VARCHAR             NOT NULL,
+    search           TSVECTOR
 );
 
 CREATE TABLE project
@@ -142,13 +144,8 @@ CREATE TABLE task
     description VARCHAR,
     due_date    TIMESTAMP,
     task_status status DEFAULT 'Not Started',
+    parent      INTEGER REFERENCES task(id) ON DELETE CASCADE,
     search      TSVECTOR
-);
-
-CREATE TABLE subtask
-(
-    id     INTEGER PRIMARY KEY REFERENCES task (id) ON DELETE CASCADE,
-    parent INTEGER NOT NULL REFERENCES task (id) ON DELETE CASCADE
 );
 
 CREATE TABLE waiting_on
@@ -194,13 +191,8 @@ CREATE TABLE comment
     task         INTEGER   NOT NULL REFERENCES task (id) ON DELETE CASCADE,
     author       INTEGER   REFERENCES client (id) ON DELETE SET NULL,
     comment_date TIMESTAMP NOT NULL DEFAULT NOW(),
-    comment_text VARCHAR
-);
-
-CREATE TABLE comment_reply
-(
-    id     INTEGER PRIMARY KEY REFERENCES comment (id) ON DELETE CASCADE,
-    parent INTEGER NOT NULL REFERENCES comment (id) ON DELETE CASCADE
+    comment_text VARCHAR,
+    parent       INTEGER REFERENCES comment (id) ON DELETE CASCADE
 );
 
 CREATE TABLE social_media_account
@@ -287,14 +279,14 @@ BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search =
                 (SELECT setweight(to_tsvector(account.username), 'A') || setweight(to_tsvector(account.email), 'A') ||
-                        setweight(to_tsvector(coalesce(NEW.fullname, '')), 'B') ||
+                        setweight(to_tsvector('english', coalesce(NEW.fullname, '')), 'B') ||
                         setweight(to_tsvector(coalesce(NEW.company, '')), 'C')
                  FROM account
                  WHERE NEW.id = account.id);
     ELSIF TG_OP = 'UPDATE' AND (NEW.fullname <> OLD.fullname OR NEW.company <> OLD.company) THEN
         NEW.search =
                 (SELECT setweight(to_tsvector(account.username), 'A') || setweight(to_tsvector(account.email), 'A') ||
-                        setweight(to_tsvector(coalesce(NEW.fullname, '')), 'B') ||
+                        setweight(to_tsvector('english', coalesce(NEW.fullname, '')), 'B') ||
                         setweight(to_tsvector(coalesce(NEW.company, '')), 'C')
                  FROM account
                  WHERE NEW.id = account.id);
@@ -309,9 +301,9 @@ CREATE OR REPLACE FUNCTION project_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') || setweight(to_tsvector('english', NEW.description), 'B'));
     ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') || setweight(to_tsvector('english', NEW.description), 'B'));
     END IF;
     RETURN NEW;
 END;
@@ -323,11 +315,11 @@ CREATE OR REPLACE FUNCTION task_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') ||
-                             setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') ||
+                             setweight(to_tsvector('english', coalesce(NEW.description, '')), 'B'));
     ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') ||
-                             setweight(to_tsvector(coalesce(NEW.description, '')), 'B'));
+        NEW.search = (SELECT setweight(to_tsvector('english', NEW.name), 'A') ||
+                             setweight(to_tsvector('english', coalesce(NEW.description, '')), 'B'));
     END IF;
     RETURN NEW;
 END;
@@ -372,7 +364,9 @@ $BODY$
 CREATE OR REPLACE FUNCTION check_project_owner() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    IF OLD.member_role = 'Owner' AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
+    IF OLD.member_role = 'Owner'
+        AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
+        AND (SELECT COUNT(*) FROM team_member WHERE project_id = OLD.project_id) > 1
     THEN
         RAISE EXCEPTION 'Project must have at least one owner!';
     END IF;
@@ -385,7 +379,7 @@ $BODY$
 CREATE OR REPLACE FUNCTION accept_invite() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    IF OLD.decision = NULL AND NEW.decision = TRUE
+    IF OLD.decision IS NULL AND NEW.decision = TRUE
     THEN
         INSERT INTO team_member (client_id, project_id) SELECT NEW.client_id, NEW.project_id;
     END IF;
@@ -408,26 +402,13 @@ $BODY$
     LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION check_sub_date() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    IF (SELECT due_date FROM task WHERE NEW.id = task.id) > (SELECT due_date FROM task WHERE NEW.parent = task.id)
-    THEN
-        RAISE EXCEPTION 'Date is greater than that of its parent task';
-    END IF;
-    RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-
 CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     WITH inserted AS (
         INSERT INTO notification (client, notification_text)
-        VALUES (NEW.client_id, concat('You have been invited to join ', (SELECT name FROM project where NEW.project_id = id), '!'))
-        RETURNING id
+            VALUES (NEW.client_id, concat('You have been invited to join ', (SELECT name FROM project where NEW.project_id = id), '!'))
+            RETURNING id
     )
     INSERT INTO project_notification SELECT inserted.id, NEW.project_id FROM inserted;
     RETURN NEW;
@@ -442,11 +423,11 @@ BEGIN
     WITH inserted AS (
         INSERT INTO notification (client, notification_text)
             SELECT team_member.client_id,
-                concat((SELECT username FROM account where NEW.client_id = id), ' joined ',
-                        (SELECT name FROM project where NEW.project_id = id), '!')
+                   concat((SELECT username FROM account where NEW.client_id = id), ' joined ',
+                          (SELECT name FROM project where NEW.project_id = id), '!')
             FROM team_member
             WHERE team_member.project_id = NEW.project_id
-            AND team_member.client_id != NEW.client_id
+              AND team_member.client_id != NEW.client_id
             RETURNING id
     )
     INSERT INTO project_notification SELECT inserted.id, NEW.project_id FROM inserted;
@@ -461,12 +442,12 @@ $BODY$
 BEGIN
     WITH inserted AS (
         INSERT INTO notification (client, notification_text)
-        SELECT team_member.client_id,
-            concat((SELECT username FROM account where NEW.client = id), ' was assigned to ',
-                    (SELECT name FROM task where NEW.task = id), '!')
-        FROM team_member
-        WHERE team_member.project_id = (SELECT project FROM task WHERE task.id = NEW.task)
-        RETURNING id
+            SELECT team_member.client_id,
+                   concat((SELECT username FROM account where NEW.client = id), ' was assigned to ',
+                          (SELECT name FROM task where NEW.task = id), '!')
+            FROM team_member
+            WHERE team_member.project_id = (SELECT project FROM task WHERE task.id = NEW.task)
+            RETURNING id
     )
     INSERT INTO assignment_notification SELECT inserted.id, NEW.task FROM inserted;
     RETURN NEW;
@@ -480,12 +461,12 @@ $BODY$
 BEGIN
     WITH inserted AS (
         INSERT INTO notification (client, notification_text)
-        SELECT assignment.client,
-            concat((SELECT username FROM account where NEW.author = id), ' commented on task ',
-                    (SELECT name FROM task where NEW.task = id), '!')
-        FROM assignment
-        WHERE assignment.task = NEW.task
-        RETURNING id
+            SELECT assignment.client,
+                   concat((SELECT username FROM account where NEW.author = id), ' commented on task ',
+                          (SELECT name FROM task where NEW.task = id), '!')
+            FROM assignment
+            WHERE assignment.task = NEW.task
+            RETURNING id
     )
     INSERT INTO comment_notification SELECT inserted.id, NEW.id FROM inserted;
     RETURN NEW;
@@ -499,8 +480,8 @@ $BODY$
 BEGIN
     WITH inserted AS (
         INSERT INTO notification (client, notification_text)
-        VALUES (NEW.reporter, concat('Your report has been reviewed! Decision: ', NEW.state, '!'))
-        RETURNING id
+            VALUES (NEW.reporter, concat('Your report has been reviewed! Decision: ', NEW.state, '!'))
+            RETURNING id
     )
     INSERT INTO report_notification SELECT inserted.id, NEW.id FROM inserted;
     RETURN NEW;
@@ -520,18 +501,14 @@ $BODY$
 
 -- Triggers
 
-DROP TRIGGER IF EXISTS insert_client_search ON client;
 DROP TRIGGER IF EXISTS update_client_search ON client;
-DROP TRIGGER IF EXISTS insert_project_search ON project;
 DROP TRIGGER IF EXISTS update_project_search ON project;
-DROP TRIGGER IF EXISTS insert_task_search ON task;
 DROP TRIGGER IF EXISTS update_task_search ON task;
 DROP TRIGGER IF EXISTS assign_tag ON contains_tag;
 DROP TRIGGER IF EXISTS assign_member ON assignment;
 DROP TRIGGER IF EXISTS check_project_owner ON team_member;
 DROP TRIGGER IF EXISTS accept_invite ON invite;
 DROP TRIGGER IF EXISTS check_task_date ON task;
-DROP TRIGGER IF EXISTS check_sub_date ON subtask;
 DROP TRIGGER IF EXISTS add_invite_notification ON invite;
 DROP TRIGGER IF EXISTS add_project_notification ON team_member;
 DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
@@ -540,42 +517,24 @@ DROP TRIGGER IF EXISTS add_report_notification ON report;
 
 
 -- TRIGGER01
-CREATE TRIGGER insert_client_search
-    AFTER INSERT
-    ON client
-    FOR EACH ROW
-EXECUTE PROCEDURE client_search_update();
-
 CREATE TRIGGER update_client_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON client
     FOR EACH ROW
 EXECUTE PROCEDURE client_search_update();
 
 
 -- TRIGGER02
-CREATE TRIGGER insert_project_search
-    AFTER INSERT
-    ON project
-    FOR EACH ROW
-EXECUTE PROCEDURE project_search_update();
-
 CREATE TRIGGER update_project_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON project
     FOR EACH ROW
 EXECUTE PROCEDURE project_search_update();
 
 
 -- TRIGGER03
-CREATE TRIGGER insert_task_search
-    AFTER INSERT
-    ON task
-    FOR EACH ROW
-EXECUTE PROCEDURE task_search_update();
-
 CREATE TRIGGER update_task_search
-    AFTER UPDATE
+    BEFORE INSERT OR UPDATE
     ON task
     FOR EACH ROW
 EXECUTE PROCEDURE task_search_update();
@@ -622,14 +581,6 @@ EXECUTE PROCEDURE check_task_date();
 
 
 -- TRIGGER09
-CREATE TRIGGER check_sub_date
-    BEFORE INSERT OR UPDATE
-    ON subtask
-    FOR EACH ROW
-EXECUTE PROCEDURE check_sub_date();
-
-
--- TRIGGER10
 CREATE TRIGGER add_invite_notification
     AFTER INSERT
     ON invite
@@ -637,7 +588,7 @@ CREATE TRIGGER add_invite_notification
 EXECUTE PROCEDURE add_invite_notification();
 
 
--- TRIGGER11
+-- TRIGGER10
 CREATE TRIGGER add_project_notification
     AFTER INSERT
     ON team_member
@@ -645,7 +596,7 @@ CREATE TRIGGER add_project_notification
 EXECUTE PROCEDURE add_project_notification();
 
 
--- TRIGGER12
+-- TRIGGER11
 CREATE TRIGGER add_assignment_notification
     AFTER INSERT
     ON assignment
@@ -653,7 +604,7 @@ CREATE TRIGGER add_assignment_notification
 EXECUTE PROCEDURE add_assignment_notification();
 
 
--- TRIGGER013
+-- TRIGGER012
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON comment
@@ -661,7 +612,7 @@ CREATE TRIGGER add_comment_notification
 EXECUTE PROCEDURE add_comment_notification();
 
 
--- TRIGGER14
+-- TRIGGER13
 CREATE TRIGGER add_report_notification
     AFTER UPDATE OF state
     ON report
@@ -671,10 +622,19 @@ EXECUTE PROCEDURE add_report_notification();
 
 -- Indexes
 
+-- Laravel Indexes
+
+DROP INDEX IF EXISTS password_resets_email_index;
+DROP INDEX IF EXISTS password_resets_token_index;
+
+CREATE INDEX password_resets_email_index ON password_resets (email);
+create index password_resets_token_index ON password_resets (token);
+
+-- Oversee Indexes
+
 DROP INDEX IF EXISTS client_member_index;
 DROP INDEX IF EXISTS project_member_index;
 DROP INDEX IF EXISTS task_index;
-DROP INDEX IF EXISTS subtask_index;
 DROP INDEX IF EXISTS waiting_index;
 DROP INDEX IF EXISTS task_assign_index;
 DROP INDEX IF EXISTS client_assign_index;
@@ -698,40 +658,37 @@ CREATE INDEX project_member_index ON team_member USING hash (project_id);
 CREATE INDEX task_index ON task USING hash (project);
 
 -- IDX04
-CREATE INDEX subtask_index ON subtask USING hash (parent);
-
--- IDX05
 CREATE INDEX waiting_index ON waiting_on USING hash (task1);
 
--- IDX06
+-- IDX05
 CREATE INDEX task_assign_index ON assignment USING hash (task);
 
--- IDX07
+-- IDX06
 CREATE INDEX client_assign_index ON assignment USING hash (task);
 
--- IDX08
+-- IDX07
 CREATE INDEX tag_index ON tag USING hash (project);
 
--- IDX09
+-- IDX08
 CREATE INDEX task_tag_index ON contains_tag USING hash (task);
 
--- IDX10
+-- IDX09
 CREATE INDEX tag_task_index ON contains_tag USING hash (tag);
 
--- IDX11
+-- IDX10
 CREATE INDEX check_list_index ON check_list_item USING hash (task);
 
--- IDX12
+-- IDX11
 CREATE INDEX comment_index ON comment USING btree (task, comment_date);
 
--- IDX13
+-- IDX12
 CREATE INDEX notification_index ON notification USING btree (client, notification_date);
 
--- IDX14
+-- IDX13
 CREATE INDEX search_client ON client USING GIN (search);
 
--- IDX15
+-- IDX14
 CREATE INDEX search_project ON project USING GIN (search);
 
--- IDX16
+-- IDX15
 CREATE INDEX search_task ON task USING GIN (search);

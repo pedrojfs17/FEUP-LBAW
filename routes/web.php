@@ -59,6 +59,10 @@ Route::patch('api/project/{id}/task/{task}/waiting_on', 'TaskController@waiting_
 Route::patch('api/project/{id}/task/{task}/assignment', 'TaskController@assignment');
 Route::post('api/project/{id}/task/{task}/comment', 'TaskController@comment');
 
+Route::post('api/project/{id}/task/{task}/checklist', 'TaskController@createItem');
+Route::patch('api/project/{id}/task/{task}/checklist/{item}', 'TaskController@updateItem');
+Route::delete('api/project/{id}/task/{task}/checklist/{item}', 'TaskController@deleteItem');
+
 // Social Media
 Route::get('api/account', 'SocialMediaAccountController@list');
 Route::post('api/account', 'SocialMediaAccountController@create');
@@ -79,7 +83,12 @@ Route::patch('profile/{username}', 'ClientController@update');
 Route::delete('profile/{username}', 'ClientController@delete');
 Route::get('settings', 'ClientController@showSettings')->name('settings');
 Route::patch('settings', 'ClientController@updateSettings');
+
 Route::patch('password', 'ClientController@updatePassword');
+Route::get('forgot_password', 'ForgotPassword@show')->name('forgot_password');
+Route::post('forgot_password', 'ForgotPassword@request');
+Route::get('recover_password', 'ForgotPassword@showRecover')->name('recover_password');
+Route::post('recover_password', 'ForgotPassword@recover');
 
 Route::get('avatars/{img}', 'ImagesController@show');
 

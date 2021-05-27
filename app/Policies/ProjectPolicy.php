@@ -100,6 +100,12 @@ class ProjectPolicy
     return $project->teamMembers()->where('client_id', $account->id)->whereIn('member_role', ['Editor', 'Owner'])->exists();
   }
 
+  public function showTasks(Account $account, Project $project)
+  {
+    // Only a team member can see project tasks
+    return $project->teamMembers()->where('client_id', $account->id)->exists();
+  }
+
   public function createTask(Account $account, Project $project)
   {
     // Only team members with Editor or Owner permissions can create tasks

@@ -320,7 +320,7 @@ class TaskController extends Controller
     $updatedTask = Task::find($task);
     $result['taskID'] = $task;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', ['task' => $updatedTask])->render();
     $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
@@ -343,7 +343,7 @@ class TaskController extends Controller
     $result = array();
     $result['taskID'] = $task;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', ['task' => $updatedTask])->render();
     $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
@@ -359,7 +359,7 @@ class TaskController extends Controller
     $result = array();
     $result['taskID'] = $task;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.checklistItems', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', ['task' => $updatedTask])->render();
     $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);

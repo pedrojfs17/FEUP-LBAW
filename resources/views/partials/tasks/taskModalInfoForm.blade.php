@@ -1,4 +1,4 @@
-<form id='editTaskForm' action='../../api/project/{{$task->project}}/task/{{$task->id}}' class='d-none' data-info='taskInfo'>
+<form id='editTask{{$task->id}}Form' action='../../api/project/{{$task->project}}/task/{{$task->id}}' class='d-none' data-info='task{{$task->id}}Info'>
     @csrf
     <label for="name" class="form-label mb-1">Name</label>
     <span class='d-flex'>

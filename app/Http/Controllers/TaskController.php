@@ -145,6 +145,8 @@ class TaskController extends Controller
     $result = array();
     $result['taskID'] = $taskObj->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $taskObj])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalInfo', ['task' => $taskObj])->render();
+    $result['breadcrumbChanges'] = view('partials.tasks.taskModalBreadcrumb', ['task' => $taskObj])->render();
     $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $taskObj, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);

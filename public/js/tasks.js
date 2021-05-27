@@ -91,7 +91,6 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 
 function updateCard(taskID, card) {
   const parentDiv = document.querySelector('#overview')
-  console.log('selecting '+ '#task-' + taskID)
   const cardDiv = document.querySelector('#task-' + taskID)
   cardDiv.innerHTML = ""
   let newElem = document.createElement('div')
@@ -104,17 +103,7 @@ function updateCard(taskID, card) {
   addGetEventListener(updatedCardButton, null, onModalReceived)
 
   updatedCard.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
-  console.log('updated card')
 }
-
-// function updateTaskModal(task, modalElement) {
-//   const subTaskDiv = document.querySelector('#' + task)
-//   subTaskDiv.innerHTML = ""
-//   let elem = document.createElement('div')
-//   elem.innerHTML = modalElement
-//   Array.from(elem.children).forEach(child => subTaskDiv.append(child))
-//   subTaskDiv.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
-// }
 
 
 function addCheckListItems(item) {
@@ -173,7 +162,6 @@ function addInputEventListener() {
 function updateTaskModal(changeID, changeHTML) {
   let old_elem = document.getElementById(changeID)
   let new_elem = document.createRange().createContextualFragment(changeHTML).firstChild
-  console.log(old_elem)
-  console.log(new_elem)
+  new_elem.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
   old_elem.parentElement.replaceChild(new_elem, old_elem)
 }

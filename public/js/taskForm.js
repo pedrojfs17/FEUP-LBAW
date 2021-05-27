@@ -65,6 +65,6 @@ function onSaveSuccess(info, response) {
     updateCard(response['taskID'], response['taskCard'])
     updateTaskModal('tasks' + response['taskID'] + 'ModalLabel', response['breadcrumbChanges'])
     updateTaskModal(info, response['modalChanges'])
-    let info_elem = document.getElementById(info)
-    addEditButtonEventListner(info_elem)
+    let modal_elem = document.getElementById('task' + response['taskID'] + 'Modal')
+    addModalEventListeners(modal_elem)
 }

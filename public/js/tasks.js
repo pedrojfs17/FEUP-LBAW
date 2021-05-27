@@ -3,7 +3,7 @@ function taskEventListener(element) {
   const subTaskSelections = element.querySelector('.subtask-selection')
   const waitingSelection = element.querySelector('.waiting-selection')
   const assignmentsSelection = element.querySelector('.assign-selection')
-  const tagSelect = element.querySelectorAll('.edit-tags')
+  const editButtons = element.querySelectorAll('.edit-task')
   const checklistItem = element.querySelectorAll('.checklist-item')
 
   tagSelections.forEach(selection => {
@@ -38,7 +38,7 @@ function taskEventListener(element) {
   })
 
 
-  tagSelect.forEach(select => {
+  editButtons.forEach(select => {
     let tagForm = select.parentElement.querySelector('form')
 
     tagForm.addEventListener('submit', function (e) {
@@ -56,7 +56,7 @@ function taskEventListener(element) {
       let successFunction = function (response) {
         let msg = JSON.parse(response)
         updateCard(msg['taskID'], msg['taskCard'])
-        updateModal(msg['taskID'], msg['taskModal'])
+        updateTaskModal(tagForm.dataset.id, msg['modalChanges'])
       }
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
     })
@@ -107,14 +107,14 @@ function updateCard(taskID, card) {
   console.log('updated card')
 }
 
-function updateTaskModal(task, modalElement) {
-  const subTaskDiv = document.querySelector('#' + task)
-  subTaskDiv.innerHTML = ""
-  let elem = document.createElement('div')
-  elem.innerHTML = modalElement
-  Array.from(elem.children).forEach(child => subTaskDiv.append(child))
-  subTaskDiv.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
-}
+// function updateTaskModal(task, modalElement) {
+//   const subTaskDiv = document.querySelector('#' + task)
+//   subTaskDiv.innerHTML = ""
+//   let elem = document.createElement('div')
+//   elem.innerHTML = modalElement
+//   Array.from(elem.children).forEach(child => subTaskDiv.append(child))
+//   subTaskDiv.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
+// }
 
 
 function addCheckListItems(item) {
@@ -122,7 +122,7 @@ function addCheckListItems(item) {
   let checkItem = item.querySelector('.form-check-input')
   let successFunction = function (response) {
     updateCard(response['taskID'], response['taskCard'])
-    updateModal(response['taskID'], response['taskModal'])
+    updateTaskModal(item.dataset.id, response['modalChanges'])
     const selectItems = document.querySelectorAll('.checklist-item')
     addInputEventListener()
     selectItems.forEach(updatedItem => {
@@ -153,7 +153,7 @@ function addInputEventListener() {
     })
     let successFunction = function (response) {
       updateCard(response['taskID'], response['taskCard'])
-      updateModal(response['taskID'], response['taskModal'])
+      updateTaskModal(form.dataset.id, response['modalChanges'])
       const selectItems = document.querySelectorAll('.checklist-item')
       addInputEventListener()
       selectItems.forEach(updatedItem => {
@@ -168,4 +168,12 @@ function addInputEventListener() {
       form.reset()
     }
   })
+}
+
+function updateTaskModal(changeID, changeHTML) {
+  let old_elem = document.getElementById(changeID)
+  let new_elem = document.createRange().createContextualFragment(changeHTML).firstChild
+  console.log(old_elem)
+  console.log(new_elem)
+  old_elem.parentElement.replaceChild(new_elem, old_elem)
 }

@@ -37,7 +37,7 @@
         <div>
           <div>
             <h5 class=" d-inline-block mr-3">Subtasks</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+            <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-sub" role="button"
                aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
             @include('partials.tasks.taskModalSubtasksForm',['task'=>$task])
@@ -45,7 +45,7 @@
           </div>
           <div>
             <h5 class="d-inline-block mr-3">Waiting On</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+            <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-wait" role="button"
                aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
             @include('partials.tasks.taskModalWaitingForm',['task'=>$task])
@@ -56,7 +56,7 @@
             @include('partials.tasks.taskModalChecklist',['task'=>$task])
             <div class="col-12 col-lg-6">
               <h5 class="d-inline-block mr-3">Assigned to:</h5>
-              <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+              <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                  href=".multi-collapse-{{$task->id}}-assign" role="button"
                  aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
               @include('partials.tasks.taskModalAssignForm',['task'=>$task])
@@ -66,7 +66,7 @@
           </div>
           <div>
             <h5 class=" d-inline-block mr-3">Tags</h5>
-            <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
+            <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}" role="button"
                aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
             @include('partials.tasks.taskModalTagsForm',['task'=>$task])

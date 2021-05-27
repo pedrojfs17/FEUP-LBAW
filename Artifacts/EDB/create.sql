@@ -117,6 +117,7 @@ CREATE TABLE project
     name        VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
     due_date    TIMESTAMP CHECK (due_date > CURRENT_DATE),
+    closed      BOOLEAN NOT NULL DEFAULT FALSE,
     search      TSVECTOR
 );
 

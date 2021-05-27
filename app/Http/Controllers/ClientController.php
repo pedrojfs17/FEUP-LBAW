@@ -89,7 +89,13 @@ class ClientController extends Controller
   {
     $account = Account::where('username', '=', $username)->first();
     $client = Client::find($account->id);
-    $this->authorize('delete', [$client, Auth::user()->is_admin]);
+    $this->authorize('delete', $client);
+
+    $projects = $client->projects()->wherePivot('member_role','Owner')->get();
+    foreach ($projects as $project){
+      $project->shiftPermission();
+    }
+
     $client->delete();
 
     if (Auth::user()->is_admin)

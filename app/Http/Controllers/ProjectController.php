@@ -120,7 +120,8 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'date|after:today'
+      'due_date' => 'date|after:today',
+      'completed' => 'boolean'
     ]);
 
     $project = Project::find($id);
@@ -134,6 +135,9 @@ class ProjectController extends Controller
 
     if (!empty($request->input('due_date')))
       $project->due_date = $request->input('due_date');
+
+    if(!empty($request->input('completed')))
+      $project->completed = $request->input('completed');
 
     $project->save();
 

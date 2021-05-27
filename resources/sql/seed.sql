@@ -117,6 +117,7 @@ CREATE TABLE project
     name        VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
     due_date    TIMESTAMP CHECK (due_date > CURRENT_DATE),
+    closed      BOOLEAN NOT NULL DEFAULT FALSE,
     search      TSVECTOR
 );
 
@@ -367,6 +368,7 @@ BEGIN
     IF OLD.member_role = 'Owner'
         AND (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id AND member_role = 'Owner') = 1
         AND (SELECT COUNT(*) FROM team_member WHERE project_id = OLD.project_id) > 1
+        AND NOT (SELECT closed FROM project WHERE id = OLD.project_id)
     THEN
         RAISE EXCEPTION 'Project must have at least one owner!';
     END IF;
@@ -499,6 +501,19 @@ $BODY$
     LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION empty_project() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF (SELECT count(*) FROM team_member WHERE project_id = OLD.project_id) = 0
+    THEN
+        DELETE FROM project WHERE id = OLD.project_id;
+END IF;
+RETURN OLD;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
 -- Triggers
 
 DROP TRIGGER IF EXISTS update_client_search ON client;
@@ -514,6 +529,7 @@ DROP TRIGGER IF EXISTS add_project_notification ON team_member;
 DROP TRIGGER IF EXISTS add_assignment_notification ON assignment;
 DROP TRIGGER IF EXISTS add_comment_notification ON comment;
 DROP TRIGGER IF EXISTS add_report_notification ON report;
+DROP TRIGGER IF EXISTS empty_project ON team_member;
 
 
 -- TRIGGER01
@@ -618,6 +634,13 @@ CREATE TRIGGER add_report_notification
     ON report
     FOR EACH ROW
 EXECUTE PROCEDURE add_report_notification();
+
+-- TRIGGER14
+CREATE TRIGGER empty_project
+    AFTER DELETE
+    ON team_member
+    FOR EACH ROW
+    EXECUTE PROCEDURE empty_project();
 
 
 -- Indexes

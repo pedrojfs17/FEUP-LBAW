@@ -56,7 +56,7 @@ function taskEventListener(element) {
       let successFunction = function (response) {
         let msg = JSON.parse(response)
         updateCard(msg['taskID'], msg['taskCard'])
-        updateTaskModal(tagForm.dataset.id, msg['modalChanges'])
+        updateModal(msg['taskID'], msg['taskModal'])
       }
       sendPatchAjaxRequest(tagForm.dataset.href, object, successFunction)
     })
@@ -91,6 +91,7 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 
 function updateCard(taskID, card) {
   const parentDiv = document.querySelector('#overview')
+  console.log('selecting '+ '#task-' + taskID)
   const cardDiv = document.querySelector('#task-' + taskID)
   cardDiv.innerHTML = ""
   let newElem = document.createElement('div')
@@ -103,6 +104,7 @@ function updateCard(taskID, card) {
   addGetEventListener(updatedCardButton, null, onModalReceived)
 
   updatedCard.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
+  console.log('updated card')
 }
 
 function updateTaskModal(task, modalElement) {
@@ -120,7 +122,7 @@ function addCheckListItems(item) {
   let checkItem = item.querySelector('.form-check-input')
   let successFunction = function (response) {
     updateCard(response['taskID'], response['taskCard'])
-    updateTaskModal(item.dataset.id, response['modalChanges'])
+    updateModal(response['taskID'], response['taskModal'])
     const selectItems = document.querySelectorAll('.checklist-item')
     addInputEventListener()
     selectItems.forEach(updatedItem => {
@@ -151,7 +153,7 @@ function addInputEventListener() {
     })
     let successFunction = function (response) {
       updateCard(response['taskID'], response['taskCard'])
-      updateTaskModal(form.dataset.id, response['modalChanges'])
+      updateModal(response['taskID'], response['taskModal'])
       const selectItems = document.querySelectorAll('.checklist-item')
       addInputEventListener()
       selectItems.forEach(updatedItem => {

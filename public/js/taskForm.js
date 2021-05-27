@@ -63,4 +63,19 @@ function saveButtonHandler(e) {
 }
 
 function onSaveSuccess(response) {
+    console.log('updating')
+    // updateCard(response['id'], response['taskCard'])
+    updateModal(response['taskID'], response['taskModal'])
+}
+
+function updateModal(taskID, new_modal) {
+    let old_modal = document.getElementById('task' + taskID + 'Modal')
+    let modalElement = document.createRange().createContextualFragment(new_modal)
+    console.log(modalElement.firstChild.children[0])
+    old_modal.textContent = ''
+    old_modal.append(modalElement.firstChild.children[0])
+    // old_modal.parentElement.appendChild()
+    // old_modal.remove()
+    // old_modal.innerHTML = new_modal
+    addModalEventListeners(old_modal)
 }

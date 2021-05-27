@@ -228,7 +228,6 @@ function onModalReceived(response) {
 }
 
 function addModalEventListeners(element) {
-  tagEventListener(element)
   addEditButtonEventListner(element)
   addSaveButtonEventListner(element)
   addCancelButtonEventListner(element)

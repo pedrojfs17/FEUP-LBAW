@@ -5,7 +5,7 @@
 <div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1"
      aria-labelledby="tasks{{$task->id}}ModalLabel"
      aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" id="tasks{{$task->id}}ModalLabel">
@@ -33,7 +33,9 @@
           <div id='taskInfo'>
             <h3 class="d-inline-block">{{$task->name}}</h3>
             <button class="btn btn-outline-secondary float-end editButton" type="button" form='editTaskForm'><i class="bi bi-pencil"></i></button>
+            @if ($task->due_date)
             <p class="text-muted">Due by: {{$task->getReadableDueDate()}}</p>
+            @endif
             <h6 class="text-muted">{{$task->description}}</h6>
           </div>
           <form id='editTaskForm' action='../../api/project/{{$task->project}}/task/{{$task->id}}' class='d-none' data-info='taskInfo'>
@@ -45,7 +47,11 @@
               <button class="btn btn-outline-secondary float-end saveButton" type="button"><i class="bi bi-check fa-lg"></i></button>
             </span>
             <label for="due_date" class="form-label my-1">Due date</label>
+            @if ($task->due_date)
             <input type="date" value="{{(new DateTime($task->due_date))->format('Y-m-d')}}" placeholder="{{(new DateTime($task->due_date))->format('Y-m-d')}}" class="form-control" name="due_date">
+            @else
+            <input type="date" value="" placeholder="" class="form-control" name="due_date">
+            @endif
             <label for="description" class="form-label my-1">Description</label>
             <textarea type='text' placeholder='{{$task->description}}' class='form-control' name='description'>{{$task->description}}</textarea>
           </form>

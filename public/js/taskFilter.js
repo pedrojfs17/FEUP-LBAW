@@ -63,6 +63,8 @@ function buildFilteredTasks(responseText) {
 
   Array.from(elem.children).forEach(element => div.append(element))
 
+  document.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
+
   const openTaskButtons = document.querySelectorAll('.open-task')
 
   openTaskButtons.forEach(button => {

@@ -20,8 +20,8 @@ class TaskController extends Controller
   public function list(Request $request, Project $project)
   {
     $request->validate([
-      'before_date' => 'date',
-      'after_date' => 'date',
+      'before_date' => 'nullable|date',
+      'after_date' => 'nullable|date',
     ]);
 
     $this->authorize('showTasks', $project);
@@ -81,7 +81,7 @@ class TaskController extends Controller
 
     $result = array(
       'taskCard' => view('partials.task', ['task' => Task::find($task->id)])->render(),
-      'message' => view('partials.successMessage', ['message' => 'Task created!'])->render()
+      'message' => view('partials.messages.successMessage', ['message' => 'Task created!'])->render()
     );
 
     return response()->json($result);
@@ -95,7 +95,11 @@ class TaskController extends Controller
 
     $result['taskId'] = $task->id;
     $result['taskCard'] = view('partials.task', ['task' => $task])->render();
-    $result['taskModal'] = view('partials.taskModal', ['task' => $task, 'user' => Client::find(Auth::user()->id)])->render();
+    $result['taskModal'] = view('partials.taskModal', [
+      'task' => $task,
+      'user' => Client::find(Auth::user()->id),
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      ])->render();
 
     return response()->json($result);
   }
@@ -315,7 +319,7 @@ class TaskController extends Controller
     $result = array();
     $result['taskID'] = $id;
     $result['taskCard'] = view('partials.task', ['task' => $task])->render();
-    $result['modalChanges'] = view('partials.checklistItems', ['task' => $task])->render();
+    $result['modalChanges'] = view('partials.checklistItems', ['task' => $task, 'role' => $task->project()->first()->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
     return $result;
   }
 }

@@ -64,7 +64,7 @@ class ClientController extends Controller
     $client->country = empty($validated->input('country')) ? $client->country : $validated->input('country');
     $client->save();
 
-    $response = array('message' => view('partials.successMessage', ['message' => 'Updated account!'])->render());
+    $response = array('message' => view('partials.messages.successMessage', ['message' => 'Updated account!'])->render());
 
     return response()->json($response);
   }
@@ -155,7 +155,7 @@ class ClientController extends Controller
 
     $client->save();
 
-    $response = array('message' => view('partials.successMessage', ['message' => $message])->render());
+    $response = array('message' => view('partials.messages.successMessage', ['message' => $message])->render());
 
     return response()->json($response);
   }
@@ -171,7 +171,7 @@ class ClientController extends Controller
     $client->password = Hash::make($request->new_password);
     $client->save();
 
-    $response = array('message' => view('partials.successMessage', ['message' => "Updated Password!"])->render());
+    $response = array('message' => view('partials.messages.successMessage', ['message' => "Updated Password!"])->render());
 
     return response()->json($response);
   }

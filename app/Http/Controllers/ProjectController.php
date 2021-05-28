@@ -19,11 +19,6 @@ class ProjectController extends Controller
     $this->middleware('auth');
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-   */
   public function create(Request $request)
   {
     $request->validate([
@@ -45,7 +40,7 @@ class ProjectController extends Controller
       foreach ($request->input('members') as $member)
         $project->teamMembers()->attach($member, ['member_role' => 'Editor']);
     }
-    return redirect(route('project.overview', ['project' => $project->id]));
+    return redirect(route('project.overview', ['project' => $project->id]))->with(['message' => 'Created Project!', 'message-type' => 'Success']);
   }
 
   public function show(Project $project)
@@ -127,7 +122,7 @@ class ProjectController extends Controller
     $this->authorize('delete', $project);
     $project->teamMembers()->wherePivot('member_role', '!=', 'Owner')->detach();
     $project->delete();
-    return redirect('dashboard')->with('message', 'Successfully deleted project: ' . $project->name);
+    return redirect('dashboard')->with(['message' => 'Deleted project: ' . $project->name, 'message-type' => 'Success']);
   }
 
   public function editMember(Request $request, Project $project, $username)
@@ -145,7 +140,7 @@ class ProjectController extends Controller
     $message = $username . " is now " . $request->input('member_role') . "!";
 
     $results = array();
-    $results['message'] = view('partials.successMessage', ['message' => $message])->render();
+    $results['message'] = view('partials.messages.successMessage', ['message' => $message])->render();
     $results['member'] = array(
       'username' => $username,
       'role' => view('partials.memberRoleIcon', ['member' => $member])->render()
@@ -164,9 +159,9 @@ class ProjectController extends Controller
     $member->detach();
 
     if (Auth::user()->id == $account->id)
-      return redirect('dashboard');
+      return redirect('dashboard')->with(['message' => 'Left project: ' . $project->name, 'message-type' => 'Success']);
     else {
-      $results = array('message' => view('partials.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
+      $results = array('message' => view('partials.messages.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
       return response()->json($results);
     }
   }

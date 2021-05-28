@@ -12,7 +12,10 @@
 */
 
 // Static Pages
-Route::view('/', 'pages.landing')->name('/');
+Route::get('/', function () {
+  if (Auth::check()) return redirect('dashboard');
+  return view('pages.landing');
+})->name('/');
 
 Route::get('contacts', 'ContactsController@show')->name('contacts');
 Route::post('contacts', 'ContactsController@create');

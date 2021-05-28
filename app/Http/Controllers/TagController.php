@@ -32,7 +32,7 @@ class TagController extends Controller
     $result = array(
       'delete_tag' => view('partials.deleteTag', ['tag' => $tag])->render(),
       'tag' => view('partials.tag', ['tag' => $tag])->render(),
-      'message' => view('partials.successMessage', ['message' => 'Tag created!'])->render()
+      'message' => view('partials.messages.successMessage', ['message' => 'Tag created!'])->render()
     );
 
     return response()->json($result);

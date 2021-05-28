@@ -34,6 +34,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+    <script src="{{ asset('js/bs.js') }}" defer></script>
 
     <script type="text/javascript">
       // Fix for Firefox autofocus CSS bug
@@ -53,7 +54,11 @@
 
     <!-- Messages -->
     <div aria-live="polite" aria-atomic="true" class="position-relative">
-      <div class="toast-container position-fixed bottom-0 end-0 p-3" id="message-container"></div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3" id="message-container">
+        @if(Session::has('message'))
+          @include('partials.messages.messageToast', ['message' => Session::get('message'), 'type' => Session::get('message-type', 'alert-info'), 'show' => true])
+        @endif
+      </div>
     </div>
 
   </body>

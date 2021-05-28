@@ -981,30 +981,30 @@ INSERT INTO account (username, password, email) VALUES ('mbrockelsby9', '$2y$10$
 
 -- Client
 
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (2, 'Whitby Dumberell', 'Centimia', 'avatars/AvatarMaker1.png', '#69ca7f', 'Unspecified', 26);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (3, 'Consalve Abys', 'Photobug', 'avatars/AvatarMaker2.png', '#83c20b', 'Male', 161);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (4, 'Effie Yuille', 'Oba', 'avatars/AvatarMaker3.png', '#67dfd5', 'Female', 211);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (5, 'Analise Gooderick', 'Rhybox', 'avatars/AvatarMaker4.png', '#1431c5', 'Unspecified', 116);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (6, 'Orville Gostage', 'Vitz', 'avatars/AvatarMaker5.png', '#56f8fb', 'Unspecified', 178);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (7, 'Burt Yearnsley', 'Izio', 'avatars/AvatarMaker6.png', '#1b3404', 'Unspecified', 246);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (8, 'Wynnie Wey', 'Yodoo', 'avatars/AvatarMaker7.png', '#006205', 'Unspecified', 129);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (9, 'Pearla Gaine of England', 'Skinix', 'avatars/AvatarMaker8.png', '#efdca5', 'Unspecified', 245);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (10, 'Wernher O''Dowling', 'Leenti', 'avatars/AvatarMaker9.png', '#aba97c', 'Unspecified', 96);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (11, 'Mary Pietersma', 'Fivebridge', 'avatars/AvatarMaker10.png', '#dd6d7b', 'Unspecified', 236);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (12, 'Hanan Tryme', 'Shuffledrive', 'avatars/AvatarMaker11.png', '#0e565d', 'Female', 98);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (13, 'Madel Dunkinson', 'Centizu', 'avatars/AvatarMaker12.png', '#adc321', 'Female', 198);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (14, 'Kirby Woolway', 'Realpoint', 'avatars/AvatarMaker13.png', '#dee419', 'Unspecified', 39);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (2, 'Whitby Dumberell', 'Centimia', 'avatars/AvatarMaker1.png', '#69ca7f', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (3, 'Consalve Abys', 'Photobug', 'avatars/AvatarMaker2.png', '#83c20b', 'Male', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (4, 'Effie Yuille', 'Oba', 'avatars/AvatarMaker3.png', '#67dfd5', 'Female', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (5, 'Analise Gooderick', 'Rhybox', 'avatars/AvatarMaker4.png', '#1431c5', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (6, 'Orville Gostage', 'Vitz', 'avatars/AvatarMaker5.png', '#56f8fb', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (7, 'Burt Yearnsley', 'Izio', 'avatars/AvatarMaker6.png', '#1b3404', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (8, 'Wynnie Wey', 'Yodoo', 'avatars/AvatarMaker7.png', '#006205', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (9, 'Pearla Gaine of England', 'Skinix', 'avatars/AvatarMaker8.png', '#efdca5', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (10, 'Wernher O''Dowling', 'Leenti', 'avatars/AvatarMaker9.png', '#aba97c', 'Unspecified', 172);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (11, 'Mary Pietersma', 'Fivebridge', 'avatars/AvatarMaker10.png', '#dd6d7b', 'Unspecified', 226);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (12, 'Hanan Tryme', 'Shuffledrive', 'avatars/AvatarMaker11.png', '#0e565d', 'Female', 226);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (13, 'Madel Dunkinson', 'Centizu', 'avatars/AvatarMaker12.png', '#adc321', 'Female', 226);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (14, 'Kirby Woolway', 'Realpoint', 'avatars/AvatarMaker13.png', '#dee419', 'Unspecified', 226);
 INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (15, 'Birdie Tertre', 'Quinu', 'avatars/AvatarMaker14.png', '#cc2207', 'Unspecified', 38);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (16, 'Jacquie Meran', 'Divanoodle', 'avatars/AvatarMaker15.png', '#cf64db', 'Unspecified', 142);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (17, 'Agatha Lockhurst', 'Skyndu', 'avatars/AvatarMaker16.png', '#bbcaa3', 'Unspecified', 94);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (16, 'Jacquie Meran', 'Divanoodle', 'avatars/AvatarMaker15.png', '#cf64db', 'Unspecified', 38);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (17, 'Agatha Lockhurst', 'Skyndu', 'avatars/AvatarMaker16.png', '#bbcaa3', 'Unspecified', 38);
 INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (18, 'Chad Outhwaite', 'Dabjam', 'avatars/AvatarMaker17.png', '#c098a9', 'Female', 110);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (19, 'Nathalia Pues', 'Browsebug', 'avatars/AvatarMaker18.png', '#7fdc98', 'Male', 160);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (19, 'Nathalia Pues', 'Browsebug', 'avatars/AvatarMaker18.png', '#7fdc98', 'Male', 110);
 INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (20, 'Marcelline Ruske', 'Yakijo', 'avatars/AvatarMaker19.png', '#e65f3f', 'Female', 240);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (21, 'Cordie Kareman', 'Ooba', 'avatars/AvatarMaker20.png', '#03f5cb', 'Male', 231);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (22, 'Georgeanna Gruczka', 'Dablist', 'avatars/AvatarMaker21.png', '#831dcd', 'Female', 100);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (23, 'Amber Terrans', 'Yodo', 'avatars/AvatarMaker22.png', '#16887b', 'Unspecified', 40);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (24, 'Darcee Bullas', 'Quatz', 'avatars/AvatarMaker23.png', '#44ea40', 'Unspecified', 226);
-INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (25, 'Lilla Ridel', 'Babbleopia', 'avatars/AvatarMaker24.png', '#eb7680', 'Unspecified', 247);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (21, 'Cordie Kareman', 'Ooba', 'avatars/AvatarMaker20.png', '#03f5cb', 'Male', 240);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (22, 'Georgeanna Gruczka', 'Dablist', 'avatars/AvatarMaker21.png', '#831dcd', 'Female', 110);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (23, 'Amber Terrans', 'Yodo', 'avatars/AvatarMaker22.png', '#16887b', 'Unspecified', 38);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (24, 'Darcee Bullas', 'Quatz', 'avatars/AvatarMaker23.png', '#44ea40', 'Unspecified', 38);
+INSERT INTO client (id, fullname, company, avatar, color, client_gender, country) VALUES (25, 'Lilla Ridel', 'Babbleopia', 'avatars/AvatarMaker24.png', '#eb7680', 'Unspecified', 240);
 
 
 -- Project

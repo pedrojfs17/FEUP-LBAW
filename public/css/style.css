@@ -121,3 +121,11 @@ a {
     display: inline-block;
   }
 }
+
+.profile-info {
+  color: #5e5e5e;
+}
+
+.stats-block {
+  background-color: #edf4f5;
+}

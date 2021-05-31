@@ -9,6 +9,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -73,7 +74,7 @@ class ClientController extends Controller
     $account->email = empty($request->input('email')) ? $account->email : $request->input('email');
     $client->fullname = empty($request->input('fullname')) ? $client->fullname : $request->input('fullname');
     $client->company = empty($request->input('company')) ? $client->company : $request->input('company');
-    $client->avatar = empty($request->input('avatar')) ? $client->avatar : $request->input('avatar');
+    $client->avatar = empty($request->input('avatar')) ? $client->avatar : $this->saveImage($request->input('avatar'), $username);
     $client->client_gender = empty($request->input('client_gender')) ? $client->client_gender : $request->input('client_gender');
     $client->country = empty($request->input('country')) ? $client->country : $request->input('country');
     $client->save();
@@ -205,5 +206,15 @@ class ClientController extends Controller
     $response = array('message' => view('partials.successMessage', ['message' => "Updated Password!"])->render());
 
     return response()->json($response);
+  }
+
+  private function saveImage(String $img_data, String $username) {
+    $image = str_replace('data:image/png;base64,', '', $img_data);
+    $image = str_replace(' ', '+', $image);
+    $fileName = 'avatars/' . $username . '.png';
+
+    Storage::disk('local')->put($fileName, base64_decode($image));
+
+    return $fileName;
   }
 }

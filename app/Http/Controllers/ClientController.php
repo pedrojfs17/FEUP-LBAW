@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Client;
+use App\Models\Country;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class ClientController extends Controller
     $account = Account::where('username', '=', $username)->first();
     if ($account == null) return view('errors.404');
     $client = Client::find($account->id);
-    return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
+    return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id), 'countries' => Country::all()]);
   }
 
   public function list(Request $request)
@@ -70,13 +71,13 @@ class ClientController extends Controller
     $this->authorize('update', $client);
 
     $account->email = empty($request->input('email')) ? $account->email : $request->input('email');
-    $account->password = empty($request->input('password')) ? $account->password : $request->input('password');
     $client->fullname = empty($request->input('fullname')) ? $client->fullname : $request->input('fullname');
     $client->company = empty($request->input('company')) ? $client->company : $request->input('company');
     $client->avatar = empty($request->input('avatar')) ? $client->avatar : $request->input('avatar');
     $client->client_gender = empty($request->input('client_gender')) ? $client->client_gender : $request->input('client_gender');
     $client->country = empty($request->input('country')) ? $client->country : $request->input('country');
     $client->save();
+    $account->save();
 
     $response = array('message' => view('partials.successMessage', ['message' => 'Updated account!'])->render());
 

@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Country;
 
 class Client extends Model
 {
@@ -69,5 +70,8 @@ class Client extends Model
     return $this->belongsToMany(Project::class, 'invite', 'client_id', 'project_id')->withPivot('decision');
   }
 
-
+  public function getReadableCountry()
+  {
+    return Country::find($this->country)->name;
+  }
 }

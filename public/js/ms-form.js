@@ -17,7 +17,7 @@ nextButtons.forEach(button => button.addEventListener('click', nextFieldset))
 
 previousButtons.forEach(button => button.addEventListener('click', previousFieldset))
 
-const inputs = document.querySelectorAll('fieldset input')
+const inputs = document.querySelectorAll('fieldset input[type="text"]')
 const textareas = document.querySelectorAll('fieldset textarea')
 
 inputs.forEach(input => input.addEventListener('change', function () { checkMissing(input) }))
@@ -53,7 +53,7 @@ function missingInput(fields) {
 }
 
 function nextFieldset() {
-  let inputs = fieldsets[current - 1].querySelectorAll('input')
+  let inputs = fieldsets[current - 1].querySelectorAll('input[type="text"]')
   let textareas = fieldsets[current - 1].querySelectorAll('textarea')
 
   if (missingInput(inputs) || missingInput(textareas))

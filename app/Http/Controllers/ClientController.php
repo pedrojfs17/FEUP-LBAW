@@ -38,7 +38,7 @@ class ClientController extends Controller
       })->whereDoesntHave('invites', function ($q) use ($project) {
         $q->where('project_id', '=', $project);
       });
-    })->paginate(5);
+    })->where('id', '!=', Auth::user()->id)->paginate(5);
 
 
     $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();

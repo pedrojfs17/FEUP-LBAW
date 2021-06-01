@@ -24,7 +24,7 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'required|string',
       'description' => 'required|string',
-      'due_date' => 'date|after:today'
+      'due_date' => 'date|after:today|nullable'
     ]);
 
     $project = new Project();

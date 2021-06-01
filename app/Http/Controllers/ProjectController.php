@@ -94,7 +94,7 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'date|after:today|nullable'
+      'due_date' => 'date|after:today|nullable',
       'completed' => 'boolean'
     ]);
 
@@ -171,7 +171,11 @@ class ProjectController extends Controller
     $client = Client::find($request->client);
     $this->authorize('invite', [$project, $client]);
     $project->invites()->attach($client->id);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return view('pages.overview', [
+      'tasks' => $project->tasks()->get()->reverse(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)]);
   }
 
   public function updateInvite(Request $request, Project $project, $invite)
@@ -183,7 +187,11 @@ class ProjectController extends Controller
     $project->invites()->updateExistingPivot($invite, [
       'decision' => $request->decision
     ]);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return view('pages.overview', [
+      'tasks' => $project->tasks()->get()->reverse(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)]);
   }
 
   public function overview(Project $project)
@@ -228,46 +236,6 @@ class ProjectController extends Controller
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
     ]);
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function invite(Request $request, $id)
-  {
-    $project = Project::find($id);
-    $this->authorize('invite', $project);
-    $project->invites()->attach($request->client);
-    return response()->json(['message' => 'added invite']);
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function updateInvite(Request $request, $id, $invite_id)
-  {
-    $project = Project::find($id);
-    $request->validate([
-      'decision' => 'required|boolean',
-    ]);
-    $this->authorize('updateInvite', $project);
-    $decision = filter_var($request->input('decision'), FILTER_VALIDATE_BOOLEAN);
-    $project->invites()->updateExistingPivot($invite_id, [
-      'decision' => $decision
-    ]);
-    return view('pages.overview', [
-      'tasks' => $project->tasks()->get()->reverse(),
-      'project' => $project,
-      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
-      'user' => Client::find(Auth::user()->id)]);
   }
 
   public function statistics(Project $project)

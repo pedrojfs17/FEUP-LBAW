@@ -92,6 +92,8 @@ function sendPatchAjaxRequest(route, data, successFunction) {
 function updateCard(taskID, card) {
   const parentDiv = document.querySelector('#overview')
   const cardDiv = document.querySelector('#task-' + taskID)
+  if (!cardDiv) return;
+
   cardDiv.innerHTML = ""
   let newElem = document.createElement('div')
   newElem.innerHTML = card
@@ -116,8 +118,8 @@ function updateTaskModal(task, modalElement) {
 
 
 function addCheckListItems(item) {
-  let deleteBtn = item.querySelector('.delete-item')
-  let checkItem = item.querySelector('.form-check-input')
+  let deleteBtns = item.querySelectorAll('.delete-item')
+  let checkItems = item.querySelectorAll('.form-check-input')
   let successFunction = function (response) {
     updateCard(response['taskID'], response['taskCard'])
     updateTaskModal(item.dataset.id, response['modalChanges'])
@@ -128,20 +130,22 @@ function addCheckListItems(item) {
     })
   }
 
-  deleteBtn.addEventListener('click', () => {
+  deleteBtns.forEach(button => button.addEventListener('click', () => {
     sendAjaxRequest('DELETE', item.dataset.href, encodeForAjax({_token: csrfToken}), successFunction)
-  })
-  checkItem.addEventListener('click', () => {
+  }))
+
+  checkItems.forEach(checkItem => checkItem.addEventListener('click', () => {
     sendAjaxRequest('PATCH', item.dataset.href, encodeForAjax({
       completed: checkItem.checked,
       _token: csrfToken
     }), successFunction)
-  })
-
+  }))
 }
 
 function addInputEventListener() {
   const checklistForm = document.querySelector('#addItem')
+  if (!checklistForm) return;
+
   const newItemInput = checklistForm.querySelector('input[name="new_item"]')
 
   newItemInput.addEventListener('keypress', function (event) {

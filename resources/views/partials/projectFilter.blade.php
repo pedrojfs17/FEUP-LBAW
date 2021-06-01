@@ -1,5 +1,4 @@
 @push('scripts')
-  <script src="{{ asset('js/tooltip.js') }}" defer></script>
   <script src="{{ asset('js/projectFilter.js') }}" defer></script>
 @endpush
 

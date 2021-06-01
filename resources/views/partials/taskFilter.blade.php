@@ -1,5 +1,4 @@
 @push('scripts')
-  <script src="{{ asset('js/tooltip.js') }}" defer></script>
   <script src="{{ asset('js/taskFilter.js') }}" defer></script>
 @endpush
 
@@ -12,7 +11,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <form data-id="taskFilter" id="taskFilter" data-href="/api/project/{{$project->id}}/task/">
+          <form data-id="taskFilter" id="taskFilter" data-href="/api/project/{{$project->id}}/task">
             <label for="tag-selection">Tags</label>
             <select class="form-control tag-selection" multiple="multiple" name="tag" id="tag-selection">
               @foreach ($project->tags as $tag)

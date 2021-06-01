@@ -85,11 +85,15 @@ function receivedMembers(responseText) {
       removeButton.classList.add('remove-member-btn')
       removeButton.innerHTML = "Remove"
 
+      if (addedMembers.firstElementChild.classList.contains('text-muted'))
+        addedMembers.innerHTML = ""
       addedMembers.appendChild(memberCard)
       removeButton.addEventListener('click', function () {
         let removed = selectedMembers.querySelector('option[value="' + removeButton.dataset.id + '"]')
         selectedMembers.removeChild(removed)
         addedMembers.removeChild(removeButton.parentElement.parentElement)
+        if (addedMembers.innerHTML === "")
+          addedMembers.innerHTML = "<p class='text-muted'>No members added!</p>"
         btn.style.visibility='visible'
       })
 

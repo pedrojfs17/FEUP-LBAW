@@ -1,5 +1,5 @@
 @push('scripts')
-  <script src="{{ asset('js/tooltip.js') }}" defer></script>
+  <script src="{{ asset('js/bs.js') }}" defer></script>
 @endpush
 
 <div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1"
@@ -39,6 +39,7 @@
         <div>
           <div>
             <h5 class=" d-inline-block mr-3">Subtasks</h5>
+            @if ($role != 'Reader')
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-sub" role="button"
                aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
@@ -62,12 +63,14 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
+            @endif
             <div class=" my-3 multi-collapse-{{$task->id}}-sub show" id="task{{$task->id}}SubTask" aria-expanded="true">
               @include('partials.taskButton',['taskArray'=>$task->subtasks])
             </div>
           </div>
           <div>
             <h5 class="d-inline-block mr-3">Waiting On</h5>
+            @if ($role != 'Reader')
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-wait" role="button"
                aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
@@ -91,6 +94,7 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
+            @endif
             <div class="my-3 multi-collapse-{{$task->id}}-wait show" id="task{{$task->id}}Waiting" aria-expanded="true">
               @include('partials.taskButton',['taskArray'=>$task->waitingOn])
             </div>
@@ -102,6 +106,7 @@
             </div>
             <div class="col-12 col-lg-6">
               <h5 class="d-inline-block mr-3">Assigned to:</h5>
+              @if ($role != 'Reader')
               <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
                  href=".multi-collapse-{{$task->id}}-assign" role="button"
                  aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
@@ -124,6 +129,7 @@
                   <button type="submit" class="d-none"></button>
                 </form>
               </div>
+              @endif
               <div class="my-3 multi-collapse-{{$task->id}}-assign show" id="task{{$task->id}}Assign"
                    aria-expanded="true">
                 @include('partials.clientPhoto',['assignees'=>$task->assignees])
@@ -133,6 +139,7 @@
           </div>
           <div>
             <h5 class=" d-inline-block mr-3">Tags</h5>
+            @if ($role != 'Reader')
             <a class="text-muted float-end edit-tags" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}" role="button"
                aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
@@ -154,12 +161,13 @@
                 <button type="submit" class="d-none"></button>
               </form>
             </div>
+            @endif
           <div class="flex-wrap gap-2 my-2 mt-auto multi-collapse-{{$task->id}} show" id="task{{$task->id}}Tags" aria-expanded="true">
             @each('partials.tag', $task->tags, 'tag')
           </div>
           <hr>
         </div>
-        <div>
+        <div class="mb-3">
           <h5>Comments</h5>
           <div class="mb-3 task-comments">
             @foreach ($task->comments as $comment)
@@ -175,9 +183,11 @@
           </div>
         </div>
       </div>
+        @if ($role != 'Reader')
       <div class="modal-footer px-0">
         <button type="button" class="btn btn-danger delete-task-button mx-0" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}"><i class="bi bi-trash"></i> Delete Task</button>
       </div>
+          @endif
     </div>
   </div>
 </div>

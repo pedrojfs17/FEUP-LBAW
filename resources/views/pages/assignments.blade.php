@@ -5,6 +5,8 @@
   <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/carousel.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
+  <script src="{{ asset('js/comments.js') }}" defer></script>
+  <script src="{{ asset('js/tasks.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -29,7 +31,7 @@
           <div class="d-grid gap-2 ">
             @foreach ($tasks as $task)
               @if (count($task->assignees) == 0)
-                <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($task->task_status)) }}" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#task{{ $task->id }}Modal">{{ $task->name }}</button>
+                <button type="button" style="background-color: #e7e7e7" class="btn text-start subtask-{{ str_replace(' ', '-', strtolower($task->task_status)) }} open-task" data-target="task{{ $task->id }}Modal" data-href="/api/project/{{ $task->project }}/task/{{ $task->id }}">{{ $task->name }}</button>
               @endif
             @endforeach
           </div>

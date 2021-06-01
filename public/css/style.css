@@ -29,12 +29,17 @@ ul.avatar-overlap:hover li.avatar-overlap-item:nth-child(n+2) {
   text-align: center;
 }
 
+.badge-notify-link {
+  text-decoration: none;
+}
+
 .badge-notify{
-    background:red;
+    background: #ea4c89;
     position:relative;
-    padding: .05em .25em;
+    padding: .25em .5em;
     top: -10px;
     left: -12px;
+    text-decoration: none;
 }
 
 .accordion-button:not(.collapsed) {

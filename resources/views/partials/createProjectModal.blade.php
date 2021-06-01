@@ -57,6 +57,7 @@
                     Please provide a description.
                   </div>
                 </div>
+                <hr>
                 <button type="button" class="next btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
                   Next
                 </button>
@@ -74,12 +75,7 @@
                   <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateInput" type="date"
                          name="due_date" value="{{ old('due_date') }}">
                 </div>
-                <div class="mb-3" style="cursor: pointer;">
-                  <div class="fs-5 px-3"> + Connect Instagram</div>
-                </div>
-                <div class="mb-3" style="cursor: pointer;">
-                  <div class="fs-5 px-3"> + Connect Twitter</div>
-                </div>
+                <hr>
                 <button type="button" class="next btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
                   Next
                 </button>
@@ -109,8 +105,11 @@
                 </div>
                 <div class="d-block">
                   <h6>Added Members</h6>
-                  <div id="added-members"></div>
+                  <div id="added-members">
+                    <p class='text-muted'>No members added!</p>
+                  </div>
                 </div>
+                <hr>
                 <button type="submit" class="btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
                   Submit
                 </button>

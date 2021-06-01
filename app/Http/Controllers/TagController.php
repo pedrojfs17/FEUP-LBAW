@@ -14,24 +14,17 @@ class TagController extends Controller
     $this->middleware('auth');
   }
 
-  public function list()
-  {
-    $tags = Client::find(Auth::user()->id)->projects()->tags()->orderBy('id')->get();
-    return response()->json($tags);
-  }
-
-  public function create(Request $request, $id)
+  public function create(Request $request, Project $project)
   {
     $request->validate([
       'name' => 'required|string',
       'color' => 'required|string'
     ]);
 
-    $project = Project::find($id);
     $this->authorize('createTag', $project);
 
     $tag = new Tag();
-    $tag->project = $id;
+    $tag->project = $project->id;
     $tag->name = $request->input('name');
     $tag->color = $request->input('color');
     $tag->save();
@@ -39,18 +32,16 @@ class TagController extends Controller
     $result = array(
       'delete_tag' => view('partials.deleteTag', ['tag' => $tag])->render(),
       'tag' => view('partials.tag', ['tag' => $tag])->render(),
-      'message' => view('partials.successMessage', ['message' => 'Tag created!'])->render()
+      'message' => view('partials.messages.successMessage', ['message' => 'Tag created!'])->render()
     );
 
     return response()->json($result);
   }
 
-  public function delete(Request $request, $id, $tag)
+  public function delete(Project $project, Tag $tag)
   {
-    $tagObj = Tag::find($tag);
-    $project = Project::find($id);
     $this->authorize('deleteTag', $project);
-    $tagObj->delete();
-    return response()->json($tagObj);
+    $tag->delete();
+    return response()->json($tag);
   }
 }

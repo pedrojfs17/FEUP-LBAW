@@ -187,11 +187,7 @@ class ProjectController extends Controller
     $project->invites()->updateExistingPivot($invite, [
       'decision' => $request->decision
     ]);
-    return view('pages.overview', [
-      'tasks' => $project->tasks()->get()->reverse(),
-      'project' => $project,
-      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
-      'user' => Client::find(Auth::user()->id)]);
+    return response()->json(array());
   }
 
   public function overview(Project $project)

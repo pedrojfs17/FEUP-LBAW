@@ -67,8 +67,9 @@
       </div>
     </form>
   </div>
-  <div class="col-lg-6 align-items-center justify-content-center mx-6 my-auto">
-    <h2>Invites</h2>
+  <div class="col-lg-9 align-items-center justify-content-center my-4 mx-6">
+    <h2 class='px-2'>Invites</h2>
+    <hr class="mt-0">
     @foreach($client->invites as $invite)
       @include('partials.inviteSummary',['invite'=>$invite])
     @endforeach

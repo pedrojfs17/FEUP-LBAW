@@ -48,7 +48,7 @@
       @endif
 
       <div class="row align-items-center mt-5 px-5">
-        <h4>Manage members</h4>
+        <h4>Members</h4>
         <hr>
       </div>
 

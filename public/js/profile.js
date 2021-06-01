@@ -15,26 +15,37 @@ function editProfileHandler(e){
 }
 
 function saveEditHandler(e) {
-  actions.style.display = 'none'
-  editProfileButton.style = ''
+  
 
   let data = {}
   inputs.forEach((field) => {
     if (field.tagName === 'SELECT' && field.value != field.dataset.placeholder) {
       data[field.name] = field.value
-      field.dataset.placeholder = field.value
     } else if (field.value != field.placeholder || field.name === '_token') {
       data[field.name] = field.value
-      if (field.name != '_token') {
-        field.placeholder = field.value
-      }
     }
-    field.disabled = true
   })
   
   if (Object.keys(data).length === 1) return
 
-  sendAjaxRequest('PATCH', saveEditButton.dataset.href, encodeForAjax(data), window[saveEditButton.dataset.onEdit])
+  sendAjaxRequest('PATCH', saveEditButton.dataset.href, encodeForAjax(data), 
+    (response)=>{
+      actions.style.display = 'none'
+      editProfileButton.style = ''
+      inputs.forEach((field) => {
+        if (field.tagName === 'SELECT' && field.value != field.dataset.placeholder) {
+          field.dataset.placeholder = field.value
+        } else if (field.value != field.placeholder || field.name === '_token') {
+          if (field.name != '_token') {
+            field.placeholder = field.value
+          }
+        }
+        field.disabled = true
+      })
+      window[saveEditButton.dataset.onEdit](response)
+    },
+    (response)=>{serverSideValidation(inputs[0].form, response)}
+  )
 }
 
 function cancelEditHandler(e) {

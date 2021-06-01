@@ -54,14 +54,14 @@ function saveButtonHandler(e) {
 
     if (Object.keys(data).length === 1) return
 
-    sendAjaxRequest('PATCH', button.form.action, encodeForAjax(data), (response) => {onSaveSuccess(button.form.dataset.info, response)})
-
-
-    info.classList.toggle('d-none')
-    button.form.classList.toggle('d-none')
+    sendAjaxRequest('PATCH', button.form.action, encodeForAjax(data), 
+        (response) => {onSaveSuccess(button.form, response)},
+        (response) => {serverSideValidation(button.form, response)})
 }
 
-function onSaveSuccess(info, response) {
+function onSaveSuccess(form, response) {
+    let info = form.dataset.info
+    form.classList.toggle('d-none')
     updateCard(response['taskID'], response['taskCard'])
     updateTaskModal('tasks' + response['taskID'] + 'ModalLabel', response['breadcrumbChanges'])
     updateTaskModal(info, response['modalChanges'])

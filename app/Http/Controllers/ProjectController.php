@@ -120,7 +120,7 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'date|after:today'
+      'due_date' => 'date|after:today|nullable'
     ]);
 
     $project = Project::find($id);
@@ -129,10 +129,10 @@ class ProjectController extends Controller
     if (!empty($request->input('name')))
       $project->name = $request->input('name');
 
-    if (!empty($request->input('description')))
+    if ($request->has('description'))
       $project->description = $request->input('description');
 
-    if (!empty($request->input('due_date')))
+    if ($request->has('due_date'))
       $project->due_date = $request->input('due_date');
 
     $project->save();

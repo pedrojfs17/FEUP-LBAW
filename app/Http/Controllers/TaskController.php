@@ -117,24 +117,25 @@ class TaskController extends Controller
    */
   public function update(Request $request, $id, $task)
   {
+    $taskObj = Task::find($task);
+    $projdate = Project::find($taskObj->project)->due_date;
     $request->validate([
       'name' => 'string',
-      'description' => 'string',
-      'due_date' => 'date|after:today',
+      'description' => 'string|nullable',
+      'due_date' => "date|before:$projdate|after:today|nullable",
       'task_status' => 'string'
     ]);
 
     $this->authorize('updateTask', Project::find($id));
 
-    $taskObj = Task::find($task);
 
     if (!empty($request->input('name')))
       $taskObj->name = $request->input('name');
 
-    if (!empty($request->input('description')))
+    if ($request->has('description'))
       $taskObj->description = $request->input('description');
 
-    if (!empty($request->input('due_date')))
+    if ($request->has('due_date'))
       $taskObj->due_date = $request->input('due_date');
 
     if (!empty($request->input('task_status')))

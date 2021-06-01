@@ -5,13 +5,13 @@
 <div class="row justify-content-center mt-5">
   <div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center justify-content-center mx-3">
     <img src="{{ url($client->avatar) }}" width=100% alt="Avatar" class="img-fluid mx-auto d-block rounded-circle" id='userAvatar'>
-    <div class='mt-3 d-flex flex-column align-items-center justify-content-center'>
+    <div class='my-3 d-flex flex-column align-items-center justify-content-center'>
       <button type="button" class="btn btn-secondary btn-sm" id='editAvatar'>Edit image</button>
       
       <form class='d-none' id='editAvatarInput'>
         @csrf
         <div class='input-group input-group-sm'>
-          <input class="form-control" type="file" id='fileAvatar'>
+          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" id='fileAvatar'>
           <button class="btn btn-outline-secondary" type="button" id='cancelAvatar'><i class="bi bi-x"></i></button>
           <button class="btn btn-outline-secondary" type="button" id='saveAvatar'><i class="bi bi-check"></i></button>
         </div>

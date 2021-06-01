@@ -231,9 +231,26 @@ function addModalEventListeners(element) {
   addEditButtonEventListner(element)
   addSaveButtonEventListner(element)
   addCancelButtonEventListner(element)
+  addClearButtonEventListner(element)
   taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
   commentEventListener(element)
   element.querySelectorAll('.open-task').forEach(button => addGetEventListener(button, null, onModalReceived))
   element.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
 }
+
+function addClearButtonEventListner(element) {
+  clearButtons = element.querySelectorAll('.clearButton')
+  clearButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const input = button.parentElement.children[0]
+      if (!input.disabled) {
+        input.value = ''
+        let event = new Event('change');
+        input.dispatchEvent(event);
+      }
+    })
+  })
+}
+
+addClearButtonEventListner(document)

@@ -254,3 +254,15 @@ function addClearButtonEventListner(element) {
 }
 
 addClearButtonEventListner(document)
+
+function clearFields(response) {
+  let form = document.getElementById('changePassword')
+  let inputs = form.querySelectorAll('input')
+  inputs.forEach((input) => {
+    if (input.name != '_token') {
+      input.value = ''
+      let event = new Event('change');
+      input.dispatchEvent(event);
+    }
+  })
+}

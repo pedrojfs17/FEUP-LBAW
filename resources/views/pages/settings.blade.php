@@ -91,7 +91,7 @@
       </button>
     </div>
 
-    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="giveFormFeedback">
+    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="clearFields">
       @csrf
       <div class="col-lg-4">
         <label for="inputPassword" class="form-label">Old Password <span class="text-muted">*</span></label>

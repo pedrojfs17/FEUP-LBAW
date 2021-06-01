@@ -41,6 +41,8 @@
       // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
     </script>
 
+    <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
+
     <!-- JS -->
     @stack('scripts')
 
@@ -56,7 +58,7 @@
     <div aria-live="polite" aria-atomic="true" class="position-relative">
       <div class="toast-container position-fixed bottom-0 end-0 p-3" id="message-container">
         @if(Session::has('message'))
-          @include('partials.messages.messageToast', ['message' => Session::get('message'), 'type' => Session::get('message-type', 'alert-info'), 'show' => true])
+          @include('partials.messages.messageToast', ['message' => Session::get('message'), 'type' => Session::get('message-type'), 'show' => true])
         @endif
       </div>
     </div>

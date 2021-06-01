@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Client;
+use App\Models\Country;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -14,14 +17,15 @@ class AdminController extends Controller
     $this->middleware('auth');
   }
 
-  public function users(Request $request)
+  public function users()
   {
     if (!Auth::user()->is_admin) return redirect(route('dashboard'));
-    $users = Client::get();
-    return view('pages.adminDashboard', ['users' => $users]);
+    $users = Client::all();
+    $admins = Account::where('is_admin', true)->get();
+    return view('pages.adminUsers', ['users' => $users, 'countries' => Country::all(), 'admins' => $admins]);
   }
 
-  public function statistics(Request $request)
+  public function statistics()
   {
     if (!Auth::user()->is_admin) return redirect(route('dashboard'));
 
@@ -58,6 +62,7 @@ class AdminController extends Controller
       array_push($proj_per_user, count($user->projects()->get()));
     $avg_projects = (int)(array_sum($proj_per_user) / count($proj_per_user));
 
+    $admins = Account::where('is_admin', true)->get();
     return view('pages.adminStatistics', [
         'total_users' => $total_users,
         'women' => $women,
@@ -66,13 +71,53 @@ class AdminController extends Controller
         'total_projects' => $total_projects,
         'completed_projects' => $completed_projects,
         'avg_progress' => $avg_progress,
-        'avg_projects' => $avg_projects]
+        'avg_projects' => $avg_projects,
+        'admins' => $admins]
     );
   }
 
-  public function support(Request $request)
+  public function support()
   {
     if (!Auth::user()->is_admin) return redirect(route('dashboard'));
     return view('pages.adminSupport');
+  }
+
+  public function create(Request $request) {
+    if (!Auth::user()->is_admin) return redirect(route('dashboard'));
+
+    $request->validate([
+      'username' => 'required|string|max:255|unique:account',
+      'email' => 'required|string|email|max:255|unique:account',
+      'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    Account::create([
+      'username' => $request->input('username'),
+      'email' => $request->input('email'),
+      'password' => Hash::make($request->input('password')),
+      'is_admin' => true
+    ]);
+
+    return redirect(route('admin.users'))->with([
+      'message' => 'Created Administrator account with username: ' . $request->input('username'),
+      'message-type' => 'Success'
+    ]);
+  }
+
+  public function delete(Account $account) {
+    $this->authorize('delete', $account);
+
+    if (count(Account::where('is_admin', true)->get()) == 1)
+      return back()->with([
+        'message' => 'This is the only Administrator account. Create another one before deleting this one!',
+        'message-type' => 'Fail'
+      ]);
+
+    $account->delete();
+
+    return redirect(route('/'))->with([
+      'message' => 'Deleted Account',
+      'message-type' => 'Success'
+    ]);
   }
 }

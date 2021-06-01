@@ -9,7 +9,9 @@ use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -118,16 +120,25 @@ class TaskController extends Controller
   public function update(Request $request, $id, $task)
   {
     $taskObj = Task::find($task);
-    $projdate = Project::find($taskObj->project)->due_date;
-    $request->validate([
+    $project = Project::find($taskObj->project);
+    $projdate = $project->due_date;
+
+    $validator = Validator::make($request->all(), [
       'name' => 'string',
       'description' => 'string|nullable',
-      'due_date' => "date|before:$projdate|after:today|nullable",
+      'due_date' => "date|after:today|nullable",
       'task_status' => 'string'
+    ], [
+      'before' => 'The :attribute must be a date before ' . $project->getReadableDueDate() . '.'
     ]);
-
+    $validator->sometimes('due_date', "before:$projdate", function ($input) use ($projdate) {
+      return $projdate != null && $input->due_date != null;
+    });
+    if ($validator->fails()) {    
+      return response()->json(['errors' => $validator->messages()], Response::HTTP_BAD_REQUEST);
+    }
+    
     $this->authorize('updateTask', Project::find($id));
-
 
     if (!empty($request->input('name')))
       $taskObj->name = $request->input('name');

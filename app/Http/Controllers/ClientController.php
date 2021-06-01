@@ -25,17 +25,25 @@ class ClientController extends Controller
   public function list(Request $request)
   {
     $searchQuery = $request->input('query');
+    $gender = $request->input('gender') == NULL ? NULL : explode(',',$request->input('gender'));
+    $country =$request->input('country') == NULL ? NULL : explode(',',$request->input('country'));
 
-    if (!empty($searchQuery)) {
-      $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
+    $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })->paginate(5);
-    } else {
-      $clients = Client::orderBy('id', 'desc')->paginate(5);
-    }
+      })
+      ->when(!empty($gender), function ($query) use ($gender) {
+        return $query->whereIn('client_gender', $gender);
+      })
+      ->when(!empty($country), function ($query) use ($country) {
+        return $query->whereIn('country', $country);
+      })
+      ->paginate(7);
 
-    $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
+    if (Auth::user()->is_admin)
+      $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
+    else
+      $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
 
     return response()->json($view);
   }
@@ -75,16 +83,21 @@ class ClientController extends Controller
     $this->authorize('delete', $client);
 
     $projects = $client->projects()->wherePivot('member_role','Owner')->get();
-    foreach ($projects as $project){
-      $project->shiftPermission();
+    foreach ($projects as $project) {
+      $project->shiftPermissions();
     }
 
-    $client->delete();
+    $account->delete();
 
-    if (Auth::user()->is_admin)
-      return response()->json($client);
+    if (Auth::user()->is_admin) {
+      $message = "User " . $account->username . " was removed!";
+      return response()->json(['message' => view('partials.messages.successMessage', ['message' => $message])->render()]);
+    }
 
-    return redirect(route('/'));
+    return redirect(route('/'))->with([
+      'message' => 'Deleted Account',
+      'message-type' => 'Success'
+    ]);
   }
 
   public function showSettings()

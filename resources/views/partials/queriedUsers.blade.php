@@ -3,3 +3,7 @@
 @else
   <h6 class="text-muted">No users found!</h6>
 @endif
+
+@if ($pagination)
+  {{ $users->links() }}
+@endif

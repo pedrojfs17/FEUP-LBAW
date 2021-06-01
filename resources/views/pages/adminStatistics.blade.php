@@ -15,18 +15,6 @@
 @endsection
 
 @section('content')
-  @if ($errors->any())
-    <div class="alert alert-danger text-center" role="alert">
-      {{ $errors->first() }}
-    </div>
-  @endif
-
-  @if (session('message') !== null)
-    <div class="alert alert-success text-center" role="alert">
-      {{ session('message') }}
-    </div>
-  @endif
-
   @include('partials.adminNavBar', ['page' => 'statistics'])
 
   @csrf

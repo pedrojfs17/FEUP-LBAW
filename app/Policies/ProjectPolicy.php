@@ -5,6 +5,7 @@ namespace App\Policies;
 
 
 use App\Models\Account;
+use App\Models\Client;
 use App\Models\Project;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -76,10 +77,11 @@ class ProjectPolicy
     return $project->teamMembers()->where('client_id', $account->id)->exists();
   }
 
-  public function invite(Account $account, Project $project)
+  public function invite(Account $account, Project $project, Client $client)
   {
     // Only an owner can invite a client
-    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists();
+    return $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists()
+      && !$project->teamMembers()->where('client_id', '=', $client->id)->exists();
   }
 
   public function updateInvite(Account $account, Project $project)

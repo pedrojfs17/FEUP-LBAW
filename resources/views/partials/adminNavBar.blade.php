@@ -12,10 +12,7 @@
           <a class="nav-link {{$page == 'users' ? 'active' : ''}}" href="{{ route('admin.users') }}">Overview</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" {{--href="{{ route('admin.statistics') }}"--}}>Statistics</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{$page == 'support' ? 'active' : ''}}" {{--href="{{ route('admin.support') }}"--}}>User Support</a>
+          <a class="nav-link {{$page == 'statistics' ? 'active' : ''}}" href="{{ route('admin.statistics') }}">Statistics</a>
         </li>
       </ul>
     </div>

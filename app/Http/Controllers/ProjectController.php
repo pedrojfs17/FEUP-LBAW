@@ -19,11 +19,6 @@ class ProjectController extends Controller
     $this->middleware('auth');
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-   */
   public function create(Request $request)
   {
     $request->validate([
@@ -45,28 +40,15 @@ class ProjectController extends Controller
       foreach ($request->input('members') as $member)
         $project->teamMembers()->attach($member, ['member_role' => 'Editor']);
     }
-    return redirect(route('project.overview', ['id' => $project->id]));
+    return redirect(route('project.overview', ['project' => $project->id]))->with(['message' => 'Created Project!', 'message-type' => 'Success']);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param int $id
-   * @param \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function show(Request $request, $id)
+  public function show(Project $project)
   {
-    $project = Project::find($id);
     $this->authorize('show', $project);
     return response()->json($project);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
-   */
   public function list(Request $request)
   {
     $client = Client::find(Auth::user()->id);
@@ -102,28 +84,20 @@ class ProjectController extends Controller
     $paginator = new Paginator($projects->forPage($page, 5), $projects->count(), 5, $page);
     $paginator->setPath("/api/project");
 
-
     $view = view('partials.dashboardProjects', ['projects' => $paginator, 'pagination'=>true])->render();
 
     return response()->json($view);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function update(Request $request, $id)
+  public function update(Request $request, Project $project)
   {
     $request->validate([
       'name' => 'string',
       'description' => 'string',
       'due_date' => 'date|after:today|nullable'
+      'completed' => 'boolean'
     ]);
 
-    $project = Project::find($id);
     $this->authorize('update', $project);
 
     if (!empty($request->input('name')))
@@ -135,33 +109,28 @@ class ProjectController extends Controller
     if ($request->has('due_date'))
       $project->due_date = $request->input('due_date');
 
+    if(!empty($request->input('completed')))
+      $project->completed = $request->input('completed');
+
     $project->save();
 
     return response()->json($project);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param \App\Models\Project $project
-   * @return
-   */
-  public function delete(Request $request, $id)
+  public function delete(Project $project)
   {
-    $project = Project::find($id);
     $this->authorize('delete', $project);
     $project->teamMembers()->wherePivot('member_role', '!=', 'Owner')->detach();
     $project->delete();
-    return redirect('dashboard')->with('message', 'Successfully deleted project: ' . $project->name);
+    return redirect('dashboard')->with(['message' => 'Deleted project: ' . $project->name, 'message-type' => 'Success']);
   }
 
-  public function editMember(Request $request, $id, $username)
+  public function editMember(Request $request, Project $project, $username)
   {
     $request->validate([
       'member_role' => ['required', Rule::in(['Reader', 'Editor', 'Owner']),]
     ]);
 
-    $project = Project::find($id);
     $account = Account::where('username', '=', $username)->first();
 
     $this->authorize('changePermissions', $project);
@@ -171,7 +140,7 @@ class ProjectController extends Controller
     $message = $username . " is now " . $request->input('member_role') . "!";
 
     $results = array();
-    $results['message'] = view('partials.successMessage', ['message' => $message])->render();
+    $results['message'] = view('partials.messages.successMessage', ['message' => $message])->render();
     $results['member'] = array(
       'username' => $username,
       'role' => view('partials.memberRoleIcon', ['member' => $member])->render()
@@ -180,16 +149,8 @@ class ProjectController extends Controller
     return response()->json($results);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-   */
-  public function leave(Request $request, $id, $username)
+  public function leave(Project $project, $username)
   {
-    $project = Project::find($id);
     $account = Account::where('username', '=', $username)->first();
 
     $this->authorize('leave', [$project, $account]);
@@ -198,45 +159,37 @@ class ProjectController extends Controller
     $member->detach();
 
     if (Auth::user()->id == $account->id)
-      return redirect('dashboard');
+      return redirect('dashboard')->with(['message' => 'Left project: ' . $project->name, 'message-type' => 'Success']);
     else {
-      $results = array('message' => view('partials.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
+      $results = array('message' => view('partials.messages.successMessage', ['message' => "Deleted member " . $username . "!"])->render());
       return response()->json($results);
     }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function preferences(Request $request, $id)
+  public function invite(Request $request, Project $project)
   {
-    $project = Project::find($id);
-    if ($project == null) return view('errors.404');
-    $this->authorize('preferences', $project);
-    return view('pages.preferences', [
-      'project' => $project,
-      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
-      'user' => Client::find(Auth::user()->id)
-    ]);
+    $client = Client::find($request->client);
+    $this->authorize('invite', [$project, $client]);
+    $project->invites()->attach($client->id);
+    return view('pages.overview', ['overview' => $project->tasks()]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function assignments(Request $request, $id)
+  public function updateInvite(Request $request, Project $project, $invite)
   {
-    $project = Project::find($id);
-    if ($project == null) return view('errors.404');
-    $this->authorize('assignments', $project);
-    return view('pages.assignments', [
+    $request->validate([
+      'decision' => 'required|boolean',
+    ]);
+    $this->authorize('updateInvite', $project);
+    $project->invites()->updateExistingPivot($invite, [
+      'decision' => $request->decision
+    ]);
+    return view('pages.overview', ['overview' => $project->tasks()]);
+  }
+
+  public function overview(Project $project)
+  {
+    $this->authorize('overview', $project);
+    return view('pages.overview', [
       'tasks' => $project->tasks()->get()->sortBy('id'),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
@@ -244,17 +197,8 @@ class ProjectController extends Controller
     ]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function status(Request $request, $id)
+  public function status(Project $project)
   {
-    $project = Project::find($id);
-    if ($project == null) return view('errors.404');
     $this->authorize('status_board', $project);
     return view('pages.status_board', [
       'tasks' => $project->tasks()->get()->sortBy('id'),
@@ -265,39 +209,21 @@ class ProjectController extends Controller
     ]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function statistics(Request $request, $id)
+  public function assignments(Project $project)
   {
-    $project = Project::find($id);
-    if ($project == null) return view('errors.404');
-    $this->authorize('statistics', $project);
-    return view('pages.statistics', [
+    $this->authorize('assignments', $project);
+    return view('pages.assignments', [
+      'tasks' => $project->tasks()->get()->sortBy('id'),
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
     ]);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param int $id
-   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
-   */
-  public function overview(Request $request, $id)
+  public function preferences(Project $project)
   {
-    $project = Project::find($id);
-    if ($project == null) return view('errors.404');
-    $this->authorize('overview', $project);
-    return view('pages.overview', [
-      'tasks' => $project->tasks()->get()->sortBy('id'),
+    $this->authorize('preferences', $project);
+    return view('pages.preferences', [
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
@@ -342,5 +268,15 @@ class ProjectController extends Controller
       'project' => $project,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)]);
+  }
+
+  public function statistics(Project $project)
+  {
+    $this->authorize('statistics', $project);
+    return view('pages.statistics', [
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)
+    ]);
   }
 }

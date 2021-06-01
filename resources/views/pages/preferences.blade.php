@@ -111,7 +111,7 @@
               <form method="POST" action="/api/project/{{ $project->id }}/{{ Auth::user()->username }}">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Leave</button>
               </form>
             </div>
           </div>

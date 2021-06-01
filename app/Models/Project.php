@@ -15,7 +15,7 @@ class Project extends Model
   //CURRENT_DATE AND UPDATE_DATE USEFUL?
 
   protected $fillable = [
-    'name', 'description', 'due_date',
+    'name', 'description', 'due_date', 'closed'
   ];
 
   protected $appends = ['completion'];
@@ -68,5 +68,28 @@ class Project extends Model
     if (count($this->tasks) > 0)
       return intdiv(count($this->tasks->where('task_status', 'Completed')) * 100, count($this->tasks));
     else return 0;
+  }
+
+  public function shiftPermissions(){
+    if(count($this->teamMembers()->wherePivot('member_role','Owner')->get()) > 1) {
+      return;
+    }
+
+    $editors = $this->teamMembers()->wherePivot('member_role','Editor')->get();
+    if(!empty($editors)) {
+      foreach ($editors as $editor) {
+        $this->teamMembers()->updateExistingPivot($editor->id, ['member_role' => 'Owner']);
+      }
+      return;
+    }
+
+    $readers = $this->teamMembers()->wherePivot('member_role','Reader')->get();
+    if(!empty($readers)) {
+      foreach ($readers as $reader) {
+        $this->teamMembers()->updateExistingPivot($reader->id, ['member_role' => 'Owner']);
+      }
+      return;
+    }
+
   }
 }

@@ -24,7 +24,7 @@ header .nav-link:hover {
 header .navbar-collapse {
     justify-content: flex-start;
 }
-
+/*
 @media (max-width:992px) {
     .stats-dashboard {
         display: flex;
@@ -37,7 +37,7 @@ header .navbar-collapse {
         width: 50%;
     }
 }
-
+*/
 #overview .card {
     width: 300px;
 }
@@ -75,33 +75,33 @@ header .navbar-collapse {
 
 /* display 3 */
 @media (min-width: 768px) {
-    
+
     .carousel-inner .carousel-item-end.active,
     .carousel-inner .carousel-item-next {
       transform: translateX(33.333%);
     }
-    
-    .carousel-inner .carousel-item-start.active, 
+
+    .carousel-inner .carousel-item-start.active,
     .carousel-inner .carousel-item-prev {
       transform: translateX(-33.333%);
     }
 }
 
 @media (max-width: 767px) {
-    
+
     .carousel-inner .carousel-item-end.active,
     .carousel-inner .carousel-item-next {
       transform: translateX(100%);
     }
-    
-    .carousel-inner .carousel-item-start.active, 
+
+    .carousel-inner .carousel-item-start.active,
     .carousel-inner .carousel-item-prev {
       transform: translateX(-100%);
     }
 }
 
 .carousel-inner .carousel-item-start,
-.carousel-inner .carousel-item-end{ 
+.carousel-inner .carousel-item-end{
   transform: translateX(0);
 }
 

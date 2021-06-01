@@ -31,13 +31,13 @@ header .navbar-collapse {
         flex-direction: column;
     }
 }
-
+/*
 @media(min-width:992px) {
     .stats-block {
         width: 50%;
     }
 }
-
+*/
 #overview .card {
     width: 300px;
 }

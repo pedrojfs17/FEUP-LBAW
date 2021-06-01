@@ -1,4 +1,4 @@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="createTask" aria-labelledby="createTaskLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="createTask" aria-labelledby="createTaskLabel">
   <div class="offcanvas-header">
     <h5 id="createTaskLabel">Create Task</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="createTag" aria-labelledby="createTagLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="createTag" aria-labelledby="createTagLabel">
   <div class="offcanvas-header">
     <h5 id="createTagLabel">Tags</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

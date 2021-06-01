@@ -280,6 +280,10 @@ class TaskController extends Controller
   {
     $this->authorize('comment', $task);
 
+    $request->validate([
+      'text' => 'string'
+    ]);
+
     $comment = new Comment();
     $comment->task = $task->id;
     $comment->author = Auth::id();

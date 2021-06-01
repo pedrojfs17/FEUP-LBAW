@@ -79,10 +79,15 @@
               @endif
             @endforeach
           </div>
-          <div class="d-flex">
-            <input id="commentOn{{$task->id}}" class="form-control me-3" type="text" placeholder="Add comment">
-            <button type="button" class="btn btn-primary btn-add-comment btn-add-comment" data-task="{{$task->id}}" data-href="/api/project/{{$task->project}}/task/{{$task->id}}/comment"
-                    data-author="{{$user->account->id}}">Comment</button>
+          <div>
+            <form class="d-flex">
+              <div class="col me-2">
+                <input id="commentOn{{$task->id}}" class="form-control me-3" type="text" name='text' placeholder="Add comment" aria-describedby="inputCommentFeedback">
+                <div class="invalid-feedback" id="inputCommentFeedback"></div>
+              </div>
+              <button type="button" class="btn btn-primary btn-add-comment btn-add-comment flex-grow-0 align-self-start" data-task="{{$task->id}}" data-href="/api/project/{{$task->project}}/task/{{$task->id}}/comment"
+                      data-author="{{$user->account->id}}">Comment</button>
+            </form>
           </div>
         </div>
       </div>

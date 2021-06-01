@@ -183,7 +183,7 @@ class ProjectController extends Controller
     $request->validate([
       'decision' => 'required|boolean',
     ]);
-    $this->authorize('updateInvite', $project);
+    $this->authorize('updateInvite', [$project, $request->decision]);
     $project->invites()->updateExistingPivot($invite, [
       'decision' => $request->decision
     ]);

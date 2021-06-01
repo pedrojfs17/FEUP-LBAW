@@ -84,10 +84,12 @@ class ProjectPolicy
       && !$project->teamMembers()->where('client_id', '=', $client->id)->exists();
   }
 
-  public function updateInvite(Account $account, Project $project)
+  public function updateInvite(Account $account, Project $project, bool $decision)
   {
     // Only the invited client can change the decision
-    return $project->invites()->where('client_id', $account->id)->exists();
+    // Or the project owner if the decision is false
+    return $project->invites()->where('client_id', $account->id)->exists() ||
+    $project->teamMembers()->where(['client_id' => $account->id, 'member_role' => 'Owner'])->exists() && !$decision;
   }
 
   public function createTag(Account $account, Project $project)

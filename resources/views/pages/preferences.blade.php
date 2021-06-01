@@ -4,6 +4,7 @@
   <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
   <script src="{{ asset('js/profile.js') }}" defer></script>
+  <script src="{{ asset('js/invite.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -56,6 +57,12 @@
         @foreach($project->teamMembers as $member)
           @include('partials.projectMember', ['member' => $member])
         @endforeach
+        @if (count($project->getPendingInvites()) > 0)
+          <h5 class='my-2'>Invites</h5>
+          @foreach($project->getPendingInvites() as $invited)
+            @include('partials.projectMember', ['member' => $invited])
+          @endforeach
+        @endif
       </div>
 
       <div class="row align-items-center mt-5 px-5">

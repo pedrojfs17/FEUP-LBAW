@@ -13,7 +13,7 @@
         </h6>
       </div>
     <a class='text-decoration-none stretched-link' href="/profile/{{$member->account->username}}"></a>
-    @if ($member->account->id != Auth::user()->id && $role == 'Owner')
+    @if ($member->account->id != Auth::user()->id && $role == 'Owner' && $project->teamMembers()->where('client_id', $member->account->id)->exists())
       <button class="btn btn-danger align-self-center remove-button" data-href="/api/project/{{ $member->pivot->project_id }}/{{ $member->account->username }}" type="button" style="z-index: 1;position: relative;">Remove</button>
       <div class="align-self-center mx-2">
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 1;position: relative;">
@@ -26,6 +26,10 @@
           <li><a class="dropdown-item edit-role-button" data-href="/api/project/{{ $member->pivot->project_id }}/{{ $member->account->username }}" data-on-edit="updateUserRole">Owner</a></li>
         </ul>
       </div>
+    @elseif ($member->account->id != Auth::user()->id && $role == 'Owner' && !$project->teamMembers()->where('client_id', $member->account->id)->exists())
+      <button class="btn btn-danger remove-invite-btn align-self-center" data-decision=0 data-href="/api/project/{{ $project->id }}/invite/{{$member->account->id}}" type="button" style="z-index: 1;position: relative;">Remove Invite</button>
+    @elseif (!$project->teamMembers()->where('client_id', $member->account->id)->exists())
+      <p class='text-muted'>Pending invite</p>
     @endunless
     </div>
   </div>

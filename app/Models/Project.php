@@ -92,4 +92,8 @@ class Project extends Model
     }
 
   }
+
+  public function getPendingInvites() {
+    return $this->invites()->where('decision', null)->get();
+  }
 }

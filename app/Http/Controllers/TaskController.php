@@ -144,9 +144,10 @@ class TaskController extends Controller
     $result = array();
     $result['taskID'] = $task->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $task])->render();
-    $result['modalChanges'] = view('partials.tasks.taskModalInfo', ['task' => $task])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalInfo', [
+      'task' => $task,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
     $result['breadcrumbChanges'] = view('partials.tasks.taskModalBreadcrumb', ['task' => $task])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $task, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -182,7 +183,6 @@ class TaskController extends Controller
     $result['taskID'] = $task->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
     $result['modalChanges'] = view('partials.tasks.taskModalTags', ['task' => $updatedTask])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -220,7 +220,6 @@ class TaskController extends Controller
     $result['taskID'] = $task->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
     $result['modalChanges'] = view('partials.tasks.taskModalSubtasks', ['task' => $updatedTask])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -247,7 +246,6 @@ class TaskController extends Controller
     $result['taskID'] = $task->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
     $result['modalChanges'] = view('partials.tasks.taskModalWaiting', ['task' => $updatedTask])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -274,7 +272,6 @@ class TaskController extends Controller
     $result['taskID'] = $task->id;
     $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
     $result['modalChanges'] = view('partials.tasks.taskModalAssign', ['task' => $updatedTask])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -322,7 +319,6 @@ class TaskController extends Controller
     $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
       'task' => $updatedTask,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -345,7 +341,6 @@ class TaskController extends Controller
     $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
       'task' => $updatedTask,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }
@@ -361,7 +356,6 @@ class TaskController extends Controller
     $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
       'task' => $updatedTask,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
-    // $result['taskModal'] = view('partials.tasks.taskModal', ['task' => $updatedTask, 'user' => Client::find(Auth::user()->id)])->render();
 
     return response()->json($result);
   }

@@ -18,7 +18,9 @@
       <div class="modal-body d-grid gap px-sm-5">
         <header>
           @include('partials.tasks.taskModalInfo',['task'=>$task])
+          @if ($role != 'Reader')
           @include('partials.tasks.taskModalInfoForm',['task'=>$task])
+          @endif
           <hr>
         </header>
         <div>

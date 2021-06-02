@@ -98,5 +98,7 @@ Route::get('avatars/{img}', 'ImagesController@show');
 Route::get('admin/users', 'AdminController@users')->name('admin.users');
 Route::get('admin/statistics', 'AdminController@statistics')->name('admin.statistics');
 Route::get('admin/support', 'AdminController@support')->name('admin.support');
+Route::post('admin/add', 'AdminController@create')->name('admin.add');
+Route::delete('admin/{account:username}', 'AdminController@delete');
 
 

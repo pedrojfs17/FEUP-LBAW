@@ -76,19 +76,20 @@ class Project extends Model
     }
 
     $editors = $this->teamMembers()->wherePivot('member_role','Editor')->get();
-    if(!empty($editors)) {
+    if(count($editors) > 0) {
       foreach ($editors as $editor) {
         $this->teamMembers()->updateExistingPivot($editor->id, ['member_role' => 'Owner']);
       }
+      $this->save();
       return;
     }
 
     $readers = $this->teamMembers()->wherePivot('member_role','Reader')->get();
-    if(!empty($readers)) {
+    if(count($readers) > 0) {
       foreach ($readers as $reader) {
         $this->teamMembers()->updateExistingPivot($reader->id, ['member_role' => 'Owner']);
       }
-      return;
+      $this->save();
     }
 
   }

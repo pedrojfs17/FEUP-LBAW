@@ -3979,3 +3979,8 @@ INSERT INTO report (report_text, reporter, reported) VALUES ('Morbi vestibulum, 
 INSERT INTO report (report_text, reporter, reported) VALUES ('In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 14, 8);
 INSERT INTO report (report_text, reporter, reported) VALUES ('Morbi non quam nec dui luctus rutrum. Nulla tellus.', 25, 13);
 
+-- Close projects
+
+UPDATE project SET closed = TRUE WHERE id = 33;
+UPDATE project SET closed = TRUE WHERE id = 3;
+UPDATE project SET closed = TRUE WHERE id = 1;

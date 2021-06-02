@@ -1,4 +1,4 @@
-<form class="row justify-content-center align-items-begin px-5 validate-form">
+<form class="row justify-content-center align-items-begin px-5 validate-form edit-form-d">
     @csrf
     <label for="name" class="form-label">Name</label>
     <div class="input-group mb-3 has-validation">
@@ -22,4 +22,5 @@
     <button class="btn btn-outline-secondary clearButton" type="button"><i class="bi bi-x-circle fa-sm"></i></button>
     <div class="invalid-feedback" id="inputDateFeedback"></div>
     </div>
+    @include('partials.project.projectStatus')
 </form>

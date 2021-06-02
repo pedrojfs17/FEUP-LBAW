@@ -2,7 +2,7 @@ const editProfileButton = document.getElementById('editProfile')
 const saveEditButton = document.getElementById('saveEdit')
 const cancelEditButton = document.getElementById('cancelEdit')
 const actions = document.getElementById('editActions')
-const inputs = document.querySelectorAll('#editProfileForm input, #editProfileForm textarea, #editProfileForm select')
+const inputs = document.querySelectorAll('.edit-form-d input, .edit-form-d textarea, .edit-form-d select')
 
 function editProfileHandler(e){
   inputs.forEach(function (field) {

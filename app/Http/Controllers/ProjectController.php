@@ -76,10 +76,9 @@ class ProjectController extends Controller
       })
       ->when(!empty($lowerThanCompletion), function ($query) use ($lowerThanCompletion) {
         return $query->where('completion','<=',intval($lowerThanCompletion));
-      })
-      ->sortByDesc('id');
+      })->sortByDesc('id')->sortBy('closed');
 
-    $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
+    $page = $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
 
     $paginator = new Paginator($projects->forPage($page, 5), $projects->count(), 5, $page);
     $paginator->setPath("/api/project");
@@ -95,7 +94,7 @@ class ProjectController extends Controller
       'name' => 'string',
       'description' => 'string',
       'due_date' => 'date|after:today|nullable',
-      'completed' => 'boolean'
+      'closed' => 'boolean'
     ]);
 
     $this->authorize('update', $project);
@@ -109,12 +108,18 @@ class ProjectController extends Controller
     if ($request->has('due_date'))
       $project->due_date = $request->input('due_date');
 
-    if(!empty($request->input('completed')))
-      $project->completed = $request->input('completed');
+    if($request->has('closed'))
+      $project->closed = $request->input('closed');
 
     $project->save();
 
-    return response()->json($project);
+    $response = array();
+    
+    $response['id'] = $project->id;
+    $response['name'] = $project->name;
+    $response['projStatus'] = view('partials.project.projectStatus', ['project' => $project])->render();
+
+    return response()->json($response);
   }
 
   public function delete(Project $project)

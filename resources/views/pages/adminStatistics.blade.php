@@ -76,11 +76,11 @@
           </div>
           <div class="" style="width: 200px">
             <h1 class="display-6">{{$avg_projects}}</h1>
-            <h5>Avg Projects/User</h5>
+            <h5>Avg. Projects/User</h5>
           </div>
           <div class="" style="width: 200px">
             <h1 class="display-6">{{$avg_progress}}%</h1>
-            <h5>Avg Project Progress</h5>
+            <h5>Avg. Project Progress</h5>
           </div>
         </div>
       </div>

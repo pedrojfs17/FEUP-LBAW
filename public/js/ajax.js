@@ -266,3 +266,26 @@ function clearFields(response) {
     }
   })
 }
+
+let projStatus = document.querySelector('.project-status')
+
+if (projStatus) {
+  let button = projStatus.querySelector('button')
+  button.addEventListener('click', () => {projStatusHandler(button)})
+}
+
+function projStatusHandler(button) {
+  let token = document.querySelector('input[name="_token"]').value
+  sendAjaxRequest('PATCH', button.dataset.href, encodeForAjax({
+    'closed' : button.dataset.value,
+    '_token' : token
+  }),
+  (response) => {
+    let newStatus = document.createRange().createContextualFragment(response.projStatus).firstChild
+    button = newStatus.querySelector('button')
+    newStatus.addEventListener('click', () => {projStatusHandler(button)})
+    projStatus.parentElement.replaceChild(newStatus, projStatus)
+    projStatus = newStatus
+    // console.log(newStatus)
+  })
+}

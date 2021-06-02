@@ -10,7 +10,7 @@ inviteButton.forEach(invButton => {
         if (invButton.dataset.decision === '0')
           inviteActions.textContent = 'Rejected'
         else {
-          inviteActions.innerHTML = '<a href=' + invButton.form.dataset.project + '>Go to proj</a>'
+          inviteActions.innerHTML = '<a href=' + invButton.form.dataset.project + '>Go to project</a>'
         }
       })
   })

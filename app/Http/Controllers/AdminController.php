@@ -31,8 +31,8 @@ class AdminController extends Controller
 
     $users = Client::get();
     $total_users = count($users);
-    $women = (count($users->where('client_gender', 'Female')) / $total_users) * 100;
-    $men = (count($users->where('client_gender', 'Male')) / $total_users) * 100;
+    $women = intdiv(count($users->where('client_gender', 'Female'))*100, $total_users);
+    $men = intdiv(count($users->where('client_gender', 'Male'))*100, $total_users);
 
     $countries = [];
     foreach ($users as $user) {

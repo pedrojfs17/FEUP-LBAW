@@ -7,7 +7,14 @@
       <div class="d-grid gap-2 ">
         @foreach ($tasks as $task)
           @if ($task->task_status == $status)
-            <button id="task{{$task->id}}" type="button" draggable="true" data-id="{{$task->id}}" class="btn text-start draggable open-task" data-target="task{{ $task->id }}Modal" data-href="/api/project/{{ $task->project }}/task/{{ $task->id }}">{{ $task->name }}</button>
+            <button id="task{{$task->id}}" type="button" 
+              @if (!$task->project()->first()->closed && $role != 'Reader')
+              draggable="true"
+              @else
+              draggable="false"
+              @endif
+              data-id="{{$task->id}}" 
+              class="btn text-start draggable open-task" data-target="task{{ $task->id }}Modal" data-href="/api/project/{{ $task->project }}/task/{{ $task->id }}">{{ $task->name }}</button>
           @endif
         @endforeach
       </div>

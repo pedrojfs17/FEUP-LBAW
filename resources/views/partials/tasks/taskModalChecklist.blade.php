@@ -17,15 +17,15 @@
         <div class="form-check checklist-item" id="{{$item->id}}" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/checklist/{{$item->id}}" data-id="task{{$task->id}}CheckList">
           <label class="form-check-label">
             {{$item->item_text}}
-            <input class="form-check-input" type="checkbox" @if ($item->completed) checked @endif @if ($role == 'Reader') disabled @endif>
+            <input class="form-check-input" type="checkbox" @if ($item->completed) checked @endif @if ($task->project()->first()->closed || $role == 'Reader') disabled @endif>
           </label>
-          @if ($role != 'Reader')
+          @if (!$task->project()->first()->closed && $role != 'Reader')
           <a class="delete text-muted float-end delete-item" ><i class="bi bi-trash-fill"></i></a>
           @endif
         </div>
       @endforeach
     </div>
-    @if ($role != 'Reader')
+    @if (!$task->project()->first()->closed && $role != 'Reader')
     <form id="addItem" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/checklist" data-id="task{{$task->id}}CheckList">
       <label>
         <input type="text" class="checklist-input" name="new_item" placeholder="Insert new item...">

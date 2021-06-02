@@ -20,7 +20,7 @@
   </div>
 
   <div class="col-lg-4 align-items-center justify-content-center mx-3 my-auto">
-    <form id='editProfileForm'>
+    <form class='edit-form-d'>
       @csrf
       <div class="d-flex justify-content-between">
         <label for="nameInput" class="form-label">Full Name</label>

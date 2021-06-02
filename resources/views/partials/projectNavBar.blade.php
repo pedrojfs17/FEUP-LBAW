@@ -1,6 +1,10 @@
 <header class="page-header header container-md">
   <nav class="navbar navbar-expand-lg flex-lg-wrap flex-xl-nowrap">
-    <a id="project-title" class="navbar-brand text-dark col-lg-12 col-xl-4 text-wrap text-capitalize" href="{{ route('project.overview', ['project' => $project->id]) }}">{{ $project->name }}</a>
+    <a id="project-title" class="d-flex align-items-center navbar-brand text-dark col-lg-12 col-xl-4 text-wrap text-capitalize" href="{{ route('project.overview', ['project' => $project->id]) }}">{{ $project->name }}
+      @if ($project->closed)
+      <i class="bi bi-lock-fill fa-xs ms-1"></i>
+      @endif
+    </a>
     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +37,7 @@
               Filter
             </a>
           </li>
-          @if ($role != 'Reader')
+          @if (!$project->closed && $role != 'Reader')
           <li class="nav-item ms-lg-auto dropdown">
             <a class="nav-link d-none d-lg-inline-block" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">
               <i class="bi bi-plus-circle fs-4"></i>

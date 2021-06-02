@@ -18,7 +18,7 @@
       <div class="modal-body d-grid gap px-sm-5">
         <header>
           @include('partials.tasks.taskModalInfo',['task'=>$task])
-          @if ($role != 'Reader')
+          @if (!$task->project()->first()->closed && $role != 'Reader')
           @include('partials.tasks.taskModalInfoForm',['task'=>$task])
           @endif
           <hr>
@@ -26,7 +26,7 @@
         <div>
           <div>
             <h5 class="d-inline-block mr-3">Subtasks</h5>
-            @if ($role != 'Reader')
+            @if (!$task->project()->first()->closed && $role != 'Reader')
             <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-sub" role="button"
                aria-controls="task{{$task->id}}UpdateSubTask task{{$task->id}}SubTask"><i class="bi bi-pencil"></i></a>
@@ -36,7 +36,7 @@
           </div>
           <div>
             <h5 class="d-inline-block mr-3">Waiting On</h5>
-            @if ($role != 'Reader')
+            @if (!$task->project()->first()->closed && $role != 'Reader')
             <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}-wait" role="button"
                aria-controls="task{{$task->id}}UpdateWaiting task{{$task->id}}Waiting"><i class="bi bi-pencil"></i></a>
@@ -49,7 +49,7 @@
             @include('partials.tasks.taskModalChecklist',['task'=>$task])
             <div class="col-12 col-lg-6">
               <h5 class="d-inline-block mr-3">Assigned to:</h5>
-              @if ($role != 'Reader')
+              @if (!$task->project()->first()->closed && $role != 'Reader')
               <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                  href=".multi-collapse-{{$task->id}}-assign" role="button"
                  aria-controls="task{{$task->id}}UpdateAssign task{{$task->id}}Assign"><i class="bi bi-pencil"></i></a>
@@ -61,7 +61,7 @@
           </div>
           <div>
             <h5 class=" d-inline-block mr-3">Tags</h5>
-            @if ($role != 'Reader')
+            @if (!$task->project()->first()->closed && $role != 'Reader')
             <a class="text-muted float-end edit-task" data-bs-toggle="collapse" data-editing="false"
                href=".multi-collapse-{{$task->id}}" role="button"
                aria-controls="task{{$task->id}}UpdateTag task{{$task->id}}Tags"><i class="bi bi-pencil"></i></a>
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      @if ($role != 'Reader')
+      @if (!$task->project()->first()->closed && $role != 'Reader')
       <div class="modal-footer px-0">
         <button type="button" class="btn btn-danger delete-task-button mx-0" data-bs-dismiss="modal" data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}"><i class="bi bi-trash"></i> Delete Task</button>
       </div>

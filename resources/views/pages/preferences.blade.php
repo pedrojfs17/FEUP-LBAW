@@ -58,7 +58,7 @@
           @include('partials.projectMember', ['member' => $member])
         @endforeach
         @if (count($project->getPendingInvites()) > 0)
-          <h5 class='my-2'>Invites</h5>
+          <h5 class='mt-3 mb-2'>Invites</h5>
           @foreach($project->getPendingInvites() as $invited)
             @include('partials.projectMember', ['member' => $invited])
           @endforeach

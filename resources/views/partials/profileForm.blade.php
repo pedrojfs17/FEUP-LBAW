@@ -20,7 +20,7 @@
   </div>
 
   <div class="col-lg-4 align-items-center justify-content-center mx-3 my-auto">
-    <form>
+    <form id='editProfileForm'>
       @csrf
       <div class="d-flex justify-content-between">
         <label for="nameInput" class="form-label">Full Name</label>
@@ -70,9 +70,13 @@
   <div class="col-lg-9 align-items-center justify-content-center my-4 mx-6">
     <h2 class='px-2'>Invites</h2>
     <hr class="mt-0">
+    @if (count($client->invites) > 0)
     @foreach($client->invites as $invite)
       @include('partials.inviteSummary',['invite'=>$invite])
     @endforeach
+    @else
+    <p class='text-muted text-center'>You have not been invited to any project</p>
+    @endif
   </div>
 </div>
 

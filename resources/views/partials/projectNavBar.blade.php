@@ -1,5 +1,5 @@
 <header class="page-header header container-md">
-  <nav class="navbar navbar-expand-lg flex-lg-wrap flex-xl-nowrap">
+  <nav class="navbar navbar-expand-lg flex-lg-wrap flex-xl-nowrap align-items-center">
     <a id="project-title" class="d-flex align-items-center navbar-brand text-dark col-lg-12 col-xl-4 text-wrap text-capitalize" href="{{ route('project.overview', ['project' => $project->id]) }}">{{ $project->name }}
       @if ($project->closed)
       <i class="bi bi-lock-fill fa-xs ms-1"></i>
@@ -39,7 +39,7 @@
           </li>
           @if (!$project->closed && $role != 'Reader')
           <li class="nav-item ms-lg-auto dropdown">
-            <a class="nav-link d-none d-lg-inline-block" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">
+            <a class="nav-link d-none d-lg-inline-block p-0" id="createDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 0.5em !important;">
               <i class="bi bi-plus-circle fs-4"></i>
             </a>
             <a class="nav-link d-lg-none" role="button" data-bs-toggle="dropdown" aria-expanded="false">

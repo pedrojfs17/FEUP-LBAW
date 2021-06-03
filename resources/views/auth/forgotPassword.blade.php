@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@endpush
+
 @section('content')
   <div class="container d-flex flex-column justify-content-center my-5">
     <div class="row justify-content-center">
@@ -37,7 +41,7 @@
             <input type="text" class="form-control" id="email" name="email" required autofocus>
           </div>
           <div class="d-grid mt-4">
-            <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
+            <button type="submit" class="btn btn-danger">
               Recover Password
             </button>
             <a href="{{ URL::previous() }}" role="button" class="btn btn-outline-secondary mt-3">Cancel</a>

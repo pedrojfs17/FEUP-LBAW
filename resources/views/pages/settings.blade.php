@@ -116,7 +116,7 @@
 
   <div class="row justify-content-center align-items-begin px-sm-5 px-1">
     <div class="d-grid gap-2">
-      <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete Account</button>
+      <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete Account</button>
     </div>
   </div>
 
@@ -136,7 +136,7 @@
           <form method="POST" action="/profile/{{ $user->account->username }}">
             @method('DELETE')
             @csrf
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger btn-danger-red">Delete</button>
           </form>
         </div>
       </div>

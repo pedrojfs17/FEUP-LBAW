@@ -3,7 +3,7 @@
     @csrf
     <h5 class="card-title d-inline-block flex-grow-1">{{ $invite->name }}</h5>
     <div id='invite{{$invite->id}}Actions'>
-      <button type="button" class="btn btn-success flex-grow-0 acc-invite-btn mx-2 px-3 py-2" data-decision=1><i class="fas fa-check"></i></button>
+      <button type="button" class="btn btn-primary flex-grow-0 acc-invite-btn mx-2 px-3 py-2" data-decision=1><i class="fas fa-check"></i></button>
       <button type="button" class="btn btn-danger flex-grow-0 acc-invite-btn px-3 py-2" data-decision=0><i class="fas fa-close" style="width:16px;"></i></button>
     </div>
   </form>

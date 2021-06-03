@@ -14,7 +14,7 @@
       </div>
     <a class='text-decoration-none stretched-link' target="_blank" rel="noopener noreferrer" href="/profile/{{$member->account->username}}"></a>
     @if ($member->account->id != Auth::user()->id && $role == 'Owner' && $project->teamMembers()->where('client_id', $member->account->id)->exists())
-      <button class="btn btn-danger align-self-center remove-button" data-href="/api/project/{{ $member->pivot->project_id }}/{{ $member->account->username }}" type="button" style="z-index: 1;position: relative;">Remove</button>
+      <button class="btn btn-danger btn-danger-red align-self-center remove-button" data-href="/api/project/{{ $member->pivot->project_id }}/{{ $member->account->username }}" type="button" style="z-index: 1;position: relative;">Remove</button>
       <div class="align-self-center mx-2">
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 1;position: relative;">
           <i class="bi bi-gear"></i>
@@ -27,7 +27,7 @@
         </ul>
       </div>
     @elseif ($member->account->id != Auth::user()->id && $role == 'Owner' && !$project->teamMembers()->where('client_id', $member->account->id)->exists())
-      <button class="btn btn-danger remove-invite-btn align-self-center" data-decision=0 data-href="/api/project/{{ $project->id }}/invite/{{$member->account->id}}" type="button" style="z-index: 1;position: relative;">Remove Invite</button>
+      <button class="btn btn-danger btn-danger-red remove-invite-btn align-self-center" data-decision=0 data-href="/api/project/{{ $project->id }}/invite/{{$member->account->id}}" type="button" style="z-index: 1;position: relative;">Remove Invite</button>
     @endunless
     </div>
   </div>

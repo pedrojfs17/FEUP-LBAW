@@ -73,12 +73,12 @@
       <div class="row justify-content-center align-items-begin px-5">
         <div class="d-grid mb-3">
           <p class="text-muted mb-2">Once you leave this project, there is no coming back...</p>
-          <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#leaveProjectModal">Leave Project</button>
+          <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#leaveProjectModal">Leave Project</button>
         </div>
         @if ($role == 'Owner')
         <div class="d-grid">
           <p class="text-muted mb-2">Once you delete this project, there is no coming back...</p>
-          <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">Delete Project</button>
+          <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">Delete Project</button>
         </div>
         @endif
       </div>
@@ -99,7 +99,7 @@
               <form method="POST" action="/api/project/{{ $project->id }}/{{ Auth::user()->username }}">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Leave</button>
+                <button type="submit" class="btn btn-danger btn-danger-red">Leave</button>
               </form>
             </div>
           </div>
@@ -123,7 +123,7 @@
               <form method="POST" action="/api/project/{{ $project->id }}">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger btn-danger-red">Delete</button>
               </form>
             </div>
           </div>

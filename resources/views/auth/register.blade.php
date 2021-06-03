@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@endpush
+
 @section('content')
 <div class="container d-flex flex-column justify-content-center my-5">
   <div class="row justify-content-center">
@@ -46,7 +50,7 @@
           <input type="password" class="form-control" id="inputPasswordConfirmation" name="password_confirmation" required>
         </div>
         <div class="d-grid mt-4">
-          <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
+          <button type="submit" class="btn btn-danger">
             Sign up
           </button>
         </div>

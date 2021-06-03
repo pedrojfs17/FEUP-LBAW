@@ -97,6 +97,61 @@ a {
   cursor: pointer;
 }
 
+.profile-info {
+  color: #5e5e5e;
+}
+
+.profile-username {
+  color: #00AFB9;
+}
+
+.profile-username:before {
+  content:"@";
+}
+
+#editProfile:hover {
+  user-select: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#editActions {
+  display: none;
+  user-select: none;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+  color: #00AFB9!important;
+  text-decoration: underline;
+}
+
+#cancelEdit:hover {
+  cursor: pointer;
+  color: red!important;
+  text-decoration: underline;
+}
+
+.saveButton:hover, .saveButton:active {
+  background-color: #00AFB922;
+  color: #00AFB9!important;
+  border-color: #00AFB9;
+}
+
+.saveButton:focus, .saveButton:focus:active {
+  box-shadow: 0 0 0 0.25rem #00b0b97e;
+}
+
+.cancelButton:hover, .cancelButton:active {
+  background-color: #dc354522;
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.cancelButton:focus, .cancelButton:focus:active {
+  box-shadow: 0 0 0 0.25rem #dc35457e;
+}
+
 .checklist-item a{
   display: none;
 }
@@ -133,4 +188,43 @@ a {
 
 .stats-block {
   background-color: #edf4f5;
+}
+
+.btn-primary, .btn-primary:active {
+  background-color: #00AFB9;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #00676d;
+  border: none;
+}
+.btn-primary:focus, .btn-primary:focus:active {
+  background-color: #00AFB9;
+  box-shadow: 0 0 0 0.25rem rgb(0 175 185 / 50%);
+}
+
+.btn-danger, .btn-danger:active {
+  background-color: #ea4c89;
+  border: none;
+}
+.btn-danger:hover {
+  background-color: #d11960;
+  border: none;
+}
+.btn-danger:focus, .btn-danger:focus:active {
+  background-color: #ea4c89;
+  box-shadow: 0 0 0 0.25rem rgb(234 76 137 / 50%);
+}
+
+.btn-danger.btn-danger-red, .btn-danger.btn-danger-red:active {
+  background-color: #dc3545;
+  border: none;
+}
+.btn-danger.btn-danger-red:hover {
+  background-color: #bb2d3b;
+  border: none;
+}
+.btn-danger.btn-danger-red:focus, .btn-danger.btn-danger-red:focus:active {
+  background-color: #dc3545;
+  box-shadow: 0 0 0 0.25rem rgb(225 83 97 / 50%);
 }

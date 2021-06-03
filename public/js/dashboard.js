@@ -61,14 +61,16 @@ const addedMembers = document.getElementById('added-members')
 membersSearchBar.addEventListener('keyup', function () {
   membersDiv.innerHTML = ""
   membersSpinner.classList.remove('d-none')
-  sendGetMembersRequest("profile?query=" + membersSearchBar.value.trim());
+  sendGetMembersRequest("/profile?query=" + membersSearchBar.value.trim());
 })
 
 membersSearchButton.addEventListener('click', function () {
   membersDiv.innerHTML = ""
   membersSpinner.classList.remove('d-none')
-  sendGetMembersRequest("profile?query=" + membersSearchBar.value.trim());
+  sendGetMembersRequest("/profile?query=" + membersSearchBar.value.trim());
 })
+
+let selectedIds = []
 
 function receivedMembers(responseText) {
   membersDiv.innerHTML = JSON.parse(responseText)
@@ -76,8 +78,13 @@ function receivedMembers(responseText) {
 
   let addButtons = document.querySelectorAll('.add-member-btn')
   addButtons.forEach(function (btn) {
+    if (selectedIds.includes(btn.dataset.id)) {
+      btn.style.visibility = 'hidden'
+    }
     btn.addEventListener('click', function () {
+      console.log("oi")
       selectedMembers.innerHTML += '<option value="' + btn.dataset.id + '" selected></option>'
+      selectedIds.push(btn.dataset.id)
 
       let memberCard = btn.parentElement.parentElement.cloneNode(true)
       let removeButton = memberCard.querySelector('button')
@@ -87,6 +94,7 @@ function receivedMembers(responseText) {
 
       if (addedMembers.firstElementChild.classList.contains('text-muted'))
         addedMembers.innerHTML = ""
+
       addedMembers.appendChild(memberCard)
       removeButton.addEventListener('click', function () {
         let removed = selectedMembers.querySelector('option[value="' + removeButton.dataset.id + '"]')
@@ -94,10 +102,12 @@ function receivedMembers(responseText) {
         addedMembers.removeChild(removeButton.parentElement.parentElement)
         if (addedMembers.innerHTML === "")
           addedMembers.innerHTML = "<p class='text-muted'>No members added!</p>"
-        btn.style.visibility='visible'
+        let addButton = document.querySelector('.add-member-btn[data-id="' + removeButton.dataset.id + '"]')
+        if(addButton != null)
+          addButton.style.visibility = 'visible'
+        selectedIds.splice(selectedIds.indexOf(removeButton.dataset.id))
       })
-
-      btn.style.visibility='hidden'
+      btn.style.visibility = 'hidden'
     })
   })
 

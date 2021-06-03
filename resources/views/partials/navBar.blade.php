@@ -29,7 +29,7 @@
                         @if (Auth::user()->is_admin)
                         Admin
                         @else
-                        <img class="rounded-circle me-2" src="{{ url(Auth::user()->client->avatar) }}" width="30px" height="30px" alt="avatar">
+                        <img class="rounded-circle me-2" src="{{ url(Auth::user()->client->avatar) }}" width="30px" height="30px" alt="avatar" id='navBarAvatar'>
                         {{ Auth::user()->username }}
                         @endif
                     </a>

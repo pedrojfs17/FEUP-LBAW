@@ -51,7 +51,7 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2 my-2 mt-auto task{{$task->id}}Tags">
-      @each('partials.tag', $task->tags, 'tag')
+      @each('partials.tasks.tag', $task->tags, 'tag')
     </div>
 
     <div class="d-none d-sm-flex justify-content-between mt-2">

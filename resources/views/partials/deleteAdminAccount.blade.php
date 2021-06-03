@@ -14,7 +14,7 @@
         <form method="POST" action="/admin/{{ Auth::user()->username }}">
           @method('DELETE')
           @csrf
-          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="submit" class="btn btn-danger btn-danger-red">Delete</button>
         </form>
       </div>
     </div>

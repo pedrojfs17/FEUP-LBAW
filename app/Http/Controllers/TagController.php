@@ -31,6 +31,7 @@ class TagController extends Controller
 
     $result = array(
       'delete_tag' => view('partials.deleteTag', ['tag' => $tag])->render(),
+      'tag' => view('partials.tasks.tag', ['tag' => $tag])->render(),
       'tag' => view('partials.tag', ['tag' => $tag])->render(),
       'message' => view('partials.messages.successMessage', ['message' => 'Tag created!'])->render()
     );

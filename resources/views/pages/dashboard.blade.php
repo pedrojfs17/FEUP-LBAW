@@ -48,7 +48,7 @@
           </div>
           <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
             <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0"
-                    style="background-color: #ea4c89;" data-bs-toggle="modal"
+                    data-bs-toggle="modal"
                     data-bs-target="#createProjectModal">+ New Project
             </button>
           </div>
@@ -76,8 +76,7 @@
           </div>
           <div class="d-flex col-lg-4 col-md-4 col-sm-12 mt-3 mt-md-0">
             <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0 disabled"
-                    style="background-color: #ea4c89;" data-bs-toggle="modal"
-                    data-bs-target="#connectAccountModal">+ Connect Account
+                    data-bs-toggle="modal" data-bs-target="#connectAccountModal">+ Connect Account
             </button>
           </div>
         </div>

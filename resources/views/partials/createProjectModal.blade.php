@@ -58,7 +58,7 @@
                   </div>
                 </div>
                 <hr>
-                <button type="button" class="next btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
+                <button type="button" class="next btn btn-lg btn-primary float-end">
                   Next
                 </button>
                 <button type="button" class="btn btn-lg btn-secondary float-end mx-3" data-bs-dismiss="modal">Cancel
@@ -72,11 +72,11 @@
                 </div>
                 <div class="mb-3">
                   <label for="dueDateInput" class="form-label">Due Date</label>
-                  <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateInput" type="date"
+                  <input class="form-control" id="dueDateInput" type="date"
                          name="due_date" value="{{ old('due_date') }}">
                 </div>
                 <hr>
-                <button type="button" class="next btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
+                <button type="button" class="next btn btn-lg btn-primary float-end">
                   Next
                 </button>
                 <button type="button" class="previous btn btn-lg btn-secondary float-end mx-3">Previous</button>
@@ -110,7 +110,7 @@
                   </div>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-lg btn-primary float-end" style="background-color: #00AFB9">
+                <button type="submit" class="btn btn-lg btn-primary float-end">
                   Submit
                 </button>
                 <button type="button" class="previous btn btn-lg btn-secondary float-end mx-3">Previous</button>

@@ -228,9 +228,64 @@ function onModalReceived(response) {
 }
 
 function addModalEventListeners(element) {
+  addEditButtonEventListner(element)
+  addSaveButtonEventListner(element)
+  addCancelButtonEventListner(element)
+  addClearButtonEventListner(element)
   taskEventListener(element)
   element.querySelectorAll('.delete-task-button').forEach(button => addDeleteEventListener(button,[element,document.getElementById('task-'+element.dataset.id)]))
   commentEventListener(element)
   element.querySelectorAll('.open-task').forEach(button => addGetEventListener(button, null, onModalReceived))
   element.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
+}
+
+function addClearButtonEventListner(element) {
+  clearButtons = element.querySelectorAll('.clearButton')
+  clearButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const input = button.parentElement.children[0]
+      if (!input.disabled) {
+        input.value = ''
+        let event = new Event('change');
+        input.dispatchEvent(event);
+      }
+    })
+  })
+}
+
+addClearButtonEventListner(document)
+
+function clearFields(response) {
+  let form = document.getElementById('changePassword')
+  let inputs = form.querySelectorAll('input')
+  inputs.forEach((input) => {
+    if (input.name != '_token') {
+      input.value = ''
+      let event = new Event('change');
+      input.dispatchEvent(event);
+    }
+  })
+}
+
+let projStatus = document.querySelector('.project-status')
+
+if (projStatus) {
+  let button = projStatus.querySelector('button')
+  button.addEventListener('click', () => {projStatusHandler(button)})
+}
+
+function projStatusHandler(button) {
+  let token = document.querySelector('input[name="_token"]').value
+  sendAjaxRequest('PATCH', button.dataset.href, encodeForAjax({
+    'closed' : button.dataset.value,
+    '_token' : token
+  }),
+  (response) => {
+    let newStatus = document.createRange().createContextualFragment(response.projStatus).firstChild
+    button = newStatus.querySelector('button')
+    newStatus.addEventListener('click', () => {projStatusHandler(button)})
+    projStatus.parentElement.replaceChild(newStatus, projStatus)
+    projStatus = newStatus
+    // console.log(newStatus)
+  })
 }

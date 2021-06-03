@@ -3,7 +3,7 @@ function taskEventListener(element) {
   const subTaskSelections = element.querySelector('.subtask-selection')
   const waitingSelection = element.querySelector('.waiting-selection')
   const assignmentsSelection = element.querySelector('.assign-selection')
-  const tagSelect = element.querySelectorAll('.edit-tags')
+  const editButtons = element.querySelectorAll('.edit-task')
   const checklistItem = element.querySelectorAll('.checklist-item')
 
   tagSelections.forEach(selection => {
@@ -38,7 +38,7 @@ function taskEventListener(element) {
   })
 
 
-  tagSelect.forEach(select => {
+  editButtons.forEach(select => {
     let tagForm = select.parentElement.querySelector('form')
 
     tagForm.addEventListener('submit', function (e) {
@@ -107,15 +107,6 @@ function updateCard(taskID, card) {
   updatedCard.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
 }
 
-function updateTaskModal(task, modalElement) {
-  const subTaskDiv = document.querySelector('#' + task)
-  subTaskDiv.innerHTML = ""
-  let elem = document.createElement('div')
-  elem.innerHTML = modalElement
-  Array.from(elem.children).forEach(child => subTaskDiv.append(child))
-  subTaskDiv.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
-}
-
 
 function addCheckListItems(item) {
   let deleteBtns = item.querySelectorAll('.delete-item')
@@ -170,4 +161,11 @@ function addInputEventListener() {
       form.reset()
     }
   })
+}
+
+function updateTaskModal(changeID, changeHTML) {
+  let old_elem = document.getElementById(changeID)
+  let new_elem = document.createRange().createContextualFragment(changeHTML).firstChild
+  new_elem.querySelectorAll('.text-bg-check').forEach(element => checkColor(element))
+  old_elem.parentElement.replaceChild(new_elem, old_elem)
 }

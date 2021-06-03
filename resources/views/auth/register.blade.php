@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@endpush
+
 @section('content')
 <div class="container d-flex flex-column justify-content-center my-5">
   <div class="row justify-content-center">
@@ -46,24 +50,11 @@
           <input type="password" class="form-control" id="inputPasswordConfirmation" name="password_confirmation" required>
         </div>
         <div class="d-grid mt-4">
-          <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
+          <button type="submit" class="btn btn-danger">
             Sign up
           </button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <div class="row justify-content-center my-4">
-    <div class="col-xl-4 col-lg-5 col-md-7">
-      <div class="d-grid gap-2">
-        <a href="#" role="button" class="btn btn-outline-secondary text-start disabled"><i class="bi bi-google me-2"></i>Sign
-          up with Google</a>
-        <a href="#" role="button" class="btn btn-outline-secondary text-start disabled"><i
-            class="bi bi-facebook me-2"></i>Sign up with Facebook</a>
-        <a href="#" role="button" class="btn btn-outline-secondary text-start disabled"><i
-            class="bi bi-twitter me-2"></i>Sign up with Twitter</a>
-      </div>
     </div>
   </div>
 </div>

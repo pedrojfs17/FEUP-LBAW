@@ -8,7 +8,9 @@ use App\Models\CheckListItem;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -80,7 +82,7 @@ class TaskController extends Controller
     $task->save();
 
     $result = array(
-      'taskCard' => view('partials.task', ['task' => Task::find($task->id)])->render(),
+      'taskCard' => view('partials.tasks.task', ['task' => Task::find($task->id)])->render(),
       'message' => view('partials.messages.successMessage', ['message' => 'Task created!'])->render()
     );
 
@@ -94,8 +96,8 @@ class TaskController extends Controller
     $result = array();
 
     $result['taskId'] = $task->id;
-    $result['taskCard'] = view('partials.task', ['task' => $task])->render();
-    $result['taskModal'] = view('partials.taskModal', [
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $task])->render();
+    $result['taskModal'] = view('partials.tasks.taskModal', [
       'task' => $task,
       'user' => Client::find(Auth::user()->id),
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
@@ -106,30 +108,48 @@ class TaskController extends Controller
 
   public function update(Request $request, Project $project, Task $task)
   {
-    $request->validate([
+    $validator = Validator::make($request->all(), [
       'name' => 'string',
-      'description' => 'string',
-      'due_date' => 'date|after:today',
+      'description' => 'string|nullable',
+      'due_date' => "date|after:today|nullable",
       'task_status' => 'string'
+    ], [
+      'before' => 'The :attribute must be a date before ' . $project->getReadableDueDate() . '.'
     ]);
+    $projdate = $project->due_date;
+    $validator->sometimes('due_date', "before:$projdate", function ($input) use ($projdate) {
+      return $projdate != null && $input->due_date != null;
+    });
+    if ($validator->fails()) {    
+      return response()->json(['errors' => $validator->messages()], Response::HTTP_BAD_REQUEST);
+    }
 
     $this->authorize('updateTask', $project);
 
     if (!empty($request->input('name')))
       $task->name = $request->input('name');
 
-    if (!empty($request->input('description')))
+    if ($request->has('description'))
       $task->description = $request->input('description');
 
-    if (!empty($request->input('due_date')))
+    if ($request->has('due_date'))
       $task->due_date = $request->input('due_date');
 
     if (!empty($request->input('task_status')))
       $task->task_status = $request->input('task_status');
 
     $task->save();
+    $task = Task::find($task->id);
 
-    return response()->json($task);
+    $result = array();
+    $result['taskID'] = $task->id;
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $task])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalInfo', [
+      'task' => $task,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
+    $result['breadcrumbChanges'] = view('partials.tasks.taskModalBreadcrumb', ['task' => $task])->render();
+
+    return response()->json($result);
   }
 
   public function delete(Project $project, Task $task)
@@ -161,8 +181,8 @@ class TaskController extends Controller
     $updatedTask = Task::find($task->id);
     $result = array();
     $result['taskID'] = $task->id;
-    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.tagButton', ['tags' => $updatedTask->tags])->render();
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalTags', ['task' => $updatedTask])->render();
 
     return response()->json($result);
   }
@@ -198,8 +218,8 @@ class TaskController extends Controller
     $updatedTask = Task::find($task->id);
     $result = array();
     $result['taskID'] = $task->id;
-    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->subtasks])->render();
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalSubtasks', ['task' => $updatedTask])->render();
 
     return response()->json($result);
   }
@@ -224,8 +244,8 @@ class TaskController extends Controller
     $updatedTask = Task::find($task->id);
     $result = array();
     $result['taskID'] = $task->id;
-    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.taskButton', ['taskArray' => $updatedTask->waitingOn])->render();
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalWaiting', ['task' => $updatedTask])->render();
 
     return response()->json($result);
   }
@@ -250,8 +270,8 @@ class TaskController extends Controller
     $updatedTask = Task::find($task->id);
     $result = array();
     $result['taskID'] = $task->id;
-    $result['taskCard'] = view('partials.task', ['task' => $updatedTask])->render();
-    $result['modalChanges'] = view('partials.clientPhoto', ['assignees' => $updatedTask->assignees])->render();
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalAssign', ['task' => $updatedTask])->render();
 
     return response()->json($result);
   }
@@ -259,6 +279,10 @@ class TaskController extends Controller
   public function comment(Request $request, Project $project, Task $task)
   {
     $this->authorize('comment', $task);
+
+    $request->validate([
+      'text' => 'string'
+    ]);
 
     $comment = new Comment();
     $comment->task = $task->id;
@@ -291,7 +315,16 @@ class TaskController extends Controller
     $item->item_text = $request->input('new_item');
     $item->completed = false;
     $item->save();
-    return response()->json($this->updatedTaskModalJSON($task->id));
+
+    $result = array();
+    $updatedTask = Task::find($task->id);
+    $result['taskID'] = $task->id;
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
+      'task' => $updatedTask,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
+
+    return response()->json($result);
   }
 
   public function updateItem(Request $request, Project $project, Task $task, CheckListItem $checklistitem)
@@ -304,22 +337,30 @@ class TaskController extends Controller
 
     $checklistitem->completed = filter_var($request->input('completed'), FILTER_VALIDATE_BOOLEAN);
     $checklistitem->save();
-    return response()->json($this->updatedTaskModalJSON($task->id));
+
+    $updatedTask = Task::find($task->id);
+    $result = array();
+    $result['taskID'] = $task->id;
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
+      'task' => $updatedTask,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
+
+    return response()->json($result);
   }
 
   public function deleteItem(Project $project, Task $task, CheckListItem $checklistitem)
   {
     $this->authorize('deleteCheckListItem', $task);
     $checklistitem->delete();
-    return response()->json($this->updatedTaskModalJSON($task->id));
-  }
-
-  public function updatedTaskModalJSON($id) {
-    $task = Task::find($id);
+    $updatedTask = Task::find($task->id);
     $result = array();
-    $result['taskID'] = $id;
-    $result['taskCard'] = view('partials.task', ['task' => $task])->render();
-    $result['modalChanges'] = view('partials.checklistItems', ['task' => $task, 'role' => $task->project()->first()->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
-    return $result;
+    $result['taskID'] = $task->id;
+    $result['taskCard'] = view('partials.tasks.task', ['task' => $updatedTask])->render();
+    $result['modalChanges'] = view('partials.tasks.taskModalChecklist', [
+      'task' => $updatedTask,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role])->render();
+
+    return response()->json($result);
   }
 }

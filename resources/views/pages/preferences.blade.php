@@ -3,6 +3,8 @@
 @push('scripts')
   <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
+  <script src="{{ asset('js/profile.js') }}" defer></script>
+  <script src="{{ asset('js/invite.js') }}" defer></script>
 @endpush
 
 @push('styles')
@@ -20,35 +22,34 @@
 
     <div class="container">
       <div class="row align-items-center mt-5 px-5">
-        <h4>Basic info</h4>
+        <div class='col'>
+          <h4>Basic info</h4>
+        </div>
+        @if ($role == 'Owner')
+        <div class='col text-end'>
+          <button class="btn btn-link text-muted" id="editProfile">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </div>
+        <div class='col text-end' id="editActions">
+          <button class="btn btn-link text-muted" id="cancelEdit">
+            <i class="bi bi-x fa-lg"></i>
+          </button>
+          <button class="btn btn-link text-muted" id="saveEdit" data-href="/api/project/{{ $project->id }}" data-on-edit="updateProjectName">
+            <i class="bi bi-check fa-lg"></i>
+          </button>
+        </div>
+        @endif
         <hr>
       </div>
-
-      <section class="row justify-content-center align-items-begin px-5">
-        <label for="name" class="form-label">Name</label>
-        <div class="input-group mb-3">
-          <input type="text" value="{{ $project->name }}" class="form-control" id="name" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="name" data-on-edit="updateProjectName" type="button"><i
-              class="bi bi-pencil"></i></button>
-        </div>
-
-        <label for="description" class="form-label">Description</label>
-        <div class="input-group mb-3">
-          <textarea class="form-control" id="description" style="height: 8em;" disabled>{{ $project->description }}</textarea>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="description" type="button"><i
-              class="bi bi-pencil"></i></button>
-        </div>
-
-        <label for="due_date" class="form-label">Due Date</label>
-        <div class="input-group mb-3">
-          <input type="date" value="{{ (new DateTime($project->due_date))->format('Y-m-d') }}" class="form-control" id="due_date" disabled>
-          <button class="btn btn-outline-secondary edit-button" data-href="/api/project/{{ $project->id }}" data-edit-input="due_date" type="button"><i
-              class="bi bi-pencil"></i></button>
-        </div>
-      </section>
+      @if ($role == 'Owner')
+      @include('partials.project.projectInfoForm', ['project' => $project])
+      @else
+      @include('partials.project.projectInfo', ['project' => $project])
+      @endif
 
       <div class="row align-items-center mt-5 px-5">
-        <h4>Manage members</h4>
+        <h4>Members</h4>
         <hr>
       </div>
 
@@ -56,6 +57,12 @@
         @foreach($project->teamMembers as $member)
           @include('partials.projectMember', ['member' => $member])
         @endforeach
+        @if (count($project->getPendingInvites()) > 0)
+          <h5 class='mt-3 mb-2'>Invites</h5>
+          @foreach($project->getPendingInvites() as $invited)
+            @include('partials.projectMember', ['member' => $invited])
+          @endforeach
+        @endif
       </div>
 
       <div class="row align-items-center mt-5 px-5">
@@ -66,12 +73,12 @@
       <div class="row justify-content-center align-items-begin px-5">
         <div class="d-grid mb-3">
           <p class="text-muted mb-2">Once you leave this project, there is no coming back...</p>
-          <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#leaveProjectModal">Leave Project</button>
+          <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#leaveProjectModal">Leave Project</button>
         </div>
         @if ($role == 'Owner')
         <div class="d-grid">
           <p class="text-muted mb-2">Once you delete this project, there is no coming back...</p>
-          <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">Delete Project</button>
+          <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">Delete Project</button>
         </div>
         @endif
       </div>
@@ -92,7 +99,7 @@
               <form method="POST" action="/api/project/{{ $project->id }}/{{ Auth::user()->username }}">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Leave</button>
+                <button type="submit" class="btn btn-danger btn-danger-red">Leave</button>
               </form>
             </div>
           </div>
@@ -116,7 +123,7 @@
               <form method="POST" action="/api/project/{{ $project->id }}">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger btn-danger-red">Delete</button>
               </form>
             </div>
           </div>

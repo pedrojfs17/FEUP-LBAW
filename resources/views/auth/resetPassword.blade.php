@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+@endpush
+
 @section('content')
   <div class="container d-flex flex-column justify-content-center my-5">
     <div class="row justify-content-center">
       <a href="{{ route('/') }}" style="width: auto;">
-        <img src= {{ asset("images/oversee_blue_txt.svg") }} height="90" alt="company logo">
+        <img src='{{ asset("images/oversee_blue_txt.svg") }}' height="90" alt="company logo">
       </a>
     </div>
 
@@ -43,7 +47,7 @@
           </div>
 
           <div class="d-grid mt-4">
-            <button type="submit" class="btn btn-danger" style="background-color: #ea4c89;">
+            <button type="submit" class="btn btn-danger">
               Recover Password
             </button>
           </div>

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Client;
+use App\Models\Country;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -19,26 +21,30 @@ class ClientController extends Controller
   public function show(Account $account)
   {
     $client = Client::find($account->id);
-    return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id)]);
+    return view('pages.profile', ['client' => $client, 'user' => Client::find(Auth::user()->id), 'countries' => Country::all()]);
   }
 
   public function list(Request $request)
   {
     $searchQuery = $request->input('query');
+    $project = $request->input('project');
     $gender = $request->input('gender') == NULL ? NULL : explode(',',$request->input('gender'));
     $country =$request->input('country') == NULL ? NULL : explode(',',$request->input('country'));
 
     $clients = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-      })
-      ->when(!empty($gender), function ($query) use ($gender) {
+      })->when(!empty($project), function ($query) use ($project) {
+        return $query->whereDoesntHave('projects', function ($q) use ($project) {
+          $q->where('project_id','=', $project);
+        })->whereDoesntHave('invites', function ($q) use ($project) {
+          $q->where('project_id', '=', $project);
+        });
+      })->when(!empty($gender), function ($query) use ($gender) {
         return $query->whereIn('client_gender', $gender);
-      })
-      ->when(!empty($country), function ($query) use ($country) {
+      })->when(!empty($country), function ($query) use ($country) {
         return $query->whereIn('country', $country);
-      })
-      ->paginate(7);
+      })->where('id', '!=', Auth::user()->id)->paginate(7);
 
     if (Auth::user()->is_admin)
       $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
@@ -57,20 +63,21 @@ class ClientController extends Controller
    */
   public function update(Request $request, $username)
   {
-    $validated = $request->validate([
-      'email' => 'unique:account|email'
+    $request->validate([
+      'email' => 'nullable|unique:account|email'
     ]);
-    $client = Client::find($username);
+    $account = Account::where('username', '=', $username)->first();
+    $client = Client::find($account->id);
     $this->authorize('update', $client);
 
-    $client->account()->email = empty($validated->input('email')) ? $client->account()->email : $validated->input('email');
-    $client->account()->password = empty($validated->input('password')) ? $client->account()->password : $validated->input('password');
-    $client->fullname = empty($validated->input('fullname')) ? $client->fullname : $validated->input('fullname');
-    $client->company = empty($validated->input('company')) ? $client->company : $validated->input('company');
-    $client->avatar = empty($validated->input('avatar')) ? $client->avatar : $validated->input('avatar');
-    $client->gender = empty($validated->input('gender')) ? $client->gender : $validated->input('gender');
-    $client->country = empty($validated->input('country')) ? $client->country : $validated->input('country');
+    $account->email = empty($request->input('email')) ? $account->email : $request->input('email');
+    $client->fullname = empty($request->input('fullname')) ? $client->fullname : $request->input('fullname');
+    $client->company = empty($request->input('company')) ? $client->company : $request->input('company');
+    $client->avatar = empty($request->input('avatar')) ? $client->avatar : $this->saveImage($request->input('avatar'), $username);
+    $client->client_gender = empty($request->input('client_gender')) ? $client->client_gender : $request->input('client_gender');
+    $client->country = empty($request->input('country')) ? $client->country : $request->input('country');
     $client->save();
+    $account->save();
 
     $response = array('message' => view('partials.messages.successMessage', ['message' => 'Updated account!'])->render());
 
@@ -187,5 +194,15 @@ class ClientController extends Controller
     $response = array('message' => view('partials.messages.successMessage', ['message' => "Updated Password!"])->render());
 
     return response()->json($response);
+  }
+
+  private function saveImage(String $img_data, String $username) {
+    $image = str_replace('data:image/png;base64,', '', $img_data);
+    $image = str_replace(' ', '+', $image);
+    $fileName = 'avatars/' . $username . '.png';
+
+    Storage::disk('local')->put($fileName, base64_decode($image));
+
+    return $fileName;
   }
 }

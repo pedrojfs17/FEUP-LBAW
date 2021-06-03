@@ -5,8 +5,9 @@
   <script src="{{ asset('js/drag-and-drop.js') }}" defer></script>
   <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/comments.js') }}" defer></script>
   <script src="{{ asset('js/tasks.js') }}" defer></script>
+  <script src="{{ asset('js/taskForm.js') }}" defer></script>
+  <script src="{{ asset('js/comments.js') }}" defer></script>
 @endpush
 
 @push('styles')

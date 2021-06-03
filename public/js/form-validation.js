@@ -113,5 +113,10 @@ function serverSideValidation(form, response) {
     inputField.classList.add('is-invalid')
     let inputFeedback = form.querySelector('#' + inputField.getAttribute('aria-describedby'))
     inputFeedback.innerText = response.errors[input][0]
+    inputField.addEventListener('change', () => {
+      inputField.classList.remove('is-invalid')
+      inputFeedback.innerText = ''
+    }
+    )
   })
 }

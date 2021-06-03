@@ -24,26 +24,27 @@ class SearchController extends Controller
     $result = array();
     $searchQuery = $request->input('query');
 
+    $projects = array();
+    $tasks = array();
+    $users = array();
 
-    $projects = $client->projects()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
-      return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
-        ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-    })->paginate(5);
+    if ($searchQuery !== null) {
+      $projects = $client->projects()->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
+          ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery])
+          ->limit(5)->get();
 
-    $tasks = $client->tasks()->when(!empty($searchQuery), function ($query) use ($searchQuery) {
-      return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
-        ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-    })->paginate(5);
+      $tasks = $client->tasks()->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
+          ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery])
+          ->limit(5)->get();
 
-    $users = Client::when(!empty($searchQuery), function ($query) use ($searchQuery) {
-      return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
-        ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
-    })->paginate(5);
+      $users = Client::whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
+          ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery])
+          ->limit(5)->get();
+    }
 
-
-    $result['projects'] = view('partials.dashboardProjects', ['projects' => $projects,'pagination'=>false])->render();
+    $result['projects'] = view('partials.dashboardProjects', ['projects' => $projects, 'pagination'=>false])->render();
     $result['tasks'] = view('partials.queriedTasks', ['tasks' => $tasks])->render();
-    $result['users'] = view('partials.queriedUsers', ['users' => $users])->render();
+    $result['users'] = view('partials.queriedUsers', ['users' => $users, 'pagination' => false])->render();
 
     return response()->json($result);
   }

@@ -14,12 +14,13 @@ function commentEventListener(modal) {
 
 function addReply(comment, text) {
   let parent = document.getElementById('comment' + comment + 'replyDiv')
-  parent.innerHTML += JSON.parse(text);
+  parent.innerHTML += text
 }
 
 function addComment(text) {
   let parent = document.querySelectorAll('.task-comments')[0]
-  parent.innerHTML += JSON.parse(text);
+  parent.innerHTML += text;
+  commentEventListener(parent)
 }
 
 function getDate() {
@@ -28,54 +29,40 @@ function getDate() {
 }
 
 function sendReplyRequest(button) {
-  let replyText = document.getElementById('replyTo' + button.dataset.comment).value.trim()
+  let replyInput = document.getElementById('replyTo' + button.dataset.comment)
+  let replyText = replyInput.value.trim()
 
-  let request = new XMLHttpRequest()
-  request.onreadystatechange = function() {
-    if (request.readyState === XMLHttpRequest.DONE) {
-      if (request.status === 200)
-        addReply(button.dataset.comment, this.responseText)
-      else {
-        alert('There was an error ' + request.status)
-      }
-    }
-  }
-
-  request.open("POST", button.dataset.href, true)
-  request.setRequestHeader("Accept", "application/json")
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-  request.send(encodeForAjax({
+  sendAjaxRequest('POST', button.dataset.href, encodeForAjax({
     '_token' :  document.querySelector('input[name="_token"]').value,
     'text' : replyText,
     'parent' : button.dataset.comment,
     'date' : getDate(),
     'author' : button.dataset.author
-  }))
+  }), (response) => {
+    addReply(button.dataset.comment, response)
+    replyInput.value = ''
+    let event = new Event('change');
+    replyInput.dispatchEvent(event);
+  },
+  (response) => {serverSideValidation(button.form, response)})
 }
 
 function sendCommentRequest(button) {
-  let replyText = document.getElementById('commentOn' + button.dataset.task).value.trim()
-
-  let request = new XMLHttpRequest()
-  request.onreadystatechange = function() {
-    if (request.readyState === XMLHttpRequest.DONE) {
-      if (request.status === 200)
-        addComment(this.responseText)
-      else {
-        alert('There was an error ' + request.status)
-      }
-    }
-  }
-
-  request.open("POST", button.dataset.href, true)
-  request.setRequestHeader("Accept", "application/json")
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-  request.send(encodeForAjax({
+  let commentInput = document.getElementById('commentOn' + button.dataset.task)
+  let commentText = commentInput.value.trim()
+  
+  sendAjaxRequest('POST', button.dataset.href, encodeForAjax({
     '_token' :  document.querySelector('input[name="_token"]').value,
-    'text' : replyText,
+    'text' : commentText,
     'date' : getDate(),
     'author' : button.dataset.author
-  }))
+  }), (response) => {
+    addComment(response)
+    commentInput.value = ''
+    let event = new Event('change');
+    commentInput.dispatchEvent(event);
+  },
+  (response) => {serverSideValidation(button.form, response)})
 }
 
 

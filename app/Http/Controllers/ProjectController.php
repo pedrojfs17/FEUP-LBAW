@@ -24,7 +24,7 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'required|string',
       'description' => 'required|string',
-      'due_date' => 'date|after:today'
+      'due_date' => 'date|after:today|nullable'
     ]);
 
     $project = new Project();
@@ -38,7 +38,7 @@ class ProjectController extends Controller
     $members = $request->input('members');
     if ($members != null) {
       foreach ($request->input('members') as $member)
-        $project->teamMembers()->attach($member, ['member_role' => 'Editor']);
+        $project->invites()->attach($member);
     }
     return redirect(route('project.overview', ['project' => $project->id]))->with(['message' => 'Created Project!', 'message-type' => 'Success']);
   }
@@ -58,9 +58,10 @@ class ProjectController extends Controller
     $lowerThanCompletion = $request->input('lower_completion');
     $beforeDate = $request->input('before_date');
     $afterDate = $request->input('after_date');
+    $closed = $request->input('closed');
 
     $projects = $client->projects()
-      ->when(!empty($searchQuery), function ($query) use ($searchQuery) {
+      ->when($searchQuery !== null, function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
       })
@@ -70,16 +71,18 @@ class ProjectController extends Controller
       ->when(!empty($afterDate), function ($query) use ($afterDate) {
         return $query->whereDate('due_date','>=',$afterDate);
       })
+      ->when($closed !== null, function ($query) use ($closed) {
+        return $query->where('closed', $closed);
+      })
       ->get()
-      ->when(!empty($higherThanCompletion), function ($query) use ($higherThanCompletion) {
+      ->when($higherThanCompletion !== null, function ($query) use ($higherThanCompletion) {
         return $query->where('completion','>=',intval($higherThanCompletion));
       })
-      ->when(!empty($lowerThanCompletion), function ($query) use ($lowerThanCompletion) {
+      ->when($lowerThanCompletion !== null, function ($query) use ($lowerThanCompletion) {
         return $query->where('completion','<=',intval($lowerThanCompletion));
-      })
-      ->sortByDesc('id');
+      })->sortByDesc('id')->sortBy('closed');
 
-    $page =  $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
+    $page = $request->input('page') ? intval($request->input('page')) : (Paginator::resolveCurrentPage() ?: 1);
 
     $paginator = new Paginator($projects->forPage($page, 5), $projects->count(), 5, $page);
     $paginator->setPath("/api/project");
@@ -94,8 +97,8 @@ class ProjectController extends Controller
     $request->validate([
       'name' => 'string',
       'description' => 'string',
-      'due_date' => 'date|after:today',
-      'completed' => 'boolean'
+      'due_date' => 'date|after:today|nullable',
+      'closed' => 'boolean'
     ]);
 
     $this->authorize('update', $project);
@@ -103,18 +106,24 @@ class ProjectController extends Controller
     if (!empty($request->input('name')))
       $project->name = $request->input('name');
 
-    if (!empty($request->input('description')))
+    if ($request->has('description'))
       $project->description = $request->input('description');
 
-    if (!empty($request->input('due_date')))
+    if ($request->has('due_date'))
       $project->due_date = $request->input('due_date');
 
-    if(!empty($request->input('completed')))
-      $project->completed = $request->input('completed');
+    if($request->has('closed'))
+      $project->closed = $request->input('closed');
 
     $project->save();
 
-    return response()->json($project);
+    $response = array();
+
+    $response['id'] = $project->id;
+    $response['name'] = $project->name;
+    $response['projStatus'] = view('partials.project.projectStatus', ['project' => $project])->render();
+
+    return response()->json($response);
   }
 
   public function delete(Project $project)
@@ -171,7 +180,11 @@ class ProjectController extends Controller
     $client = Client::find($request->client);
     $this->authorize('invite', [$project, $client]);
     $project->invites()->attach($client->id);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return view('pages.overview', [
+      'tasks' => $project->tasks()->get()->reverse(),
+      'project' => $project,
+      'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
+      'user' => Client::find(Auth::user()->id)]);
   }
 
   public function updateInvite(Request $request, Project $project, $invite)
@@ -179,11 +192,11 @@ class ProjectController extends Controller
     $request->validate([
       'decision' => 'required|boolean',
     ]);
-    $this->authorize('updateInvite', $project);
+    $this->authorize('updateInvite', [$project, $request->decision]);
     $project->invites()->updateExistingPivot($invite, [
       'decision' => $request->decision
     ]);
-    return view('pages.overview', ['overview' => $project->tasks()]);
+    return response()->json(array());
   }
 
   public function overview(Project $project)

@@ -1,6 +1,10 @@
-<div class="card my-2" role="button">
+<div class="card my-2" role="button" @if ($project->closed) style='background-color: #ced4da55;' @endif>
   <div class="card-body">
-    <h5 class="card-title"><a class="stretched-link text-decoration-none text-reset text-wrap text-capitalize" href="{{ route('project.overview', ['project' => $project->id]) }}">{{ $project->name }}</a></h5>
+    <h5 class="card-title"><a class="d-flex align-items-center stretched-link text-decoration-none text-reset text-wrap text-capitalize" href="{{ route('project.overview', ['project' => $project->id]) }}">{{ $project->name }}
+      @if ($project->closed)
+      <i class="bi bi-lock-fill fa-xs ms-1"></i>
+      @endif
+    </a></h5>
     <div class="row align-items-center">
       <div class="col-lg-3 col-md-3">
         <ul class="position-relative avatar-overlap d-none d-md-block" style="width: max-content; z-index: 1">

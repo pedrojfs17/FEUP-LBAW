@@ -24,7 +24,7 @@
       <div class="col-md-6 d-flex flex-column">
         <h1 class="mb-3">User Stats</h1>
         <div class="d-flex flex-column justify-content-center flex-grow-1">
-          <div class=" d-flex flex-wrap justify-content-around m-4 shadow p-3" style="border-radius: 15px">
+          <div class=" d-flex flex-wrap justify-content-around m-4 ms-0 shadow p-3" style="border-radius: 15px">
             <div class="text-center mx-2">
               <h1 class="display-6">{{$total_users}}</h1>
               <h5>Total Users</h5>
@@ -43,11 +43,11 @@
       <div class="col-md-6 px-2 align-items-center">
         <h1 class="mb-3">Top Countries</h1>
         @foreach($countries as $country => $n)
-        <div class="d-flex">
-          <h5 class="col-4 text-truncate me-2">{{$country}}</h5>
-          <div class="progress col-8">
+        <div class="d-flex mb-2 align-items-center">
+          <h5 class="col-4 text-truncate me-2 mb-0">{{$country}}</h5>
+          <div class="progress col-8 position-relative" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$n}}%">
             <div class="progress-bar" role="progressbar" style="width: {{$n}}%;background-color: #00AFB9"
-                 aria-valuenow="{{$n}}" aria-valuemin="0" aria-valuemax="100">{{$n}}%
+                 aria-valuenow="{{$n}}" aria-valuemin="0" aria-valuemax="100">
             </div>
           </div>
         </div>
@@ -76,11 +76,11 @@
           </div>
           <div class="" style="width: 200px">
             <h1 class="display-6">{{$avg_projects}}</h1>
-            <h5>Avg Projects/User</h5>
+            <h5>Avg. Projects/User</h5>
           </div>
           <div class="" style="width: 200px">
             <h1 class="display-6">{{$avg_progress}}%</h1>
-            <h5>Avg Project Progress</h5>
+            <h5>Avg. Project Progress</h5>
           </div>
         </div>
       </div>

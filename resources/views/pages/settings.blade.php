@@ -91,7 +91,7 @@
       </button>
     </div>
 
-    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="giveFormFeedback">
+    <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="clearFields">
       @csrf
       <div class="col-lg-4">
         <label for="inputPassword" class="form-label">Old Password <span class="text-muted">*</span></label>
@@ -116,7 +116,7 @@
 
   <div class="row justify-content-center align-items-begin px-sm-5 px-1">
     <div class="d-grid gap-2">
-      <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete Account</button>
+      <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete Account</button>
     </div>
   </div>
 
@@ -136,7 +136,7 @@
           <form method="POST" action="/profile/{{ $user->account->username }}">
             @method('DELETE')
             @csrf
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger btn-danger-red">Delete</button>
           </form>
         </div>
       </div>

@@ -44,6 +44,15 @@
           <label for="filterProjAfterDate">After</label>
           <input class="form-control" id="filterProjAfterDate" type="date" name="after_date">
 
+          <hr>
+
+          <label for="closedSelection">Closed</label>
+          <select class="form-select" name="closed" id="closedSelection">
+            <option value="" selected>Any</option>
+            <option value="1">Closed</option>
+            <option value="0">Open</option>
+          </select>
+
           <button type="submit" class="d-none"></button>
         </form>
       </div>

@@ -58,9 +58,10 @@ class ProjectController extends Controller
     $lowerThanCompletion = $request->input('lower_completion');
     $beforeDate = $request->input('before_date');
     $afterDate = $request->input('after_date');
+    $closed = $request->input('closed');
 
     $projects = $client->projects()
-      ->when(!empty($searchQuery), function ($query) use ($searchQuery) {
+      ->when($searchQuery !== null, function ($query) use ($searchQuery) {
         return $query->whereRaw('search @@ plainto_tsquery(\'english\', ?)', [$searchQuery])
           ->orderByRaw('ts_rank(search, plainto_tsquery(\'english\', ?)) DESC', [$searchQuery]);
       })
@@ -70,11 +71,14 @@ class ProjectController extends Controller
       ->when(!empty($afterDate), function ($query) use ($afterDate) {
         return $query->whereDate('due_date','>=',$afterDate);
       })
+      ->when($closed !== null, function ($query) use ($closed) {
+        return $query->where('closed', $closed);
+      })
       ->get()
-      ->when(!empty($higherThanCompletion), function ($query) use ($higherThanCompletion) {
+      ->when($higherThanCompletion !== null, function ($query) use ($higherThanCompletion) {
         return $query->where('completion','>=',intval($higherThanCompletion));
       })
-      ->when(!empty($lowerThanCompletion), function ($query) use ($lowerThanCompletion) {
+      ->when($lowerThanCompletion !== null, function ($query) use ($lowerThanCompletion) {
         return $query->where('completion','<=',intval($lowerThanCompletion));
       })->sortByDesc('id')->sortBy('closed');
 
@@ -114,7 +118,7 @@ class ProjectController extends Controller
     $project->save();
 
     $response = array();
-    
+
     $response['id'] = $project->id;
     $response['name'] = $project->name;
     $response['projStatus'] = view('partials.project.projectStatus', ['project' => $project])->render();

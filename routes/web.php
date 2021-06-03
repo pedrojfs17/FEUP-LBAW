@@ -101,4 +101,8 @@ Route::get('admin/support', 'AdminController@support')->name('admin.support');
 Route::post('admin/add', 'AdminController@create')->name('admin.add');
 Route::delete('admin/{account:username}', 'AdminController@delete');
 
+// Social Media
+Route::get('/auth/google', 'SocialMediaAccountController@google')->name('auth.google');
+Route::get('/auth/google/redirect', 'SocialMediaAccountController@googleRedirect');
+
 

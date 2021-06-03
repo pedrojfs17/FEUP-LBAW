@@ -44,7 +44,7 @@ class ClientController extends Controller
         return $query->whereIn('client_gender', $gender);
       })->when(!empty($country), function ($query) use ($country) {
         return $query->whereIn('country', $country);
-      })->paginate(7);
+      })->where('id', '!=', Auth::user()->id)->paginate(7);
 
     if (Auth::user()->is_admin)
       $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();

@@ -72,7 +72,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="dueDateInput" class="form-label">Due Date</label>
-                  <input class="form-control @error('due_date') is-invalid @enderror" id="dueDateInput" type="date"
+                  <input class="form-control" id="dueDateInput" type="date"
                          name="due_date" value="{{ old('due_date') }}">
                 </div>
                 <hr>

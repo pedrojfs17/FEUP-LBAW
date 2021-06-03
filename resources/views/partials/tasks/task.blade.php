@@ -20,10 +20,10 @@
       @if (count($task->subtasks) > 0)
         <div class="subtasks my-auto mx-1 mx-sm-0">
         <span
-          class="{{ $task->subtasks->reduce(function ($carry, $subtask) { return $subtask->first('task_status')['task_status'] === 'Completed' ? $carry + 1 : $carry;}, 0) === count($task->subtasks) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
+          class="{{ count($task->subtasks->where('task_status', 'Completed')) === count($task->subtasks) ? 'text-success' : 'text-secondary'  }} px-0 py-0">
             <i class="bi bi-list-check"></i>
             <span class="d-none d-sm-inline-block">
-              {{ $task->subtasks->reduce(function ($carry, $subtask) { return $subtask->first('task_status')['task_status'] === 'Completed' ? $carry + 1 : $carry;}, 0) }}/{{ count($task->subtasks) }}
+              {{ count($task->subtasks->where('task_status', 'Completed')) }}/{{ count($task->subtasks) }}
             </span>
         </span>
         </div>

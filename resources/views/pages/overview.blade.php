@@ -4,7 +4,9 @@
   <script src="{{ asset('js/text-bg.js') }}" defer></script>
   <script src="{{ asset('js/form-validation.js') }}" defer></script>
   <script src="{{ asset('js/ajax.js') }}" defer></script>
+  @if (!$project->closed && $role != 'Reader')
   <script src="{{ asset('js/addmembers.js') }}" defer></script>
+  @endif
   <script src="{{ asset('js/taskForm.js') }}" defer></script>
   <script src="{{ asset('js/comments.js') }}" defer></script>
   <script src="{{ asset('js/tasks.js') }}" defer></script>

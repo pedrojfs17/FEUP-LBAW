@@ -38,7 +38,7 @@ class ProjectController extends Controller
     $members = $request->input('members');
     if ($members != null) {
       foreach ($request->input('members') as $member)
-        $project->teamMembers()->attach($member, ['member_role' => 'Editor']);
+        $project->invites()->attach($member);
     }
     return redirect(route('project.overview', ['project' => $project->id]))->with(['message' => 'Created Project!', 'message-type' => 'Success']);
   }

@@ -5,10 +5,10 @@
       <i class="bi bi-lock-fill fa-xs ms-1"></i>
       @endif
     </a>
-    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+    <button class="navbar-toggler collapsed text-muted w-100 text-end" type="button" data-bs-toggle="collapse"
             data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
             aria-expanded="false" aria-label="Toggle navigation">
-      <i class="bi bi-caret-down project-nav-toggler"></i>
+      Menu <i class="bi bi-caret-down project-nav-toggler"></i>
     </button>
     <div class="collapse navbar-collapse col-lg-12 col-xl-8" id="main-navigation-overview">
       <ul class="navbar-nav d-lg-flex w-100 px-xl-5 align-items-lg-end">

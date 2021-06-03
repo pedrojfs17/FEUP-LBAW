@@ -236,8 +236,15 @@ class ProjectController extends Controller
   public function preferences(Project $project)
   {
     $this->authorize('preferences', $project);
+
+    $members = $project->teamMembers()->where('client_id', Auth::id())->get();
+    $members = $members->merge($project->teamMembers()->wherePivot('member_role', 'Owner')->get());
+    $members = $members->merge($project->teamMembers()->wherePivot('member_role', 'Editor')->get());
+    $members = $members->merge($project->teamMembers()->wherePivot('member_role', 'Reader')->get());
+
     return view('pages.preferences', [
       'project' => $project,
+      'members' => $members,
       'role' => $project->teamMembers()->where('client_id', Auth::user()->id)->first()->pivot->member_role,
       'user' => Client::find(Auth::user()->id)
     ]);

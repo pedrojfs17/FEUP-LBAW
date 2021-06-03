@@ -15,8 +15,6 @@ function editProfileHandler(e){
 }
 
 function saveEditHandler(e) {
-  
-
   let data = {}
   inputs.forEach((field) => {
     if (field.tagName === 'SELECT' && field.value != field.dataset.placeholder) {
@@ -25,10 +23,10 @@ function saveEditHandler(e) {
       data[field.name] = field.value
     }
   })
-  
+
   if (Object.keys(data).length === 1) return
 
-  sendAjaxRequest('PATCH', saveEditButton.dataset.href, encodeForAjax(data), 
+  sendAjaxRequest('PATCH', saveEditButton.dataset.href, encodeForAjax(data),
     (response)=>{
       actions.style.display = 'none'
       editProfileButton.style = ''
@@ -42,7 +40,8 @@ function saveEditHandler(e) {
         }
         field.disabled = true
       })
-      window[saveEditButton.dataset.onEdit](response)
+      if (saveEditButton.dataset.onEdit)
+        window[saveEditButton.dataset.onEdit](response)
     },
     (response)=>{serverSideValidation(inputs[0].form, response)}
   )

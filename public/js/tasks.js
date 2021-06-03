@@ -72,6 +72,8 @@ function taskEventListener(element) {
       }
     })
   })
+
+  initializeTooltips()
 }
 
 function sendPatchAjaxRequest(route, data, successFunction) {

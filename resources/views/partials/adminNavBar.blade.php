@@ -7,7 +7,7 @@
       <i class="bi bi-caret-down project-nav-toggler"></i>
     </button>
     <div class="collapse navbar-collapse" id="main-navigation-overview">
-      <ul class="navbar-nav d-lg-flex w-100 px-5 align-items-lg-end">
+      <ul class="navbar-nav d-lg-flex w-100 px-sm-5 align-items-lg-end">
         <li class="nav-item">
           <a class="nav-link {{$page == 'users' ? 'active' : ''}}" href="{{ route('admin.users') }}">Users</a>
         </li>

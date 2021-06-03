@@ -24,7 +24,7 @@
       <div class="col-md-6 d-flex flex-column">
         <h1 class="mb-3">User Stats</h1>
         <div class="d-flex flex-column justify-content-center flex-grow-1">
-          <div class=" d-flex flex-wrap justify-content-around m-4 ms-0 shadow p-3" style="border-radius: 15px">
+          <div class=" d-flex flex-wrap justify-content-around m-sm-4 mb-4 ms-0 shadow p-3" style="border-radius: 15px">
             <div class="text-center mx-2">
               <h1 class="display-6">{{$total_users}}</h1>
               <h5>Total Users</h5>

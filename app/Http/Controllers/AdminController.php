@@ -36,7 +36,7 @@ class AdminController extends Controller
 
     $countries = [];
     foreach ($users as $user) {
-      array_push($countries, $user->country()->first()->name);
+      if ($user->country) array_push($countries, $user->country()->first()->name);
     }
 
     $countries = array_count_values($countries);

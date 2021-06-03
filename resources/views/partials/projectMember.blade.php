@@ -12,7 +12,7 @@
           @include('partials.memberRoleIcon')
         </h6>
       </div>
-    <a class='text-decoration-none stretched-link' href="/profile/{{$member->account->username}}"></a>
+    <a class='text-decoration-none stretched-link' target="_blank" rel="noopener noreferrer" href="/profile/{{$member->account->username}}"></a>
     @if ($member->account->id != Auth::user()->id && $role == 'Owner' && $project->teamMembers()->where('client_id', $member->account->id)->exists())
       <button class="btn btn-danger align-self-center remove-button" data-href="/api/project/{{ $member->pivot->project_id }}/{{ $member->account->username }}" type="button" style="z-index: 1;position: relative;">Remove</button>
       <div class="align-self-center mx-2">

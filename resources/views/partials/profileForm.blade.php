@@ -60,6 +60,7 @@
       <label for="countryInput" class="form-label">Country</label>
       <div class="input-group mb-3">
         <select id='countryInput' class="form-select" name='country' data-placeholder="{{$client->country}}" disabled>
+        <option disabled selected value></option>
           @foreach($countries as $country)
             <option value='{{$country->id}}' @if ($client->country == $country->id) selected @endif>{{$country->name}}</option>
           @endforeach

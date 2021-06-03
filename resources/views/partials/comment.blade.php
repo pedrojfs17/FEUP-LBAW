@@ -1,6 +1,6 @@
 <div class="comment mb-3">
   <div class="comment-body d-flex ms-2">
-    <a class='text-decoration-none' href="/profile/{{$comment->author()->first()->account->username}}">
+    <a class='text-decoration-none' target="_blank" rel="noopener noreferrer" href="/profile/{{$comment->author()->first()->account->username}}">
       <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
           height="30px"
           alt="avatar">

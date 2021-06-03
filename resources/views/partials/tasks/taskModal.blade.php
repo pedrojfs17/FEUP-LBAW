@@ -81,6 +81,7 @@
           </div>
           <div>
             <form class="d-flex">
+              <button type="submit" disabled style="display: none" aria-hidden="true"></button>
               <div class="col me-2">
                 <input id="commentOn{{$task->id}}" class="form-control me-3" type="text" name='text' placeholder="Add comment" aria-describedby="inputCommentFeedback">
                 <div class="invalid-feedback" id="inputCommentFeedback"></div>

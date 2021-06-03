@@ -55,7 +55,7 @@
     @yield('footer')
 
     <!-- Messages -->
-    <div aria-live="polite" aria-atomic="true" class="position-relative">
+    <div aria-live="polite" aria-atomic="true" class="position-relative" style='z-index: 1500;'>
       <div class="toast-container position-fixed bottom-0 end-0 p-3" id="message-container">
         @if(Session::has('message'))
           @include('partials.messages.messageToast', ['message' => Session::get('message'), 'type' => Session::get('message-type'), 'show' => true])

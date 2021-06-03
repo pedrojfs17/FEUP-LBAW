@@ -57,8 +57,3 @@
     </div>
   </nav>
 </header>
-
-@if ($page == 'overview')
-  @include('partials.projectCreateElements')
-  @include('partials.tasks.taskFilter')
-@endif

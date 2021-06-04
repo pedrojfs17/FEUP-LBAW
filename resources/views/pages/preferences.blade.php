@@ -132,4 +132,5 @@
       @endif
     </div>
   </div>
+  @include('partials.helpers.preferencesHelper')
 @endsection

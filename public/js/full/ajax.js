@@ -82,6 +82,7 @@ function addTagElement(response) {
 
   let div = document.createElement('div')
   div.innerHTML = response.delete_tag
+  checkColor(div.children[0])
   tagsSection.append(div.children[0])
 
   addDeleteEventListener(tagsSection.querySelector('div:last-of-type'))

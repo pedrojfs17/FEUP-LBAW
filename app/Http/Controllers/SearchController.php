@@ -43,8 +43,8 @@ class SearchController extends Controller
     }
 
     $result['projects'] = view('partials.dashboardProjects', ['projects' => $projects, 'pagination'=>false])->render();
-    $result['tasks'] = view('partials.queriedTasks', ['tasks' => $tasks])->render();
-    $result['users'] = view('partials.queriedUsers', ['users' => $users, 'pagination' => false])->render();
+    $result['tasks'] = view('partials.search.queriedTasks', ['tasks' => $tasks])->render();
+    $result['users'] = view('partials.search.queriedUsers', ['users' => $users, 'pagination' => false])->render();
 
     return response()->json($result);
   }

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/script.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-script.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/one-page-wonder.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-one-page-wonder.css') }}">
 @endpush
 
 @section('navbar')
@@ -19,7 +19,7 @@
         <div class="container info">
           <div class="col-lg-12 order-lg-1">
             <div class="p-12">
-              <img class="img-fluid" src="{{ asset('images/dolphin.png') }}" width="600" alt="">
+              <img class="img-fluid" src="{{ asset('images/dolphin.png') }}" width="600" alt="404 image">
             </div>
           </div>
           <div class="col-lg-12 order-lg-2">

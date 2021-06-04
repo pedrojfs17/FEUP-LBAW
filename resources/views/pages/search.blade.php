@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
 @endpush
 
 @push('scripts')
-  <script src="{{ asset('js/search.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-search.js') }}" defer></script>
 @endpush
 
 @section('navbar')
@@ -23,9 +23,9 @@
     </div>
   </div>
   <div class="accordion" id="accordionSearch">
-    @include('partials.searchProjects')
-    @include('partials.searchTasks')
-    @include('partials.searchUsers')
+    @include('partials.search.searchProjects')
+    @include('partials.search.searchTasks')
+    @include('partials.search.searchUsers')
   </div>
 </div>
 

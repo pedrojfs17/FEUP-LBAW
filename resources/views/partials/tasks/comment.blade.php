@@ -1,8 +1,8 @@
 <div class="comment mb-3">
   <div class="comment-body d-flex ms-2">
     <a class='text-decoration-none' target="_blank" rel="noopener noreferrer" href="/profile/{{$comment->author()->first()->account->username}}">
-      <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30px"
-          height="30px"
+      <img class="rounded-circle mt-1" src="{{ url($comment->author()->first()->avatar) }}" width="30"
+          height="30"
           alt="avatar">
     </a>
     <div class="rounded-3 border py-2 px-3 position-relative flex-grow-1 ms-2"
@@ -21,7 +21,7 @@
   <div id="comment{{$comment->id}}reply" class="collapse">
     <div id="comment{{$comment->id}}replyDiv">
     @foreach ($comment->replies as $reply)
-      @include('partials.commentReply', ['reply' => $reply])
+      @include('partials.tasks.commentReply', ['reply' => $reply])
     @endforeach
     </div>
     <div class="comment-footer mt-2 ms-5">

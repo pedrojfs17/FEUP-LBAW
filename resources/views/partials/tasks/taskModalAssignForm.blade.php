@@ -3,8 +3,8 @@
     <form data-id="task{{$task->id}}Assign"
             data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}/assignment">
         @csrf
-        <select class="form-control assign-selection" multiple="multiple" name="assign"
-                id="assign-selection-{{$task->id}}">
+      <label for="assign-selection-{{$task->id}}"></label>
+      <select class="form-control assign-selection" multiple="multiple" name="assign" id="assign-selection-{{$task->id}}">
         @foreach ($task->project()->first()->teamMembers as $team_member)
             @if($task->assignees()->where('id',$team_member->id)->count()!==0)
             <option value="{{$team_member->id}}"

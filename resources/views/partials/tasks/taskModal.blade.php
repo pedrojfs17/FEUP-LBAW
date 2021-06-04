@@ -1,5 +1,5 @@
 @push('scripts')
-  <script src="{{ asset('js/bs.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-bs.js') }}" defer></script>
 @endpush
 
 <div class="modal fade" data-id="{{ $task->id }}" id="task{{$task->id}}Modal" tabindex="-1"
@@ -79,7 +79,7 @@
             <div class="mb-3 task-comments">
               @foreach ($task->comments as $comment)
                 @if ($comment->parent == null)
-                  @include('partials.comment', ['comment' => $comment])
+                  @include('partials.tasks.comment', ['comment' => $comment])
                 @endif
               @endforeach
             </div>

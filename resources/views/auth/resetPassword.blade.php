@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css.css') }}">
 @endpush
 
 @section('content')
@@ -15,7 +15,7 @@
     <div class="row justify-content-center mt-5">
       <div class="col-xl-4 col-lg-5 col-md-7">
         <div class="fs-2">Recover Password</div>
-        <div class="text-muted fs-5">Please give us your email so we can send you a recovery link!</div>
+        <div class="text-muted fs-5">Please fill the form to reset your password!</div>
       </div>
     </div>
 

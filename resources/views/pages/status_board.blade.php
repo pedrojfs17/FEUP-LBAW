@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/text-bg.js') }}" defer></script>
-  <script src="{{ asset('js/drag-and-drop.js') }}" defer></script>
-  <script src="{{ asset('js/form-validation.js') }}" defer></script>
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/tasks.js') }}" defer></script>
-  <script src="{{ asset('js/taskForm.js') }}" defer></script>
-  <script src="{{ asset('js/comments.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-text-bg.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-drag-and-drop.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-form-validation.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-tasks.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-taskForm.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-comments.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/drag-and-drop.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-drag-and-drop.css') }}">
 @endpush
 
 @section('navbar')
@@ -21,13 +21,13 @@
 @endsection
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'status'])
+  @include('partials.project.projectNavBar', ['page' => 'status'])
 
   <div class="container-md pb-5">
     <div class="row">
       @csrf
       @foreach ($status_enum as $status)
-        @include('partials.statusCard', ['status' => $status, 'tasks' => $tasks])
+        @include('partials.project.statusCard', ['status' => $status, 'tasks' => $tasks])
       @endforeach
     </div>
   </div>

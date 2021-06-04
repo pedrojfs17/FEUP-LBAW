@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/text-bg.js') }}" defer></script>
-  <script src="{{ asset('js/form-validation.js') }}" defer></script>
-  <script src="{{ asset('js/carousel.js') }}" defer></script>
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/taskForm.js') }}" defer></script>
-  <script src="{{ asset('js/comments.js') }}" defer></script>
-  <script src="{{ asset('js/tasks.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-text-bg.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-form-validation.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-carousel.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-taskForm.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-comments.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-tasks.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
 @endpush
 
 @section('navbar')
@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'assignments'])
+  @include('partials.project.projectNavBar', ['page' => 'assignments'])
 
   <div class="row container-md mx-auto">
     <div class="col-lg-3">
@@ -42,6 +42,7 @@
     <div class="container col">
       <div class="container-md text-center p-0 m-0">
         <div class="row mx-auto my-auto">
+          @if (count($project->teamMembers) > 3)
           <div id="cardCarousel"
                class="gx-0 carousel carousel-dark slide w-100 d-flex justify-content-center flex-column flex-lg-row"
                data-bs-interval="false">
@@ -64,7 +65,7 @@
             </button>
             <div class="carousel-inner">
               @foreach ($project->teamMembers as $team_member)
-                @include('partials.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first])
+                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first, 'carousel' => true])
               @endforeach
             </div>
             <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel"
@@ -73,6 +74,13 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
+          @else
+          <div class='d-flex'>
+              @foreach ($project->teamMembers as $team_member)
+                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'carousel' => false])
+              @endforeach
+          </div>
+          @endif
         </div>
       </div>
     </div>

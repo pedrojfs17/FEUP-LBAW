@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Client;
 use App\Models\SocialMediaAccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialMediaAccountController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
-
   /**
    * Display the specified resource.
    *
@@ -71,5 +72,31 @@ class SocialMediaAccountController extends Controller
     $this->authorize('delete', $social_media_account);
     $social_media_account->delete();
     return response()->json($social_media_account);
+  }
+
+  public function google() {
+    return Socialite::driver('google')->redirect();
+  }
+
+  public function googleRedirect() {
+    $user = Socialite::driver('google')->user();
+
+    $user = Account::firstOrCreate([
+      'email' => $user->email
+    ],[
+      'username' => explode("@", $user->email)[0],
+      'password' => Hash::make(Str::random(24))
+    ]);
+
+    if (Client::find($user->id) == null) {
+      Client::create([
+        'id' => $user->id,
+        'color' => '#' . str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT),
+      ]);
+    }
+
+    Auth::login($user);
+
+    return redirect('/dashboard');
   }
 }

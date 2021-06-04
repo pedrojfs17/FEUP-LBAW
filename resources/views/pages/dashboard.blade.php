@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/ms-form.js') }}" defer></script>
-  <script src="{{ asset('js/dashboard.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ms-form.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-dashboard.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/ms-form.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-ms-form.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-paginator.css') }}">
 @endpush
 
 @section('navbar')
@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-  @include('partials.projectFilter')
+  @include('partials.project.projectFilter')
 
   <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  @include('partials.createProjectModal')
+  @include('partials.project.createProjectModal')
 
   @include('partials.helpers.dashboardHelper')
 @endsection

@@ -3,7 +3,7 @@ include_once('templates/tpl_common.php');
 include_once('templates/tpl_modal.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css"], ["script.js"]); ?>
+<?php draw_header(["style.css", "overview.css"], ["min/min-script.js"]); ?>
 
 <?php draw_nav_bar(TRUE); ?>
 

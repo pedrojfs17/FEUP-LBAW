@@ -47,9 +47,9 @@ class ClientController extends Controller
       })->where('id', '!=', Auth::user()->id)->paginate(7);
 
     if (Auth::user()->is_admin)
-      $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
+      $view = view('partials.search.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
     else
-      $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
+      $view = view('partials.project.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
 
     return response()->json($view);
   }
@@ -64,7 +64,8 @@ class ClientController extends Controller
   public function update(Request $request, $username)
   {
     $request->validate([
-      'email' => 'nullable|unique:account|email'
+      'fullname' => 'string',
+      'email' => 'unique:account|email'
     ]);
     $account = Account::where('username', '=', $username)->first();
     $client = Client::find($account->id);
@@ -72,7 +73,7 @@ class ClientController extends Controller
 
     $account->email = empty($request->input('email')) ? $account->email : $request->input('email');
     $client->fullname = empty($request->input('fullname')) ? $client->fullname : $request->input('fullname');
-    $client->company = empty($request->input('company')) ? $client->company : $request->input('company');
+    $client->company = $request->has('company') ? $request->input('company') : $client->company;
     $client->avatar = empty($request->input('avatar')) ? $client->avatar : $this->saveImage($request->input('avatar'), $username);
     $client->client_gender = empty($request->input('client_gender')) ? $client->client_gender : $request->input('client_gender');
     $client->country = empty($request->input('country')) ? $client->country : $request->input('country');

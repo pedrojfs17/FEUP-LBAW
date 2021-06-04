@@ -1,5 +1,5 @@
 @if (count($projects) > 0)
-  @each('partials.projectSummary', $projects, 'project')
+  @each('partials.project.projectSummary', $projects, 'project')
   @if ($pagination)
     {{ $projects->links() }}
   @endif

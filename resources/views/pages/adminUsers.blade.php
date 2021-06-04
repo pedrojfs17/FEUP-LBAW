@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/script.js') }}" defer></script>
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/administration.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-script.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-administration.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
 @endpush
 
 @section('navbar')
@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-  @include('partials.adminNavBar', ['page' => 'users'])
+  @include('partials.admin.adminNavBar', ['page' => 'users'])
   @csrf
   <div class="container mb-5">
     <h4 class="text-muted mt-3">Manage Users</h4>
@@ -42,5 +42,5 @@
     </div>
   </div>
 
-  @include('partials.userFilterModal')
+  @include('partials.admin.userFilterModal')
 @endsection

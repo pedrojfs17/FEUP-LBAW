@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/script.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-script.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/one-page-wonder.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-one-page-wonder.css') }}">
 @endpush
 
 @section('navbar')
@@ -43,7 +43,7 @@
           </div>
           <div class="col-lg-4 order-lg-2">
             <div class="p-5 d-flex justify-content-center">
-              <img class="img-fluid rounded-circle" src="{{ asset('images/01.jpg') }}" alt="" style="max-height: 400px">
+              <img class="img-fluid rounded-circle" src="{{ asset('images/01.jpg') }}" alt="Example image" style="max-height: 400px">
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@
           </div>
           <div class="col-lg-4 order-lg-1">
             <div class="p-5">
-              <img class="img-fluid rounded" src="{{ asset("images/02.jpg") }}" alt="">
+              <img class="img-fluid rounded" src="{{ asset("images/02.jpg") }}" alt="Example image">
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
           </div>
           <div class="col-lg-4 order-lg-2">
             <div class="p-5">
-              <img class="img-fluid rounded" src="{{ asset("images/03.jpg") }}" alt="">
+              <img class="img-fluid rounded" src="{{ asset("images/03.jpg") }}" alt="Example image">
             </div>
           </div>
         </div>

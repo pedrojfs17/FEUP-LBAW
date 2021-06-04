@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css"], ["settings.js"]); ?>
+<?php draw_header(["style.css"], ["min/min-settings.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 

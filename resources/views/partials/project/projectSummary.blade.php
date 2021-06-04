@@ -9,7 +9,7 @@
       <div class="col-lg-3 col-md-3">
         <ul class="position-relative avatar-overlap d-none d-md-block" style="width: max-content; z-index: 1">
           @foreach ($project->teamMembers as $member)
-            <li class="avatar-overlap-item" style="z-index: {{ 3 - $loop->iteration }}"><img class="rounded-circle" src="{{ url($member->avatar) }}" width="40px" height="40px" alt="avatar"></li>
+            <li class="avatar-overlap-item" style="z-index: {{ 3 - $loop->iteration }}"><img class="rounded-circle" src="{{ url($member->avatar) }}" width="40" height="40" alt="avatar"></li>
             @if ($loop->iteration == 3)
               @break
             @endif

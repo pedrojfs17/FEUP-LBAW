@@ -29,5 +29,5 @@
   </nav>
 </header>
 
-@include('partials.addAdministrator')
-@include('partials.deleteAdminAccount')
+@include('partials.admin.addAdministrator')
+@include('partials.admin.deleteAdminAccount')

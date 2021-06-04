@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
 @endpush
 
 @section('content')
@@ -55,6 +55,13 @@
           </button>
         </div>
       </form>
+
+      <hr>
+
+      <div class="d-grid gap-2">
+        <a href="{{ route('auth.google') }}" role="button" class="btn btn-outline-secondary text-start"><i class="bi bi-google me-2"></i>Sign
+          up with Google</a>
+      </div>
     </div>
   </div>
 </div>

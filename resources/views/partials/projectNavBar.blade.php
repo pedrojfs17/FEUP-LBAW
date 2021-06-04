@@ -5,10 +5,10 @@
       <i class="bi bi-lock-fill fa-xs ms-1"></i>
       @endif
     </a>
-    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+    <button class="navbar-toggler collapsed text-muted w-100 text-end" type="button" data-bs-toggle="collapse"
             data-bs-target="#main-navigation-overview" aria-controls="main-navigation-overview"
             aria-expanded="false" aria-label="Toggle navigation">
-      <i class="bi bi-caret-down project-nav-toggler"></i>
+      Menu <i class="bi bi-caret-down project-nav-toggler"></i>
     </button>
     <div class="collapse navbar-collapse col-lg-12 col-xl-8" id="main-navigation-overview">
       <ul class="navbar-nav d-lg-flex w-100 px-xl-5 align-items-lg-end">
@@ -47,8 +47,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="createDropdown">
               <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask">Task</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tag</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tags</a></li>
+              @if ($role == 'Owner')
               <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#addMembers" aria-controls="addMembers">Member</a></li>
+              @endif
             </ul>
           </li>
           @endif

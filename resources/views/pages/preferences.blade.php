@@ -21,7 +21,7 @@
     @include('partials.projectNavBar', ['page' => 'preferences'])
 
     <div class="container">
-      <div class="row align-items-center mt-5 px-5">
+      <div class="row align-items-center mt-3 mt-sm-5 px-md-5">
         <div class='col'>
           <h4>Basic info</h4>
         </div>
@@ -48,13 +48,13 @@
       @include('partials.project.projectInfo', ['project' => $project])
       @endif
 
-      <div class="row align-items-center mt-5 px-5">
+      <div class="row align-items-center mt-5 px-md-5">
         <h4>Members</h4>
         <hr>
       </div>
 
-      <div class="mx-5">
-        @foreach($project->teamMembers as $member)
+      <div class="mx-md-5">
+        @foreach($members as $member)
           @include('partials.projectMember', ['member' => $member])
         @endforeach
         @if (count($project->getPendingInvites()) > 0)
@@ -65,12 +65,12 @@
         @endif
       </div>
 
-      <div class="row align-items-center mt-5 px-5">
+      <div class="row align-items-center mt-5 px-md-5">
         <h4>Danger Zone</h4>
         <hr>
       </div>
 
-      <div class="row justify-content-center align-items-begin px-5">
+      <div class="row justify-content-center align-items-begin px-md-5">
         <div class="d-grid mb-3">
           <p class="text-muted mb-2">Once you leave this project, there is no coming back...</p>
           <button class="btn btn-danger btn-danger-red" type="button" data-bs-toggle="modal" data-bs-target="#leaveProjectModal">Leave Project</button>
@@ -132,4 +132,5 @@
       @endif
     </div>
   </div>
+  @include('partials.helpers.preferencesHelper')
 @endsection

@@ -38,12 +38,12 @@ header .navbar-collapse {
     }
 }
 */
-#overview .card {
+#overview .task-card {
     width: 300px;
 }
 
 @media (max-width: 655px) {
-    #overview .card {
+    #overview .task-card {
         width: 100%;
     }
 }

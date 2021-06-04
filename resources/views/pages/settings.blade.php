@@ -93,17 +93,17 @@
 
     <form class="collapse row justify-content-center align-items-begin mb-3 edit-form validate-form" novalidate id="changePassword" data-href="password" data-validate-function="validateRecoverPasswordForm" data-on-submit="clearFields">
       @csrf
-      <div class="col-lg-4">
+      <div class="col-lg-4 p-0">
         <label for="inputPassword" class="form-label">Old Password <span class="text-muted">*</span></label>
         <input type="password" class="form-control" id="inputPassword" name="password" required aria-describedby="inputPasswordFeedback">
         <div id="inputPasswordFeedback" class="invalid-feedback"></div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-4 p-0">
         <label for="inputNewPassword" class="form-label">New Password <span class="text-muted">*</span></label>
         <input type="password" class="form-control" id="inputNewPassword" name="new_password" required aria-describedby="inputNewPasswordFeedback">
         <div id="inputNewPasswordFeedback" class="invalid-feedback">Password must be at least 6 characters long!</div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-4 p-0">
         <label for="inputNewPasswordConfirmation" class="form-label">New Password Confirmation <span class="text-muted">*</span></label>
         <input type="password" class="form-control" id="inputNewPasswordConfirmation" name="new_password_confirmation" required aria-describedby="inputNewPasswordConfirmationFeedback">
         <div id="inputNewPasswordConfirmationFeedback" class="invalid-feedback">Passwords must match!</div>
@@ -143,5 +143,7 @@
     </div>
   </div>
 </div>
+
+@include('partials.helpers.settingsHelper')
 
 @endsection

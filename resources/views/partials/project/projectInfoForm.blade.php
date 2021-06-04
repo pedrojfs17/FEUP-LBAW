@@ -1,4 +1,4 @@
-<form class="row justify-content-center align-items-begin px-5 validate-form edit-form-d">
+<form class="row justify-content-center align-items-begin px-md-5 validate-form edit-form-d">
     @csrf
     <label for="name" class="form-label">Name</label>
     <div class="input-group mb-3 has-validation">

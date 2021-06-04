@@ -30,7 +30,7 @@
     @include('partials.projectTasks',['tasks'=>$tasks])
 
     @if (!$project->closed && $role != 'Reader')
-    <div class="card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
+    <div class="card task-card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
          style="background-color: #efefef; border-style: dashed; min-height: 200px" id="createTaskCard">
       <i class="bi bi-plus-circle text-muted fs-2"></i>
       <a data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask" role="button" class="stretched-link p-0"></a>
@@ -38,4 +38,6 @@
     @include('partials.projectCreateElements')
     @endif
   </div>
+
+  @include('partials.helpers.overviewHelper')
 @endsection

@@ -36,14 +36,14 @@
           <div class="col-lg-8 order-xl-1">
             <div class="p-5">
               <h2 class="display-4">Organize it!</h2>
-              <p class="me-5 pe-5 fs-5">Oversee cards are your portal to more organized work—where every
+              <p class="pe-5 fs-5">Oversee cards are your portal to more organized work—where every
                 single part of your task can be managed, tracked, and shared with teammates. Open any
                 card to uncover an ecosystem of checklists, due dates, conversations, and more.</p>
             </div>
           </div>
           <div class="col-lg-4 order-lg-2">
-            <div class="p-5">
-              <img class="img-fluid rounded-circle" src="{{ asset('images/01.jpg') }}" alt="">
+            <div class="p-5 d-flex justify-content-center">
+              <img class="img-fluid rounded-circle" src="{{ asset('images/01.jpg') }}" alt="" style="max-height: 400px">
             </div>
           </div>
         </div>
@@ -53,10 +53,10 @@
     <section>
       <div class="container info">
         <div class="row align-items-center">
-          <div class="col-lg-8 order-xl-2">
+          <div class="col-lg-8 order-lg-2">
             <div class="p-5">
-              <h2 class="display-4 ms-5 ps-5">Improve Yourself!</h2>
-              <p class="ms-5 ps-5 fs-5">With all your data and insights in one place, you can see what’s
+              <h2 class="display-4 ps-md-5">Improve Yourself!</h2>
+              <p class="ps-md-5 pe-5 pe-md-0 fs-5">With all your data and insights in one place, you can see what’s
                 working best and get recommendations to help you do more of it.</p>
             </div>
           </div>
@@ -75,7 +75,7 @@
           <div class="col-lg-8 order-xl-1">
             <div class="p-5">
               <h2 class="display-4">Go solo or go big!</h2>
-              <p class="me-5 pe-5 fs-5">From the small stuff to the big picture, Oversee organizes work so
+              <p class="pe-5 fs-5">From the small stuff to the big picture, Oversee organizes work so
                 teams know what to do, why it matters, and how to get it done.</p>
             </div>
           </div>

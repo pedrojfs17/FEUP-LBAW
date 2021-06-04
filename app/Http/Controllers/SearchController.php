@@ -15,7 +15,7 @@ class SearchController extends Controller
 
   public function show()
   {
-    return view('pages.search');
+    return view('pages.search', ['user' => Client::find(Auth::user()->id)]);
   }
 
   public function search(Request $request)

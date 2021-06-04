@@ -7,6 +7,6 @@
       <p class="text-muted m-0">{{ $client->account->username }}</p>
     </div>
     <a class='text-decoration-none stretched-link' target="_blank" rel="noopener noreferrer" href="/profile/{{$client->account->username}}"></a>
-    <button type="button" class="btn btn-danger flex-grow-1 flex-md-grow-0 add-member-btn" data-id="{{$client->id}}" style="z-index: 1;"><i class="fas fa-user-plus"></i></button>
+    <button type="button" class="btn btn-danger add-member-btn" data-id="{{$client->id}}" style="z-index: 1; height: min-content"><i class="fas fa-user-plus"></i></button>
   </div>
 </div>

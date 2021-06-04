@@ -28,4 +28,7 @@
     @include('partials.searchUsers')
   </div>
 </div>
+
+@include('partials.helpers.searchHelper')
+
 @endsection

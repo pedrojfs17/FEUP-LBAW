@@ -3,9 +3,8 @@
     <h5 id="createTaskLabel">Create Task</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body pt-0">
     <section id="create-task">
-      <h3>Create Task</h3>
       <form class="d-flex flex-column create-form validate-form" id="createTaskForm" data-href="/api/project/{{ $project->id }}/task" data-on-submit="addTaskElement" data-validate-function="validateCreateTaskForm" novalidate>
         @csrf
 

@@ -22,4 +22,7 @@
           @include('partials.profileInfo', ['client' => $client])
         @endif
   </div>
+  @if($user->account->username == $client->account->username)
+    @include('partials.helpers.profileHelper')
+  @endif
 @endsection

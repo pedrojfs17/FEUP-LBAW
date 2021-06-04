@@ -21,7 +21,7 @@
   <div id="comment{{$comment->id}}reply" class="collapse">
     <div id="comment{{$comment->id}}replyDiv">
     @foreach ($comment->replies as $reply)
-      @include('partials.commentReply', ['reply' => $reply])
+      @include('partials.tasks.commentReply', ['reply' => $reply])
     @endforeach
     </div>
     <div class="comment-footer mt-2 ms-5">

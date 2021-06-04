@@ -294,12 +294,12 @@ class TaskController extends Controller
       $comment->parent = $request->input('parent');
       $comment->save();
 
-      $result = view('partials.commentReply', ['reply' => Comment::find($comment->id)])->render();
+      $result = view('partials.tasks.commentReply', ['reply' => Comment::find($comment->id)])->render();
       return response()->json($result);
     }
 
     $comment->save();
-    $result = view('partials.comment', ['comment' => Comment::find($comment->id), 'task' => $task, 'user' => Client::find(Auth::user()->id)])->render();
+    $result = view('partials.tasks.comment', ['comment' => Comment::find($comment->id), 'task' => $task, 'user' => Client::find(Auth::user()->id)])->render();
     return response()->json($result);
   }
 

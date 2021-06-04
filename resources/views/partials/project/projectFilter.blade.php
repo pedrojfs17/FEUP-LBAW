@@ -1,5 +1,5 @@
 @push('scripts')
-  <script src="{{ asset('js/projectFilter.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-projectFilter.js') }}" defer></script>
 @endpush
 
 <div class="modal fade" id="projectFilterModal" tabindex="-1" aria-labelledby="projectsFilterModalLabel"

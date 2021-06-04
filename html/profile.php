@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "ms-form.css"], ["profile.js"]); ?>
+<?php draw_header(["style.css", "ms-form.css"], ["min/min-profile.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 

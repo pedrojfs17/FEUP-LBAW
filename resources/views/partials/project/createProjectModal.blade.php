@@ -100,6 +100,7 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 </div>
+                <label for="selected-members"></label>
                 <select id="selected-members" name="members[]" hidden multiple="multiple"></select>
                 <div id="members" class="">
                 </div>

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/form-validation.js') }}" defer></script>
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/profile.js') }}" defer></script>
-  <script src="{{ asset('js/invite.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-form-validation.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-profile.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-invite.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
 @endpush
 
 @section('navbar')

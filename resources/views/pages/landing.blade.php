@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/script.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-script.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/one-page-wonder.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-one-page-wonder.css') }}">
 @endpush
 
 @section('navbar')

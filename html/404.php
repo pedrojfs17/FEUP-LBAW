@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["one-page-wonder.css"], ["script.js"]); ?>
+<?php draw_header(["one-page-wonder.css"], ["min/min-script.js"]); ?>
 
 <?php draw_landing_nav_bar() ?>
 

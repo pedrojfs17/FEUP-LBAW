@@ -1,3 +1,7 @@
+body {
+  line-height: 1.4;
+}
+
 ul.avatar-overlap {
     list-style-type: none;
     margin: 0;

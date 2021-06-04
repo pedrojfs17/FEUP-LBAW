@@ -1,13 +1,13 @@
 @push('scripts')
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/invite.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-invite.js') }}" defer></script>
 @endpush
 <div class="row justify-content-center mt-5">
   <div class="col-lg-3 col-md-6 col-sm-6 d-flex flex-column align-items-center justify-content-center mx-3">
     <img src="{{ url($client->avatar) }}" width=100% alt="Avatar" class="img-fluid mx-auto d-block rounded-circle" id='userAvatar'>
     <div class='my-3 d-flex flex-column align-items-center justify-content-center'>
       <button type="button" class="btn btn-secondary btn-sm" id='editAvatar'>Edit image</button>
-      
+
       <form class='d-none' id='editAvatarInput'>
         @csrf
         <div class='input-group input-group-sm'>
@@ -36,7 +36,7 @@
       <div class="input-group mb-3">
         <input type="text" placeholder="{{$client->fullname }}" value="{{$client->fullname }}" class="form-control" id="nameInput" name='fullname' disabled>
       </div>
-      
+
       <label for="genderInput" class="form-label">Gender</label>
       <div class="input-group mb-3">
         <select id='genderInput' class="form-select" name='client_gender' data-placeholder="{{$client->client_gender}}" disabled>
@@ -56,7 +56,7 @@
       <div class="input-group mb-3">
         <input type="text" placeholder="{{$client->company}}" value="{{$client->company}}" class="form-control" id="companyInput" name='company' disabled>
       </div>
-      
+
       <label for="countryInput" class="form-label">Country</label>
       <div class="input-group mb-3">
         <select id='countryInput' class="form-select" name='country' data-placeholder="{{$client->country}}" disabled>
@@ -73,7 +73,7 @@
     <hr class="mt-0">
     @if (count($client->invites) > 0)
     @foreach($client->invites as $invite)
-      @include('partials.inviteSummary',['invite'=>$invite])
+      @include('partials.profile.inviteSummary',['invite'=>$invite])
     @endforeach
     @else
     <p class='text-muted text-center'>You have not been invited to any project</p>

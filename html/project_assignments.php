@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css"], ["text-bg.js", "carousel.js"]); ?>
+<?php draw_header(["style.css", "overview.css"], ["min/min-text-bg.js", "min/min-carousel.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 

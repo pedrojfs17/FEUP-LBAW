@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @push('scripts')
-  <script src="{{ asset('js/text-bg.js') }}" defer></script>
-  <script src="{{ asset('js/form-validation.js') }}" defer></script>
-  <script src="{{ asset('js/carousel.js') }}" defer></script>
-  <script src="{{ asset('js/ajax.js') }}" defer></script>
-  <script src="{{ asset('js/taskForm.js') }}" defer></script>
-  <script src="{{ asset('js/comments.js') }}" defer></script>
-  <script src="{{ asset('js/tasks.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-text-bg.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-form-validation.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-carousel.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-ajax.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-taskForm.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-comments.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-tasks.js') }}" defer></script>
 @endpush
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/overview.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/min/min-overview.css') }}">
 @endpush
 
 @section('navbar')

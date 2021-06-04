@@ -47,7 +47,7 @@ class ClientController extends Controller
       })->where('id', '!=', Auth::user()->id)->paginate(7);
 
     if (Auth::user()->is_admin)
-      $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
+      $view = view('partials.search.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
     else
       $view = view('partials.project.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
 

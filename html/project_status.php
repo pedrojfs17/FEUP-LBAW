@@ -2,7 +2,7 @@
 include_once('templates/tpl_common.php');
 ?>
 
-<?php draw_header(["style.css", "overview.css", "drag-and-drop.css"], ["drag-and-drop.js"]); ?>
+<?php draw_header(["style.css", "overview.css", "min/min-drag-and-drop.css"], ["drag-and-drop.js"]); ?>
 
 <?php draw_nav_bar(FALSE) ?>
 

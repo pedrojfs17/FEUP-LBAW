@@ -47,8 +47,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="createDropdown">
               <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask">Task</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tag</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#createTag" aria-controls="createTag">Tags</a></li>
+              @if ($role == 'Owner')
               <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#addMembers" aria-controls="addMembers">Member</a></li>
+              @endif
             </ul>
           </li>
           @endif

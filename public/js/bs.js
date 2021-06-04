@@ -12,6 +12,17 @@ function initializeTooltips() {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
 }
+function initializePopovers() {
+  let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    if (popoverTriggerEl.dataset.bsTrigger)
+      return new bootstrap.Popover(popoverTriggerEl, { trigger: popoverTriggerEl.dataset.bsTrigger, html: true })
+    else
+      return new bootstrap.Popover(popoverTriggerEl)
+  })
+}
+
 
 initializeToasts()
 initializeTooltips()
+initializePopovers()

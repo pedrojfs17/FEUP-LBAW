@@ -88,4 +88,6 @@
   </div>
 
   @include('partials.createProjectModal')
+
+  @include('partials.helpers.dashboardHelper')
 @endsection

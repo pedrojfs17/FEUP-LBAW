@@ -33,4 +33,6 @@
   </div>
 
   <div class="modal-container"></div>
+
+  @include('partials.helpers.statusHelper')
 @endsection

@@ -101,6 +101,8 @@ class ClientController extends Controller
       return response()->json(['message' => view('partials.messages.successMessage', ['message' => $message])->render()]);
     }
 
+    Auth::logout();
+
     return redirect(route('/'))->with([
       'message' => 'Deleted Account',
       'message-type' => 'Success'
@@ -109,8 +111,7 @@ class ClientController extends Controller
 
   public function showSettings()
   {
-    $client = Client::find(Auth::user()->id);
-    return view('pages.settings', ['user' => $client]);
+    return view('pages.settings', ['user' => Client::find(Auth::user()->id)]);
   }
 
   public function updateSettings(Request $request)

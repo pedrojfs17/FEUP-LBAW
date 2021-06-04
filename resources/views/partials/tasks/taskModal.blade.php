@@ -103,6 +103,7 @@
       </div>
       @if (!$task->project()->first()->closed && $role != 'Reader')
         <div class="modal-footer">
+          @include('partials.helpers.taskHelper')
           <button type="button" class="btn btn-danger btn-danger-red delete-task-button mx-0" data-bs-dismiss="modal"
                   data-href="/api/project/{{$task->project()->first()->id}}/task/{{$task->id}}"><i
               class="bi bi-trash"></i> Delete Task

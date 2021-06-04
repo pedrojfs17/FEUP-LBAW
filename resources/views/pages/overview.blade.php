@@ -38,4 +38,6 @@
     @include('partials.projectCreateElements')
     @endif
   </div>
+
+  @include('partials.helpers.overviewHelper')
 @endsection

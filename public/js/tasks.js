@@ -74,6 +74,7 @@ function taskEventListener(element) {
   })
 
   initializeTooltips()
+  initializePopovers()
 }
 
 function sendPatchAjaxRequest(route, data, successFunction) {

@@ -79,4 +79,6 @@
   </div>
 
   <div class="modal-container"></div>
+
+  @include('partials.helpers.assignmentsHelper')
 @endsection

@@ -144,4 +144,6 @@
   </div>
 </div>
 
+@include('partials.helpers.settingsHelper')
+
 @endsection

@@ -18,7 +18,7 @@
 
 @section('content')
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="preferences">
-    @include('partials.projectNavBar', ['page' => 'preferences'])
+    @include('partials.project.projectNavBar', ['page' => 'preferences'])
 
     <div class="container">
       <div class="row align-items-center mt-3 mt-sm-5 px-md-5">
@@ -55,12 +55,12 @@
 
       <div class="mx-md-5">
         @foreach($members as $member)
-          @include('partials.projectMember', ['member' => $member])
+          @include('partials.project.projectMember', ['member' => $member])
         @endforeach
         @if (count($project->getPendingInvites()) > 0)
           <h5 class='mt-3 mb-2'>Invites</h5>
           @foreach($project->getPendingInvites() as $invited)
-            @include('partials.projectMember', ['member' => $invited])
+            @include('partials.project.projectMember', ['member' => $invited])
           @endforeach
         @endif
       </div>

@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'assignments'])
+  @include('partials.project.projectNavBar', ['page' => 'assignments'])
 
   <div class="row container-md mx-auto">
     <div class="col-lg-3">
@@ -64,7 +64,7 @@
             </button>
             <div class="carousel-inner">
               @foreach ($project->teamMembers as $team_member)
-                @include('partials.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first])
+                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first])
               @endforeach
             </div>
             <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel"

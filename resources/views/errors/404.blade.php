@@ -19,7 +19,7 @@
         <div class="container info">
           <div class="col-lg-12 order-lg-1">
             <div class="p-12">
-              <img class="img-fluid" src="{{ asset('images/dolphin.png') }}" width="600" alt="">
+              <img class="img-fluid" src="{{ asset('images/dolphin.png') }}" width="600" alt="404 image">
             </div>
           </div>
           <div class="col-lg-12 order-lg-2">

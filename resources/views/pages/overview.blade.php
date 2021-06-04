@@ -23,11 +23,11 @@
 
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'overview'])
+  @include('partials.project.projectNavBar', ['page' => 'overview'])
   @include('partials.tasks.taskFilter')
 
   <div class="mb-5 container-md d-flex flex-wrap align-content-stretch justify-content-center justify-content-md-start" id="overview">
-    @include('partials.projectTasks',['tasks'=>$tasks])
+    @include('partials.project.projectTasks',['tasks'=>$tasks])
 
     @if (!$project->closed && $role != 'Reader')
     <div class="card task-card m-2 border-3 border-secondary d-flex align-items-center justify-content-center"
@@ -35,7 +35,7 @@
       <i class="bi bi-plus-circle text-muted fs-2"></i>
       <a data-bs-toggle="offcanvas" href="#createTask" aria-controls="createTask" role="button" class="stretched-link p-0"></a>
     </div>
-    @include('partials.projectCreateElements')
+    @include('partials.project.projectCreateElements')
     @endif
   </div>
 

@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-  @include('partials.projectFilter')
+  @include('partials.project.projectFilter')
 
   <div class="container mb-5">
     <ul class="nav nav-tabs mb-3 mt-sm-5" id="dashboardNav" role="tablist">
@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  @include('partials.createProjectModal')
+  @include('partials.project.createProjectModal')
 
   @include('partials.helpers.dashboardHelper')
 @endsection

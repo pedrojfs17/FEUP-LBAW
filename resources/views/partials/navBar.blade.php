@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #edf4f5;">
     <div class="container-fluid mx-sm-5">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <img src="{{ asset('/images/oversee_blue.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="">Oversee
+            <img src="{{ asset('/images/oversee_blue.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="Oversee logo">Oversee
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
                         @if (Auth::user()->is_admin)
                         Admin
                         @else
-                        <img class="rounded-circle me-2" src="{{ url(Auth::user()->client->avatar) }}" width="30px" height="30px" alt="avatar" id='navBarAvatar'>
+                        <img class="rounded-circle me-2" src="{{ url(Auth::user()->client->avatar) }}" width="30" height="30" alt="avatar" id='navBarAvatar'>
                         {{ Auth::user()->username }}
                         @endif
                     </a>

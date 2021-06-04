@@ -58,7 +58,7 @@
       <h3>Delete Tag</h3>
       <h6 class="text-muted">Click on the tags you wish to remove</h6>
       @foreach($project->tags as $tag)
-        @include('partials.deleteTag', ['tag' => $tag])
+        @include('partials.project.deleteTag', ['tag' => $tag])
       @endforeach
     </section>
   </div>

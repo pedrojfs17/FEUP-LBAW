@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-  @include('partials.adminNavBar', ['page' => 'statistics'])
+  @include('partials.admin.adminNavBar', ['page' => 'statistics'])
 
   @csrf
 

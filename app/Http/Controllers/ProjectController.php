@@ -152,7 +152,7 @@ class ProjectController extends Controller
     $results['message'] = view('partials.messages.successMessage', ['message' => $message])->render();
     $results['member'] = array(
       'username' => $username,
-      'role' => view('partials.memberRoleIcon', ['member' => $member])->render()
+      'role' => view('partials.project.memberRoleIcon', ['member' => $member])->render()
     );
 
     return response()->json($results);

@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-  @include('partials.adminNavBar', ['page' => 'users'])
+  @include('partials.admin.adminNavBar', ['page' => 'users'])
   @csrf
   <div class="container mb-5">
     <h4 class="text-muted mt-3">Manage Users</h4>

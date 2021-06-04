@@ -21,13 +21,13 @@
 @endsection
 
 @section('content')
-  @include('partials.projectNavBar', ['page' => 'status'])
+  @include('partials.project.projectNavBar', ['page' => 'status'])
 
   <div class="container-md pb-5">
     <div class="row">
       @csrf
       @foreach ($status_enum as $status)
-        @include('partials.statusCard', ['status' => $status, 'tasks' => $tasks])
+        @include('partials.project.statusCard', ['status' => $status, 'tasks' => $tasks])
       @endforeach
     </div>
   </div>

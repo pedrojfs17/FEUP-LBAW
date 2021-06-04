@@ -49,7 +49,7 @@ class ClientController extends Controller
     if (Auth::user()->is_admin)
       $view = view('partials.queriedUsers', ['users' => $clients, 'pagination' => true])->render();
     else
-      $view = view('partials.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
+      $view = view('partials.project.createProjectMembers', ['clients' => $clients, 'pagination' => true])->render();
 
     return response()->json($view);
   }

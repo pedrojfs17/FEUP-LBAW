@@ -55,7 +55,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1">
                   <div class="p-5 contact">
-                    <img class="img-fluid rounded-circle" src="{{ asset('images/ab.jpg') }}" width="150" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset('images/ab.jpg') }}" width="150" alt="antonio">
                   </div>
                 </div>
                 <div class="col-lg-6 order-lg-2">
@@ -66,7 +66,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1">
                   <div class="p-5 contact">
-                    <img class="img-fluid rounded-circle" src="{{ asset('images/ga.jpg') }}" width="150" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset('images/ga.jpg') }}" width="150" alt="goncalo">
                   </div>
                 </div>
                 <div class="col-lg-6 order-lg-2">
@@ -77,7 +77,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1">
                   <div class="p-5 contact">
-                    <img class="img-fluid rounded-circle" src="{{ asset('images/is.jpg') }}" width="150" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset('images/is.jpg') }}" width="150" alt="ines">
                   </div>
                 </div>
                 <div class="col-lg-6 order-lg-2">
@@ -88,7 +88,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1">
                   <div class="p-5 contact">
-                    <img class="img-fluid rounded-circle" src="{{ asset('images/ps.jpg') }}" width="150" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset('images/ps.jpg') }}" width="150" alt="pedro">
                   </div>
                 </div>
                 <div class="col-lg-6 order-lg-2">

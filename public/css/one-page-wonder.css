@@ -404,3 +404,8 @@ header.masthead .bg-circle-4 {
 .info>div>.col-lg-6 {
     padding: 0;
 }
+
+#aboutPage > section {
+  margin: 5rem 0;
+}
+

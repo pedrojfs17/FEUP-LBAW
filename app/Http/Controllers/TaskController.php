@@ -120,7 +120,7 @@ class TaskController extends Controller
     $validator->sometimes('due_date', "before:$projdate", function ($input) use ($projdate) {
       return $projdate != null && $input->due_date != null;
     });
-    if ($validator->fails()) {    
+    if ($validator->fails()) {
       return response()->json(['errors' => $validator->messages()], Response::HTTP_BAD_REQUEST);
     }
 
@@ -287,6 +287,7 @@ class TaskController extends Controller
     $comment = new Comment();
     $comment->task = $task->id;
     $comment->author = Auth::id();
+    $comment->comment_date = date("Y-m-d H:i:s");
     $comment->comment_text = $request->input('text');
 
     if (!empty($request->input('parent'))) {

@@ -2,6 +2,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/min/min-profile.js') }}" defer></script>
+  <script src="{{ asset('js/min/min-form-validation.js') }}" defer></script>
 @endpush
 
 @push('styles')

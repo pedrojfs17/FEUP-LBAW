@@ -20,7 +20,7 @@
   </div>
 
   <div class="col-lg-4 align-items-center justify-content-center mx-3 my-auto">
-    <form class='edit-form-d'>
+    <form class='edit-form-d validate-form'>
       @csrf
       <div class="d-flex justify-content-between">
         <label for="nameInput" class="form-label">Full Name</label>
@@ -33,8 +33,9 @@
             </span>
         </p>
       </div>
-      <div class="input-group mb-3">
-        <input type="text" placeholder="{{$client->fullname }}" value="{{$client->fullname }}" class="form-control" id="nameInput" name='fullname' disabled>
+      <div class="input-group mb-3 has-validation">
+        <input type="text" placeholder="{{$client->fullname }}" aria-describedby="inputNameFeedback" value="{{$client->fullname }}" class="form-control" id="nameInput" name='fullname' disabled>
+        <div class="invalid-feedback" id="inputNameFeedback"></div>
       </div>
 
       <label for="genderInput" class="form-label">Gender</label>
@@ -47,9 +48,10 @@
       </div>
 
       <label for="emailInput" class="form-label">Email</label>
-      <div class="input-group mb-3">
-        <input type="email" placeholder="{{$client->account->email }}" value="{{$client->account->email }}" class="form-control" id="emailInput" name='email'
+      <div class="input-group mb-3 has-validation">
+        <input type="email" placeholder="{{$client->account->email }}" aria-describedby="inputEmailFeedback" value="{{$client->account->email }}" class="form-control" id="emailInput" name='email'
                disabled>
+        <div class="invalid-feedback" id="inputEmailFeedback"></div>
       </div>
 
       <label for="companyInput" class="form-label">Company</label>

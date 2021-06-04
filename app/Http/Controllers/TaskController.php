@@ -52,7 +52,7 @@ class TaskController extends Controller
       })
       ->get()->sortBy('id');
 
-    $view = view('partials.projectTasks', ['tasks' => $tasks])->render();
+    $view = view('partials.project.projectTasks', ['tasks' => $tasks])->render();
     return response()->json($view);
   }
 

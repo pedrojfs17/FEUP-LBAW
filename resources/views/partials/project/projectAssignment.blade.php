@@ -1,4 +1,6 @@
+@if ($carousel)
 <div class="carousel-item @if ($active) active @endif">
+@endif
   <div class="col-12 col-md-4">
     <div class="card mb-2">
       <div class="card-header text-center text-bg-check"
@@ -16,4 +18,6 @@
       </div>
     </div>
   </div>
+@if ($carousel)
 </div>
+@endif

@@ -17,7 +17,7 @@
 @section('content')
   <div class="container">
         @if (!Auth::user()->is_admin && $user->account->username == $client->account->username)
-          @include('.profile.profileForm',['client'=>$client, 'countries'=>$countries])
+          @include('partials.profile.profileForm',['client'=>$client, 'countries'=>$countries])
         @else
           @include('partials.profile.profileInfo', ['client' => $client])
         @endif

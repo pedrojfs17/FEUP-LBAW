@@ -42,6 +42,7 @@
     <div class="container col">
       <div class="container-md text-center p-0 m-0">
         <div class="row mx-auto my-auto">
+          @if (count($project->teamMembers) > 3)
           <div id="cardCarousel"
                class="gx-0 carousel carousel-dark slide w-100 d-flex justify-content-center flex-column flex-lg-row"
                data-bs-interval="false">
@@ -64,7 +65,7 @@
             </button>
             <div class="carousel-inner">
               @foreach ($project->teamMembers as $team_member)
-                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first])
+                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'active' => $loop->first, 'carousel' => true])
               @endforeach
             </div>
             <button class="w-auto border-0 d-none d-lg-block bg-transparent" data-bs-target="#cardCarousel"
@@ -73,6 +74,13 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
+          @else
+          <div class='d-flex'>
+              @foreach ($project->teamMembers as $team_member)
+                @include('partials.project.projectAssignment', ['team_member' => $team_member, 'carousel' => false])
+              @endforeach
+          </div>
+          @endif
         </div>
       </div>
     </div>
